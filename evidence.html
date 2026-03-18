@@ -262,29 +262,30 @@ Data collected March 14–18, 2026. 125,000 websites, 2M HTTP requests, 7,004 pu
 </div>
 
 <script>
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 async function verifyPublisher() {
-  const domain = document.getElementById('pub-input').value.trim().toLowerCase();
-  if (!domain) return;
+  const domain = document.getElementById('pub-input').value.trim().toLowerCase().replace(/[<>"'&]/g, '');
+  if (!domain || !/^[a-z0-9.-]+$/.test(domain)) return;
   const el = document.getElementById('pub-result');
   el.innerHTML = '<em>Checking 572,958 records...</em>';
   try {
     const baseUrl = location.port === '8890' ? '' : location.port === '8889' ? '' : 'http://127.0.0.1:8890';
     const r = await fetch(baseUrl + '/api/verify?publisher=' + encodeURIComponent(domain));
     const d = await r.json();
-    if (d.total === 0) { el.innerHTML = `<strong>${domain}</strong>: Not found in dataset (may not be in Tranco top-1M, or has no ads.txt).`; return; }
+    if (d.total === 0) { el.innerHTML = `<strong>${esc(domain)}</strong>: Not found in dataset (may not be in Tranco top-1M, or has no ads.txt).`; return; }
     const falsePct = d.false_pct;
     const barColor = falsePct > 70 ? '#c00' : falsePct > 40 ? '#e67300' : '#2a7';
-    let html = `<strong>${domain}</strong>: ${d.total} DIRECT claims checked. <strong style="color:${barColor}">${falsePct}% false</strong> (${d.contradicted} contradicted, ${d.phantom} phantom, ${d.plausible} plausible)`;
+    let html = `<strong>${esc(domain)}</strong>: ${d.total} DIRECT claims checked. <strong style="color:${barColor}">${falsePct}% false</strong> (${d.contradicted} contradicted, ${d.phantom} phantom, ${d.plausible} plausible)`;
     html += '<table style="margin-top:8px;font-size:0.85em"><tr><th>SSP</th><th>Seller ID</th><th>Registry Says</th><th>Verdict</th></tr>';
     const claims = d.claims.slice(0, 30);
     for (const c of claims) {
       const color = c.verdict === 'PLAUSIBLE' ? '#2a7' : c.verdict === 'CONTRADICTED' ? '#c00' : '#e67300';
-      html += `<tr><td>${c.ssp}</td><td style="font-family:monospace;font-size:0.85em">${c.seller_id}</td><td>${c.registry_type||'—'}</td><td style="color:${color};font-weight:bold">${c.verdict}</td></tr>`;
+      html += `<tr><td>${esc(c.ssp)}</td><td style="font-family:monospace;font-size:0.85em">${esc(c.seller_id)}</td><td>${esc(c.registry_type||'—')}</td><td style="color:${color};font-weight:bold">${esc(c.verdict)}</td></tr>`;
     }
     if (d.total > 30) html += `<tr><td colspan="4" style="color:#666"><em>...and ${d.total - 30} more</em></td></tr>`;
     html += '</table>';
     el.innerHTML = html;
-  } catch (e) { el.innerHTML = `<span style="color:#c00">Error: ${e}. API may not be running (need X-Ray server on :8889).</span>`; }
+  } catch (e) { el.innerHTML = `<span style="color:#c00">Error: ${String(e).replace(/</g,'&lt;')}. API may not be running (need X-Ray server on :8889).</span>`; }
 }
 document.getElementById('pub-input').addEventListener('keydown', e => { if (e.key === 'Enter') verifyPublisher(); });
 
