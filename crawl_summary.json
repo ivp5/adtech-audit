@@ -1,0 +1,65 @@
+{
+  "measurement_date": "2026-03-18",
+  "total_scans": 130685,
+  "unique_sites": 110610,
+  "total_requests": 1678299,
+  "total_syncs": 272942,
+  "entity_distribution": {
+    "p25": 1,
+    "p50": 3,
+    "p75": 6,
+    "p90": 10,
+    "p99": 34,
+    "max": 294
+  },
+  "by_tld": [
+    {
+      "tld": ".co.uk",
+      "sites": 1947,
+      "avg_entities": 5,
+      "avg_syncs": 5.7
+    },
+    {
+      "tld": ".jp",
+      "sites": 1605,
+      "avg_entities": 8.1,
+      "avg_syncs": 4.6
+    },
+    {
+      "tld": ".com",
+      "sites": 53194,
+      "avg_entities": 5.7,
+      "avg_syncs": 3.4
+    },
+    {
+      "tld": ".br",
+      "sites": 1660,
+      "avg_entities": 5.6,
+      "avg_syncs": 2.7
+    },
+    {
+      "tld": ".ru",
+      "sites": 2990,
+      "avg_entities": 3.5,
+      "avg_syncs": 2.2
+    },
+    {
+      "tld": "other",
+      "sites": 43083,
+      "avg_entities": 4.2,
+      "avg_syncs": 1.4
+    },
+    {
+      "tld": ".fr",
+      "sites": 1265,
+      "avg_entities": 3.7,
+      "avg_syncs": 1.3
+    },
+    {
+      "tld": ".de",
+      "sites": 2429,
+      "avg_entities": 2.7,
+      "avg_syncs": 0.6
+    }
+  ]
+}

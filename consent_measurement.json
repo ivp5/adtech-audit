@@ -1,0 +1,1491 @@
+{
+  "measurement_date": "2026-03-18",
+  "total_sync_requests_in_db": 272917,
+  "sampled": 272917,
+  "no_consent_param": 210980,
+  "empty_consent": 60109,
+  "template_macro": 1794,
+  "valid_tcf": 34,
+  "pct_no_param": 77.3,
+  "pct_empty": 22,
+  "pct_template": 0.66,
+  "pct_valid": 0.0125,
+  "per_company": [
+    {
+      "company": "Google Ads",
+      "syncs": 27129,
+      "field_pct": 0,
+      "value_pct": 0.01
+    },
+    {
+      "company": "ID5",
+      "syncs": 10988,
+      "field_pct": 19,
+      "value_pct": 0.01
+    },
+    {
+      "company": "Trade Desk",
+      "syncs": 10682,
+      "field_pct": 43,
+      "value_pct": 0.01
+    },
+    {
+      "company": "Xandr",
+      "syncs": 8365,
+      "field_pct": 23,
+      "value_pct": 0.05
+    },
+    {
+      "company": "Magnite",
+      "syncs": 8141,
+      "field_pct": 18,
+      "value_pct": 0.04
+    },
+    {
+      "company": "Criteo",
+      "syncs": 6617,
+      "field_pct": 27,
+      "value_pct": 0.14
+    },
+    {
+      "company": "PubMatic",
+      "syncs": 6614,
+      "field_pct": 62,
+      "value_pct": 0.05
+    },
+    {
+      "company": "BidSwitch",
+      "syncs": 5321,
+      "field_pct": 57,
+      "value_pct": 0
+    },
+    {
+      "company": "Google",
+      "syncs": 4461,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.com",
+      "syncs": 4421,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "mc.yandex.com",
+      "syncs": 4348,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Unruly",
+      "syncs": 3990,
+      "field_pct": 30,
+      "value_pct": 0
+    },
+    {
+      "company": "LinkedIn",
+      "syncs": 3845,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "AMX",
+      "syncs": 3640,
+      "field_pct": 22,
+      "value_pct": 0.03
+    },
+    {
+      "company": "static-ah.xhcdn.com",
+      "syncs": 3117,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Tapad",
+      "syncs": 3026,
+      "field_pct": 15,
+      "value_pct": 0
+    },
+    {
+      "company": "static-tracking.klaviyo.com",
+      "syncs": 3015,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "TripleLift",
+      "syncs": 2643,
+      "field_pct": 26,
+      "value_pct": 0
+    },
+    {
+      "company": "mc.yandex.ru",
+      "syncs": 2588,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Semasio",
+      "syncs": 2530,
+      "field_pct": 96,
+      "value_pct": 0
+    },
+    {
+      "company": "Adform",
+      "syncs": 2485,
+      "field_pct": 43,
+      "value_pct": 0
+    },
+    {
+      "company": "Index Exchange",
+      "syncs": 2474,
+      "field_pct": 35,
+      "value_pct": 0
+    },
+    {
+      "company": "Adobe Advertising",
+      "syncs": 2471,
+      "field_pct": 22,
+      "value_pct": 0
+    },
+    {
+      "company": "InMobi",
+      "syncs": 2466,
+      "field_pct": 29,
+      "value_pct": 0
+    },
+    {
+      "company": "Lotame",
+      "syncs": 2401,
+      "field_pct": 30,
+      "value_pct": 0
+    },
+    {
+      "company": "Equativ/SmartAdServer",
+      "syncs": 2371,
+      "field_pct": 62,
+      "value_pct": 0
+    },
+    {
+      "company": "Opera Ads",
+      "syncs": 2338,
+      "field_pct": 19,
+      "value_pct": 0
+    },
+    {
+      "company": "Outbrain",
+      "syncs": 2141,
+      "field_pct": 64,
+      "value_pct": 0
+    },
+    {
+      "company": "Ogury",
+      "syncs": 2013,
+      "field_pct": 77,
+      "value_pct": 0.05
+    },
+    {
+      "company": "www.google.co.jp",
+      "syncs": 1921,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "LiveRamp",
+      "syncs": 1873,
+      "field_pct": 4,
+      "value_pct": 0
+    },
+    {
+      "company": "Sharethrough",
+      "syncs": 1868,
+      "field_pct": 50,
+      "value_pct": 0
+    },
+    {
+      "company": "GumGum",
+      "syncs": 1850,
+      "field_pct": 29,
+      "value_pct": 0
+    },
+    {
+      "company": "Beeswax/bidr",
+      "syncs": 1822,
+      "field_pct": 22,
+      "value_pct": 0
+    },
+    {
+      "company": "StackAdapt",
+      "syncs": 1687,
+      "field_pct": 61,
+      "value_pct": 0
+    },
+    {
+      "company": "YieldMo",
+      "syncs": 1646,
+      "field_pct": 43,
+      "value_pct": 0
+    },
+    {
+      "company": "Sovrn",
+      "syncs": 1470,
+      "field_pct": 51,
+      "value_pct": 0
+    },
+    {
+      "company": "Media.net",
+      "syncs": 1469,
+      "field_pct": 40,
+      "value_pct": 0
+    },
+    {
+      "company": "Yahoo",
+      "syncs": 1425,
+      "field_pct": 59,
+      "value_pct": 0
+    },
+    {
+      "company": "Eyeota",
+      "syncs": 1357,
+      "field_pct": 37,
+      "value_pct": 0
+    },
+    {
+      "company": "ads.adthrive.com",
+      "syncs": 1331,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "OpenX",
+      "syncs": 1294,
+      "field_pct": 29,
+      "value_pct": 0
+    },
+    {
+      "company": "static.klaviyo.com",
+      "syncs": 1279,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "c.clarity.ms",
+      "syncs": 1152,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "OneTag",
+      "syncs": 1137,
+      "field_pct": 59,
+      "value_pct": 0.09
+    },
+    {
+      "company": "Quantcast",
+      "syncs": 1086,
+      "field_pct": 72,
+      "value_pct": 0
+    },
+    {
+      "company": "Temu (advertiser)",
+      "syncs": 1045,
+      "field_pct": 95,
+      "value_pct": 0
+    },
+    {
+      "company": "Ad-m/CyberAgent",
+      "syncs": 1020,
+      "field_pct": 4,
+      "value_pct": 0
+    },
+    {
+      "company": "Microsoft Ads",
+      "syncs": 1002,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "AdmanMedia",
+      "syncs": 919,
+      "field_pct": 97,
+      "value_pct": 0
+    },
+    {
+      "company": "LoopMe",
+      "syncs": 881,
+      "field_pct": 79,
+      "value_pct": 0
+    },
+    {
+      "company": "ml314/Media.net",
+      "syncs": 877,
+      "field_pct": 43,
+      "value_pct": 0
+    },
+    {
+      "company": "Improve Digital",
+      "syncs": 868,
+      "field_pct": 66,
+      "value_pct": 0
+    },
+    {
+      "company": "IntentIQ",
+      "syncs": 845,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.com.sg",
+      "syncs": 806,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "SiteScout/Centro",
+      "syncs": 794,
+      "field_pct": 46,
+      "value_pct": 0
+    },
+    {
+      "company": "Conversant/Epsilon",
+      "syncs": 767,
+      "field_pct": 57,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.inmobi.com",
+      "syncs": 699,
+      "field_pct": 26,
+      "value_pct": 0
+    },
+    {
+      "company": "SupershipAd",
+      "syncs": 698,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Seedtag",
+      "syncs": 687,
+      "field_pct": 23,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.ca",
+      "syncs": 673,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Taboola",
+      "syncs": 671,
+      "field_pct": 6,
+      "value_pct": 0
+    },
+    {
+      "company": "privacy-cs.mail.ru",
+      "syncs": 666,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Adobe Audience Mgr",
+      "syncs": 662,
+      "field_pct": 19,
+      "value_pct": 0
+    },
+    {
+      "company": "MediaMath",
+      "syncs": 659,
+      "field_pct": 78,
+      "value_pct": 0
+    },
+    {
+      "company": "Blis",
+      "syncs": 647,
+      "field_pct": 50,
+      "value_pct": 0
+    },
+    {
+      "company": "AdKernel",
+      "syncs": 637,
+      "field_pct": 46,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.com.hk",
+      "syncs": 632,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "MicroAd",
+      "syncs": 622,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "SmileWanted",
+      "syncs": 611,
+      "field_pct": 15,
+      "value_pct": 0
+    },
+    {
+      "company": "Rich Audience",
+      "syncs": 606,
+      "field_pct": 3,
+      "value_pct": 0
+    },
+    {
+      "company": "ads.betweendigital.com",
+      "syncs": 602,
+      "field_pct": 7,
+      "value_pct": 0
+    },
+    {
+      "company": "Ozone Project",
+      "syncs": 601,
+      "field_pct": 79,
+      "value_pct": 0
+    },
+    {
+      "company": "www.linkedin.com",
+      "syncs": 601,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Google CM",
+      "syncs": 592,
+      "field_pct": 76,
+      "value_pct": 0
+    },
+    {
+      "company": "Simpli.fi",
+      "syncs": 591,
+      "field_pct": 31,
+      "value_pct": 0
+    },
+    {
+      "company": "FreeWheel",
+      "syncs": 574,
+      "field_pct": 34,
+      "value_pct": 0
+    },
+    {
+      "company": "lf-flow-web-cdn.doubao.com",
+      "syncs": 553,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "logger.adthrive.com",
+      "syncs": 538,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "maps.googleapis.com",
+      "syncs": 535,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.ipredictive.com",
+      "syncs": 529,
+      "field_pct": 53,
+      "value_pct": 0
+    },
+    {
+      "company": "b99.yahoo.co.jp",
+      "syncs": 498,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.co.kr",
+      "syncs": 478,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "api.onesignal.com",
+      "syncs": 467,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "rtb-csync.smartadserver.com",
+      "syncs": 465,
+      "field_pct": 79,
+      "value_pct": 0
+    },
+    {
+      "company": "router.infolinks.com",
+      "syncs": 464,
+      "field_pct": 2,
+      "value_pct": 0
+    },
+    {
+      "company": "usersync.gumgum.com",
+      "syncs": 460,
+      "field_pct": 15,
+      "value_pct": 0
+    },
+    {
+      "company": "Smaato",
+      "syncs": 451,
+      "field_pct": 32,
+      "value_pct": 0
+    },
+    {
+      "company": "sync6.im-apps.net",
+      "syncs": 441,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "static.xhpingcdn.com",
+      "syncs": 436,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Pippio/LiveRamp",
+      "syncs": 435,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.ru",
+      "syncs": 418,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Google AdSense",
+      "syncs": 410,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "AdMatic",
+      "syncs": 409,
+      "field_pct": 81,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.targeting.unrulymedia.com",
+      "syncs": 408,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "match.deepintent.com",
+      "syncs": 407,
+      "field_pct": 10,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.media.net",
+      "syncs": 403,
+      "field_pct": 56,
+      "value_pct": 0
+    },
+    {
+      "company": "u.openx.net",
+      "syncs": 395,
+      "field_pct": 60,
+      "value_pct": 0
+    },
+    {
+      "company": "PulsePoint",
+      "syncs": 395,
+      "field_pct": 26,
+      "value_pct": 0
+    },
+    {
+      "company": "c.bing.com",
+      "syncs": 394,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "ogads-pa.clients6.google.com",
+      "syncs": 357,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "s.seedtag.com",
+      "syncs": 349,
+      "field_pct": 19,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.sparteo.com",
+      "syncs": 348,
+      "field_pct": 64,
+      "value_pct": 0
+    },
+    {
+      "company": "prebid.admatic.de",
+      "syncs": 346,
+      "field_pct": 94,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.sharethis.com",
+      "syncs": 342,
+      "field_pct": 60,
+      "value_pct": 0
+    },
+    {
+      "company": "ms-cookie-sync.presage.io",
+      "syncs": 341,
+      "field_pct": 73,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.outbrain.com",
+      "syncs": 336,
+      "field_pct": 81,
+      "value_pct": 0
+    },
+    {
+      "company": "mc.webvisor.org",
+      "syncs": 336,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Roku/Nielsen",
+      "syncs": 334,
+      "field_pct": 57,
+      "value_pct": 0
+    },
+    {
+      "company": "pool.liftdsp.com",
+      "syncs": 332,
+      "field_pct": 100,
+      "value_pct": 0
+    },
+    {
+      "company": "coosync.com",
+      "syncs": 330,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Rezync",
+      "syncs": 329,
+      "field_pct": 3,
+      "value_pct": 0
+    },
+    {
+      "company": "33Across",
+      "syncs": 317,
+      "field_pct": 29,
+      "value_pct": 0
+    },
+    {
+      "company": "us-u.openx.net",
+      "syncs": 313,
+      "field_pct": 51,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.com.pk",
+      "syncs": 304,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "onesignal.com",
+      "syncs": 301,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "partners.tremorhub.com",
+      "syncs": 298,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Insticator",
+      "syncs": 297,
+      "field_pct": 22,
+      "value_pct": 0
+    },
+    {
+      "company": "cs-server-s2s.yellowblue.io",
+      "syncs": 290,
+      "field_pct": 89,
+      "value_pct": 0
+    },
+    {
+      "company": "instamatch365.com",
+      "syncs": 289,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "b.6sc.co",
+      "syncs": 282,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.go.sonobi.com",
+      "syncs": 275,
+      "field_pct": 12,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.ingage.tech",
+      "syncs": 272,
+      "field_pct": 24,
+      "value_pct": 0
+    },
+    {
+      "company": "secure-assets.rubiconproject.com",
+      "syncs": 263,
+      "field_pct": 32,
+      "value_pct": 0
+    },
+    {
+      "company": "onetag-sys.com",
+      "syncs": 259,
+      "field_pct": 57,
+      "value_pct": 0
+    },
+    {
+      "company": "ssl.pstatic.net",
+      "syncs": 254,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "exchange.mediavine.com",
+      "syncs": 250,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "AdMatrix",
+      "syncs": 249,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.bfmio.com",
+      "syncs": 245,
+      "field_pct": 5,
+      "value_pct": 0
+    },
+    {
+      "company": "ps.eyeota.net",
+      "syncs": 240,
+      "field_pct": 33,
+      "value_pct": 0
+    },
+    {
+      "company": "IQZone",
+      "syncs": 233,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "cf-images.us-east-1.prod.boltdns.net",
+      "syncs": 231,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "csync.smilewanted.com",
+      "syncs": 228,
+      "field_pct": 15,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.richaudience.com",
+      "syncs": 226,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "csync-apac.smilewanted.com",
+      "syncs": 226,
+      "field_pct": 15,
+      "value_pct": 0
+    },
+    {
+      "company": "hbx.media.net",
+      "syncs": 224,
+      "field_pct": 38,
+      "value_pct": 0
+    },
+    {
+      "company": "pbsj.bricks-co.com",
+      "syncs": 223,
+      "field_pct": 100,
+      "value_pct": 0
+    },
+    {
+      "company": "Sportradar",
+      "syncs": 223,
+      "field_pct": 98,
+      "value_pct": 0
+    },
+    {
+      "company": "ittpx.eskimi.com",
+      "syncs": 221,
+      "field_pct": 85,
+      "value_pct": 0
+    },
+    {
+      "company": "et-c-ash.33across.com",
+      "syncs": 221,
+      "field_pct": 57,
+      "value_pct": 0
+    },
+    {
+      "company": "Vidazoo",
+      "syncs": 220,
+      "field_pct": 72,
+      "value_pct": 0
+    },
+    {
+      "company": "image6.pubmatic.com",
+      "syncs": 218,
+      "field_pct": 98,
+      "value_pct": 0
+    },
+    {
+      "company": "prebid.production.adthrive.com",
+      "syncs": 215,
+      "field_pct": 36,
+      "value_pct": 0
+    },
+    {
+      "company": "winmatch555.com",
+      "syncs": 213,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Xandr PBS",
+      "syncs": 212,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "visitor.omnitagjs.com",
+      "syncs": 212,
+      "field_pct": 43,
+      "value_pct": 0
+    },
+    {
+      "company": "i.liadm.com",
+      "syncs": 212,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "a.tribalfusion.com",
+      "syncs": 211,
+      "field_pct": 6,
+      "value_pct": 0
+    },
+    {
+      "company": "Google GAM",
+      "syncs": 209,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "b1sync.outbrain.com",
+      "syncs": 205,
+      "field_pct": 82,
+      "value_pct": 0
+    },
+    {
+      "company": "Gamma",
+      "syncs": 205,
+      "field_pct": 100,
+      "value_pct": 0
+    },
+    {
+      "company": "ads.servenobid.com",
+      "syncs": 205,
+      "field_pct": 7,
+      "value_pct": 0
+    },
+    {
+      "company": "s.uuidksinc.net",
+      "syncs": 205,
+      "field_pct": 7,
+      "value_pct": 0
+    },
+    {
+      "company": "ssbsync.smartadserver.com",
+      "syncs": 204,
+      "field_pct": 94,
+      "value_pct": 0
+    },
+    {
+      "company": "substackcdn.com",
+      "syncs": 204,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "d.turn.com",
+      "syncs": 202,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "CompanyTarget",
+      "syncs": 200,
+      "field_pct": 16,
+      "value_pct": 0
+    },
+    {
+      "company": "tracenep.admaster.cc",
+      "syncs": 200,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Kakao",
+      "syncs": 199,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.synchronoss.com",
+      "syncs": 199,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "yads.c.yimg.jp",
+      "syncs": 198,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "bh.contextweb.com",
+      "syncs": 192,
+      "field_pct": 27,
+      "value_pct": 0
+    },
+    {
+      "company": "Teads",
+      "syncs": 189,
+      "field_pct": 31,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.iqzone.com",
+      "syncs": 188,
+      "field_pct": 99,
+      "value_pct": 0
+    },
+    {
+      "company": "Dynalyst",
+      "syncs": 186,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.cootlogix.com",
+      "syncs": 185,
+      "field_pct": 70,
+      "value_pct": 0
+    },
+    {
+      "company": "exchange.pubnation.com",
+      "syncs": 185,
+      "field_pct": 8,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.kueezrtb.com",
+      "syncs": 181,
+      "field_pct": 67,
+      "value_pct": 0
+    },
+    {
+      "company": "u.4dex.io",
+      "syncs": 178,
+      "field_pct": 44,
+      "value_pct": 0
+    },
+    {
+      "company": "async-px.dynamicyield.com",
+      "syncs": 178,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "crb.kargo.com",
+      "syncs": 177,
+      "field_pct": 37,
+      "value_pct": 0
+    },
+    {
+      "company": "Ayads",
+      "syncs": 174,
+      "field_pct": 57,
+      "value_pct": 0
+    },
+    {
+      "company": "a.sportradarserving.com",
+      "syncs": 173,
+      "field_pct": 100,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.pmbmonetize.live",
+      "syncs": 172,
+      "field_pct": 8,
+      "value_pct": 0
+    },
+    {
+      "company": "u-ams.4dex.io",
+      "syncs": 172,
+      "field_pct": 47,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.upravel.com",
+      "syncs": 172,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "thrtle.com",
+      "syncs": 171,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "matchid.adfox.yandex.ru",
+      "syncs": 171,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "synchron.ua",
+      "syncs": 169,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "my.rtmark.net",
+      "syncs": 167,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "tags.tiqcdn.com",
+      "syncs": 166,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "a.ad.gt",
+      "syncs": 165,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "secure.adnxs.com",
+      "syncs": 164,
+      "field_pct": 34,
+      "value_pct": 0
+    },
+    {
+      "company": "sf16-website-login.neutral.tiktokcdn-eu.com",
+      "syncs": 162,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "app-assets.project1content.com",
+      "syncs": 158,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.springserve.com",
+      "syncs": 156,
+      "field_pct": 10,
+      "value_pct": 0
+    },
+    {
+      "company": "www.kraken.com",
+      "syncs": 155,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sf16-website-login.neutral.ttwstatic.com",
+      "syncs": 154,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "static.admaster.cc",
+      "syncs": 152,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Magnite PBS",
+      "syncs": 151,
+      "field_pct": 56,
+      "value_pct": 0
+    },
+    {
+      "company": "hb.trustedstack.com",
+      "syncs": 149,
+      "field_pct": 68,
+      "value_pct": 0
+    },
+    {
+      "company": "cdn.shopify.com",
+      "syncs": 149,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "gw-iad-bid.ymmobi.com",
+      "syncs": 146,
+      "field_pct": 99,
+      "value_pct": 3.42
+    },
+    {
+      "company": "bats.video.yahoo.com",
+      "syncs": 146,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "cookie-matching.mediarithmics.com",
+      "syncs": 145,
+      "field_pct": 8,
+      "value_pct": 0
+    },
+    {
+      "company": "dsp.360yield.com",
+      "syncs": 144,
+      "field_pct": 62,
+      "value_pct": 0
+    },
+    {
+      "company": "image4.pubmatic.com",
+      "syncs": 144,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "gtracenep.admaster.cc",
+      "syncs": 143,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "s.tribalfusion.com",
+      "syncs": 142,
+      "field_pct": 6,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.adingo.jp",
+      "syncs": 142,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "crcldu.com",
+      "syncs": 141,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.bumlam.com",
+      "syncs": 141,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.taboola.com",
+      "syncs": 140,
+      "field_pct": 10,
+      "value_pct": 0
+    },
+    {
+      "company": "pm.w55c.net",
+      "syncs": 138,
+      "field_pct": 3,
+      "value_pct": 0
+    },
+    {
+      "company": "synchroscript.deliveryengine.adswizz.com",
+      "syncs": 138,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "acint.net",
+      "syncs": 136,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "ssp.api.tappx.com",
+      "syncs": 135,
+      "field_pct": 14,
+      "value_pct": 0
+    },
+    {
+      "company": "servedbyadbutler.com",
+      "syncs": 133,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "usr.undertone.com",
+      "syncs": 132,
+      "field_pct": 5,
+      "value_pct": 0
+    },
+    {
+      "company": "qvdt3feo.com",
+      "syncs": 131,
+      "field_pct": 49,
+      "value_pct": 0
+    },
+    {
+      "company": "dsp.nrich.ai",
+      "syncs": 129,
+      "field_pct": 98,
+      "value_pct": 0
+    },
+    {
+      "company": "ade.clmbtech.com",
+      "syncs": 126,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.adotmob.com",
+      "syncs": 125,
+      "field_pct": 94,
+      "value_pct": 0
+    },
+    {
+      "company": "ssp.al-adtech.com",
+      "syncs": 125,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "token.rubiconproject.com",
+      "syncs": 124,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "s2s.t13.io",
+      "syncs": 124,
+      "field_pct": 67,
+      "value_pct": 0
+    },
+    {
+      "company": "exchange.buzzoola.com",
+      "syncs": 123,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.parismatch.com",
+      "syncs": 122,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "kimberlite.io",
+      "syncs": 121,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "evt.undertone.com",
+      "syncs": 120,
+      "field_pct": 1,
+      "value_pct": 0
+    },
+    {
+      "company": "frog.wix.com",
+      "syncs": 120,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.google.co.uk",
+      "syncs": 120,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "jadserve.postrelease.com",
+      "syncs": 118,
+      "field_pct": 66,
+      "value_pct": 0
+    },
+    {
+      "company": "public-prod-dspcookiematching.dmxleo.com",
+      "syncs": 118,
+      "field_pct": 30,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.dmp.otm-r.com",
+      "syncs": 118,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "trace.mediago.io",
+      "syncs": 114,
+      "field_pct": 4,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.krushmedia.com",
+      "syncs": 113,
+      "field_pct": 89,
+      "value_pct": 0
+    },
+    {
+      "company": "prebid-match.dotomi.com",
+      "syncs": 112,
+      "field_pct": 70,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.iubenda.com",
+      "syncs": 112,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "fundingchoicesmessages.google.com",
+      "syncs": 109,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "rtb.adentifi.com",
+      "syncs": 109,
+      "field_pct": 8,
+      "value_pct": 0
+    },
+    {
+      "company": "cpm.vistarsagency.com",
+      "syncs": 108,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "medianet-match.dotomi.com",
+      "syncs": 107,
+      "field_pct": 100,
+      "value_pct": 0
+    },
+    {
+      "company": "trends.revcontent.com",
+      "syncs": 106,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "cookies.nextmillmedia.com",
+      "syncs": 105,
+      "field_pct": 93,
+      "value_pct": 0
+    },
+    {
+      "company": "cdn11.bigcommerce.com",
+      "syncs": 105,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "Zeta Global",
+      "syncs": 104,
+      "field_pct": 32,
+      "value_pct": 0
+    },
+    {
+      "company": "us.ck-ie.com",
+      "syncs": 103,
+      "field_pct": 96,
+      "value_pct": 0
+    },
+    {
+      "company": "i.w55c.net",
+      "syncs": 103,
+      "field_pct": 6,
+      "value_pct": 0
+    },
+    {
+      "company": "www.fashionandfriends.com",
+      "syncs": 103,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "cs.playdigo.com",
+      "syncs": 102,
+      "field_pct": 100,
+      "value_pct": 0
+    },
+    {
+      "company": "Permutive",
+      "syncs": 101,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "match.rundsp.com",
+      "syncs": 100,
+      "field_pct": 7,
+      "value_pct": 0
+    },
+    {
+      "company": "sync.im-apps.net",
+      "syncs": 100,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "shop.pe",
+      "syncs": 100,
+      "field_pct": 0,
+      "value_pct": 0
+    },
+    {
+      "company": "www.matchmoney.com.gr",
+      "syncs": 100,
+      "field_pct": 0,
+      "value_pct": 0
+    }
+  ]
+}

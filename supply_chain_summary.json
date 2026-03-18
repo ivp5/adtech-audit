@@ -1,0 +1,35 @@
+{
+  "measurement_date": "2026-03-18",
+  "publishers": 4411,
+  "ssps_verified": 24,
+  "total_sellers_in_registries": 1107584,
+  "total_direct_claims": 457222,
+  "unique_triples_checked": 177897,
+  "coverage_pct": 38,
+  "plausible": 44887,
+  "contradicted": 66901,
+  "phantom": 66109,
+  "false_total": 133010,
+  "false_pct": 74,
+  "convergence": [
+    {
+      "ssps": 14,
+      "coverage": 27,
+      "triples": 102691,
+      "false_pct": 70
+    },
+    {
+      "ssps": 18,
+      "coverage": 34,
+      "triples": 129941,
+      "false_pct": 72
+    },
+    {
+      "ssps": 24,
+      "coverage": 38,
+      "triples": 177897,
+      "false_pct": 74
+    }
+  ],
+  "method": "Deduplicated triples, HTML-filtered publishers, rate increases with SSP count (unchecked SSPs have higher false rates than checked)"
+}
