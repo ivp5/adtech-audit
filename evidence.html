@@ -47,7 +47,7 @@ footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ddd; font-siz
 
 <h1>The Accountability Gap</h1>
 <p class="subtitle">Programmatic advertising supply chain fraud, consent failure, and identity proliferation.<br>
-Evidence from 125,000 websites, 37 SSP registries, 273,000 identity-sharing requests.<br>
+Evidence from 125,000 websites, 61 SSP registries, 273,000 identity-sharing requests.<br>
 Data collected March 14–18, 2026.</p>
 
 <!-- ════════════ FINDING 1 ════════════ -->
@@ -55,27 +55,27 @@ Data collected March 14–18, 2026.</p>
 
 <div class="finding">
 <div class="finding-num">Core claim</div>
-<p><strong>70% of "DIRECT" authorization claims in publisher ads.txt files are provably false.</strong> Mechanical cross-reference against 37 SSP seller registries. No interpretation required. Rate converges at 70-74% regardless of SSP selection (tested at 14, 18, 24, 29, and 37 SSPs).</p>
+<p><strong>70% of "DIRECT" authorization claims in publisher ads.txt files are provably false.</strong> Mechanical cross-reference against 61 SSP seller registries. No interpretation required. Rate converges at 70-74% regardless of SSP selection (tested at 14, 18, 24, 29, and 61 SSPs).</p>
 </div>
 
 <p>When a publisher lists a company as "DIRECT" in their ads.txt file, it means: "I control this seller account. I authorized this directly." Advertisers pay more for DIRECT inventory because it's supposed to mean fewer intermediaries and less fraud risk.</p>
 
-<p>We checked 251,500 unique (publisher, SSP, seller_id) triples against the SSPs' own registries:</p>
+<p>We checked 572,958 unique (publisher, SSP, seller_id) triples against the SSPs' own registries:</p>
 
 <table>
 <tr><th>Category</th><th>Count</th><th style="width:40%">Distribution</th><th>How verified</th></tr>
 <tr>
-<td><strong>Contradicted</strong></td><td>89,254 (35%)</td>
-<td><div class="bar-container"><div class="bar" style="width:35%"></div></div></td>
+<td><strong>Contradicted</strong></td><td>223,686 (39%)</td>
+<td><div class="bar-container"><div class="bar" style="width:39%"></div></div></td>
 <td>SSP says INTERMEDIARY, not PUBLISHER</td>
 </tr>
 <tr>
-<td><strong>Phantom</strong></td><td>86,108 (34%)</td>
-<td><div class="bar-container"><div class="bar phantom" style="width:34%"></div></div></td>
+<td><strong>Phantom</strong></td><td>178,482 (31%)</td>
+<td><div class="bar-container"><div class="bar phantom" style="width:31%"></div></div></td>
 <td>Seller ID doesn't exist in registry</td>
 </tr>
 <tr>
-<td><strong>Plausible</strong></td><td>76,138 (30%)</td>
+<td><strong>Plausible</strong></td><td>170,790 (30%)</td>
 <td><div class="bar-container"><div class="bar plausible" style="width:30%"></div></div></td>
 <td>Registry confirms PUBLISHER type</td>
 </tr>
@@ -104,7 +104,7 @@ Data collected March 14–18, 2026.</p>
 <p class="note">Google's sellers.json has 71% of entries marked confidential (is_confidential: true). Every other SSP: 0%. Confidentiality makes template injection undetectable — you can't verify a DIRECT claim if the seller's identity is hidden.</p>
 
 <div class="method">
-<strong>Method:</strong> Downloaded ads.txt from 7,004 publishers (Tranco top-1M + crawler harvest). Fetched sellers.json from 37 SSPs (1.12M total sellers). For each DIRECT claim, looked up the seller_id in the SSP's registry. If the registry says INTERMEDIARY → contradicted. If the seller_id doesn't exist → phantom. If it says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple.
+<strong>Method:</strong> Downloaded ads.txt from 7,004 publishers (Tranco top-1M + crawler harvest). Fetched sellers.json from 61 SSPs (1.12M total sellers). For each DIRECT claim, looked up the seller_id in the SSP's registry. If the registry says INTERMEDIARY → contradicted. If the seller_id doesn't exist → phantom. If it says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple.
 </div>
 
 <div class="verify" id="verify-section">
@@ -114,7 +114,7 @@ Data collected March 14–18, 2026.</p>
 <button onclick="verifyPublisher()" style="padding:8px 20px;font-size:1em;background:#1a1a1a;color:#fff;border:none;border-radius:4px;cursor:pointer">Verify</button>
 </div>
 <div id="pub-result" style="margin-top:12px"></div>
-<p style="margin-top:12px"><strong>Machine-readable data:</strong> <code>false_direct_claims.jsonl</code> — 251,500 records, one per triple, with publisher, SSP, seller_id, registry_type, and verdict.</p>
+<p style="margin-top:12px"><strong>Machine-readable data:</strong> <code>false_direct_claims.jsonl</code> — 572,958 records, one per triple, with publisher, SSP, seller_id, registry_type, and verdict.</p>
 </div>
 
 <!-- ════════════ FINDING 2 ════════════ -->
@@ -232,7 +232,7 @@ Data collected March 14–18, 2026.</p>
 <!-- ════════════ KNOWN WEAKNESSES ════════════ -->
 <h2>Known Weaknesses</h2>
 
-<p><strong>1. Sample bias.</strong> 4,411 publishers from Tranco top-1M. Biased toward popular Western commercial sites. This is the relevant population for programmatic authorization, but not the internet.</p>
+<p><strong>1. Sample bias.</strong> 5,702 publishers from Tranco top-1M + crawler harvest. Biased toward popular Western commercial sites. This is the relevant population for programmatic authorization, but not the internet.</p>
 
 <p><strong>2. sellers.json freshness.</strong> Snapshots from March 17, 2026. Contradicted claims (37%) can't change retrospectively — a registry saying INTERMEDIARY today means INTERMEDIARY. Phantom claims could resolve if SSPs update registries, but contradicted alone is 37%.</p>
 
@@ -240,14 +240,14 @@ Data collected March 14–18, 2026.</p>
 
 <p><strong>4. Quick crawl undercounting.</strong> 4-second page loads. Deep scans (12+ seconds) see 2.4x more tracking entities. The true median for fully-loaded pages is likely 5–7, not 3.</p>
 
-<p><strong>5. Sharing analysis range.</strong> The 70–74% range is stable across 5 successive SSP expansions (14→18→24→29→37 SSPs). Multi-domain publishers (Learfield, Bonnier, Postmedia) have legitimate shared DIRECT claims. The floor is 70%. The ceiling depends on a judgment call about how many publishers can share one account.</p>
+<p><strong>5. Sharing analysis range.</strong> The 70–74% range is stable across 5 successive SSP expansions (14→18→24→29→61 SSPs). Multi-domain publishers (Learfield, Bonnier, Postmedia) have legitimate shared DIRECT claims. The floor is 70%. The ceiling depends on a judgment call about how many publishers can share one account.</p>
 
 <!-- ════════════ DATA ════════════ -->
 <h2>Data Files</h2>
 <p>All data is machine-readable, standalone (no database required), and independently verifiable:</p>
 <table>
 <tr><th>File</th><th>Records</th><th>Description</th></tr>
-<tr><td><code>false_direct_claims.jsonl</code></td><td>251,500</td><td>Every (publisher, SSP, seller_id) triple with verdict. Deduplicated.</td></tr>
+<tr><td><code>false_direct_claims.jsonl</code></td><td>572,958</td><td>Every (publisher, SSP, seller_id) triple with verdict. Deduplicated.</td></tr>
 <tr><td><code>supply_chain_summary.json</code></td><td>1</td><td>Aggregate totals matching the JSONL exactly.</td></tr>
 <tr><td><code>publisher_profiles.jsonl</code></td><td>4,360</td><td>Per-publisher ads.txt depth and crawl traffic.</td></tr>
 <tr><td><code>identity_graph.json</code></td><td>5,816 edges</td><td>Sync co-occurrence graph across 201 companies.</td></tr>
@@ -256,7 +256,7 @@ Data collected March 14–18, 2026.</p>
 </table>
 
 <footer>
-Data collected March 14–18, 2026. 125,000 websites, 2M HTTP requests, 7,004 publisher ads.txt files, 37 SSP seller registries (1.12M sellers). Methodology available on request.
+Data collected March 14–18, 2026. 125,000 websites, 2M HTTP requests, 7,004 publisher ads.txt files, 61 SSP seller registries (1.12M sellers). Methodology available on request.
 </footer>
 
 </div>
@@ -266,7 +266,7 @@ async function verifyPublisher() {
   const domain = document.getElementById('pub-input').value.trim().toLowerCase();
   if (!domain) return;
   const el = document.getElementById('pub-result');
-  el.innerHTML = '<em>Checking 251,500 records...</em>';
+  el.innerHTML = '<em>Checking 572,958 records...</em>';
   try {
     const baseUrl = location.port === '8890' ? '' : location.port === '8889' ? '' : 'http://127.0.0.1:8890';
     const r = await fetch(baseUrl + '/api/verify?publisher=' + encodeURIComponent(domain));
