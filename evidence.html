@@ -255,8 +255,26 @@ Data collected March 14–18, 2026.</p>
 <tr><td><code>crawl_summary.json</code></td><td>1</td><td>Site distribution and geographic breakdown.</td></tr>
 </table>
 
+<h2>Why It Persists</h2>
+
+<p>Every validation check that could fix these findings would cost money to the party responsible for implementing it:</p>
+
+<table>
+<tr><th>If this check worked</th><th>Who loses revenue</th><th>How much</th></tr>
+<tr><td>SSPs validate seller_ids against their own registry</td><td>SSPs (lose billable inventory)</td><td>~37% of DIRECT slots</td></tr>
+<tr><td>DSPs verify DIRECT claims against sellers.json</td><td>DSPs (campaigns underdeliver)</td><td>~74% of "premium" supply</td></tr>
+<tr><td>Servers reject syncs without valid consent</td><td>Everyone (identity graph collapses)</td><td>~99.99% of sync traffic</td></tr>
+<tr><td>Publishers audit their own ads.txt</td><td>Publishers (fewer bidders, lower CPMs)</td><td>Est. 10-30% CPM drop</td></tr>
+</table>
+
+<p>Every participant profits from every check not working. No single actor can start validating without losing money while competitors who don't validate gain share. The system is stable <em>because</em> it's broken.</p>
+
+<p>The accountability standards (ads.txt, TCF, sellers.json) were written by the IAB &mdash; a trade association whose members benefit from exactly the failures documented above. This is not fraud, negligence, or regulatory failure. It is a <strong>Nash equilibrium</strong>: a stable state where no participant can improve their position by changing strategy alone.</p>
+
+<p>Breaking the equilibrium requires either coordinated enforcement (penalties exceeding the revenue from non-compliance) or giving the extracted parties &mdash; advertisers paying for unverified inventory and users tracked without consent &mdash; the audit tools to see through the intermediary layer. This dataset is the second option.</p>
+
 <footer>
-Data collected March 14–18, 2026. 112,000 websites, 1.69M HTTP requests, 4,411 publisher ads.txt files, 24 SSP seller registries (1.11M sellers). Methodology available on request.
+Data collected March 14&ndash;18, 2026. 112,000 websites, 1.69M HTTP requests, 4,411 publisher ads.txt files, 24 SSP seller registries (1.11M sellers). Methodology available on request.
 </footer>
 
 </div>
