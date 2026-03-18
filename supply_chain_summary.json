@@ -1,16 +1,16 @@
 {
   "measurement_date": "2026-03-18",
-  "publishers": 6392,
-  "ssps_verified": 28,
-  "total_sellers_in_registries": 1113121,
-  "total_direct_claims": 475832,
-  "unique_triples_checked": 196507,
-  "coverage_pct": 42,
-  "plausible": 50180,
-  "contradicted": 74078,
-  "phantom": 72249,
-  "false_total": 146327,
-  "false_pct": 74,
+  "publishers": 7004,
+  "ssps_verified": 35,
+  "total_sellers_in_registries": 1124542,
+  "total_direct_claims": 550497,
+  "unique_triples_checked": 271172,
+  "coverage_pct": 58,
+  "plausible": 82315,
+  "contradicted": 97684,
+  "phantom": 91173,
+  "false_total": 188857,
+  "false_pct": 70,
   "convergence": [
     {
       "ssps": 14,
@@ -35,7 +35,13 @@
       "coverage": 42,
       "triples": 196507,
       "false_pct": 74
+    },
+    {
+      "ssps": 35,
+      "coverage": 58,
+      "triples": 271172,
+      "false_pct": 70
     }
   ],
-  "method": "Deduplicated triples, HTML-filtered publishers, rate increases with SSP count (unchecked SSPs have higher false rates than checked)"
+  "method": "Deduplicated triples, HTML-filtered publishers. Rate drops with more SSPs because larger registries have more legitimate entries \u2014 the 74% at 29 SSPs is the rate for the most-used SSPs where template injection is heaviest."
 }
