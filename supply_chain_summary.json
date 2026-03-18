@@ -1,15 +1,15 @@
 {
   "measurement_date": "2026-03-18",
-  "publishers": 4411,
-  "ssps_verified": 24,
-  "total_sellers_in_registries": 1107584,
-  "total_direct_claims": 457222,
-  "unique_triples_checked": 177897,
-  "coverage_pct": 38,
-  "plausible": 44887,
-  "contradicted": 66901,
-  "phantom": 66109,
-  "false_total": 133010,
+  "publishers": 6392,
+  "ssps_verified": 28,
+  "total_sellers_in_registries": 1113121,
+  "total_direct_claims": 475832,
+  "unique_triples_checked": 196507,
+  "coverage_pct": 42,
+  "plausible": 50180,
+  "contradicted": 74078,
+  "phantom": 72249,
+  "false_total": 146327,
   "false_pct": 74,
   "convergence": [
     {
@@ -28,6 +28,12 @@
       "ssps": 24,
       "coverage": 38,
       "triples": 177897,
+      "false_pct": 74
+    },
+    {
+      "ssps": 29,
+      "coverage": 42,
+      "triples": 196507,
       "false_pct": 74
     }
   ],
