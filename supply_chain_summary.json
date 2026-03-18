@@ -1,44 +1,13 @@
 {
-  "measurement_date": "2026-03-18",
-  "publishers": 9415,
-  "ssps_verified": 62,
-  "unique_triples_checked": 657286,
-  "coverage_pct": 78,
-  "plausible": 199249,
-  "contradicted": 228638,
-  "phantom": 229399,
-  "false_total": 458037,
-  "false_pct": 70,
-  "strict_false_pct": 53,
-  "convergence": [
-    {
-      "ssps": 14,
-      "triples": 102691,
-      "false_pct": 70
-    },
-    {
-      "ssps": 24,
-      "triples": 177897,
-      "false_pct": 74
-    },
-    {
-      "ssps": 37,
-      "triples": 251500,
-      "false_pct": 70
-    },
-    {
-      "ssps": 62,
-      "triples": 572958,
-      "false_pct": 70,
-      "note": "without Google"
-    },
-    {
-      "ssps": 62,
-      "triples": 657286,
-      "false_pct": 70,
-      "note": "with Google (650K sellers)"
-    }
-  ],
-  "google_note": "Google sellers.json is 71% confidential. 67% of Google DIRECT claims are PHANTOM \u2014 they could be in the confidential portion. Google contributes 0 CONTRADICTED and 47,815 PHANTOM.",
-  "method": "Full regeneration against 63 SSP registries including Google (650K sellers). Strict rate (CONTRADICTED only, excluding PHANTOM): 53%. Inclusive rate (CONTRADICTED+PHANTOM): 70%."
+  "measurement_date": "2026-03-19",
+  "publishers": 10862,
+  "ssps_verified": 79,
+  "unique_triples_checked": 786309,
+  "plausible": 245609,
+  "contradicted": 268668,
+  "phantom": 272032,
+  "false_total": 540700,
+  "false_pct": 69,
+  "strict_false_pct": 52,
+  "method": "Full regeneration against 84 SSP registries including Google (650K), Unity (15.7K), mobile/gaming/CTV/audio/DOOH."
 }
