@@ -269,7 +269,7 @@ async function verifyPublisher() {
   const el = document.getElementById('pub-result');
   el.innerHTML = '<em>Checking 657,286 records...</em>';
   try {
-    const baseUrl = location.port === '8890' ? '' : location.port === '8889' ? '' : 'http://127.0.0.1:8890';
+    const baseUrl = location.port === '8889' ? '' : '';
     const r = await fetch(baseUrl + '/api/verify?publisher=' + encodeURIComponent(domain));
     const d = await r.json();
     if (d.total === 0) { el.innerHTML = `<strong>${esc(domain)}</strong>: Not found in dataset (may not be in Tranco top-1M, or has no ads.txt).`; return; }
