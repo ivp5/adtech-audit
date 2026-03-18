@@ -4,12 +4,12 @@
   "ssps_verified": 35,
   "total_sellers_in_registries": 1124542,
   "total_direct_claims": 550497,
-  "unique_triples_checked": 271172,
+  "unique_triples_checked": 251500,
   "coverage_pct": 58,
-  "plausible": 82315,
-  "contradicted": 97684,
-  "phantom": 91173,
-  "false_total": 188857,
+  "plausible": 76138,
+  "contradicted": 89254,
+  "phantom": 86108,
+  "false_total": 175362,
   "false_pct": 70,
   "convergence": [
     {
@@ -39,7 +39,7 @@
     {
       "ssps": 35,
       "coverage": 58,
-      "triples": 271172,
+      "triples": 251500,
       "false_pct": 70
     }
   ],
