@@ -1,5 +1,7 @@
 # Ad Network Market Dynamics
 
+> **Superseded.** This document reflects the March 18 dataset (177K triples, 24 SSPs, 74% false rate). The current evidence is in `evidence.html` (915K triples, 87 SSPs, 68% false rate, 4 findings). This file is preserved for historical reference.
+
 *112K sites crawled, 1.69M HTTP requests, 4,398 publisher ads.txt files, 24 SSP registries (1.11M sellers). Data: 2026-03-14 through 2026-03-18.*
 
 ## Supply Chain Authorization Is a Business Model for Fraud

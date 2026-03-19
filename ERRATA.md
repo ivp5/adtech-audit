@@ -37,9 +37,35 @@ Adversarial review of our own findings, March 18, 2026.
 
 Verified against the raw data. 715K of 996K Google sellers.json entries have `is_confidential: true`. Every other SSP in our 24-SSP dataset has 0% confidential. This is a factual observation from the registry data.
 
-## Summary of what needs fixing
+## Summary of what needed fixing (March 18)
 
 1. **129 garbled seller_ids** should be excluded from the JSONL (0.07% of records)
 2. **"Median 3 companies"** should be restated with deduplication caveat or replaced with sync-based metric
 3. **Consent measurement** should explicitly state it measures sync requests, not bid requests
-4. The 74% and 0.012% survive adversarial review
+4. The 74% and 0.012% survived adversarial review at that dataset size
+
+---
+
+## Update: March 20, 2026 — Dataset expansion
+
+### Rate change: 74% → 68%
+
+The dataset expanded from 177K to 915K triples (11,990 publishers, 87 SSPs). The inclusive false rate dropped from 74% to 68%. The strict contradicted rate dropped from 37% to 34%.
+
+**Why it dropped:** The original dataset was curated from top-1000 publishers where template injection is most concentrated. The expanded dataset includes 7,898 additional publishers from the Tranco long tail (crawled automatically). Smaller publishers have simpler ads.txt files with fewer template-injected entries. The rate converged at 68% — stable across the last 4 SSP expansions (84→86→87 SSPs) and across both curated and crawled populations.
+
+**Is 68% still meaningful?** Yes. The 34% strict rate means one in three DIRECT claims is provably false (SSP says INTERMEDIARY). That rate is a floor — it can only go up as more SSPs publish sellers.json. The 68% inclusive rate adds phantom entries (seller IDs that don't exist). Whether phantoms represent fraud or staleness depends on context, but they are unambiguously not DIRECT publisher relationships.
+
+### Finding 3 correction applied
+
+"Median 3 companies" replaced with "Average 5.1 companies per ad-tech-enabled site." Maximum updated from 232 to 294 (new crawl data). The median was misleading because 38% of crawled sites have zero ad-tech (classified as "clean"), pulling the median down. The average across sites that DO have ad-tech is 5.1.
+
+### Finding 4 added
+
+New finding: "Approximately 4% of the operational ad-tech data economy is properly authorized." Calculated from three independently measured rates: ads.txt adoption (15%), DIRECT claim validity (32%), and authorized company coverage (76%). Known weakness: the multiplication assumes approximate independence. The true figure is 3–6%. The point is the order of magnitude.
+
+### Items from March 18 audit — status
+
+1. **Garbled seller_ids:** Excluded in regeneration. ✓
+2. **Entity count inflation:** Finding 3 now leads with average (5.1) not median (3). Deduplication caveat in Known Weaknesses. ✓
+3. **Consent scope:** Method box now explicitly states "consent analysis covers the 110,610-site subset." ✓

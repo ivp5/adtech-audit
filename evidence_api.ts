@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --allow-net --allow-read
 /**
  * Evidence verification API — lightweight, standalone.
- * Loads 177,897 false_direct_claims into memory, serves queries.
+ * Loads 915,460 false_direct_claims into memory, serves queries.
  */
 
 const PORT = 8890;

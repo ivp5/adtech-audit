@@ -1,65 +1,91 @@
 {
-  "measurement_date": "2026-03-18",
-  "total_scans": 130685,
-  "unique_sites": 110610,
-  "total_requests": 1678299,
-  "total_syncs": 272942,
+  "measurement_date": "2026-03-20",
+  "total_scans": 202005,
+  "unique_sites": 143543,
+  "total_requests": 2628513,
+  "total_syncs": 429134,
   "entity_distribution": {
-    "p25": 1,
-    "p50": 3,
-    "p75": 6,
-    "p90": 10,
-    "p99": 34,
-    "max": 294
+    "0": 45199,
+    "1-5": 115369,
+    "6-20": 36893,
+    "21-50": 3766,
+    "50+": 778
   },
-  "by_tld": [
-    {
-      "tld": ".co.uk",
-      "sites": 1947,
-      "avg_entities": 5,
-      "avg_syncs": 5.7
+  "by_tld": {
+    ".com": {
+      "sites": 77641,
+      "avg_entities": 5.8,
+      "avg_syncs": 3.5
     },
-    {
-      "tld": ".jp",
-      "sites": 1605,
-      "avg_entities": 8.1,
-      "avg_syncs": 4.6
+    ".org": {
+      "sites": 7856,
+      "avg_entities": 4.5,
+      "avg_syncs": 1.6
     },
-    {
-      "tld": ".com",
-      "sites": 53194,
-      "avg_entities": 5.7,
-      "avg_syncs": 3.4
+    ".net": {
+      "sites": 6409,
+      "avg_entities": 4.5,
+      "avg_syncs": 1.8
     },
-    {
-      "tld": ".br",
-      "sites": 1660,
-      "avg_entities": 5.6,
-      "avg_syncs": 2.7
-    },
-    {
-      "tld": ".ru",
-      "sites": 2990,
+    ".ru": {
+      "sites": 4138,
       "avg_entities": 3.5,
       "avg_syncs": 2.2
     },
-    {
-      "tld": "other",
-      "sites": 43083,
-      "avg_entities": 4.2,
-      "avg_syncs": 1.4
+    ".de": {
+      "sites": 3336,
+      "avg_entities": 3.0,
+      "avg_syncs": 1.1
     },
-    {
-      "tld": ".fr",
-      "sites": 1265,
-      "avg_entities": 3.7,
+    ".co.uk": {
+      "sites": 2667,
+      "avg_entities": 5.2,
+      "avg_syncs": 4.9
+    },
+    ".io": {
+      "sites": 2481,
+      "avg_entities": 4.4,
       "avg_syncs": 1.3
     },
-    {
-      "tld": ".de",
-      "sites": 2429,
-      "avg_entities": 2.7,
+    ".com.br": {
+      "sites": 2257,
+      "avg_entities": 6.1,
+      "avg_syncs": 3.4
+    },
+    ".fr": {
+      "sites": 1771,
+      "avg_entities": 3.8,
+      "avg_syncs": 1.5
+    },
+    ".jp": {
+      "sites": 1765,
+      "avg_entities": 8.3,
+      "avg_syncs": 5.5
+    },
+    ".it": {
+      "sites": 1687,
+      "avg_entities": 4.3,
+      "avg_syncs": 1.1
+    },
+    ".nl": {
+      "sites": 1492,
+      "avg_entities": 3.6,
       "avg_syncs": 0.6
+    },
+    ".pl": {
+      "sites": 1482,
+      "avg_entities": 4.3,
+      "avg_syncs": 0.8
+    },
+    ".in": {
+      "sites": 1290,
+      "avg_entities": 5.0,
+      "avg_syncs": 2.3
+    },
+    ".co": {
+      "sites": 1110,
+      "avg_entities": 4.9,
+      "avg_syncs": 1.7
     }
-  ]
+  }
 }
