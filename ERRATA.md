@@ -64,6 +64,10 @@ The dataset expanded from 177K to 915K triples (11,990 publishers, 87 SSPs). The
 
 New finding: "Approximately 4% of the operational ad-tech data economy is properly authorized." Calculated from three independently measured rates: ads.txt adoption (15%), DIRECT claim validity (32%), and authorized company coverage (76%). Known weakness: the multiplication assumes approximate independence. The true figure is 3–6%. The point is the order of magnitude.
 
+### PubMatic "NA" type entries
+
+18 of PubMatic's 6,281 sellers have `seller_type: "NA"` (Not Available — unclassified). Our normalization stored these as type "N", which falls through to PLAUSIBLE in the verdict logic. Strictly, these should be excluded (neither confirmable nor contradictable). Impact: 18 of 915,460 records (0.002%). No reported number changes. These are PubMatic accounts with no name and no type — likely placeholder or deactivated entries.
+
 ### Items from March 18 audit — status
 
 1. **Garbled seller_ids:** Excluded in regeneration. ✓

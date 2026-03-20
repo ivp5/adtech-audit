@@ -77,11 +77,11 @@ Data collected March 14–20, 2026.</p>
 <tr>
 <td><strong>Plausible</strong></td><td>292,218 (32%)</td>
 <td><div class="bar-container"><div class="bar plausible" style="width:32%"></div></div></td>
-<td>Registry confirms PUBLISHER type</td>
+<td>Registry confirms PUBLISHER or BOTH type</td>
 </tr>
 </table>
 
-<p class="note"><strong>Reading this table:</strong> "Contradicted" is unambiguous — the SSP explicitly classifies the account as INTERMEDIARY, contradicting the DIRECT claim. "Phantom" is ambiguous — the seller ID may be stale, fabricated, or hidden behind Google's 71% confidentiality flag. The strict false rate (contradicted only) is <strong>34%</strong>. The inclusive rate (contradicted + phantom) is <strong>68%</strong>. Both rates are stable across 8 successive SSP expansions (14→24→37→62→63→84→86→87 SSPs) and across both curated (top-1000) and crawled (long-tail) publisher datasets.</p>
+<p class="note"><strong>Reading this table:</strong> "Contradicted" is unambiguous — the SSP explicitly classifies the account as INTERMEDIARY, contradicting the DIRECT claim. "Phantom" is ambiguous — the seller ID may be stale, fabricated, or hidden behind Google's 71% confidentiality flag. "Plausible" has two tiers: 171,003 are confirmed PUBLISHER (hard plausible); 121,204 are classified BOTH (the IAB allows these accounts to act as either publisher or intermediary). If intermediaries exploit the BOTH classification as a loophole, the true false rate is between 68% and 81%. The strict rate (contradicted only, no interpretation) is <strong>34%</strong>. Both rates are stable across 8 successive SSP expansions and across both curated and crawled publisher datasets.</p>
 
 <h3>Why it happens</h3>
 <p>Intermediaries (AnyManager, PubFuture, Waardex, YieldMonk) distribute template ads.txt blocks to publishers with DIRECT instead of RESELLER. DIRECT commands higher CPMs and lower SSP fees. The intermediary's margin becomes invisible to the buyer.</p>
