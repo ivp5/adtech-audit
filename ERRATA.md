@@ -73,3 +73,28 @@ New finding: "Approximately 4% of the operational ad-tech data economy is proper
 1. **Garbled seller_ids:** Excluded in regeneration. ✓
 2. **Entity count inflation:** Finding 3 now leads with average (5.1) not median (3). Deduplication caveat in Known Weaknesses. ✓
 3. **Consent scope:** Method box now explicitly states "consent analysis covers the 110,610-site subset." ✓
+
+---
+
+## Update: March 23, 2026 — International expansion
+
+### Dataset: 915K → 1.76M claims
+
+Expanded to 21,397 publishers across 42 TLDs via automated international harvest. Registry entries: 1.13M sellers from 45 SSPs.
+
+### Rate change: 68% → 51% overall, 65% covered
+
+**Why it dropped further:** International expansion added publishers with simpler ads.txt files. Many international SSPs don't publish sellers.json (uncovered). Among SSPs WITH registry coverage, the rate remains 64.7%.
+
+**Geographic findings:**
+- Japan (.jp): 59% mismatch — global SSPs dominate
+- Russia (.ru): 56% mismatch
+- Germany (.de): 36% mismatch — strong local SSPs (stroeer, yieldlove, businessad)
+
+**Key insight:** Local SSPs maintain clean registries (0-20% mismatch). Global SSPs are dirty everywhere (80%+ mismatch). Germany's low rate comes from local SSP market share, not cleaner global practices.
+
+### Template injection proof strengthened
+
+SmartAdServer seller_ids 4071, 4012, 4074, 4073 don't exist in their registry yet each is claimed by 2,000+ publishers across 50+ countries. These are fabricated IDs mass-injected via templates.
+
+Google phantom IDs: 110 non-existent pub-XXXXX IDs each claimed by 100+ publishers = 23K template-injected claims.

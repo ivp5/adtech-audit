@@ -1,91 +1,20 @@
 {
-  "measurement_date": "2026-03-20",
-  "total_scans": 202005,
-  "unique_sites": 143543,
-  "total_requests": 2628513,
-  "total_syncs": 429134,
-  "entity_distribution": {
-    "0": 45199,
-    "1-5": 115369,
-    "6-20": 36893,
-    "21-50": 3766,
-    "50+": 778
+  "generated": "2026-03-23T12:00:00Z",
+  "total_claims": 1757362,
+  "total_publishers": 21397,
+  "total_ssps": 2422,
+  "verdict_counts": {
+    "contradicted": 484096,
+    "phantom": 418964,
+    "plausible": 853787,
+    "data_error": 515
   },
-  "by_tld": {
-    ".com": {
-      "sites": 77641,
-      "avg_entities": 5.8,
-      "avg_syncs": 3.5
-    },
-    ".org": {
-      "sites": 7856,
-      "avg_entities": 4.5,
-      "avg_syncs": 1.6
-    },
-    ".net": {
-      "sites": 6409,
-      "avg_entities": 4.5,
-      "avg_syncs": 1.8
-    },
-    ".ru": {
-      "sites": 4138,
-      "avg_entities": 3.5,
-      "avg_syncs": 2.2
-    },
-    ".de": {
-      "sites": 3336,
-      "avg_entities": 3.0,
-      "avg_syncs": 1.1
-    },
-    ".co.uk": {
-      "sites": 2667,
-      "avg_entities": 5.2,
-      "avg_syncs": 4.9
-    },
-    ".io": {
-      "sites": 2481,
-      "avg_entities": 4.4,
-      "avg_syncs": 1.3
-    },
-    ".com.br": {
-      "sites": 2257,
-      "avg_entities": 6.1,
-      "avg_syncs": 3.4
-    },
-    ".fr": {
-      "sites": 1771,
-      "avg_entities": 3.8,
-      "avg_syncs": 1.5
-    },
-    ".jp": {
-      "sites": 1765,
-      "avg_entities": 8.3,
-      "avg_syncs": 5.5
-    },
-    ".it": {
-      "sites": 1687,
-      "avg_entities": 4.3,
-      "avg_syncs": 1.1
-    },
-    ".nl": {
-      "sites": 1492,
-      "avg_entities": 3.6,
-      "avg_syncs": 0.6
-    },
-    ".pl": {
-      "sites": 1482,
-      "avg_entities": 4.3,
-      "avg_syncs": 0.8
-    },
-    ".in": {
-      "sites": 1290,
-      "avg_entities": 5.0,
-      "avg_syncs": 2.3
-    },
-    ".co": {
-      "sites": 1110,
-      "avg_entities": 4.9,
-      "avg_syncs": 1.7
-    }
-  }
+  "mismatch_rate_overall": 51.4,
+  "mismatch_rate_covered": 64.6,
+  "registry_entries": 1151081,
+  "false_claims_exported": 903060,
+  "corrections_applied": [
+    "9118 case-sensitivity false phantoms fixed",
+    "514 parsing errors excluded as DATA_ERROR"
+  ]
 }
