@@ -25,10 +25,19 @@ This isn't broken. It's working as designed — a system that provides the appea
 ## What we have
 
 - **915,460 cross-verified claims** across 11,990 publishers and 87 SSPs
+- **1,065,025 seller registry entries** from 24 SSPs (37.3% of claims now verifiable)
 - **Per-company fraud rates** for every major SSP
 - **Interactive verification tool** (type any publisher, see their false claims)
 - **Methodology documented** with reproducible commands
 - **Self-audit with corrections** (we caught and fixed our own errors)
+
+### New findings (2026-03-23)
+| Company | False DIRECT Rate | Notes |
+|---------|------------------|-------|
+| **Amazon** | 46.1% | E-commerce giant, 21K claims |
+| **33Across** | 55.8% | Independent SSP, 13K claims |
+| **Adform** | 45.7% | European SSP, 12K claims |
+| **Xandr (Microsoft)** | 31.1% | 30K claims |
 
 ## The angles
 
@@ -39,6 +48,11 @@ This isn't broken. It's working as designed — a system that provides the appea
 | **Platformer** | Policy: "Why Google's opacity might be legal" |
 | **Ars Technica** | Technical: "How template injection works" |
 | **Reuters/WSJ** | Antitrust: "Plaintiffs' own records" |
+| **Digiday** | Trade: "Inside the supply chain audit every brand should run" |
+| **Seeking Alpha** | Investor: "SSP disclosure rates as quality signal" |
+| **ProPublica** | Investigation: "The authorization system that authorizes nothing" |
+| **NOYB/Privacy International** | Regulatory: "Consent laundering at scale" |
+| **FTC Bureau of Competition** | Enforcement: Market manipulation via false claims |
 
 ## Contact
 
