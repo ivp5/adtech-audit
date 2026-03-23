@@ -15,7 +15,7 @@ SmartAdServer's registry says 1097 = INTERMEDIARY. Either Moneytizer's claim is 
 
 **The Moneytizer knows this.** Their own website (`themoneytizer.com/ads.txt`) does NOT include this claim. But their template serves it to 1,108 publishers. They don't eat their own cooking.
 
-This template has been live since January 2024 (Wayback Machine verified). One PHP script, 16 SSPs, 14,758 false claims.
+This template has been live since January 2024 ([Wayback Machine proof](https://web.archive.org/web/20240117183838/https://ads.themoneytizer.com/ads_txt.php)). One PHP script, 16 SSPs, 14,758 false claims.
 
 ## Why this matters
 
