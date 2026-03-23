@@ -1,20 +1,16 @@
 {
-  "generated": "2026-03-23T12:00:00Z",
+  "generated": "2026-03-23T18:00:00Z",
   "total_claims": 1757362,
   "total_publishers": 21397,
-  "total_ssps": 2422,
+  "total_ssps": 84,
   "verdict_counts": {
-    "contradicted": 484096,
-    "phantom": 418964,
-    "plausible": 853787,
-    "data_error": 515
+    "contradicted": 503387,
+    "phantom": 459504,
+    "plausible": 793727
   },
-  "mismatch_rate_overall": 51.4,
-  "mismatch_rate_covered": 64.6,
-  "registry_entries": 1151081,
-  "false_claims_exported": 903060,
-  "corrections_applied": [
-    "9118 case-sensitivity false phantoms fixed",
-    "514 parsing errors excluded as DATA_ERROR"
-  ]
+  "mismatch_rate_overall": 54.8,
+  "mismatch_rate_strict": 28.6,
+  "registry_entries": 1160000,
+  "false_claims_exported": 962891,
+  "note": "Synced with supply_chain_summary.json and verified against JSONL"
 }
