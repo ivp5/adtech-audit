@@ -4,7 +4,7 @@
 **0.012% of identity-sharing requests carry valid consent on first visit.**
 **Approximately 5% of the operational ad-tech data economy is properly authorized.**
 
-1,757,362 cross-verified triples. 57 SSP registries (1.16M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
+1,757,362 cross-verified triples. 84 SSP registries (1.16M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
 
 ## Quick Start
 
@@ -48,7 +48,7 @@ This is not three separate findings. It is one system.
 |---|---|
 | `evidence.html` | Visual evidence brief with interactive verification (4 findings) |
 | `evidence_api.ts` | Deno server — loads data into memory, serves queries |
-| `false_direct_claims.jsonl.gz` | 962,891 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
+| `false_direct_claims.jsonl.gz` | 962,891 false (publisher, SSP, seller_id) triples — CONTRADICTED + PHANTOM only (gzipped) |
 | `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 29%, inclusive 55%) |
 | `publisher_profiles.jsonl` | Per-publisher ads.txt depth and crawl traffic |
 | `identity_graph.json` | 5,816 sync co-occurrence edges across 201 companies |
@@ -58,10 +58,10 @@ This is not three separate findings. It is one system.
 
 ## Two Rates
 
-- **28% CONTRADICTED** (499,709 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
-- **53% inclusive** (932,094 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
+- **29% CONTRADICTED** (503,387 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
+- **55% inclusive** (962,891 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
 
-Both rates are stable across 8 successive SSP expansions (14→24→37→62→63→84→86→87 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
+Both rates are stable across 8 successive SSP expansions (14→24→37→62→63→84 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
 
 ## The Template Economy
 
@@ -76,11 +76,11 @@ gunzip false_direct_claims.jsonl.gz
 
 # Strict false count (CONTRADICTED only)
 grep -c '"CONTRADICTED"' false_direct_claims.jsonl
-# → 499,709
+# → 503,387
 
 # Inclusive false count (CONTRADICTED + PHANTOM)
 grep -cE '"CONTRADICTED"|"PHANTOM"' false_direct_claims.jsonl
-# → 932,094
+# → 962,891
 
 # Check a specific publisher
 grep '"publisher": "cnn.com"' false_direct_claims.jsonl | python3 -m json.tool | head -20
@@ -93,7 +93,7 @@ grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn |
 
 1. **ads.txt harvest**: 75,216 domains probed (Tranco top-1M + automated crawler piggyback). 12,965 valid ads.txt files recovered. 11,990 publishers with verifiable DIRECT claims.
 
-2. **sellers.json fetch**: 87 SSP registries (860K total seller entries). Google's 650K-entry registry is 71% confidential. All registries stored locally with fetch timestamps.
+2. **sellers.json fetch**: 84 SSP registries (1.16M total seller entries). Google's 650K-entry registry is 71% confidential. All registries stored locally with fetch timestamps.
 
 3. **Cross-verification**: For each DIRECT claim, looked up the seller_id in the SSP's sellers.json:
    - **CONTRADICTED**: SSP explicitly says INTERMEDIARY
@@ -111,7 +111,7 @@ grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn |
 
 1. **Sample bias**: 11,990 publishers from Tranco top-1M. Biased toward popular Western commercial sites.
 2. **Point-in-time**: SSPs can reclassify sellers. Registries are March 17–19, 2026 snapshots.
-3. **Phantom ambiguity**: 24% of claims are phantom. That's why we report both the strict (28%) and inclusive (53%) rates.
+3. **Phantom ambiguity**: 26% of claims are phantom. That's why we report both the strict (29%) and inclusive (55%) rates.
 4. **First-visit consent**: The 0.012% rate measures first-visit behavior. Returning users may show higher rates.
 5. **Google confidentiality**: 71% of Google's sellers.json is confidential. Excluding Google, the strict rate is 38%.
 6. **4% estimate**: The net authorization figure multiplies three independent rates. The individual measurements are solid; the multiplication assumes independence, which is approximate.
