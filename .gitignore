@@ -1,0 +1,3 @@
+# Large uncompressed files — only distribute .gz versions
+false_direct_claims.jsonl
+*.db
