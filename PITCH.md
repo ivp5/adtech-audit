@@ -42,7 +42,7 @@ They didn't write these lines. Header bidding wrappers, CMPs, and SSP onboarding
 | The Moneytizer | 1,153 |
 | ShowHeroes | 939 |
 
-**The math**: 78% of all CONTRADICTED claims (386K of 494K) come from seller_ids each shared by 100+ publishers. These intermediary accounts were not independently authorized by hundreds of publishers each. This is automated injection at scale.
+**The math**: 78% of all CONTRADICTED claims (392K of 503K) come from seller_ids each shared by 100+ publishers. These intermediary accounts were not independently authorized by hundreds of publishers each. This is automated injection at scale.
 
 **Three injectors identified**:
 
@@ -125,7 +125,7 @@ This isn't broken. It's working as designed — a system that provides the appea
 | Outlet | Angle |
 |--------|-------|
 | **AdExchanger** | Industry insider: "Your SSP is lying to you" |
-| **The Markup** | Data journalism: "We verified 930K claims" |
+| **The Markup** | Data journalism: "We verified 962K claims" |
 | **Platformer** | Policy: "Why Google's opacity might be legal" |
 | **Ars Technica** | Technical: "How template injection works" |
 | **Reuters/WSJ** | Antitrust: "Plaintiffs' own records" |
@@ -140,7 +140,7 @@ This isn't broken. It's working as designed — a system that provides the appea
 
 Evidence package: Available on request (8MB compressed JSONL + interactive HTML tool)
 Interactive tool: evidence.html (runs locally, no server needed)
-Raw data: 936K JSONL records with verdicts
+Raw data: 962K JSONL records with verdicts
 
 ## Pre-verified examples (no server needed)
 
