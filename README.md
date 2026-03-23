@@ -4,7 +4,7 @@
 **0.012% of identity-sharing requests carry valid consent on first visit.**
 **Approximately 5% of the operational ad-tech data economy is properly authorized.**
 
-1,757,362 cross-verified triples. 84 SSP registries (1.16M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
+1,757,362 cross-verified triples. 237 SSP registries (1.56M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
 
 ## Quick Start
 
@@ -59,9 +59,9 @@ This is not three separate findings. It is one system.
 ## Two Rates
 
 - **29% CONTRADICTED** (503,387 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
-- **55% inclusive** (962,891 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
+- **55% inclusive** (965,832 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
 
-Both rates are stable across 8 successive SSP expansions (14→24→37→62→63→84 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
+Both rates are stable across successive SSP expansions (14→24→37→62→84→237 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
 
 ## The Template Economy
 
@@ -93,7 +93,7 @@ grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn |
 
 1. **ads.txt harvest**: 75,216 domains probed (Tranco top-1M + automated crawler piggyback). 12,965 valid ads.txt files recovered. 11,990 publishers with verifiable DIRECT claims.
 
-2. **sellers.json fetch**: 84 SSP registries (1.16M total seller entries). Google's 650K-entry registry is 71% confidential. All registries stored locally with fetch timestamps.
+2. **sellers.json fetch**: 237 SSP registries (1.56M total seller entries). Google's 650K-entry registry is 71% confidential. All registries stored locally with fetch timestamps.
 
 3. **Cross-verification**: For each DIRECT claim, looked up the seller_id in the SSP's sellers.json:
    - **CONTRADICTED**: SSP explicitly says INTERMEDIARY

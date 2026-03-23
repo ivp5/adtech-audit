@@ -23,7 +23,7 @@ This template has been live since January 2024 (Wayback Machine verified). One P
 
 **For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
-**For everyone**: The authorization system produces MORE false claims (962K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory.
+**For everyone**: The authorization system produces MORE false claims (966K) than valid claims (791K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory.
 
 ## The proof it's fixable
 
@@ -36,7 +36,7 @@ The technology exists. The question is incentive.
 ## What we have
 
 - 1,757,362 cross-verified claims across 21,397 publishers
-- 77 SSP registries (1.19M seller entries)
+- 237 SSP registries (1.56M seller entries)
 - Per-SSP mismatch rates
 - Named template injectors with live URLs
 - Interactive verification tool
@@ -56,13 +56,13 @@ The technology exists. The question is incentive.
 
 Publishers list authorized sellers in ads.txt (DIRECT = direct relationship). SSPs list their sellers in sellers.json (INTERMEDIARY = reseller). These should match. They don't.
 
-78% of false claims come from seller IDs each shared by 100+ publishers — statistical impossibility without automated template injection. 747 publishers share the exact same 4-company signature (Seedtag + Smile Wanted + NoBid + Rich Audience).
+68% of false claims come from seller IDs each shared by 100+ publishers — statistical impossibility without automated template injection. 431 publishers share the exact same 4-company signature (Seedtag + Smile Wanted + NoBid + Rich Audience).
 
 ## Contact
 
 Evidence package available on request:
 - `evidence.html` — Interactive verification (runs locally, no server)
-- `false_direct_claims.jsonl.gz` — 962K false claims (8.7MB)
+- `false_direct_claims.jsonl.gz` — 966K false claims (8.7MB)
 - Complete methodology documentation
 
 ---
