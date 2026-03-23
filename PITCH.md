@@ -2,7 +2,7 @@
 
 ## One-liner
 
-52.6% of supply chain authorization claims in digital advertising don't match reality. We have 1.76M cross-verified records proving the authorization layer is theater.
+53% of supply chain authorization claims in digital advertising don't match reality. We have 1.76M cross-verified records proving the authorization layer is theater.
 
 ## The hook (for Google antitrust angle)
 
@@ -91,12 +91,12 @@ This isn't broken. It's working as designed — a system that provides the appea
 
 **The fix is trivial**: Every SSP could cross-check ads.txt DIRECT claims against their own sellers.json in real-time. A single SQL query. They choose not to — because validation would reveal that half the inventory is unauthorized.
 
-**The fresh-eyes observation**: 929,697 false claims vs 827,150 valid claims. The authorization system produces MORE unauthorized inventory than authorized inventory. It's not "some fraud" — the system's primary output IS false authorization.
+**The fresh-eyes observation**: 936,423 false claims vs 820,445 plausible claims. The authorization system produces MORE unauthorized inventory than authorized inventory. It's not "some fraud" — the system's primary output IS false authorization.
 
 ## What we have
 
 - **1,757,362 cross-verified claims** across 21,397 publishers and 2,422 SSPs
-- **1.16M seller registry entries** from 65 SSPs (82% of claims now verifiable)
+- **1.16M seller registry entries** from 65 SSPs (85% of claims now verifiable)
 - **Per-SSP mismatch rates** showing which supply chains are most opaque
 - **Interactive verification tool** (type any publisher, see their false claims)
 - **Methodology documented** with reproducible commands
@@ -140,7 +140,7 @@ This isn't broken. It's working as designed — a system that provides the appea
 
 Evidence package: Available on request (8MB compressed JSONL + interactive HTML tool)
 Interactive tool: evidence.html (runs locally, no server needed)
-Raw data: 930K JSONL records with verdicts
+Raw data: 936K JSONL records with verdicts
 
 ## Pre-verified examples (no server needed)
 
