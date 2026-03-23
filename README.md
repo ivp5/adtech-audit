@@ -1,6 +1,6 @@
 # Ad Supply Chain Evidence Package
 
-**53% of "DIRECT" authorization claims in publisher ads.txt files are false.**
+**55% of "DIRECT" authorization claims in publisher ads.txt files are false.**
 **0.012% of identity-sharing requests carry valid consent on first visit.**
 **Approximately 5% of the operational ad-tech data economy is properly authorized.**
 
@@ -34,13 +34,13 @@ curl "http://localhost:8890/api/summary"
 
 This is not three separate findings. It is one system.
 
-1. **Authorization is forged.** 28% of DIRECT claims are contradicted by the SSP's own registry (seller classified as INTERMEDIARY). Another 24% reference seller IDs that don't exist. Stable across 8 successive SSP expansions and across both curated and independently crawled publisher populations.
+1. **Authorization is forged.** 29% of DIRECT claims are contradicted by the SSP's own registry (seller classified as INTERMEDIARY). Another 26% reference seller IDs that don't exist. Stable across 8 successive SSP expansions and across both curated and independently crawled publisher populations.
 
 2. **Consent is absent.** 0.012% of cookie sync requests carry valid TCF consent on first visit. 77% have no consent parameter at all. The consent banner appears 2–5 seconds after identity has already been shared.
 
 3. **Identity proliferates.** Average ad-tech-enabled site shares user identity with 5.1 companies. The worst shares with 294 in 10 seconds. 422,000 sync requests captured across 142,000 sites.
 
-4. **The structure.** 85% of ad-tech-enabled sites have no ads.txt at all. Of the 15% that do, 51% of DIRECT claims are false. Of the companies actually observed on those pages, 24% operate outside any authorization framework. Net: ~5% of ad-tech activity falls within functioning authorization. Nine years after ads.txt was introduced, the false rate has not converged toward zero.
+4. **The structure.** 85% of ad-tech-enabled sites have no ads.txt at all. Of the 15% that do, 55% of DIRECT claims are false. Of the companies actually observed on those pages, 24% operate outside any authorization framework. Net: ~5% of ad-tech activity falls within functioning authorization. Nine years after ads.txt was introduced, the false rate has not converged toward zero.
 
 ## Files
 
@@ -48,8 +48,8 @@ This is not three separate findings. It is one system.
 |---|---|
 | `evidence.html` | Visual evidence brief with interactive verification (4 findings) |
 | `evidence_api.ts` | Deno server — loads data into memory, serves queries |
-| `false_direct_claims.jsonl.gz` | 932,139 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
-| `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 29%, inclusive 53%) |
+| `false_direct_claims.jsonl.gz` | 962,891 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
+| `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 29%, inclusive 55%) |
 | `publisher_profiles.jsonl` | Per-publisher ads.txt depth and crawl traffic |
 | `identity_graph.json` | 5,816 sync co-occurrence edges across 201 companies |
 | `consent_measurement.json` | Per-company consent field presence rates |

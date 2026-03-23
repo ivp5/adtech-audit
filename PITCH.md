@@ -46,7 +46,7 @@ They didn't write these lines. Header bidding wrappers, CMPs, and SSP onboarding
 
 **Three injectors identified**:
 
-1. **Adapex.io** (largest): Header `MANAGERDOMAIN=adapex.io` appears in 2,200+ publisher ads.txt files. Injects `smartadserver.com, 4071, DIRECT` — but SmartAdServer/4071 doesn't exist in their registry (PHANTOM). Also injects `rubiconproject.com, 17280, DIRECT` — Rubicon says 17280 = Seedtag = INTERMEDIARY (CONTRADICTED).
+1. **Adapex.io** (largest): 2,557 publishers. Dedicated infrastructure at `adstxt.adapex.io` (publisher login) and `matrix.adapex.io` (admin panel). Injects `smartadserver.com, 4071, DIRECT` — but SmartAdServer/4071 doesn't exist (PHANTOM). Also injects `rubiconproject.com, 17280, DIRECT` — Rubicon says 17280 = Seedtag = INTERMEDIARY. **Adapex has no sellers.json or ads.txt themselves** — they're a shadow participant invisible to the authorization framework.
 
 2. **The Moneytizer**: `ads.themoneytizer.com/ads_txt.php` — PHP script serving ads.txt templates. **16 SSPs, 1,153 publishers, 14,758 false claims** from ONE template. Line 1: `smartadserver.com, 1097, DIRECT`. SmartAdServer's registry says 1097 = INTERMEDIARY. Wayback Machine shows this template active since January 2024.
 
@@ -66,7 +66,7 @@ curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 # Returns: smartadserver.com, 1097, DIRECT, 060d053dcf45cbf3
 ```
 
-**Timestamp proof** — Wayback Machine shows same false claim in [January 2024](https://web.archive.org/web/20240117183838/https://ads.themoneytizer.com/ads_txt.php). This template has been injecting false authorizations for 2+ years.
+**Timestamp proof** — Wayback Machine shows same false claim in [January 2024](https://web.archive.org/web/20240117183838id_/https://ads.themoneytizer.com/ads_txt.php). This template has been injecting false authorizations for 2+ years.
 
 **Phantom injection**: SmartAdServer seller IDs 4071, 4012, 4074, 4073 don't exist in their registry — yet each is claimed by 2,000+ publishers across 50+ countries. These are fabricated IDs mass-injected via templates.
 
