@@ -62,7 +62,7 @@ The dataset expanded from 177K to 915K triples (11,990 publishers, 87 SSPs). The
 
 ### Finding 4 added
 
-New finding: "Approximately 4% of the operational ad-tech data economy is properly authorized." Calculated from three independently measured rates: ads.txt adoption (15%), DIRECT claim validity (32%), and authorized company coverage (76%). Known weakness: the multiplication assumes approximate independence. The true figure is 3–6%. The point is the order of magnitude.
+New finding: "Approximately 5% of the operational ad-tech data economy is properly authorized." Calculated from three independently measured rates: ads.txt adoption (15%), DIRECT claim validity (49%), and authorized company coverage (76%). Known weakness: the multiplication assumes approximate independence. The true figure is 4–6%. The point is the order of magnitude.
 
 ### PubMatic "NA" type entries
 
@@ -98,3 +98,12 @@ Expanded to 21,397 publishers across 42 TLDs via automated international harvest
 SmartAdServer seller_ids 4071, 4012, 4074, 4073 don't exist in their registry yet each is claimed by 2,000+ publishers across 50+ countries. These are fabricated IDs mass-injected via templates.
 
 Google phantom IDs: 110 non-existent pub-XXXXX IDs each claimed by 100+ publishers = 23K template-injected claims.
+
+### Lijit.com registry integration (March 23)
+
+Discovered lijit.com serves Sovrn's sellers.json (7,267 sellers). Cross-referenced against 11,951 UNCOVERED sovrn.com claims. 162 seller_ids are INTERMEDIARY in lijit's registry → 5,960 claims upgraded from PLAUSIBLE to CONTRADICTED.
+
+**Updated totals:**
+- CONTRADICTED: 499,709 (was 493,749)
+- Total false: 929,697 (was 923,737)
+- False rate: 52.9%

@@ -1,12 +1,12 @@
 {
-  "total_claims": 915460,
-  "contradicted": 310989,
-  "phantom": 312253,
-  "plausible": 292218,
-  "false_rate_inclusive": 68.1,
-  "false_rate_strict": 34.0,
-  "publishers": 11990,
-  "ssps_verified": 87,
-  "dataset": "false_direct_claims_final.jsonl",
-  "generated": "2026-03-19"
+  "total_claims": 1757362,
+  "contradicted": 499709,
+  "phantom": 429988,
+  "plausible": 827150,
+  "false_rate_inclusive": 52.9,
+  "false_rate_strict": 28.4,
+  "publishers": 21397,
+  "ssps_verified": 65,
+  "dataset": "false_direct_claims.jsonl.gz",
+  "generated": "2026-03-23"
 }
