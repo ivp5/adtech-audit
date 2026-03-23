@@ -2,9 +2,9 @@
 
 **53% of "DIRECT" authorization claims in publisher ads.txt files are false.**
 **0.012% of identity-sharing requests carry valid consent on first visit.**
-**Approximately 4% of the operational ad-tech data economy is properly authorized.**
+**Approximately 5% of the operational ad-tech data economy is properly authorized.**
 
-1,757,362 cross-verified triples. 65 SSP registries (1.16M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
+1,757,362 cross-verified triples. 57 SSP registries (1.16M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
 
 ## Quick Start
 
@@ -48,8 +48,8 @@ This is not three separate findings. It is one system.
 |---|---|
 | `evidence.html` | Visual evidence brief with interactive verification (4 findings) |
 | `evidence_api.ts` | Deno server — loads data into memory, serves queries |
-| `false_direct_claims.jsonl.gz` | 932,094 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
-| `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 34%, inclusive 68%) |
+| `false_direct_claims.jsonl.gz` | 932,139 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
+| `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 29%, inclusive 53%) |
 | `publisher_profiles.jsonl` | Per-publisher ads.txt depth and crawl traffic |
 | `identity_graph.json` | 5,816 sync co-occurrence edges across 201 companies |
 | `consent_measurement.json` | Per-company consent field presence rates |
