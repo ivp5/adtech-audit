@@ -67,7 +67,7 @@ Publishers list authorized sellers in ads.txt (DIRECT = direct relationship). SS
 
 Evidence package available on request:
 - `evidence.html` — Interactive verification (runs locally, no server)
-- `false_direct_claims.jsonl.gz` — 966K false claims (8.7MB)
+- `false_direct_claims.jsonl.gz` — 963K false claims (snapshot; full dataset has 966K)
 - Complete methodology documentation
 
 ---
