@@ -1,12 +1,13 @@
 {
   "total_claims": 1757362,
-  "contradicted": 502493,
-  "phantom": 433680,
-  "plausible": 820445,
-  "false_rate_inclusive": 53.2,
+  "contradicted": 503387,
+  "phantom": 459504,
+  "plausible": 793727,
+  "false_rate_inclusive": 54.8,
   "false_rate_strict": 28.6,
   "publishers": 21397,
   "ssps_verified": 65,
   "dataset": "false_direct_claims.jsonl.gz",
-  "generated": "2026-03-23"
+  "generated": "2026-03-23",
+  "note": "Reclassified 35,957 UNCOVERED claims after registry re-verification"
 }

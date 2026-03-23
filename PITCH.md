@@ -2,7 +2,7 @@
 
 ## One-liner
 
-53% of supply chain authorization claims in digital advertising don't match reality. We have 1.76M cross-verified records proving the authorization layer is theater.
+55% of supply chain authorization claims in digital advertising don't match reality. We have 1.76M cross-verified records proving the authorization layer is theater.
 
 ## The hook (for Google antitrust angle)
 
