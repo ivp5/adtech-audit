@@ -11,7 +11,7 @@ curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 # Returns: smartadserver.com, 1097, DIRECT
 ```
 
-SmartAdServer's registry says 1097 = INTERMEDIARY.
+SmartAdServer's registry says 1097 = INTERMEDIARY. Either Moneytizer's claim is false or SmartAdServer's registry is wrong — the system contradicts itself.
 
 **The Moneytizer knows this.** Their own website (`themoneytizer.com/ads.txt`) does NOT include this claim. But their template serves it to 1,108 publishers. They don't eat their own cooking.
 
@@ -19,24 +19,24 @@ This template has been live since January 2024 (Wayback Machine verified). One P
 
 ## Why this matters
 
-**For advertisers**: $3B+ in SSP revenue flows through supply chains where majority of authorization claims are false. Your "brand safety" tools check against a system where the rules aren't enforced.
+**For advertisers**: SSPs processing $3B+ annually have majority-false authorization rates (Magnite 86%, Taboola 63%, PubMatic 60%). Your "brand safety" tools verify against a ledger where the entries contradict themselves.
 
-**For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 27% false. Moneytizer-managed: 77% false. A 50 percentage point difference from infrastructure choice alone.
+**For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
 **For everyone**: The authorization system produces MORE false claims (962K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory.
 
 ## The proof it's fixable
 
-- **The Guardian**: 4.8% false (careful maintenance)
+- **The Guardian**: 7.1% false (careful maintenance)
 - **Germany (.de TLD)**: 39% false (vs 63% for Russia/Japan)
-- **Yieldlove-managed publishers**: 30% false (vs 55% baseline)
+- **CafeMedia-managed publishers**: 25% false (vs 55% baseline)
 
 The technology exists. The question is incentive.
 
 ## What we have
 
 - 1,757,362 cross-verified claims across 21,397 publishers
-- 70 SSP registries (1.19M seller entries)
+- 77 SSP registries (1.19M seller entries)
 - Per-SSP mismatch rates
 - Named template injectors with live URLs
 - Interactive verification tool
