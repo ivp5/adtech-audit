@@ -61,7 +61,7 @@ The technology exists. The question is incentive.
 
 Publishers list authorized sellers in ads.txt (DIRECT = direct relationship). SSPs list their sellers in sellers.json (INTERMEDIARY = reseller). These should match. They don't.
 
-68% of false claims come from seller IDs each shared by 100+ publishers — statistical impossibility without automated template injection. 431 publishers share the exact same 4-company signature (Seedtag + Smile Wanted + NoBid + Rich Audience).
+68% of false claims come from seller IDs each shared by 100+ publishers — statistical impossibility without automated template injection. 3,264 publishers share the same false (rubiconproject.com, 17280) claim; 2,557 share (smartadserver.com, 4071).
 
 ## Contact
 

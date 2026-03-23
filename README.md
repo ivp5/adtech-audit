@@ -59,7 +59,7 @@ This is not three separate findings. It is one system.
 ## Two Rates
 
 - **29% CONTRADICTED** (503,387 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
-- **55% inclusive** (965,832 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
+- **55% inclusive** (962,891 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
 
 Both rates are stable across successive SSP expansions (14→24→37→62→84→237 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
 
