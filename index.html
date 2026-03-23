@@ -326,15 +326,13 @@ async function verifyPublisher() {
   const domain = document.getElementById('pub-input').value.trim().toLowerCase().replace(/[<>"'&]/g, '');
   if (!domain || !/^[a-z0-9.-]+$/.test(domain)) return;
   const el = document.getElementById('pub-result');
-  el.innerHTML = '<em>Checking 962,891 records...</em>';
+  el.innerHTML = '<em>Searching 962,891 false claims...</em>';
   try {
     const baseUrl = location.port === '8889' ? '' : '';
     const r = await fetch(baseUrl + '/api/verify?publisher=' + encodeURIComponent(domain));
     const d = await r.json();
     if (d.total === 0) { el.innerHTML = `<strong>${esc(domain)}</strong>: Not found in dataset (may not be in Tranco top-1M, or has no ads.txt).`; return; }
-    const falsePct = d.false_pct;
-    const barColor = falsePct > 70 ? '#c00' : falsePct > 40 ? '#e67300' : '#2a7';
-    let html = `<strong>${esc(domain)}</strong>: ${d.total} DIRECT claims checked. <strong style="color:${barColor}">${falsePct}% false</strong> (${d.contradicted} contradicted, ${d.phantom} phantom, ${d.plausible} plausible)`;
+    let html = `<strong>${esc(domain)}</strong>: <strong style="color:#c00">${d.total} false DIRECT claims</strong> found (${d.contradicted} contradicted + ${d.phantom} phantom). Valid claims not shown.`;
     html += '<table style="margin-top:8px;font-size:0.85em"><tr><th>SSP</th><th>Seller ID</th><th>Registry Says</th><th>Verdict</th></tr>';
     const claims = d.claims.slice(0, 30);
     for (const c of claims) {
