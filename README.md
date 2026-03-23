@@ -1,10 +1,10 @@
 # Ad Supply Chain Evidence Package
 
-**68% of "DIRECT" authorization claims in publisher ads.txt files are false.**
+**53% of "DIRECT" authorization claims in publisher ads.txt files are false.**
 **0.012% of identity-sharing requests carry valid consent on first visit.**
 **Approximately 4% of the operational ad-tech data economy is properly authorized.**
 
-915,460 cross-verified triples. 87 SSP registries (860K sellers). 142,000 websites crawled. 11,990 publisher ads.txt files. March 14–20, 2026.
+1,757,362 cross-verified triples. 65 SSP registries (1.16M sellers). 142,000 websites crawled. 21,397 publisher ads.txt files. March 14–23, 2026.
 
 ## Quick Start
 
@@ -34,13 +34,13 @@ curl "http://localhost:8890/api/summary"
 
 This is not three separate findings. It is one system.
 
-1. **Authorization is forged.** 34% of DIRECT claims are contradicted by the SSP's own registry (seller classified as INTERMEDIARY). Another 34% reference seller IDs that don't exist. Stable across 8 successive SSP expansions and across both curated and independently crawled publisher populations.
+1. **Authorization is forged.** 28% of DIRECT claims are contradicted by the SSP's own registry (seller classified as INTERMEDIARY). Another 24% reference seller IDs that don't exist. Stable across 8 successive SSP expansions and across both curated and independently crawled publisher populations.
 
 2. **Consent is absent.** 0.012% of cookie sync requests carry valid TCF consent on first visit. 77% have no consent parameter at all. The consent banner appears 2–5 seconds after identity has already been shared.
 
 3. **Identity proliferates.** Average ad-tech-enabled site shares user identity with 5.1 companies. The worst shares with 294 in 10 seconds. 422,000 sync requests captured across 142,000 sites.
 
-4. **The structure.** 85% of ad-tech-enabled sites have no ads.txt at all. Of the 15% that do, 68% of DIRECT claims are false. Of the companies actually observed on those pages, 24% operate outside any authorization framework. Net: ~4% of ad-tech activity falls within functioning authorization. Nine years after ads.txt was introduced, the false rate has not converged toward zero.
+4. **The structure.** 85% of ad-tech-enabled sites have no ads.txt at all. Of the 15% that do, 51% of DIRECT claims are false. Of the companies actually observed on those pages, 24% operate outside any authorization framework. Net: ~5% of ad-tech activity falls within functioning authorization. Nine years after ads.txt was introduced, the false rate has not converged toward zero.
 
 ## Files
 
@@ -48,7 +48,7 @@ This is not three separate findings. It is one system.
 |---|---|
 | `evidence.html` | Visual evidence brief with interactive verification (4 findings) |
 | `evidence_api.ts` | Deno server — loads data into memory, serves queries |
-| `false_direct_claims.jsonl.gz` | 915,460 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
+| `false_direct_claims.jsonl.gz` | 929,697 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
 | `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 34%, inclusive 68%) |
 | `publisher_profiles.jsonl` | Per-publisher ads.txt depth and crawl traffic |
 | `identity_graph.json` | 5,816 sync co-occurrence edges across 201 companies |
@@ -58,8 +58,8 @@ This is not three separate findings. It is one system.
 
 ## Two Rates
 
-- **34% strict** (310,989 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
-- **68% inclusive** (623,242 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
+- **28% CONTRADICTED** (499,709 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
+- **53% inclusive** (929,697 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
 
 Both rates are stable across 8 successive SSP expansions (14→24→37→62→63→84→86→87 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
 
@@ -76,11 +76,11 @@ gunzip false_direct_claims.jsonl.gz
 
 # Strict false count (CONTRADICTED only)
 grep -c '"CONTRADICTED"' false_direct_claims.jsonl
-# → 310,989
+# → 499,709
 
 # Inclusive false count (CONTRADICTED + PHANTOM)
 grep -cE '"CONTRADICTED"|"PHANTOM"' false_direct_claims.jsonl
-# → 623,242
+# → 929,697
 
 # Check a specific publisher
 grep '"publisher": "cnn.com"' false_direct_claims.jsonl | python3 -m json.tool | head -20
@@ -111,7 +111,7 @@ grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn |
 
 1. **Sample bias**: 11,990 publishers from Tranco top-1M. Biased toward popular Western commercial sites.
 2. **Point-in-time**: SSPs can reclassify sellers. Registries are March 17–19, 2026 snapshots.
-3. **Phantom ambiguity**: 34% of claims are phantom. That's why we report both the strict (34%) and inclusive (68%) rates.
+3. **Phantom ambiguity**: 24% of claims are phantom. That's why we report both the strict (28%) and inclusive (53%) rates.
 4. **First-visit consent**: The 0.012% rate measures first-visit behavior. Returning users may show higher rates.
 5. **Google confidentiality**: 71% of Google's sellers.json is confidential. Excluding Google, the strict rate is 38%.
 6. **4% estimate**: The net authorization figure multiplies three independent rates. The individual measurements are solid; the multiplication assumes independence, which is approximate.
