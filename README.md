@@ -48,7 +48,7 @@ This is not three separate findings. It is one system.
 |---|---|
 | `evidence.html` | Visual evidence brief with interactive verification (4 findings) |
 | `evidence_api.ts` | Deno server — loads data into memory, serves queries |
-| `false_direct_claims.jsonl.gz` | 929,697 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
+| `false_direct_claims.jsonl.gz` | 932,094 (publisher, SSP, seller_id) triples with verdicts (gzipped) |
 | `supply_chain_summary.json` | Aggregate totals — two rates reported (strict 34%, inclusive 68%) |
 | `publisher_profiles.jsonl` | Per-publisher ads.txt depth and crawl traffic |
 | `identity_graph.json` | 5,816 sync co-occurrence edges across 201 companies |
@@ -59,7 +59,7 @@ This is not three separate findings. It is one system.
 ## Two Rates
 
 - **28% CONTRADICTED** (499,709 claims): The SSP's sellers.json explicitly classifies the account as INTERMEDIARY, but the publisher claims DIRECT. No ambiguity.
-- **53% inclusive** (929,697 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
+- **53% inclusive** (932,094 claims): Adds phantom seller IDs that don't exist in the registry. Could be stale, fabricated, or (for Google) hidden behind the confidentiality flag.
 
 Both rates are stable across 8 successive SSP expansions (14→24→37→62→63→84→86→87 SSPs) and across both curated (top-1000) and independently crawled (long-tail) publisher datasets.
 
@@ -80,7 +80,7 @@ grep -c '"CONTRADICTED"' false_direct_claims.jsonl
 
 # Inclusive false count (CONTRADICTED + PHANTOM)
 grep -cE '"CONTRADICTED"|"PHANTOM"' false_direct_claims.jsonl
-# → 929,697
+# → 932,094
 
 # Check a specific publisher
 grep '"publisher": "cnn.com"' false_direct_claims.jsonl | python3 -m json.tool | head -20

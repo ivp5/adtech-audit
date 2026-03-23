@@ -105,5 +105,9 @@ Discovered lijit.com serves Sovrn's sellers.json (7,267 sellers). Cross-referenc
 
 **Updated totals:**
 - CONTRADICTED: 499,709 (was 493,749)
-- Total false: 929,697 (was 923,737)
+- Total false: 932,094 (was 929,697)
+
+### Betweendigital.com integration (March 23)
+
+Discovered betweendigital.com sellers.json (461 sellers). Cross-referenced against 3,702 UNCOVERED claims. 43 seller_ids are INTERMEDIARY → 2,397 claims upgraded to CONTRADICTED.
 - False rate: 52.9%
