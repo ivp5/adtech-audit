@@ -95,8 +95,8 @@ This isn't broken. It's working as designed — a system that provides the appea
 
 ## What we have
 
-- **1,757,362 cross-verified claims** across 21,397 publishers and 65 SSPs with registries
-- **1.16M seller registry entries** from 65 SSPs (85% of claims now verifiable)
+- **1,757,362 cross-verified claims** across 21,397 publishers and 84 SSPs with registries
+- **1.16M seller registry entries** from 84 SSPs (85% of claims now verifiable)
 - **Per-SSP mismatch rates** showing which supply chains are most opaque
 - **Interactive verification tool** (type any publisher, see their false claims)
 - **Methodology documented** with reproducible commands
