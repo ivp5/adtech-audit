@@ -27,7 +27,7 @@ How do 3,264 different publishers claim the same INTERMEDIARY account as DIRECT?
 
 They didn't write these lines. Header bidding wrappers, CMPs, and SSP onboarding scripts inject them.
 
-**The injection cartel** (aggregated across all SSPs):
+**Most-injected INTERMEDIARY accounts** (aggregated across all SSPs):
 
 | Company | Publishers with False Claims |
 |---------|------------------------------|
@@ -72,7 +72,7 @@ curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 
 ## Why readers should care
 
-**For consumers**: Brands pay SSPs for ad inventory. 53% of that inventory is unauthorized — meaning brands are paying intermediaries who aren't supposed to be in the chain. Those costs get passed to you in product prices.
+**For consumers**: Brands pay SSPs for ad inventory. 55% of supply chain authorization claims are false — meaning brands can't verify who they're actually paying. Those inefficiencies get passed to you in product prices.
 
 **For privacy**: Identity syncs (cookie sharing) happen through these unauthorized channels. Your browsing data is being sold by companies that aren't even authorized to have it.
 
@@ -81,7 +81,7 @@ curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 ## The broader story
 
 The ads.txt/sellers.json system was created to prevent ad fraud. Nine years later:
-- **53% of DIRECT claims provably don't match registry** (28% contradicted, 24% phantom)
+- **55% of DIRECT claims provably don't match registry** (29% contradicted, 26% phantom)
 - **65% mismatch among SSPs with registry coverage** (the true rate, undiluted)
 - **~5% of ad-tech activity is properly authorized** (15% have ads.txt × 49% valid claims × 76% authorized companies)
 
@@ -91,11 +91,11 @@ This isn't broken. It's working as designed — a system that provides the appea
 
 **The fix is trivial**: Every SSP could cross-check ads.txt DIRECT claims against their own sellers.json in real-time. A single SQL query. They choose not to — because validation would reveal that half the inventory is unauthorized.
 
-**The fresh-eyes observation**: 936,423 false claims vs 820,445 plausible claims. The authorization system produces MORE unauthorized inventory than authorized inventory. It's not "some fraud" — the system's primary output IS false authorization.
+**The fresh-eyes observation**: 962,891 false claims vs 793,727 plausible claims. The authorization system produces MORE unauthorized inventory than authorized inventory. It's not "some fraud" — the system's primary output IS false authorization.
 
 ## What we have
 
-- **1,757,362 cross-verified claims** across 21,397 publishers and 2,422 SSPs
+- **1,757,362 cross-verified claims** across 21,397 publishers and 65 SSPs with registries
 - **1.16M seller registry entries** from 65 SSPs (85% of claims now verifiable)
 - **Per-SSP mismatch rates** showing which supply chains are most opaque
 - **Interactive verification tool** (type any publisher, see their false claims)
@@ -114,7 +114,7 @@ This isn't broken. It's working as designed — a system that provides the appea
 | **Taboola** | 61.6% | 86.0K | 62% PHANTOM (53K phantom claims) |
 | **PubMatic** | 59.7% | 68.3K | |
 | **Index Exchange** | 50.6% | 52.5K | 53% PHANTOM — half of claims use non-existent IDs |
-| **Google** | 44.7% | 144.8K | 100% PHANTOM — 17K unique IDs don't exist, 110 shared by 100+ publishers |
+| **Google** | 44.7% | 144.8K | 45% PHANTOM — 17K unique IDs don't exist, 110 shared by 100+ publishers |
 
 **Two failure modes:**
 - **High phantom rate** = ID format chaos, defunct SSPs, mass-injected fabricated IDs
@@ -184,7 +184,7 @@ Smoking gun: ads.themoneytizer.com/ads_txt.php serves a template with
 1097 is INTERMEDIARY. 1,108 publishers have this exact false claim.
 Anyone can verify: curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 
-The injection cartel: Google (9,535 publishers), Seedtag (3,404),
+Most-injected intermediaries: Google (9,535 publishers), Seedtag (3,404),
 Rich Audience (2,720), SmartPGMarketplace (2,530), and 5+ others.
 
 We have the data, methodology, and interactive audit tool.
