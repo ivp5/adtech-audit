@@ -7,11 +7,16 @@
 ## The smoking gun
 
 ```bash
+# What the template claims:
 curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
-# Returns: smartadserver.com, 1097, DIRECT
+# → smartadserver.com, 1097, DIRECT
+
+# What the registry says:
+curl -s https://sas.smartadserver.com/sellers.json | jq '.sellers[] | select(.seller_id=="1097")'
+# → {"seller_id":"1097","seller_type":"INTERMEDIARY","name":"Themoneytizer",...}
 ```
 
-SmartAdServer's registry says 1097 = INTERMEDIARY. Either Moneytizer's claim is false or SmartAdServer's registry is wrong — the system contradicts itself.
+The template says DIRECT. The registry says INTERMEDIARY. The system contradicts itself.
 
 **The Moneytizer knows this.** Their own website (`themoneytizer.com/ads.txt`) does NOT include this claim. But their template serves it to 1,108 publishers. They don't eat their own cooking.
 
