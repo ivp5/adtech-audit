@@ -12,7 +12,7 @@ curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 # → smartadserver.com, 1097, DIRECT
 
 # What the registry says:
-curl -s https://sas.smartadserver.com/sellers.json | jq '.sellers[] | select(.seller_id=="1097")'
+curl -sL https://www.equativ.com/sellers.json | jq '.sellers[] | select(.seller_id=="1097")'
 # → {"seller_id":"1097","seller_type":"INTERMEDIARY","name":"Themoneytizer",...}
 ```
 
@@ -20,7 +20,7 @@ The template says DIRECT. The registry says INTERMEDIARY. The system contradicts
 
 **The Moneytizer knows this.** Their own website (`themoneytizer.com/ads.txt`) does NOT include this claim. But their template serves it to 1,108 publishers. They don't eat their own cooking.
 
-This template has been live since January 2024 ([Wayback Machine proof](https://web.archive.org/web/20240117183838/https://ads.themoneytizer.com/ads_txt.php)). One PHP script, 16 SSPs, 14,758 false claims.
+This template has been live since January 2024 ([Wayback Machine proof](https://web.archive.org/web/20240117183838/https://ads.themoneytizer.com/ads_txt.php)). One PHP script, 74 SSPs, 14,758 false claims.
 
 ## Why this matters
 
