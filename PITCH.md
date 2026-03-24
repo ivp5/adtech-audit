@@ -24,11 +24,11 @@ This template has been live since January 2024 ([Wayback Machine proof](https://
 
 ## Why this matters
 
-**For advertisers**: Major SSPs have tens of thousands of false authorization claims each — Lijit (69K), Magnite (62K), Taboola (54K). Your "brand safety" tools verify against a ledger where the entries contradict themselves — they check that claims *exist*, not that they're *consistent*. DIRECT inventory commands 15-30% price premiums — advertisers pay more for authorization that doesn't exist.
+**For advertisers**: Major SSPs have tens of thousands of false authorization claims each — Lijit (69K), Magnite (62K), Taboola (54K). Your "brand safety" tools verify against a ledger where the entries contradict themselves — they check that claims *exist*, not that they're *consistent*. DIRECT inventory commands premium pricing — advertisers pay more for authorization that doesn't exist.
 
 **For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
-**For everyone**: The authorization system produces MORE false claims (963K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory. And it sells anyway. If authorization were enforced, half the market would stop. It doesn't stop, which proves it isn't enforced. (Observed: CNN has 3 contradicted Magnite claims; Magnite made 18 requests on CNN anyway.)
+**For everyone**: The authorization system produces MORE false claims (963K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory. And it sells anyway. If authorization were enforced, half the market would stop. It doesn't stop, which proves it isn't enforced. (Observed: CNN has 9+ contradicted Magnite claims; Magnite serves ads on CNN anyway.)
 
 ## The proof it's fixable
 
