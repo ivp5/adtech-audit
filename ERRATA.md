@@ -120,3 +120,5 @@ Discovered betweendigital.com sellers.json (461 sellers). Cross-referenced again
 - False rate (inclusive): 54.8%
 - Publishers: 21,397
 - SSPs with registries: 84
+
+**Note (March 24):** The distributed `false_direct_claims_final.jsonl` was generated before the Lijit/Betweendigital integrations. Its actual counts are CONTRADICTED: 493,749 + PHANTOM: 429,988 = 923,737 (52.5%). The headline "55%" reflects the final totals above (54.8%); the JSONL needs regeneration to match.
