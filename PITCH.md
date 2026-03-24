@@ -28,7 +28,7 @@ This template has been live since January 2024 ([Wayback Machine proof](https://
 
 **For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
-**For everyone**: The authorization system produces MORE false claims (963K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory. And it sells anyway. If authorization were enforced, half the market would stop. It doesn't stop, which proves it isn't enforced.
+**For everyone**: The authorization system produces MORE false claims (963K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory. And it sells anyway. If authorization were enforced, half the market would stop. It doesn't stop, which proves it isn't enforced. (Observed: CNN has 3 contradicted Magnite claims; Magnite made 18 requests on CNN anyway.)
 
 ## The proof it's fixable
 
