@@ -21,9 +21,17 @@
 
 ### EU Data Protection Authorities
 - 0.012% valid consent on first visit = systematic GDPR violation
-- 272,883 sync requests without valid consent
+- 717,573 identity sync requests (updated from 272K)
 - Angle: This isn't a bug, it's the design
 - Contact: Irish DPC (most ad-tech HQs), French CNIL, German BfDI
+
+### DOJ (US v. Google ad-tech antitrust)
+- Google: 512K page appearances (91% of observed ad-tech)
+- Meta: 51K (9%) — 10:1 dominance ratio
+- 28,543 sites run full Google stack (GTM + GAM + Analytics + Ads)
+- 93,162 sites bundle GTM + Analytics
+- Angle: Quantified vertical integration across 332K page scans
+- See: `DOJ_ANGLE.md` for full evidence
 
 ## Brand Safety Vendors (expose the gap)
 
