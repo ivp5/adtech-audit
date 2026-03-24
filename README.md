@@ -1,6 +1,6 @@
 # Ad Supply Chain Evidence Package
 
-**53% of "DIRECT" authorization claims in publisher ads.txt files are false.**
+**55% of "DIRECT" authorization claims in publisher ads.txt files are false.**
 **0.012% of identity-sharing requests carry valid consent on first visit.**
 **Approximately 5% of the operational ad-tech data economy is properly authorized.**
 
