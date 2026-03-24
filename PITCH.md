@@ -36,7 +36,7 @@ This template has been live since January 2024 ([Wayback Machine proof](https://
 - **Germany (.de TLD)**: 39% false (vs 63% for Russia/Japan)
 - **CafeMedia-managed publishers**: 25% false (vs 55% baseline)
 
-The technology exists. The question is incentive. The system's function is not fraud prevention — it's liability distribution. Everyone can point to their paperwork.
+The technology exists. The question is incentive. Authorization is theater, not security — the system's function is liability distribution, not fraud prevention. Everyone can point to their paperwork.
 
 ## What we have
 
