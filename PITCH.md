@@ -41,7 +41,7 @@ The technology exists. The question is incentive.
 ## What we have
 
 - 1,757,362 cross-verified claims across 21,397 publishers
-- 67 SSP registries cross-referenced (1.56M seller entries)
+- 84 SSP registries cross-referenced (1.56M seller entries)
 - Per-SSP mismatch rates
 - Named template injectors with live URLs
 - Interactive verification tool
