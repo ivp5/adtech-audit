@@ -63,3 +63,20 @@
 ### WFA (World Federation of Advertisers)
 - Global scope
 - Cross-border supply chain violations
+
+## Academic / Research
+
+### Privacy Researchers
+- Arvind Narayanan (Princeton) — web tracking research
+- Jonathan Mayer — surveillance capitalism
+- Wolfie Christl — corporate surveillance
+
+### Think Tanks
+- Electronic Frontier Foundation — adtech surveillance angle
+- Mozilla Foundation — web health metrics
+- Center for Digital Democracy — consumer protection
+
+### Academic Journals
+- PETS (Privacy Enhancing Technologies)
+- IMC (Internet Measurement Conference)
+- Angle: Methodology is reproducible, data is public
