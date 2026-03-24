@@ -2,7 +2,7 @@
 
 ## One-liner
 
-55% of ad supply chain authorization claims are provably false. We have 1.76M cross-verified records. The system produces more unauthorized inventory than authorized.
+53% of ad supply chain authorization claims are provably false. We have 1.76M cross-verified records. The system produces more unauthorized inventory than authorized.
 
 ## The smoking gun
 
@@ -28,13 +28,13 @@ This template has been live since January 2024 ([Wayback Machine proof](https://
 
 **For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
-**For everyone**: The authorization system produces MORE false claims (966K) than valid claims (791K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory.
+**For everyone**: The authorization system produces MORE false claims (924K) than valid claims (834K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory.
 
 ## The proof it's fixable
 
 - **The Guardian**: 7.1% false (careful maintenance)
 - **Germany (.de TLD)**: 39% false (vs 63% for Russia/Japan)
-- **CafeMedia-managed publishers**: 25% false (vs 55% baseline)
+- **CafeMedia-managed publishers**: 25% false (vs 53% baseline)
 
 The technology exists. The question is incentive.
 
@@ -54,7 +54,7 @@ The technology exists. The question is incentive.
 | Magnite | $620M | 86.5% |
 | Taboola | $1.7B | 62.7% |
 | PubMatic | $290M | 59.7% |
-| Index Exchange | $500M | 74.0% |
+| Index Exchange | $500M | 74.1% |
 | Google (ads) | $265B | 44.7% |
 
 ## How it works (for technical audiences)
@@ -67,7 +67,7 @@ Publishers list authorized sellers in ads.txt (DIRECT = direct relationship). SS
 
 Evidence package available on request:
 - `evidence.html` — Interactive verification (runs locally, no server)
-- `false_direct_claims.jsonl.gz` — 963K false claims (snapshot; full dataset has 966K)
+- `false_direct_claims.jsonl.gz` — 924K false claims
 - Complete methodology documentation
 
 ---
