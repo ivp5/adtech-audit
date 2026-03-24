@@ -67,7 +67,7 @@ Both rates are stable across successive SSP expansions (14→24→37→62→84 S
 
 16 intermediary accounts appear in more than half of all ads.txt files analyzed. The most ubiquitous (Rubicon seller_id 17960) is in 61% of files. These entries arrive via templates distributed by intermediaries to thousands of publishers.
 
-904 (SSP, seller_id) pairs appear in 1,000+ publisher files each. This is not individual publisher configuration — it is industrial-scale template injection.
+2,033 (SSP, seller_id) pairs appear in 100+ publisher files each; 80 pairs appear in 1,000+ files. This is not individual publisher configuration — it is industrial-scale template injection.
 
 ## Reproduce
 
