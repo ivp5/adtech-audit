@@ -51,7 +51,7 @@ The technology exists. The question is incentive. Authorization is theater, not 
 
 | SSP | Annual Revenue | False Claims |
 |-----|---------------|--------------|
-| Lijit/Sovrn | ~$100M | 68,785 |
+| Lijit | ~$100M | 68,785 |
 | Google | $265B | 64,743 |
 | Magnite | $620M | 62,495 |
 | Taboola | $1.7B | 53,869 |
@@ -84,7 +84,7 @@ All source data (ads.txt, sellers.json) is publicly served by the respective dom
 
 | SSP | False Claims | Primary Issue |
 |-----|--------------|---------------|
-| Lijit/Sovrn | 68.8K | Template injection |
+| Lijit | 68.8K | Template injection |
 | Google | 64.7K | Phantom IDs (registry 71% confidential) |
 | Magnite/Rubicon | 62.5K | Template injection |
 | Taboola | 53.9K | 90% phantom on own property |
