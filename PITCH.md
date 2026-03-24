@@ -2,7 +2,7 @@
 
 ## One-liner
 
-53% of ad supply chain authorization claims are provably false. We have 1.76M cross-verified records. The system produces more unauthorized inventory than authorized.
+55% of ad supply chain authorization claims are provably false. We have 1.76M cross-verified records. The system produces more unauthorized inventory than authorized.
 
 ## The smoking gun
 
@@ -16,7 +16,7 @@ curl -sL https://www.equativ.com/sellers.json | jq '.sellers[] | select(.seller_
 # → {"seller_id":"1097","seller_type":"INTERMEDIARY","name":"Themoneytizer",...}
 ```
 
-The template says DIRECT. The registry says INTERMEDIARY. The system contradicts itself.
+The template says DIRECT. The registry says INTERMEDIARY. The system contradicts itself. (Verified live: 2026-03-24)
 
 **The Moneytizer knows this.** They claim DIRECT on their own site AND in the template they distribute to 1,108 publishers — but SmartAdServer's registry says they're INTERMEDIARY. They're making false claims about their own business relationship.
 
@@ -28,15 +28,15 @@ This template has been live since January 2024 ([Wayback Machine proof](https://
 
 **For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
-**For everyone**: The authorization system produces MORE false claims (924K) than valid claims (834K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory.
+**For everyone**: The authorization system produces MORE false claims (963K) than valid claims (794K). It's not "some fraud in a working system" — the system's primary output IS unauthorized inventory. And it sells anyway. If authorization were enforced, half the market would stop. It doesn't stop, which proves it isn't enforced.
 
 ## The proof it's fixable
 
 - **The Guardian**: 7.1% false (careful maintenance)
 - **Germany (.de TLD)**: 39% false (vs 63% for Russia/Japan)
-- **CafeMedia-managed publishers**: 25% false (vs 53% baseline)
+- **CafeMedia-managed publishers**: 25% false (vs 55% baseline)
 
-The technology exists. The question is incentive.
+The technology exists. The question is incentive. The system's function is not fraud prevention — it's liability distribution. Everyone can point to their paperwork.
 
 ## What we have
 
@@ -61,14 +61,22 @@ The technology exists. The question is incentive.
 
 Publishers list authorized sellers in ads.txt (DIRECT = direct relationship). SSPs list their sellers in sellers.json (INTERMEDIARY = reseller). These should match. They don't.
 
+**The spec is unambiguous.** IAB ads.txt defines DIRECT as "the Publisher directly controls the account." IAB sellers.json defines INTERMEDIARY as "entity that does not own or control the content." A DIRECT claim for an INTERMEDIARY account is definitionally false under both specs — not an interpretation, a cross-reference.
+
 68% of false claims come from seller IDs each shared by 100+ publishers — statistical impossibility without automated template injection. 3,264 publishers share the same false (rubiconproject.com, 17280) claim; 2,557 share (smartadserver.com, 4071).
+
+## Cite correctly
+
+"55% of DIRECT authorization claims in ads.txt are false" — not "55% of ads are fraudulent." The finding is about the authorization ledger, not the ads themselves.
 
 ## Contact
 
 Evidence package available on request:
 - `evidence.html` — Interactive verification (runs locally, no server)
-- `false_direct_claims.jsonl.gz` — 924K false claims
+- `false_direct_claims.jsonl.gz` — 963K false claims
 - Complete methodology documentation
+
+All source data (ads.txt, sellers.json) is publicly served by the respective domains. Verdicts are mechanical cross-reference of public records.
 
 ---
 
