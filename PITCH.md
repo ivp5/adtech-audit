@@ -12,7 +12,7 @@ curl -sL https://ads.themoneytizer.com/ads_txt.php | head -1
 # → smartadserver.com, 1097, DIRECT
 
 # What the registry says:
-curl -sL https://www.equativ.com/sellers.json | jq '.sellers[] | select(.seller_id=="1097")'
+curl -sL https://smartadserver.com/sellers.json | jq '.sellers[] | select(.seller_id=="1097")'
 # → {"seller_id":"1097","seller_type":"INTERMEDIARY","name":"Themoneytizer",...}
 ```
 
