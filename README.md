@@ -38,7 +38,7 @@ This is not three separate findings. It is one system.
 
 2. **Consent is absent.** 0.012% of cookie sync requests carry valid TCF consent on first visit. 77% have no consent parameter at all. The consent banner appears 2–5 seconds after identity has already been shared.
 
-3. **Identity proliferates.** Average ad-tech-enabled site shares user identity with 5.1 companies. The worst shares with 294 in 10 seconds. 422,000 sync requests captured across 142,000 sites.
+3. **Identity proliferates.** Average ad-tech-enabled site shares user identity with 5.1 companies. The worst shares with 294 in 10 seconds. 721,000 sync requests captured across 186,000 sites.
 
 4. **The structure.** 85% of ad-tech-enabled sites have no ads.txt at all. Of the 15% that do, 55% of DIRECT claims are false. Of the companies actually observed on those pages, 24% operate outside any authorization framework. Net: ~5% of ad-tech activity falls within functioning authorization. Nine years after ads.txt was introduced, the false rate has not converged toward zero.
 
@@ -103,7 +103,7 @@ grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn |
 
 4. **Crawl observation**: Playwright browser crawled 142,630 unique sites (Tranco 1M, tiered scheduling). 2.6M HTTP requests matched against 603 known ad-tech domains (240 companies). Compared observed companies against declared ads.txt entries to measure unauthorized tracking.
 
-5. **Consent measurement**: 272,917 cookie sync URLs parsed for TCF consent parameters. First-visit only.
+5. **Consent measurement**: 721,129 cookie sync URLs parsed for TCF consent parameters. First-visit only.
 
 6. **Identity graph**: Co-occurrence of tracking companies on the same page load. 201 companies, 5,816 weighted edges.
 
