@@ -25,40 +25,40 @@ const text = Deno.readTextFileSync(HERE + "false_direct_claims.jsonl");
 let claimCount = 0;
 for (const line of text.split("\n")) {
   if (!line.trim()) continue;
-  const r = JSON.parse(line) as Claim;
+  const claim = JSON.parse(line) as Claim;
   claimCount++;
-  let pubArr = byPublisher.get(r.publisher);
-  if (!pubArr) { pubArr = []; byPublisher.set(r.publisher, pubArr); }
-  pubArr.push(r);
-  let sspArr = bySsp.get(r.ssp);
-  if (!sspArr) { sspArr = []; bySsp.set(r.ssp, sspArr); }
-  sspArr.push(r);
+  let publisherClaims = byPublisher.get(claim.publisher);
+  if (!publisherClaims) { publisherClaims = []; byPublisher.set(claim.publisher, publisherClaims); }
+  publisherClaims.push(claim);
+  let sspClaims = bySsp.get(claim.ssp);
+  if (!sspClaims) { sspClaims = []; bySsp.set(claim.ssp, sspClaims); }
+  sspClaims.push(claim);
 }
 
 // Pre-compute tallies (single O(n) pass already done above, now O(m) for aggregation)
-function computeTally(arr: Claim[]): Tally {
+function computeTally(claims: Claim[]): Tally {
   let contradicted = 0, phantom = 0, plausible = 0;
-  for (const c of arr) {
-    if (c.verdict === "CONTRADICTED") contradicted++;
-    else if (c.verdict === "PHANTOM") phantom++;
+  for (const claim of claims) {
+    if (claim.verdict === "CONTRADICTED") contradicted++;
+    else if (claim.verdict === "PHANTOM") phantom++;
     else plausible++;
   }
-  const total = arr.length;
+  const total = claims.length;
   return { total, contradicted, phantom, plausible, false_pct: total ? Math.round((contradicted + phantom) / total * 100) : null };
 }
 
-for (const [pub, arr] of byPublisher) publisherTallies.set(pub, computeTally(arr));
-for (const [ssp, arr] of bySsp) {
-  sspTallies.set(ssp, computeTally(arr));
+for (const [publisher, claims] of byPublisher) publisherTallies.set(publisher, computeTally(claims));
+for (const [ssp, claims] of bySsp) {
+  sspTallies.set(ssp, computeTally(claims));
   // Pre-compute top publishers per SSP
-  const pubCounts: Record<string, number> = {};
-  for (const c of arr) if (c.verdict !== "PLAUSIBLE") pubCounts[c.publisher] = (pubCounts[c.publisher] || 0) + 1;
-  const top = Object.entries(pubCounts).sort((a, b) => b[1] - a[1]).slice(0, 20).map(([p, n]) => ({ publisher: p, false_claims: n }));
-  sspTopPubs.set(ssp, top);
+  const falseCountByPublisher: Record<string, number> = {};
+  for (const claim of claims) if (claim.verdict !== "PLAUSIBLE") falseCountByPublisher[claim.publisher] = (falseCountByPublisher[claim.publisher] || 0) + 1;
+  const topOffenders = Object.entries(falseCountByPublisher).sort((a, b) => b[1] - a[1]).slice(0, 20).map(([pub, count]) => ({ publisher: pub, false_claims: count }));
+  sspTopPubs.set(ssp, topOffenders);
 }
 
 // Pre-compute /api/ssps response
-sspRankedList = [...sspTallies.entries()].map(([ssp, t]) => ({ ssp, ...t })).sort((a, b) => b.total - a.total);
+sspRankedList = [...sspTallies.entries()].map(([ssp, tally]) => ({ ssp, ...tally })).sort((a, b) => b.total - a.total);
 // Pre-sort publishers for autocomplete
 publishersSorted = [...byPublisher.keys()].sort();
 
