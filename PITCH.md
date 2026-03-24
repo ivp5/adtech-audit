@@ -96,7 +96,9 @@ All source data (ads.txt, sellers.json) is publicly served by the respective dom
 
 ## Appendix: Taboola's self-contradiction
 
-taboolanews.com is Taboola's own content property. Its ads.txt lists 3,841 Taboola seller IDs as DIRECT. Of those, **3,694 (90%) don't exist in Taboola's own sellers.json**.
+**taboola.com** (corporate site): 1,580 Taboola seller IDs claimed as DIRECT. **Only 3 exist** in Taboola's own sellers.json (24,228 sellers). **99.8% PHANTOM.**
+
+**taboolanews.com** (content property): 3,841 Taboola seller IDs as DIRECT. **3,694 (96%) don't exist** in their registry.
 
 ```bash
 # Count Taboola DIRECT entries on Taboola's own site
@@ -119,3 +121,14 @@ Magnite and PubMatic have filed antitrust lawsuits against Google. Our data show
 - Google: 44.7% mismatch (but 17K phantom IDs)
 
 This doesn't prove or disprove the antitrust claims. It shows the entire industry operates on a foundation of unverified authorization.
+
+## Appendix: Piracy sites fabricate premium IDs
+
+Streaming piracy sites (soap2day.rs, hdtoday.tv, moviesjoy.is) share an **identical 5,530-line ads.txt** (same MD5 hash). It contains:
+
+- 1,697 DIRECT claims
+- 134 GourmetAds entries (a "premium food & lifestyle" network)
+
+Cross-referenced against GourmetAds registry: **64 of 134 are PHANTOM (47.8%)**
+
+Piracy sites are fabricating premium network IDs to bypass brand safety filters and attract food/CPG advertisers. This isn't template copying — it's deliberate ID fabrication.
