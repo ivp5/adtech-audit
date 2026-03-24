@@ -24,7 +24,7 @@ This template has been live since January 2024 ([Wayback Machine proof](https://
 
 ## Why this matters
 
-**For advertisers**: SSPs processing $3B+ annually have majority-false authorization rates (Magnite 86%, Taboola 63%, PubMatic 60%). Your "brand safety" tools verify against a ledger where the entries contradict themselves.
+**For advertisers**: Major SSPs have tens of thousands of false authorization claims each — Lijit (69K), Magnite (62K), Taboola (54K). Your "brand safety" tools verify against a ledger where the entries contradict themselves.
 
 **For publishers**: Your template manager choice determines your false claim rate. CafeMedia-managed: 25% false. Moneytizer-managed: 73% false. A 48 percentage point difference from infrastructure choice alone.
 
@@ -49,13 +49,13 @@ The technology exists. The question is incentive.
 
 ## The scale
 
-| SSP | Annual Revenue | False Rate |
-|-----|---------------|------------|
-| Magnite | $620M | 86.5% |
-| Taboola | $1.7B | 62.7% |
-| PubMatic | $290M | 59.7% |
-| Index Exchange | $500M | 74.1% |
-| Google (ads) | $265B | 44.7% |
+| SSP | Annual Revenue | False Claims |
+|-----|---------------|--------------|
+| Lijit/Sovrn | ~$100M | 68,785 |
+| Google | $265B | 64,743 |
+| Magnite | $620M | 62,495 |
+| Taboola | $1.7B | 53,869 |
+| PubMatic | $290M | 41,912 |
 
 ## How it works (for technical audiences)
 
@@ -74,17 +74,17 @@ Evidence package available on request:
 
 ## Appendix: Per-SSP breakdown (for deep dives)
 
-| SSP | Mismatch Rate | Claims | Primary Issue |
-|-----|---------------|--------|---------------|
-| Criteo | 100.0% | 23.1K | PHANTOM — all IDs use wrong format |
-| FreeWheel | 90.3% | 21.5K | 90% PHANTOM |
-| Magnite/Rubicon | 86.5% | 70.2K | 65% CONTRADICTED (template injection) |
-| Lijit/Sovrn | 82.6% | 81.0K | |
-| OneTag | 82.0% | 60.5K | |
-| Index Exchange | 74.1% | 52.6K | 71% PHANTOM |
-| Taboola | 62.7% | 86.0K | 63% PHANTOM |
-| PubMatic | 59.7% | 68.3K | |
-| Google | 44.7% | 144.8K | 17K unique phantom IDs |
+| SSP | False Claims | Primary Issue |
+|-----|--------------|---------------|
+| Lijit/Sovrn | 68.8K | Template injection |
+| Google | 64.7K | Phantom IDs (registry 71% confidential) |
+| Magnite/Rubicon | 62.5K | Template injection |
+| Taboola | 53.9K | 90% phantom on own property |
+| OneTag | 50.8K | |
+| PubMatic | 41.9K | |
+| Index Exchange | 38.9K | |
+| OpenX | 36.6K | |
+| TripleLift | 33.8K | |
 
 ## Appendix: Taboola's self-contradiction
 
