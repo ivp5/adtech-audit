@@ -86,6 +86,22 @@ Evidence package available on request:
 | PubMatic | 59.7% | 68.3K | |
 | Google | 44.7% | 144.8K | 17K unique phantom IDs |
 
+## Appendix: Taboola's self-contradiction
+
+taboolanews.com is Taboola's own content property. Its ads.txt lists 3,841 Taboola seller IDs as DIRECT. Of those, **3,694 (90%) don't exist in Taboola's own sellers.json**.
+
+```bash
+# Count Taboola DIRECT entries on Taboola's own site
+curl -sL https://taboolanews.com/ads.txt | grep "taboola.com.*DIRECT" | wc -l
+# → 3841
+
+# Check if seller ID 1007016 exists in their registry
+curl -sL https://www.taboola.com/sellers.json | jq '.sellers[] | select(.seller_id=="1007016")'
+# → (nothing)
+```
+
+Taboola is claiming DIRECT control over accounts that Taboola itself doesn't acknowledge. This isn't a third-party publisher making mistakes — it's the SSP contradicting its own disclosure on its own property.
+
 ## Appendix: Antitrust context
 
 Magnite and PubMatic have filed antitrust lawsuits against Google. Our data shows the plaintiffs have demonstrably worse supply chain transparency than the defendant:
