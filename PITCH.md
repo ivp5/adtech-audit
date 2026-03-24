@@ -18,7 +18,7 @@ curl -sL https://www.equativ.com/sellers.json | jq '.sellers[] | select(.seller_
 
 The template says DIRECT. The registry says INTERMEDIARY. The system contradicts itself.
 
-**The Moneytizer knows this.** Their own website (`themoneytizer.com/ads.txt`) does NOT include this claim. But their template serves it to 1,108 publishers. They don't eat their own cooking.
+**The Moneytizer knows this.** They claim DIRECT on their own site AND in the template they distribute to 1,108 publishers — but SmartAdServer's registry says they're INTERMEDIARY. They're making false claims about their own business relationship.
 
 This template has been live since January 2024 ([Wayback Machine proof](https://web.archive.org/web/20240117183838/https://ads.themoneytizer.com/ads_txt.php)). One PHP script, 74 SSPs, 14,758 false claims.
 
