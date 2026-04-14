@@ -5,12 +5,12 @@
 #   bad:   smartadserver.com, 4073, DIRECT  → PHANTOM (CAS SDK template line)
 import csv, json, sys
 from functools import cache
-from urllib.request import Request, urlopen
+from urllib.request import urlopen
 from collections import Counter
 
 
 def fetch(url):
-    return urlopen(Request(url, headers={'User-Agent': 'verifier/1'}), timeout=20).read().decode('utf-8', 'replace')
+    return urlopen(url, timeout=20).read().decode()
 
 
 @cache
