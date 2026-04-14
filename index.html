@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ad Supply Chain: Evidence Brief</title>
-<meta name="description" content="55% of ad authorization claims are provably false. 0.012% of identity sharing has valid consent. Evidence from 1.76M verified claims across 84 SSP registries.">
-<meta property="og:title" content="55% of Ad Supply Chain Claims Are False">
-<meta property="og:description" content="We cross-verified 1.76M authorization claims against SSP registries. The system produces more false than true.">
-<meta property="og:type" content="article">
+<title>ads.txt Audit — Check Any Publisher's Supply Chain Integrity</title>
+<meta name="description" content="Check any publisher's ads.txt authorization integrity. 57.3% of DIRECT claims are provably false across 22,952 publishers and 710 SSP registries. Free instant lookup.">
+<meta property="og:title" content="ads.txt Audit: 57.3% of Supply Chain Claims Are False">
+<meta property="og:description" content="Type any domain. See its false DIRECT claims instantly. 2M claims cross-verified against 710 SSP sellers.json registries.">
+<meta property="og:type" content="website">
 <meta property="og:url" content="https://ivp5.github.io/adtech-audit/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="55% of Ad Supply Chain Claims Are False">
-<meta name="twitter:description" content="1.76M claims verified. 962K false. Evidence with reproducible methodology.">
+<meta name="twitter:title" content="ads.txt Audit: Check Any Publisher's Authorization Integrity">
+<meta name="twitter:description" content="22,906 publishers scored. Type a domain, see false DIRECT claims. Free, open data.">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: Georgia, 'Times New Roman', serif; background: #fafaf8; color: #1a1a1a; line-height: 1.7; }
@@ -55,8 +55,8 @@ footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ddd; font-siz
 
 <h1>The Accountability Gap</h1>
 <p class="subtitle">Programmatic advertising supply chain integrity, consent failure, and identity proliferation.<br>
-Evidence from 142,000 websites, 84 SSP registries, 422,000 identity-sharing requests.<br>
-Data collected March 14–23, 2026.</p>
+Evidence from 186,000 websites, 710 SSP registries, 721,000 identity-sharing requests.<br>
+Data collected March 14–25, 2026.</p>
 
 <div class="verify" style="background: #fff3e0; border-color: #ff9800; margin: 2em 0;">
 <strong style="color: #e65100;">Verify in 10 seconds:</strong> The ad authorization system contradicts itself.<br><br>
@@ -65,7 +65,7 @@ Data collected March 14–23, 2026.</p>
 <code style="display: block; margin: 0.5em 0;">2. Check: <a href="https://smartadserver.com/sellers.json" target="_blank">smartadserver.com/sellers.json</a> → seller 1097</code>
 <code style="display: block; margin: 0.5em 0; padding-left: 1.5em;">→ seller_type: "<strong>INTERMEDIARY</strong>", name: "Themoneytizer"</code>
 <br>
-<em>Same entity. Opposite claims. Both public. We found 962,891 similar contradictions.</em>
+<em>Same entity. Opposite claims. Both public. We found 1,157,099 similar contradictions.</em>
 </div>
 
 <div class="verify" style="background: #e8f5e9; border-color: #4caf50; margin: 2em 0;">
@@ -81,17 +81,17 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 
 <div class="finding">
 <div class="finding-num">Core claim</div>
-<p><strong>29% of "DIRECT" authorization claims are explicitly contradicted by the SSPs' own registries. A further 26% reference seller IDs that don't exist.</strong> Cross-reference of 1,757,362 triples across 21,397 publishers against 84 SSP registries.</p>
+<p><strong>29% of "DIRECT" authorization claims are explicitly contradicted by the SSPs' own registries. A further 26% reference seller IDs that don't exist.</strong> Cross-reference of 2,041,107 triples across 22,952 publishers against 710 SSP registries.</p>
 </div>
 
 <p>When a publisher lists a company as "DIRECT" in their ads.txt file, it means: "I control this seller account. I authorized this directly." Advertisers pay more for DIRECT inventory because it's supposed to mean fewer intermediaries and less fraud risk.</p>
 
-<p>We checked 1,757,362 unique (publisher, SSP, seller_id) triples against the SSPs' own registries:</p>
+<p>We checked 2,041,107 unique (publisher, SSP, seller_id) triples against the SSPs' own registries:</p>
 
 <table>
 <tr><th>Category</th><th>Count</th><th style="width:40%">Distribution</th><th>How verified</th></tr>
 <tr>
-<td><strong>Contradicted</strong></td><td>503,387 (29%)</td>
+<td><strong>Contradicted</strong></td><td>593,176 (29%)</td>
 <td><div class="bar-container"><div class="bar" style="width:29%"></div></div></td>
 <td>SSP says INTERMEDIARY, not PUBLISHER</td>
 </tr>
@@ -107,7 +107,7 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 </tr>
 </table>
 
-<p class="note"><strong>Reading this table:</strong> "Contradicted" is unambiguous — the SSP explicitly classifies the account as INTERMEDIARY, contradicting the DIRECT claim. "Phantom" is ambiguous — the seller ID may be stale, fabricated, or hidden behind Google's 71% confidentiality flag. "Plausible" includes confirmed PUBLISHER entries, BOTH-type entries (may act as either), and claims against SSPs with no registry. If intermediaries exploit the BOTH classification as a loophole, the true false rate is between 55% and 65%. The strict rate (contradicted only, no interpretation) is <strong>29%</strong>. Both rates are stable across successive SSP expansions and across both curated and crawled publisher datasets.</p>
+<p class="note"><strong>Reading this table:</strong> "Contradicted" is unambiguous — the SSP explicitly classifies the account as INTERMEDIARY, contradicting the DIRECT claim. "Phantom" is ambiguous — the seller ID may be stale, fabricated, or hidden behind Google's 71% confidentiality flag. "Plausible" includes confirmed PUBLISHER entries, BOTH-type entries (may act as either), and claims against SSPs with no registry. If intermediaries exploit the BOTH classification as a loophole, the true false rate is between 57% and 63%. The strict rate (contradicted only, no interpretation) is <strong>29%</strong>. Both rates are stable across successive SSP expansions and across both curated and crawled publisher datasets.</p>
 
 <h3>Why it happens</h3>
 <p>Intermediaries (AnyManager, PubFuture, Waardex, YieldMonk) distribute template ads.txt blocks to publishers with DIRECT instead of RESELLER. DIRECT commands higher CPMs and lower SSP fees. The intermediary's margin becomes invisible to the buyer.</p>
@@ -132,17 +132,34 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 <p class="note">Google's sellers.json has 71% of entries marked confidential (is_confidential: true). Every other SSP: 0%. Google's 64,743 false claims are all PHANTOM (seller ID not found) — they could be hidden behind the confidentiality flag. Excluding Google, the strict contradicted rate across the remaining SSPs is 38%.</p>
 
 <div class="method">
-<strong>Method:</strong> Downloaded ads.txt from 21,397 publishers (Tranco top-1M + 75,000-domain crawler harvest). Fetched sellers.json from 84 SSPs (1.56M total seller entries, including Google's 650K). For each DIRECT claim, looked up the seller_id in the SSP's registry. If the registry says INTERMEDIARY → contradicted. If the seller_id doesn't exist → phantom. If it says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple. Malformed seller_ids (containing spaces, filenames, etc.) filtered.
+<strong>Method:</strong> Downloaded ads.txt from 22,952 publishers (Tranco top-1M + 185,000-domain crawler harvest). Fetched sellers.json from 710 SSPs (1.6M total seller entries, including Google's 994K). For each DIRECT claim, looked up the seller_id in the SSP's registry. If the registry says INTERMEDIARY → contradicted. If the seller_id doesn't exist → phantom. If it says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple. Malformed seller_ids (containing spaces, filenames, etc.) filtered.
 </div>
 
-<div class="verify" id="verify-section">
-<strong>Verify any publisher now:</strong>
-<div style="display:flex;gap:8px;margin:10px 0">
-<input id="pub-input" type="text" placeholder="e.g. cnn.com" style="flex:1;padding:8px 12px;font-size:1em;border:1px solid #999;border-radius:4px;font-family:inherit">
-<button onclick="verifyPublisher()" style="padding:8px 20px;font-size:1em;background:#1a1a1a;color:#fff;border:none;border-radius:4px;cursor:pointer">Verify</button>
+<div id="verify-section" style="background:#111;border:1px solid #333;border-radius:8px;padding:24px;margin:2em 0;color:#ccc;font-family:system-ui,-apple-system,sans-serif">
+<div style="font:700 1.1em system-ui;color:#fff;margin-bottom:12px">Check any publisher's supply chain integrity</div>
+<div style="display:flex;gap:8px;margin-bottom:16px">
+<input id="pub-input" type="text" placeholder="Type a domain (e.g. cnn.com)" style="flex:1;padding:10px 14px;font-size:0.95em;border:1px solid #444;border-radius:6px;background:#1a1a1a;color:#fff;font-family:inherit;outline:none" onfocus="this.style.borderColor='#4a9eff'" onblur="this.style.borderColor='#444'">
+<button onclick="verifyPublisher()" style="padding:10px 24px;font-size:0.95em;background:#4a9eff;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;white-space:nowrap">Verify</button>
 </div>
-<div id="pub-result" style="margin-top:12px"></div>
-<p style="margin-top:12px"><strong>Machine-readable data:</strong> <code>false_direct_claims.jsonl</code> — 962,891 records, one per triple, with publisher, SSP, seller_id, registry_type, and verdict.</p>
+<div id="pub-result" style="min-height:20px"></div>
+<div style="color:#555;font-size:0.75em;margin-top:12px">22,952 publishers scored against 710 SSP registries (1.6M seller entries). Data updates: March 2026.</div>
+</div>
+
+<div id="scorecard" style="background:#111;border:1px solid #333;border-radius:8px;padding:20px;margin:2em 0;color:#ccc;font-family:system-ui,sans-serif">
+<h3 style="color:#fff;margin:0 0 12px">Wrapper Provider Scorecard</h3>
+<p style="color:#888;font-size:0.85em;margin-bottom:12px">195 header bidding management companies graded by the false DIRECT claim rate of their managed publishers. <a href="wrapper_scorecard.json" style="color:#4a9eff">Full data (JSON)</a></p>
+<table style="width:100%;font-size:0.8em;border-collapse:collapse;color:#ccc">
+<tr style="border-bottom:1px solid #333"><th style="text-align:left;padding:4px 8px">Provider</th><th style="text-align:right;padding:4px">Pubs</th><th style="text-align:right;padding:4px">False%</th><th style="text-align:right;padding:4px">Grade</th></tr>
+<tr><td style="padding:3px 8px">CafeMedia/Raptive</td><td style="text-align:right">530</td><td style="text-align:right;color:#22c55e">23.3%</td><td style="text-align:right;color:#22c55e">B</td></tr>
+<tr><td style="padding:3px 8px">Mediavine</td><td style="text-align:right">306</td><td style="text-align:right;color:#22c55e">30.1%</td><td style="text-align:right;color:#22c55e">B</td></tr>
+<tr><td style="padding:3px 8px">Playwire</td><td style="text-align:right">201</td><td style="text-align:right;color:#eab308">48.5%</td><td style="text-align:right;color:#eab308">C</td></tr>
+<tr><td style="padding:3px 8px">Freestar</td><td style="text-align:right">455</td><td style="text-align:right;color:#f59e0b">55.4%</td><td style="text-align:right;color:#f59e0b">D</td></tr>
+<tr><td style="padding:3px 8px">Ezoic</td><td style="text-align:right">267</td><td style="text-align:right;color:#f59e0b">56.9%</td><td style="text-align:right;color:#f59e0b">D</td></tr>
+<tr><td style="padding:3px 8px">Moneytizer</td><td style="text-align:right">429</td><td style="text-align:right;color:#ef4444">66.2%</td><td style="text-align:right;color:#ef4444">F</td></tr>
+<tr><td style="padding:3px 8px">Publift</td><td style="text-align:right">291</td><td style="text-align:right;color:#ef4444">69.5%</td><td style="text-align:right;color:#ef4444">F</td></tr>
+<tr><td style="padding:3px 8px">Pubnation</td><td style="text-align:right">73</td><td style="text-align:right;color:#ef4444">70.4%</td><td style="text-align:right;color:#ef4444">F</td></tr>
+</table>
+<p style="color:#555;font-size:0.7em;margin-top:8px">Graded via MANAGERDOMAIN field in ads.txt 1.1. A=&lt;20% false, B=20-35%, C=35-50%, D=50-60%, F=&gt;60%. <a href="wrapper_scorecard.json" style="color:#4a9eff">All 195 providers →</a></p>
 </div>
 
 <!-- ════════════ FINDING 2 ════════════ -->
@@ -268,7 +285,7 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 <table>
 <tr><th>Layer</th><th>Coverage</th><th>How measured</th></tr>
 <tr><td>Sites with ads.txt</td><td><strong>15%</strong> of ad-tech-enabled sites</td><td>Of 44,176 crawler scans showing ad-tech activity, 6,749 have a valid ads.txt. 37,427 do not.</td></tr>
-<tr><td>DIRECT claims that are genuine</td><td><strong>45%</strong></td><td>Of 1,757,362 verified triples, 793,727 are plausible (Finding 1).</td></tr>
+<tr><td>DIRECT claims that are genuine</td><td><strong>45%</strong></td><td>Of 2,041,107 verified triples, 884,008 are plausible (Finding 1).</td></tr>
 <tr><td>Companies covered by ads.txt</td><td><strong>76%</strong></td><td>Across 1,170 sites with both scan data and ads.txt, 24% of observed companies have no ads.txt entry.</td></tr>
 <tr><td><strong>Net authorization</strong></td><td><strong>~5%</strong></td><td>0.15 × 0.45 × 0.76 ≈ 0.051</td></tr>
 </table>
@@ -307,13 +324,13 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 <p class="note">This is a model of incentives, not a proof of intent. But ads.txt was introduced in 2017. Nine years later, the false DIRECT rate has not converged toward zero. Bugs get fixed. Equilibria persist.</p>
 
 <div class="method">
-<strong>Method:</strong> The 5% figure is the product of three independently measured rates: (1) ads.txt adoption among ad-tech-enabled sites (15%, from 44,176 crawler scans with ad-tech activity), (2) DIRECT claim plausibility (47%, from 1,757,362-triple cross-reference), (3) authorized company coverage (76%, from 1,170 sites with both scan data and ads.txt). The multiplication assumes approximate independence — verified by checking that plausible rates don't vary significantly between high-surveillance and low-surveillance sites. The 24% unauthorized figure counts companies identified by domain matching against 603 known ad-tech domains. Template convergence measured across 8,095 normalized ads.txt files.
+<strong>Method:</strong> The 5% figure is the product of three independently measured rates: (1) ads.txt adoption among ad-tech-enabled sites (15%, from 44,176 crawler scans with ad-tech activity), (2) DIRECT claim plausibility (47%, from 2,041,107-triple cross-reference), (3) authorized company coverage (76%, from 1,170 sites with both scan data and ads.txt). The multiplication assumes approximate independence — verified by checking that plausible rates don't vary significantly between high-surveillance and low-surveillance sites. The 24% unauthorized figure counts companies identified by domain matching against 603 known ad-tech domains. Template convergence measured across 8,095 normalized ads.txt files.
 </div>
 
 <!-- ════════════ KNOWN WEAKNESSES ════════════ -->
 <h2>Known Weaknesses</h2>
 
-<p><strong>1. Sample bias.</strong> 21,397 publishers from Tranco top-1M + 75,000-domain crawler harvest. Biased toward popular Western commercial sites. This is the relevant population for programmatic authorization, but not the internet.</p>
+<p><strong>1. Sample bias.</strong> 22,952 publishers from Tranco top-1M + 185,000-domain crawler harvest. Biased toward popular Western commercial sites. This is the relevant population for programmatic authorization, but not the internet.</p>
 
 <p><strong>2. sellers.json freshness.</strong> Snapshots from March 17–23, 2026. SSPs can reclassify sellers — an INTERMEDIARY today could become PUBLISHER tomorrow. Phantom claims could resolve if SSPs add entries. Both verdicts are point-in-time. The strict contradicted rate (29%) is the most defensible number; it requires the SSP to have actively classified the seller as INTERMEDIARY at snapshot time.</p>
 
@@ -332,7 +349,7 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 <p>All data is machine-readable, standalone (no database required), and independently verifiable:</p>
 <table>
 <tr><th>File</th><th>Records</th><th>Description</th></tr>
-<tr><td><code>false_direct_claims.jsonl</code></td><td>962,891</td><td>Every (publisher, SSP, seller_id) triple with verdict. Deduplicated.</td></tr>
+<tr><td><code>false_direct_claims.jsonl</code></td><td>1,157,099</td><td>Every (publisher, SSP, seller_id) triple with verdict. Deduplicated.</td></tr>
 <tr><td><code>supply_chain_summary.json</code></td><td>1</td><td>Aggregate totals matching the JSONL exactly.</td></tr>
 <tr><td><code>publisher_profiles.jsonl</code></td><td>8,734</td><td>Per-publisher ads.txt depth and crawl traffic.</td></tr>
 <tr><td><code>identity_graph.json</code></td><td>5,816 edges</td><td>Sync co-occurrence graph across 201 companies.</td></tr>
@@ -341,34 +358,62 @@ Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library):
 </table>
 
 <footer>
-Data collected March 14–23, 2026. 142,000 websites, 2.6M HTTP requests, 21,397 publisher ads.txt files, 84 SSP seller registries (1.56M sellers). Methodology available on request.
+Data collected March 14–25, 2026. 186,000 websites, 4.8M HTTP requests, 22,952 publisher ads.txt files, 710 SSP seller registries (1.6M sellers). Methodology available on request.
 </footer>
 
 </div>
 
 <script>
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+let _scores = null;
+let _sortedRates = null;
+async function loadScores() {
+  if (_scores) return _scores;
+  try { const r = await fetch('publisher_scores.json'); _scores = await r.json(); } catch { _scores = {}; }
+  _sortedRates = Object.values(_scores).map(v => v[4]).sort((a,b) => a - b);
+  return _scores;
+}
+loadScores();
 async function verifyPublisher() {
-  const domain = document.getElementById('pub-input').value.trim().toLowerCase().replace(/[<>"'&]/g, '');
+  const domain = document.getElementById('pub-input').value.trim().toLowerCase().replace(/^www\./, '').replace(/[<>"'&]/g, '');
   if (!domain || !/^[a-z0-9.-]+$/.test(domain)) return;
   const el = document.getElementById('pub-result');
-  el.innerHTML = '<em>Searching 962,891 false claims...</em>';
-  try {
-    const baseUrl = location.port === '8889' ? '' : '';
-    const r = await fetch(baseUrl + '/api/verify?publisher=' + encodeURIComponent(domain));
-    const d = await r.json();
-    if (d.total === 0) { el.innerHTML = `<strong>${esc(domain)}</strong>: Not found in dataset (may not be in Tranco top-1M, or has no ads.txt).`; return; }
-    let html = `<strong>${esc(domain)}</strong>: <strong style="color:#c00">${d.total} false DIRECT claims</strong> found (${d.contradicted} contradicted + ${d.phantom} phantom). Valid claims not shown.`;
-    html += '<table style="margin-top:8px;font-size:0.85em"><tr><th>SSP</th><th>Seller ID</th><th>Registry Says</th><th>Verdict</th></tr>';
-    const claims = d.claims.slice(0, 30);
-    for (const c of claims) {
-      const color = c.verdict === 'PLAUSIBLE' ? '#2a7' : c.verdict === 'CONTRADICTED' ? '#c00' : '#e67300';
-      html += `<tr><td>${esc(c.ssp)}</td><td style="font-family:monospace;font-size:0.85em">${esc(c.seller_id)}</td><td>${esc(c.registry_type||'—')}</td><td style="color:${color};font-weight:bold">${esc(c.verdict)}</td></tr>`;
-    }
-    if (d.total > 30) html += `<tr><td colspan="4" style="color:#666"><em>...and ${d.total - 30} more</em></td></tr>`;
-    html += '</table>';
-    el.innerHTML = html;
-  } catch (e) { el.innerHTML = `<span style="color:#c00">Error: ${String(e).replace(/</g,'&lt;')}. API may not be running (need X-Ray server on :8889).</span>`; }
+  el.innerHTML = '<div style="color:#888">Searching 22,952 publishers...</div>';
+  const scores = await loadScores();
+  const s = scores[domain];
+  if (!s) {
+    el.innerHTML = `<div style="padding:12px;background:#1a1a1a;border-radius:6px;border-left:3px solid #555"><strong style="color:#fff">${esc(domain)}</strong><br><span style="color:#888">Not in dataset (22,952 publishers scored). May have no ads.txt or no DIRECT claims.</span></div>`;
+    return;
+  }
+  const [total, contradicted, phantom, plausible, rate, tier, sspDiv] = s;
+  const falseN = contradicted + phantom;
+  const tierNames = {C:'CRITICAL',H:'HIGH',M:'MEDIUM',L:'LOW'};
+  const tierColors = {C:'#ef4444',H:'#f59e0b',M:'#eab308',L:'#22c55e'};
+  const tierBg = {C:'#1a0505',H:'#1a1005',M:'#1a1505',L:'#051a0a'};
+  // Percentile via binary search on precomputed sorted array — O(log n)
+  let lo = 0, hi = _sortedRates.length;
+  while (lo < hi) { const mid = (lo + hi) >> 1; _sortedRates[mid] < rate ? lo = mid + 1 : hi = mid; }
+  const percentile = Math.round(lo / _sortedRates.length * 100);
+  let html = `<div style="padding:16px;background:${tierBg[tier]};border-radius:6px;border-left:3px solid ${tierColors[tier]}">`;
+  // Gauge row
+  html += `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">`;
+  html += `<span style="font:700 2em 'SF Mono',ui-monospace,monospace;color:${tierColors[tier]}">${rate}%</span>`;
+  html += `<span style="font:700 0.75em system-ui;color:${tierColors[tier]};letter-spacing:0.5px">${tierNames[tier]}</span>`;
+  html += `<span style="color:#555;font-size:0.75em;margin-left:auto">worse than ${percentile}% of ${allRates.length.toLocaleString()} publishers</span>`;
+  html += `</div>`;
+  // Bar
+  html += `<div style="height:3px;background:#333;border-radius:2px;margin-bottom:10px;overflow:hidden">`;
+  html += `<div style="height:100%;width:${Math.min(rate,100)}%;background:${tierColors[tier]};border-radius:2px"></div></div>`;
+  // Stats grid
+  html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85em">`;
+  html += `<div><div style="color:#ef4444;font:700 1.3em ui-monospace">${contradicted}</div><div style="color:#888;font-size:0.8em">Contradicted</div></div>`;
+  html += `<div><div style="color:#f59e0b;font:700 1.3em ui-monospace">${phantom}</div><div style="color:#888;font-size:0.8em">Phantom</div></div>`;
+  html += `<div><div style="color:#22c55e;font:700 1.3em ui-monospace">${plausible}</div><div style="color:#888;font-size:0.8em">Valid</div></div>`;
+  html += `</div>`;
+  // Footer
+  html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #333;color:#666;font-size:0.75em">${total} DIRECT claims across ${sspDiv} SSPs &middot; ${falseN} false (${rate}%)</div>`;
+  html += `</div>`;
+  el.innerHTML = html;
 }
 document.getElementById('pub-input').addEventListener('keydown', e => { if (e.key === 'Enter') verifyPublisher(); });
 
