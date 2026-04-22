@@ -1,13 +1,13 @@
 {
-  "total_claims": 1757362,
-  "contradicted": 503387,
-  "phantom": 459504,
-  "plausible": 793727,
-  "false_rate_inclusive": 54.8,
-  "false_rate_strict": 28.6,
-  "publishers": 21397,
-  "ssps_verified": 84,
-  "dataset": "false_direct_claims.jsonl.gz",
-  "generated": "2026-03-23",
-  "note": "Reclassified 35,957 UNCOVERED claims after registry re-verification"
+  "total_claims": 2096507,
+  "total_false": 1198139,
+  "contradicted": 612738,
+  "phantom": 585401,
+  "plausible": 898368,
+  "false_rate_inclusive": 57.1,
+  "false_rate_verifiable": 62.0,
+  "publishers_total": 23283,
+  "publishers_with_false": 17081,
+  "ssps_with_registry": 710,
+  "updated": "2026-03-25T17:06:57Z"
 }

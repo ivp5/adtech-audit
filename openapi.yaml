@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: ads.txt Supply Chain Verification API
+  description: |
+    Cross-verify publisher ads.txt DIRECT claims against 710 SSP sellers.json registries.
+    57.3% of DIRECT authorization claims in programmatic advertising are false.
+    This API provides publisher risk scores, false claim details, and SSP integrity data
+    for 22,952 web publishers and 4,992 mobile apps.
+  version: 1.0.0
+  contact:
+    url: https://ivp5.github.io/adtech-audit/
+servers:
+  - url: https://adtech-audit.p.rapidapi.com
+paths:
+  /api/summary:
+    get:
+      summary: Global statistics
+      description: Returns aggregate false claim counts and rates across all publishers.
+      responses:
+        '200':
+          description: Aggregate statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total: { type: integer, example: 2041107 }
+                  contradicted: { type: integer, example: 598222 }
+                  phantom: { type: integer, example: 571846 }
+                  plausible: { type: integer, example: 871039 }
+  /api/verify:
+    get:
+      summary: Verify a publisher
+      description: Returns risk score and false claim breakdown for a specific publisher domain.
+      parameters:
+        - name: publisher
+          in: query
+          required: true
+          schema: { type: string, example: cnn.com }
+      responses:
+        '200':
+          description: Publisher verification result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  publisher: { type: string }
+                  tally:
+                    type: object
+                    properties:
+                      total: { type: integer }
+                      contradicted: { type: integer }
+                      phantom: { type: integer }
+                      plausible: { type: integer }
+                      false_pct: { type: number }
+                  claims: { type: array, items: { type: object } }
+  /api/ssp:
+    get:
+      summary: SSP integrity score
+      description: Returns false claim breakdown for a specific SSP.
+      parameters:
+        - name: ssp
+          in: query
+          required: true
+          schema: { type: string, example: google.com }
+      responses:
+        '200':
+          description: SSP integrity data
+  /api/ssps:
+    get:
+      summary: All SSPs ranked
+      description: Returns all SSPs ranked by total false claims.
+      responses:
+        '200':
+          description: Ranked SSP list
+  /api/publishers:
+    get:
+      summary: Publisher leaderboard
+      description: Returns publishers ranked by false rate with pagination.
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 100 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Paginated publisher list
+  /api/search:
+    get:
+      summary: Search publishers
+      description: Search publishers by domain substring.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: { type: string, minLength: 2 }
+      responses:
+        '200':
+          description: Matching publishers
+  /health:
+    get:
+      summary: API health check
+      responses:
+        '200':
+          description: API status

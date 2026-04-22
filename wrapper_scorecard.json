@@ -1,0 +1,1367 @@
+[
+  {
+    "manager": "targetspot.com",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 6.7,
+    "grade": "A"
+  },
+  {
+    "manager": "adsinteractive.com",
+    "publishers_managed": 25,
+    "publishers_scored": 24,
+    "avg_false_rate": 7.8,
+    "grade": "A"
+  },
+  {
+    "manager": "igoal.com.br",
+    "publishers_managed": 5,
+    "publishers_scored": 4,
+    "avg_false_rate": 8.3,
+    "grade": "A"
+  },
+  {
+    "manager": "azerion.com, at",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "azerion.com, ch",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "pulsa.tv, es",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "sky.com, gb",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "sky.it, it",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "visoon.de, de",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "zattoo.com, ch",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 9.4,
+    "grade": "A"
+  },
+  {
+    "manager": "the-ozone-project.com",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 9.8,
+    "grade": "A"
+  },
+  {
+    "manager": "relevant-digital.com",
+    "publishers_managed": 7,
+    "publishers_scored": 7,
+    "avg_false_rate": 11.7,
+    "grade": "A"
+  },
+  {
+    "manager": "sparteo.com",
+    "publishers_managed": 54,
+    "publishers_scored": 44,
+    "avg_false_rate": 16.7,
+    "grade": "A"
+  },
+  {
+    "manager": "366.fr",
+    "publishers_managed": 31,
+    "publishers_scored": 31,
+    "avg_false_rate": 18.3,
+    "grade": "A"
+  },
+  {
+    "manager": "www.ringier-advertising.ch",
+    "publishers_managed": 7,
+    "publishers_scored": 7,
+    "avg_false_rate": 18.3,
+    "grade": "A"
+  },
+  {
+    "manager": "concept.dk",
+    "publishers_managed": 6,
+    "publishers_scored": 5,
+    "avg_false_rate": 20.5,
+    "grade": "B"
+  },
+  {
+    "manager": "nbc.com",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 21.6,
+    "grade": "B"
+  },
+  {
+    "manager": "prismamedia.com",
+    "publishers_managed": 15,
+    "publishers_scored": 14,
+    "avg_false_rate": 21.7,
+    "grade": "B"
+  },
+  {
+    "manager": "cafemedia.com",
+    "publishers_managed": 530,
+    "publishers_scored": 524,
+    "avg_false_rate": 23.3,
+    "grade": "B"
+  },
+  {
+    "manager": "adaptivemedia.hu",
+    "publishers_managed": 10,
+    "publishers_scored": 10,
+    "avg_false_rate": 23.5,
+    "grade": "B"
+  },
+  {
+    "manager": "stepnetwork.dk",
+    "publishers_managed": 11,
+    "publishers_scored": 8,
+    "avg_false_rate": 23.8,
+    "grade": "B"
+  },
+  {
+    "manager": "adweb.gr",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 25.3,
+    "grade": "B"
+  },
+  {
+    "manager": "mmedia.nl be",
+    "publishers_managed": 5,
+    "publishers_scored": 4,
+    "avg_false_rate": 25.7,
+    "grade": "B"
+  },
+  {
+    "manager": "youngid.fr",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 26.5,
+    "grade": "B"
+  },
+  {
+    "manager": "amagi.com",
+    "publishers_managed": 5,
+    "publishers_scored": 2,
+    "avg_false_rate": 27.6,
+    "grade": "B"
+  },
+  {
+    "manager": "yieldlove.com",
+    "publishers_managed": 6,
+    "publishers_scored": 5,
+    "avg_false_rate": 27.8,
+    "grade": "B"
+  },
+  {
+    "manager": "improvemedia.fi",
+    "publishers_managed": 12,
+    "publishers_scored": 10,
+    "avg_false_rate": 28.4,
+    "grade": "B"
+  },
+  {
+    "manager": "mediaimpact.de",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 29.0,
+    "grade": "B"
+  },
+  {
+    "manager": "adseleto.com",
+    "publishers_managed": 27,
+    "publishers_scored": 27,
+    "avg_false_rate": 29.4,
+    "grade": "B"
+  },
+  {
+    "manager": "rogerssportsandmedia.com, ca",
+    "publishers_managed": 9,
+    "publishers_scored": 8,
+    "avg_false_rate": 29.4,
+    "grade": "B"
+  },
+  {
+    "manager": "publisherdesk.com",
+    "publishers_managed": 14,
+    "publishers_scored": 11,
+    "avg_false_rate": 29.6,
+    "grade": "B"
+  },
+  {
+    "manager": "mmedia.nl",
+    "publishers_managed": 28,
+    "publishers_scored": 28,
+    "avg_false_rate": 30.0,
+    "grade": "B"
+  },
+  {
+    "manager": "mediavine.com",
+    "publishers_managed": 306,
+    "publishers_scored": 301,
+    "avg_false_rate": 30.1,
+    "grade": "B"
+  },
+  {
+    "manager": "hashtag-labs.com,,",
+    "publishers_managed": 32,
+    "publishers_scored": 32,
+    "avg_false_rate": 30.9,
+    "grade": "B"
+  },
+  {
+    "manager": "quartermedia.de",
+    "publishers_managed": 22,
+    "publishers_scored": 17,
+    "avg_false_rate": 31.1,
+    "grade": "B"
+  },
+  {
+    "manager": "francetvpub.fr",
+    "publishers_managed": 11,
+    "publishers_scored": 11,
+    "avg_false_rate": 31.7,
+    "grade": "B"
+  },
+  {
+    "manager": "audienzz.com, ch",
+    "publishers_managed": 10,
+    "publishers_scored": 9,
+    "avg_false_rate": 31.9,
+    "grade": "B"
+  },
+  {
+    "manager": "highfivve.com",
+    "publishers_managed": 14,
+    "publishers_scored": 14,
+    "avg_false_rate": 32.1,
+    "grade": "B"
+  },
+  {
+    "manager": "webads.eu",
+    "publishers_managed": 7,
+    "publishers_scored": 5,
+    "avg_false_rate": 32.1,
+    "grade": "B"
+  },
+  {
+    "manager": "eadv.it",
+    "publishers_managed": 12,
+    "publishers_scored": 4,
+    "avg_false_rate": 32.8,
+    "grade": "B"
+  },
+  {
+    "manager": "independent.co.uk, gb",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 33.1,
+    "grade": "B"
+  },
+  {
+    "manager": "independent.co.uk, ie",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 33.1,
+    "grade": "B"
+  },
+  {
+    "manager": "rp-digital.de",
+    "publishers_managed": 10,
+    "publishers_scored": 10,
+    "avg_false_rate": 33.4,
+    "grade": "B"
+  },
+  {
+    "manager": "fueldigitalmedia.com, ca",
+    "publishers_managed": 7,
+    "publishers_scored": 7,
+    "avg_false_rate": 34.2,
+    "grade": "B"
+  },
+  {
+    "manager": "theglobeandmail.com, ca",
+    "publishers_managed": 23,
+    "publishers_scored": 20,
+    "avg_false_rate": 34.4,
+    "grade": "B"
+  },
+  {
+    "manager": "fueldigitalmedia.com",
+    "publishers_managed": 9,
+    "publishers_scored": 9,
+    "avg_false_rate": 35.5,
+    "grade": "C"
+  },
+  {
+    "manager": "gb-next.ch",
+    "publishers_managed": 5,
+    "publishers_scored": 4,
+    "avg_false_rate": 36.2,
+    "grade": "C"
+  },
+  {
+    "manager": "swissmarketplace.group",
+    "publishers_managed": 7,
+    "publishers_scored": 5,
+    "avg_false_rate": 36.5,
+    "grade": "C"
+  },
+  {
+    "manager": "presscommtech.com",
+    "publishers_managed": 8,
+    "publishers_scored": 5,
+    "avg_false_rate": 37.8,
+    "grade": "C"
+  },
+  {
+    "manager": "bcn.group",
+    "publishers_managed": 30,
+    "publishers_scored": 24,
+    "avg_false_rate": 38.6,
+    "grade": "C"
+  },
+  {
+    "manager": "leeadsadprofit.com",
+    "publishers_managed": 11,
+    "publishers_scored": 11,
+    "avg_false_rate": 38.6,
+    "grade": "C"
+  },
+  {
+    "manager": "pmc.com",
+    "publishers_managed": 30,
+    "publishers_scored": 27,
+    "avg_false_rate": 39.3,
+    "grade": "C"
+  },
+  {
+    "manager": "dorvan.it",
+    "publishers_managed": 34,
+    "publishers_scored": 34,
+    "avg_false_rate": 39.7,
+    "grade": "C"
+  },
+  {
+    "manager": "m32.media",
+    "publishers_managed": 16,
+    "publishers_scored": 15,
+    "avg_false_rate": 40.0,
+    "grade": "C"
+  },
+  {
+    "manager": "advergic.com",
+    "publishers_managed": 19,
+    "publishers_scored": 17,
+    "avg_false_rate": 40.1,
+    "grade": "C"
+  },
+  {
+    "manager": "planetsport.com",
+    "publishers_managed": 8,
+    "publishers_scored": 7,
+    "avg_false_rate": 41.5,
+    "grade": "C"
+  },
+  {
+    "manager": "clickio.com",
+    "publishers_managed": 80,
+    "publishers_scored": 76,
+    "avg_false_rate": 41.7,
+    "grade": "C"
+  },
+  {
+    "manager": "adalliance.nl",
+    "publishers_managed": 11,
+    "publishers_scored": 9,
+    "avg_false_rate": 42.2,
+    "grade": "C"
+  },
+  {
+    "manager": "mediamond.it",
+    "publishers_managed": 12,
+    "publishers_scored": 12,
+    "avg_false_rate": 43.3,
+    "grade": "C"
+  },
+  {
+    "manager": "traffective.com",
+    "publishers_managed": 67,
+    "publishers_scored": 52,
+    "avg_false_rate": 43.8,
+    "grade": "C"
+  },
+  {
+    "manager": "nitropay.com",
+    "publishers_managed": 93,
+    "publishers_scored": 81,
+    "avg_false_rate": 44.0,
+    "grade": "C"
+  },
+  {
+    "manager": "optidigital.com",
+    "publishers_managed": 40,
+    "publishers_scored": 40,
+    "avg_false_rate": 44.0,
+    "grade": "C"
+  },
+  {
+    "manager": "spacefoot.com",
+    "publishers_managed": 58,
+    "publishers_scored": 57,
+    "avg_false_rate": 44.1,
+    "grade": "C"
+  },
+  {
+    "manager": "tradehouse.media",
+    "publishers_managed": 46,
+    "publishers_scored": 36,
+    "avg_false_rate": 44.2,
+    "grade": "C"
+  },
+  {
+    "manager": "adasta.it",
+    "publishers_managed": 5,
+    "publishers_scored": 4,
+    "avg_false_rate": 44.3,
+    "grade": "C"
+  },
+  {
+    "manager": "adbridg.com",
+    "publishers_managed": 17,
+    "publishers_scored": 15,
+    "avg_false_rate": 44.7,
+    "grade": "C"
+  },
+  {
+    "manager": "bloxdigital.com",
+    "publishers_managed": 88,
+    "publishers_scored": 87,
+    "avg_false_rate": 45.5,
+    "grade": "C"
+  },
+  {
+    "manager": "mediatradecraft.com",
+    "publishers_managed": 28,
+    "publishers_scored": 27,
+    "avg_false_rate": 46.5,
+    "grade": "C"
+  },
+  {
+    "manager": "cultureg.eu",
+    "publishers_managed": 14,
+    "publishers_scored": 14,
+    "avg_false_rate": 46.8,
+    "grade": "C"
+  },
+  {
+    "manager": "onefootball.com",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 46.9,
+    "grade": "C"
+  },
+  {
+    "manager": "adcellerant.com",
+    "publishers_managed": 6,
+    "publishers_scored": 5,
+    "avg_false_rate": 47.0,
+    "grade": "C"
+  },
+  {
+    "manager": "network-n.com",
+    "publishers_managed": 17,
+    "publishers_scored": 14,
+    "avg_false_rate": 47.3,
+    "grade": "C"
+  },
+  {
+    "manager": "adtechlab.eu",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 48.1,
+    "grade": "C"
+  },
+  {
+    "manager": "yourbow.com",
+    "publishers_managed": 37,
+    "publishers_scored": 34,
+    "avg_false_rate": 48.2,
+    "grade": "C"
+  },
+  {
+    "manager": "audienzz.com",
+    "publishers_managed": 20,
+    "publishers_scored": 17,
+    "avg_false_rate": 48.2,
+    "grade": "C"
+  },
+  {
+    "manager": "playwire.com",
+    "publishers_managed": 201,
+    "publishers_scored": 198,
+    "avg_false_rate": 48.5,
+    "grade": "C"
+  },
+  {
+    "manager": "refinery89.com",
+    "publishers_managed": 149,
+    "publishers_scored": 144,
+    "avg_false_rate": 48.9,
+    "grade": "C"
+  },
+  {
+    "manager": "orangeclickmedia.com",
+    "publishers_managed": 94,
+    "publishers_scored": 86,
+    "avg_false_rate": 48.9,
+    "grade": "C"
+  },
+  {
+    "manager": "ops.co",
+    "publishers_managed": 58,
+    "publishers_scored": 56,
+    "avg_false_rate": 49.6,
+    "grade": "C"
+  },
+  {
+    "manager": "krak.dk",
+    "publishers_managed": 6,
+    "publishers_scored": 5,
+    "avg_false_rate": 49.6,
+    "grade": "C"
+  },
+  {
+    "manager": "digitalbloom.it",
+    "publishers_managed": 20,
+    "publishers_scored": 20,
+    "avg_false_rate": 49.8,
+    "grade": "C"
+  },
+  {
+    "manager": "grv.media",
+    "publishers_managed": 10,
+    "publishers_scored": 10,
+    "avg_false_rate": 50.0,
+    "grade": "C"
+  },
+  {
+    "manager": "alturaadvertising.com",
+    "publishers_managed": 12,
+    "publishers_scored": 12,
+    "avg_false_rate": 50.1,
+    "grade": "D"
+  },
+  {
+    "manager": "ask.com",
+    "publishers_managed": 16,
+    "publishers_scored": 16,
+    "avg_false_rate": 50.6,
+    "grade": "D"
+  },
+  {
+    "manager": "nsightvideo.com",
+    "publishers_managed": 64,
+    "publishers_scored": 64,
+    "avg_false_rate": 51.2,
+    "grade": "D"
+  },
+  {
+    "manager": "ascendeum.com",
+    "publishers_managed": 39,
+    "publishers_scored": 39,
+    "avg_false_rate": 51.5,
+    "grade": "D"
+  },
+  {
+    "manager": "alayans-media.com",
+    "publishers_managed": 15,
+    "publishers_scored": 14,
+    "avg_false_rate": 52.2,
+    "grade": "D"
+  },
+  {
+    "manager": "snack-media.com",
+    "publishers_managed": 57,
+    "publishers_scored": 56,
+    "avg_false_rate": 52.5,
+    "grade": "D"
+  },
+  {
+    "manager": "sevio.com",
+    "publishers_managed": 26,
+    "publishers_scored": 24,
+    "avg_false_rate": 52.9,
+    "grade": "D"
+  },
+  {
+    "manager": "digitalmatter.ai",
+    "publishers_managed": 30,
+    "publishers_scored": 25,
+    "avg_false_rate": 52.9,
+    "grade": "D"
+  },
+  {
+    "manager": "bidmachine.io",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 53.0,
+    "grade": "D"
+  },
+  {
+    "manager": "talksmedia.it",
+    "publishers_managed": 13,
+    "publishers_scored": 13,
+    "avg_false_rate": 53.1,
+    "grade": "D"
+  },
+  {
+    "manager": "infolinks.com",
+    "publishers_managed": 60,
+    "publishers_scored": 55,
+    "avg_false_rate": 53.3,
+    "grade": "D"
+  },
+  {
+    "manager": "monetumo.com",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 53.3,
+    "grade": "D"
+  },
+  {
+    "manager": "hoppex.hu",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 53.3,
+    "grade": "D"
+  },
+  {
+    "manager": "investingchannel.com",
+    "publishers_managed": 9,
+    "publishers_scored": 9,
+    "avg_false_rate": 53.6,
+    "grade": "D"
+  },
+  {
+    "manager": "smartclipspain.com",
+    "publishers_managed": 11,
+    "publishers_scored": 10,
+    "avg_false_rate": 54.0,
+    "grade": "D"
+  },
+  {
+    "manager": "idmnet.pl",
+    "publishers_managed": 11,
+    "publishers_scored": 10,
+    "avg_false_rate": 54.1,
+    "grade": "D"
+  },
+  {
+    "manager": "hcodemedia.com",
+    "publishers_managed": 23,
+    "publishers_scored": 22,
+    "avg_false_rate": 54.3,
+    "grade": "D"
+  },
+  {
+    "manager": "viewnexa.com",
+    "publishers_managed": 13,
+    "publishers_scored": 13,
+    "avg_false_rate": 54.4,
+    "grade": "D"
+  },
+  {
+    "manager": "pubmax.com",
+    "publishers_managed": 9,
+    "publishers_scored": 9,
+    "avg_false_rate": 54.6,
+    "grade": "D"
+  },
+  {
+    "manager": "pubgalaxy.com",
+    "publishers_managed": 78,
+    "publishers_scored": 73,
+    "avg_false_rate": 54.8,
+    "grade": "D"
+  },
+  {
+    "manager": "freestar.com",
+    "publishers_managed": 455,
+    "publishers_scored": 442,
+    "avg_false_rate": 55.4,
+    "grade": "D"
+  },
+  {
+    "manager": "webedia.es",
+    "publishers_managed": 11,
+    "publishers_scored": 11,
+    "avg_false_rate": 55.6,
+    "grade": "D"
+  },
+  {
+    "manager": "didna.io",
+    "publishers_managed": 15,
+    "publishers_scored": 15,
+    "avg_false_rate": 55.7,
+    "grade": "D"
+  },
+  {
+    "manager": "publir.com",
+    "publishers_managed": 15,
+    "publishers_scored": 15,
+    "avg_false_rate": 55.8,
+    "grade": "D"
+  },
+  {
+    "manager": "admaru.com",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 55.9,
+    "grade": "D"
+  },
+  {
+    "manager": "adplay.it",
+    "publishers_managed": 36,
+    "publishers_scored": 35,
+    "avg_false_rate": 56.0,
+    "grade": "D"
+  },
+  {
+    "manager": "netpoint-media.de",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 56.0,
+    "grade": "D"
+  },
+  {
+    "manager": "iqdigital.de",
+    "publishers_managed": 16,
+    "publishers_scored": 16,
+    "avg_false_rate": 56.2,
+    "grade": "D"
+  },
+  {
+    "manager": "digiadglobal.com",
+    "publishers_managed": 39,
+    "publishers_scored": 38,
+    "avg_false_rate": 56.3,
+    "grade": "D"
+  },
+  {
+    "manager": "rev.iq",
+    "publishers_managed": 56,
+    "publishers_scored": 54,
+    "avg_false_rate": 56.4,
+    "grade": "D"
+  },
+  {
+    "manager": "projectagora.com",
+    "publishers_managed": 32,
+    "publishers_scored": 30,
+    "avg_false_rate": 56.5,
+    "grade": "D"
+  },
+  {
+    "manager": "thegermanemedia.com",
+    "publishers_managed": 11,
+    "publishers_scored": 10,
+    "avg_false_rate": 56.8,
+    "grade": "D"
+  },
+  {
+    "manager": "breaktime.com.tw",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 56.8,
+    "grade": "D"
+  },
+  {
+    "manager": "snigelweb.com",
+    "publishers_managed": 98,
+    "publishers_scored": 85,
+    "avg_false_rate": 56.9,
+    "grade": "D"
+  },
+  {
+    "manager": "ezoic.ai",
+    "publishers_managed": 267,
+    "publishers_scored": 193,
+    "avg_false_rate": 56.9,
+    "grade": "D"
+  },
+  {
+    "manager": "adingo.jp",
+    "publishers_managed": 13,
+    "publishers_scored": 13,
+    "avg_false_rate": 56.9,
+    "grade": "D"
+  },
+  {
+    "manager": "phaistosnetworks.gr",
+    "publishers_managed": 17,
+    "publishers_scored": 15,
+    "avg_false_rate": 57.1,
+    "grade": "D"
+  },
+  {
+    "manager": "1xl.co.uk",
+    "publishers_managed": 58,
+    "publishers_scored": 57,
+    "avg_false_rate": 57.2,
+    "grade": "D"
+  },
+  {
+    "manager": "mediafuse.com",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 57.2,
+    "grade": "D"
+  },
+  {
+    "manager": "evolutionadv.it",
+    "publishers_managed": 48,
+    "publishers_scored": 48,
+    "avg_false_rate": 57.4,
+    "grade": "D"
+  },
+  {
+    "manager": "vidcrunch.com",
+    "publishers_managed": 40,
+    "publishers_scored": 38,
+    "avg_false_rate": 57.7,
+    "grade": "D"
+  },
+  {
+    "manager": "hbagency.it",
+    "publishers_managed": 48,
+    "publishers_scored": 47,
+    "avg_false_rate": 57.9,
+    "grade": "D"
+  },
+  {
+    "manager": "monetizemore.com",
+    "publishers_managed": 35,
+    "publishers_scored": 33,
+    "avg_false_rate": 57.9,
+    "grade": "D"
+  },
+  {
+    "manager": "props.id",
+    "publishers_managed": 27,
+    "publishers_scored": 26,
+    "avg_false_rate": 57.9,
+    "grade": "D"
+  },
+  {
+    "manager": "empower.net",
+    "publishers_managed": 57,
+    "publishers_scored": 57,
+    "avg_false_rate": 58.7,
+    "grade": "D"
+  },
+  {
+    "manager": "sportnetwork.it",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 58.7,
+    "grade": "D"
+  },
+  {
+    "manager": "monumetric.com",
+    "publishers_managed": 26,
+    "publishers_scored": 17,
+    "avg_false_rate": 58.8,
+    "grade": "D"
+  },
+  {
+    "manager": "hcodemedia.com, us",
+    "publishers_managed": 50,
+    "publishers_scored": 50,
+    "avg_false_rate": 58.9,
+    "grade": "D"
+  },
+  {
+    "manager": "tapmind.com",
+    "publishers_managed": 22,
+    "publishers_scored": 22,
+    "avg_false_rate": 59.3,
+    "grade": "D"
+  },
+  {
+    "manager": "thematicdigital.ro",
+    "publishers_managed": 14,
+    "publishers_scored": 14,
+    "avg_false_rate": 59.8,
+    "grade": "D"
+  },
+  {
+    "manager": "carliba.io",
+    "publishers_managed": 47,
+    "publishers_scored": 43,
+    "avg_false_rate": 60.0,
+    "grade": "D"
+  },
+  {
+    "manager": "exmarketplace.com",
+    "publishers_managed": 15,
+    "publishers_scored": 15,
+    "avg_false_rate": 60.0,
+    "grade": "F"
+  },
+  {
+    "manager": "adapex.io",
+    "publishers_managed": 46,
+    "publishers_scored": 46,
+    "avg_false_rate": 60.1,
+    "grade": "F"
+  },
+  {
+    "manager": "setupad.com",
+    "publishers_managed": 113,
+    "publishers_scored": 112,
+    "avg_false_rate": 60.2,
+    "grade": "F"
+  },
+  {
+    "manager": "massarius.com",
+    "publishers_managed": 9,
+    "publishers_scored": 9,
+    "avg_false_rate": 60.4,
+    "grade": "F"
+  },
+  {
+    "manager": "vuukle.com",
+    "publishers_managed": 31,
+    "publishers_scored": 31,
+    "avg_false_rate": 60.5,
+    "grade": "F"
+  },
+  {
+    "manager": "hitopic.fr",
+    "publishers_managed": 16,
+    "publishers_scored": 16,
+    "avg_false_rate": 60.7,
+    "grade": "F"
+  },
+  {
+    "manager": "copper6.com",
+    "publishers_managed": 64,
+    "publishers_scored": 60,
+    "avg_false_rate": 60.7,
+    "grade": "F"
+  },
+  {
+    "manager": "nobid.io",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 60.7,
+    "grade": "F"
+  },
+  {
+    "manager": "adeqmedia.com",
+    "publishers_managed": 15,
+    "publishers_scored": 15,
+    "avg_false_rate": 61.1,
+    "grade": "F"
+  },
+  {
+    "manager": "pixfuture.com",
+    "publishers_managed": 46,
+    "publishers_scored": 46,
+    "avg_false_rate": 61.2,
+    "grade": "F"
+  },
+  {
+    "manager": "cleanmedia.net",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 61.2,
+    "grade": "F"
+  },
+  {
+    "manager": "fourm.jp",
+    "publishers_managed": 129,
+    "publishers_scored": 128,
+    "avg_false_rate": 61.2,
+    "grade": "F"
+  },
+  {
+    "manager": "waytogrow.eu",
+    "publishers_managed": 31,
+    "publishers_scored": 30,
+    "avg_false_rate": 61.2,
+    "grade": "F"
+  },
+  {
+    "manager": "projectadv.it",
+    "publishers_managed": 10,
+    "publishers_scored": 10,
+    "avg_false_rate": 61.4,
+    "grade": "F"
+  },
+  {
+    "manager": "nextmillennium.io",
+    "publishers_managed": 40,
+    "publishers_scored": 35,
+    "avg_false_rate": 61.5,
+    "grade": "F"
+  },
+  {
+    "manager": "yieldmonk.com",
+    "publishers_managed": 92,
+    "publishers_scored": 92,
+    "avg_false_rate": 61.7,
+    "grade": "F"
+  },
+  {
+    "manager": "adipolo.com",
+    "publishers_managed": 9,
+    "publishers_scored": 8,
+    "avg_false_rate": 61.7,
+    "grade": "F"
+  },
+  {
+    "manager": "adverge.ai",
+    "publishers_managed": 7,
+    "publishers_scored": 7,
+    "avg_false_rate": 61.7,
+    "grade": "F"
+  },
+  {
+    "manager": "premiumads.com.br",
+    "publishers_managed": 41,
+    "publishers_scored": 39,
+    "avg_false_rate": 61.8,
+    "grade": "F"
+  },
+  {
+    "manager": "ad-alliance.de",
+    "publishers_managed": 20,
+    "publishers_scored": 20,
+    "avg_false_rate": 61.8,
+    "grade": "F"
+  },
+  {
+    "manager": "anymanager.io",
+    "publishers_managed": 220,
+    "publishers_scored": 217,
+    "avg_false_rate": 62.1,
+    "grade": "F"
+  },
+  {
+    "manager": "thinkdigital.net",
+    "publishers_managed": 8,
+    "publishers_scored": 8,
+    "avg_false_rate": 62.2,
+    "grade": "F"
+  },
+  {
+    "manager": "pubpower.io",
+    "publishers_managed": 66,
+    "publishers_scored": 65,
+    "avg_false_rate": 62.4,
+    "grade": "F"
+  },
+  {
+    "manager": "streamlyn.com",
+    "publishers_managed": 34,
+    "publishers_scored": 34,
+    "avg_false_rate": 62.4,
+    "grade": "F"
+  },
+  {
+    "manager": "airfind.com",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 62.6,
+    "grade": "F"
+  },
+  {
+    "manager": "journeymv.com",
+    "publishers_managed": 17,
+    "publishers_scored": 17,
+    "avg_false_rate": 62.8,
+    "grade": "F"
+  },
+  {
+    "manager": "alright.com.br",
+    "publishers_managed": 28,
+    "publishers_scored": 28,
+    "avg_false_rate": 62.9,
+    "grade": "F"
+  },
+  {
+    "manager": "revbid.net",
+    "publishers_managed": 31,
+    "publishers_scored": 31,
+    "avg_false_rate": 63.0,
+    "grade": "F"
+  },
+  {
+    "manager": "valuad.io",
+    "publishers_managed": 13,
+    "publishers_scored": 13,
+    "avg_false_rate": 63.0,
+    "grade": "F"
+  },
+  {
+    "manager": "bidmatic.io",
+    "publishers_managed": 8,
+    "publishers_scored": 7,
+    "avg_false_rate": 63.3,
+    "grade": "F"
+  },
+  {
+    "manager": "profitsence.com",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 63.6,
+    "grade": "F"
+  },
+  {
+    "manager": "admetricspro.com",
+    "publishers_managed": 18,
+    "publishers_scored": 17,
+    "avg_false_rate": 63.8,
+    "grade": "F"
+  },
+  {
+    "manager": "lookverin.com",
+    "publishers_managed": 15,
+    "publishers_scored": 14,
+    "avg_false_rate": 63.9,
+    "grade": "F"
+  },
+  {
+    "manager": "genieesspv.jp",
+    "publishers_managed": 5,
+    "publishers_scored": 5,
+    "avg_false_rate": 64.0,
+    "grade": "F"
+  },
+  {
+    "manager": "contentignite.com",
+    "publishers_managed": 19,
+    "publishers_scored": 16,
+    "avg_false_rate": 64.7,
+    "grade": "F"
+  },
+  {
+    "manager": "aditude.io",
+    "publishers_managed": 53,
+    "publishers_scored": 51,
+    "avg_false_rate": 64.9,
+    "grade": "F"
+  },
+  {
+    "manager": "movingup.it",
+    "publishers_managed": 14,
+    "publishers_scored": 14,
+    "avg_false_rate": 64.9,
+    "grade": "F"
+  },
+  {
+    "manager": "semseoymas.com",
+    "publishers_managed": 35,
+    "publishers_scored": 35,
+    "avg_false_rate": 65.0,
+    "grade": "F"
+  },
+  {
+    "manager": "newdreamglobal.com",
+    "publishers_managed": 5,
+    "publishers_scored": 4,
+    "avg_false_rate": 65.0,
+    "grade": "F"
+  },
+  {
+    "manager": "symplr.de",
+    "publishers_managed": 50,
+    "publishers_scored": 47,
+    "avg_false_rate": 65.1,
+    "grade": "F"
+  },
+  {
+    "manager": "advally.com",
+    "publishers_managed": 9,
+    "publishers_scored": 9,
+    "avg_false_rate": 65.4,
+    "grade": "F"
+  },
+  {
+    "manager": "adpushup.com",
+    "publishers_managed": 213,
+    "publishers_scored": 206,
+    "avg_false_rate": 65.5,
+    "grade": "F"
+  },
+  {
+    "manager": "pubfuture.com",
+    "publishers_managed": 114,
+    "publishers_scored": 114,
+    "avg_false_rate": 66.1,
+    "grade": "F"
+  },
+  {
+    "manager": "themoneytizer.com",
+    "publishers_managed": 429,
+    "publishers_scored": 423,
+    "avg_false_rate": 66.2,
+    "grade": "F"
+  },
+  {
+    "manager": "venatus.com",
+    "publishers_managed": 98,
+    "publishers_scored": 98,
+    "avg_false_rate": 66.8,
+    "grade": "F"
+  },
+  {
+    "manager": "pubrev.io",
+    "publishers_managed": 64,
+    "publishers_scored": 63,
+    "avg_false_rate": 67.0,
+    "grade": "F"
+  },
+  {
+    "manager": "luponmedia.com",
+    "publishers_managed": 86,
+    "publishers_scored": 86,
+    "avg_false_rate": 67.3,
+    "grade": "F"
+  },
+  {
+    "manager": "buysellads.com",
+    "publishers_managed": 73,
+    "publishers_scored": 71,
+    "avg_false_rate": 67.3,
+    "grade": "F"
+  },
+  {
+    "manager": "automatad.com",
+    "publishers_managed": 11,
+    "publishers_scored": 10,
+    "avg_false_rate": 67.6,
+    "grade": "F"
+  },
+  {
+    "manager": "waardex.com, us",
+    "publishers_managed": 66,
+    "publishers_scored": 66,
+    "avg_false_rate": 67.7,
+    "grade": "F"
+  },
+  {
+    "manager": "iprom.net",
+    "publishers_managed": 11,
+    "publishers_scored": 11,
+    "avg_false_rate": 68.0,
+    "grade": "F"
+  },
+  {
+    "manager": "adinplay.com",
+    "publishers_managed": 42,
+    "publishers_scored": 39,
+    "avg_false_rate": 68.7,
+    "grade": "F"
+  },
+  {
+    "manager": "organic.ly",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 69.2,
+    "grade": "F"
+  },
+  {
+    "manager": "publift.com",
+    "publishers_managed": 291,
+    "publishers_scored": 290,
+    "avg_false_rate": 69.5,
+    "grade": "F"
+  },
+  {
+    "manager": "newormedia.com",
+    "publishers_managed": 6,
+    "publishers_scored": 6,
+    "avg_false_rate": 69.5,
+    "grade": "F"
+  },
+  {
+    "manager": "pubnation.com",
+    "publishers_managed": 73,
+    "publishers_scored": 72,
+    "avg_false_rate": 70.4,
+    "grade": "F"
+  },
+  {
+    "manager": "genieegroup.com",
+    "publishers_managed": 12,
+    "publishers_scored": 12,
+    "avg_false_rate": 71.0,
+    "grade": "F"
+  },
+  {
+    "manager": "adnimation.com",
+    "publishers_managed": 61,
+    "publishers_scored": 60,
+    "avg_false_rate": 71.1,
+    "grade": "F"
+  },
+  {
+    "manager": "saturndynamic.pt",
+    "publishers_managed": 55,
+    "publishers_scored": 49,
+    "avg_false_rate": 71.6,
+    "grade": "F"
+  },
+  {
+    "manager": "netpub.media",
+    "publishers_managed": 21,
+    "publishers_scored": 19,
+    "avg_false_rate": 71.8,
+    "grade": "F"
+  },
+  {
+    "manager": "longitudeads.com",
+    "publishers_managed": 31,
+    "publishers_scored": 28,
+    "avg_false_rate": 76.7,
+    "grade": "F"
+  },
+  {
+    "manager": "oraki.io",
+    "publishers_managed": 14,
+    "publishers_scored": 12,
+    "avg_false_rate": 81.4,
+    "grade": "F"
+  }
+]

@@ -1,0 +1,6 @@
+=== DEPLOYMENT GAP ===
+Date: Tue Mar 24 11:55:19 JST 2026
+Local: 84 SSP (correct)
+Remote: commits present (262f6ec)
+GitHub Pages: shows 237 SSP (stale)
+Action needed: Check GitHub Pages deployment status
