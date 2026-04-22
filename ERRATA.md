@@ -122,3 +122,42 @@ Discovered betweendigital.com sellers.json (461 sellers). Cross-referenced again
 - SSPs with registries: 84
 
 **Note (March 24):** The distributed `false_direct_claims_final.jsonl` was generated before the Lijit/Betweendigital integrations. Its actual counts are CONTRADICTED: 493,749 + PHANTOM: 429,988 = 923,737 (52.5%). The headline "55%" reflects the final totals above (54.8%); the JSONL needs regeneration to match.
+
+## Errata from continued investigation, April 22, 2026
+
+### E-2026-04-22-a: "Clean German B2B cohort of 15 independent publishers" was wrong
+
+Prior internal analysis (parent repo R162) characterized 14-15 publishers at 0% false rate as "a cohort of German B2B trade imprints — existence proof of scalable operational hygiene." Subsequent Wayback check found that haufe.de, lto.de, and springerprofessional.de have byte-identical 2,027-line 88,138-byte ads.txt files on 2026-04-04/06. They are one shared template distributed across brand endpoints of a few publishing conglomerates (Haufe Group, Springer Nature, Wolters Kluwer), not independent operational examples. The underlying "0% false" data remains accurate; the framing of the cohort as 15 independent instances was incorrect.
+
+### E-2026-04-22-b: Registry count double-counts firms via brand aliases
+
+"SSP registries: 710" (this file, above) and subsequent scale-ups to 1,124 loaded registries double-count shell aliases. At the firm level, consolidation is material:
+
+- Digital Turbine (NASDAQ: APPS) = Fyber + AdColony + DigitalTurbine (6 registry aliases, shared contact `info@fyber.com`)
+- Liftoff + Vungle (4 aliases after merger)
+- Magnite = Rubicon + Tremorhub
+- Sovrn = Lijit + Lijit_com
+- Criteo = TheMediaGrid + Commerce Grid (3 aliases)
+- Insticator = OKO (oko.uk, identical contact `revops@insticator.com` at Miami address)
+- AnyManager = Fourm (Singapore, shared `partner@adasiaholdings.com`)
+
+Approximately 30-40 registry entries collapse to 10-15 distinct firms. The firm-level concentration of the ecosystem is higher than file-level registry count suggests.
+
+### E-2026-04-22-c: Some registries are operationally broken at the serialization level
+
+12,422 (SSP, seller_id) pairs across loaded registries have MULTIPLE DIFFERENT owner domains within the SAME SSP's sellers.json — a direct violation of the sellers.json spec's per-SSP uniqueness requirement. Top offenders:
+
+- globalsun.io seller_id 526 lists 10,165 different owner domains
+- bigo.sg seller_id 1112518: 2,404 different domains
+- didna.io seller_id 494n1p17243a: 1,730
+- fatchillimedia.com seller_id 22513247416: 1,122
+
+These registries are publishing non-functional data at the spec level. A file-load count of "1,124 SSPs with registries" should be understood as including registries that do not satisfy spec-level integrity.
+
+### E-2026-04-22-d: Adagio is a hidden template authorship layer
+
+Venatus's template (`adstxt.venatusmedia.com/master_ads.txt`) carries inline `# Adagio_0_6` annotations on every line. Adagio (adagio.io, 450 Rue Baden Powell, 34000 Montpellier, France) is the template author; Venatus is a distribution endpoint. 882 publishers across the dataset carry the `# Adagio` marker; 820 of those (93%) declare no managerdomain at all. The nine "named primary injectors" previously identified are a layer of *seller accounts*; Adagio is a layer above, the *template author* whose pipeline embeds those accounts.
+
+### E-2026-04-22-e: The "decorative disclosure" reframe
+
+A 9-year stable 57% false rate across two specification revisions (ads.txt 1.0→1.1, sellers.json) and three named enforcement regimes (FTC Section 5, EU DSA, DOJ antitrust) is not consistent with a functioning disclosure instrument. A 2026-04-22 test of 1,053 correcting publishers vs 3,031 retainers found correctors are *larger* publishers with *more* SSPs and *growing* files — correction correlates with template-heaviness (routine wrapper housekeeping), not hygiene-pursuit. Correction has no structural cost. The disclosure layer does not bind. This does not invalidate the prior headline numbers; it reframes what they describe — accountability-diffusion, not failed transparency.
