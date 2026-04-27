@@ -161,3 +161,170 @@ Venatus's template (`adstxt.venatusmedia.com/master_ads.txt`) carries inline `# 
 ### E-2026-04-22-e: The "decorative disclosure" reframe
 
 A 9-year stable 57% false rate across two specification revisions (ads.txt 1.0→1.1, sellers.json) and three named enforcement regimes (FTC Section 5, EU DSA, DOJ antitrust) is not consistent with a functioning disclosure instrument. A 2026-04-22 test of 1,053 correcting publishers vs 3,031 retainers found correctors are *larger* publishers with *more* SSPs and *growing* files — correction correlates with template-heaviness (routine wrapper housekeeping), not hygiene-pursuit. Correction has no structural cost. The disclosure layer does not bind. This does not invalidate the prior headline numbers; it reframes what they describe — accountability-diffusion, not failed transparency.
+
+## Errata from continued investigation, April 27, 2026
+
+### E-2026-04-27-a: Headline DIRECT-false rate has drifted upward to 61.1%
+
+The 57.1% headline (March 2026 corpus) is an undercount at the 2026-04-27 snapshot. Recomputed against `tmp/adstxt_derived.db`:
+
+| Bucket | DIRECT claims | Phantom (in_registry=0) | Contradicted (rel=DIRECT, registry=INTERMEDIARY) | False total | False % |
+|---|---:|---:|---:|---:|---:|
+| Verifiable SSPs | 6,329,022 | 2,000,507 | 1,867,618 | 3,868,125 | **61.1%** |
+| Structurally-unverifiable (13 SSPs, see E-2026-04-27-b) | 231,545 | 230,474 | 147 | 230,621 | 99.6% |
+| Combined | 6,560,567 | 2,230,981 | 1,867,765 | 4,098,746 | 62.5% |
+
+The 61.1% verifiable-bucket rate is the rate the rest of the paper should now cite as headline; the 62.5% all-claims rate is inflated by structural-unverifiable artifact (next entry).
+
+### E-2026-04-27-b: Thirteen SSPs are structurally unverifiable; their 99.6% phantom rate is registry-resolution artifact, not deception
+
+Tested by following each SSP's `/sellers.json` redirect chain from a clean proxy. The following SSPs do not serve a verifiable sellers.json at the canonical URL:
+
+| SSP | Behavior | Resolution |
+|---|---|---|
+| criteo.com | 301 → themediagrid.com (Commerce Grid registry, 1,819 sellers, contact `commerce-grid@criteo.com`) | Different product registry; Criteo Classic retargeting publishes no public sellers.json |
+| advertising.com | 301 → contango-cdn.technoratimedia.com | Yahoo successor; third-party CDN |
+| adcolony.com | 308 → digitalturbine.com | Acquired entity registry |
+| adtech.com | 301 → oneadserver.aol.com/ (no sellers.json) | Successor with no published registry |
+| aol.com | 301 → www.aol.com (then 429 rate-limited) | Inaccessible programmatically |
+| tidaltv.com | 404 | Defunct |
+| bloxdigital.com | 301 → www, then 429 | Rate-limited |
+| mediago.io | 301 → mediago.com | www redirect (works) |
+| mobfox.com | 301 → www.mobfox.com | www redirect |
+| engagebdr.com, yandex.com, gamoshi.io, vdopia.com | various failures | Inaccessible |
+
+These 13 SSPs collectively contribute 9.2% of total phantom volume (790,510 of 8,564,594) but only 3.5% of DIRECT claims (231,545 of 6,560,567). The 99.6% phantom rate they exhibit is not a fraud signal; it is a structural failure of registry publication. Excluding them lowers the headline DIRECT-false rate by ~1.4 percentage points (62.5% → 61.1%).
+
+**Special case — Criteo.** Criteo (CRTO, FY2025 10-K revenue $1.681B, the second-largest pure-play ad-tech company by revenue and the largest non-Google entity in the dataset) does not publish a public sellers.json for its core retargeting product. The criteo.com/sellers.json URL has been a 301 redirect to themediagrid.com (Commerce Grid, a separate Criteo product) since at least 2021-07-27 per Wayback Machine. None of static.criteo.com, exchange.criteo.com, gum.criteo.com, bidder.criteo.com, www.criteo.net, criteo.net serves a Criteo Classic sellers.json. The "criteo.com 99.9% phantom" pattern reflects Criteo's IAB-framework non-participation by the SSP, not deception by the publishers — those publisher claims (in `B-NNNNNN` Criteo Classic seller-id format) may correspond to genuine relationships that the framework simply cannot verify. This is a different finding than template-injection deception; it is a public-registry-publication failure by a publicly-traded SSP that just converted to domestic-registrant 10-K filing in early 2026.
+
+### E-2026-04-27-c: SEC 10-K disclosure silence on the IAB framework
+
+Direct examination of seven major public ad-tech companies' FY2025 10-K filings on EDGAR (verified by tag-strip-then-regex search of the filed `tbla-20251231.htm`, `crto-20251231.htm`, `tead-20251231.htm`, `ramp-20250331.htm`, plus the previously retrieved TTD/MGNI/PUBM filings) returns:
+
+| Company | "ads.txt" hits | "sellers.json" hits | "IAB Tech Lab" hits | Filing date |
+|---|---:|---:|---:|---|
+| Trade Desk (TTD) | 0 | 0 | 0 | 2026-02-27 |
+| Criteo (CRTO) | 0 | 0 | 0 | 2026-02-26 (first 10-K, ex 20-F) |
+| Magnite (MGNI) | 0 | 0 | 0 | FY2025 |
+| PubMatic (PUBM) | 0 | 0 | 2 (TCF/GPP only) | FY2025 |
+| Taboola (TBLA) | 0 | 0 | 0 | 2026-02-25 (first 10-K, ex 20-F) |
+| Outbrain → Teads (TEAD) | 0 | 0 | 0 | 2026-03-16 |
+| LiveRamp (RAMP) | 0 | 0 | 0 | FY2025 (FY ends Mar 31) |
+| **Total across 7 filings** | **0** | **0** | **2** (PubMatic only, TCF context) | |
+
+The IAB Tech Lab authorization framework — the basis for every claim in this paper — is not mentioned in the primary regulatory disclosures of the companies whose registries the framework depends on. PubMatic's two IAB Tech Lab mentions are exclusively about TCF (consent) and GPP (privacy), never about the authorization framework. See `memory/sec_disclosure_silence_20260427.md` for the search method and verification. The implication for the §3.4 enumeration of regulatory regimes is added directly in §3.4 #2 (Rule 10b-5).
+
+### E-2026-04-27-d: Three named primary template-injection operators surface at industrial scale via in-registry seller_ids reused across thousands of publishers
+
+A query of `adstxt_triples` for in-registry seller_ids appearing across more than 100 distinct publisher domains, grouped by the registry-disclosed `reg_domain`, surfaces three Madrid-based contextual ad-tech operators as the dominant operators of the schain-spec-violating shared seller_id pattern:
+
+- **Seedtag Advertising SL** — 22+ SSPs hold a Seedtag seller_id; total 199,016 claims across 15,432 unique publisher domains; 56,825 (28.6%) of those claims are CONTRADICTED. Top per-SSP reach: xandr.com 4009 (14,500 publishers), rubiconproject.com 17280 (14,146), smartadserver.com 3050 (14,084), pubmatic.com 157743 (13,662), lijit.com 397546 (10,432), openx.com 558758631 (10,316), onetag.com (9,976), adform.com 1889 (9,558), adyoulike.com (9,243), improvedigital.com 1680 (8,940), loopme.com 11712 (8,802), sharethrough.com AXS5NfBr (8,356), 33across.com (5,945), richaudience.com ns9qrKJLKD (5,734), beachfront.com 15250 (4,443), sovrn.com 397546 (3,276), spotx.tv 249286 (2,212).
+- **Rich Audience Technologies SL** — separately reaches 17,803 publishers via rubiconproject.com 13510, 17,673 via appnexus.com 8233, 17,131 via pubmatic.com 81564, 16,262 via pubmatic.com 156538 (a *second* PubMatic seller_id for the same operator — itself a separate IAB-spec concern), 14,115 via adform.com 1942, and 9,956 via google.com pub-4673227357197067 (Google AdSense).
+- **SunMedia** (related Spanish entity) — reaches 11,551 via smartadserver.com 1999, 7,834 via triplelift.com 8683, plus PubMatic, OneTag, AppNexus, Rubicon equivalents in the 7-9K range each.
+
+These results extend §1¶3 of the paper: the named primary injectors identified in March 2026 are confirmed at the April 2026 snapshot, and the proposition that they are "named, addressed, connected operators" (rather than opaque entities) is reinforced. Seedtag's publisher network includes premium properties (theatlantic.com, heraldtribune.com, kold.com), refuting any framing that the operator is restricted to low-tier or piracy inventory. See `memory/seedtag_richaudience_template_operators_20260427.md` for full enumeration.
+
+### E-2026-04-27-e: TAG-IDs at the publisher-side concentration top are SSP certificate IDs, not unknown entities
+
+A hypothesis tested 2026-04-27: that the publisher-side concentration top of TAG-IDs (TAG certified IDs found in publisher ads.txt) might surface unidentified high-reach brokers exceeding the named operators. Falsified. The top six unfamiliar TAG-IDs each map to existing major SSPs:
+
+- 0bfd66d529a55807 → Rubicon (Magnite), 1,799,309 lines
+- 5d62403b186f2ace → PubMatic, 2,252,776 lines
+- 6a698e2ec38604c6 → OpenX, 1,145,208 lines
+- f5ab79cb980f11d1 → AppNexus / Xandr, 1,192,191 lines
+- 50b1c356f2c5c8fc → Index Exchange, 588,533 lines
+- 89ff185a4c4e857c → ContextWeb / PulsePoint, 433,770 lines
+- f08c47fec0942fa0 → Google, 1,457,695 lines
+
+The TAG-IDs at the concentration top are the major SSPs' own certificate IDs. The previously-named operators (Seedtag, Rich Audience, SunMedia, Adagio, etc.) remain the named-injector layer above the SSP layer.
+
+### E-2026-04-27-f: Foreign-issuer to domestic-registrant status conversion (Criteo, Taboola)
+
+Both Criteo S.A. (French registrant, CIK 0001576427, last 20-F filed 2015) and Taboola.com Ltd. (Israeli registrant, CIK 0001840502, last 20-F filed 2022) converted from 20-F to 10-K filing status in early 2026. Criteo's first 10-K filed 2026-02-26 (CIK 0001576427, accession 0001576427-26-000014). Taboola's first 10-K filed 2026-02-25 (CIK 0001840502, accession 0001840502-26-000004). Operationally, the conversion adds: quarterly 10-Q reporting (vs annual 20-F + voluntary 6-K interim), real-time 8-K material-event filings (vs 6-K furnished, lower disclosure standard), §402 executive compensation tables, SOX §404(b) auditor-attested ICFR, SOX §302/§906 CEO/CFO certifications with personal certification liability, Reg FD selective-disclosure prohibition, §14(a) proxy rules, §16 insider-trade reporting (Forms 3/4/5). The increased disclosure burden compounds with the framework-silence finding (E-2026-04-27-c) and the disclosure-integrity question (§3.4 #2).
+
+### E-2026-04-27-g: Outbrain → Teads merger; CIK 1454938 reassigned
+
+CIK 1454938 ("Outbrain Inc") was reassigned to "Teads Holding Co" with the closing of the Teads acquisition in 2025. Acquisition consideration ~$900M ($625M cash + stock). Ticker reassigned OB → TEAD. Combined entity FY2025 revenue $1.300B (10-K filed 2026-03-16); the 10-K describes the post-merger entity as "one of the largest Open Internet advertising platforms, with over $1.4 billion" (run-rate). All references in this paper to "Outbrain" should be read as referring to the pre-merger entity now operating as Teads Holding Co.
+
+### E-2026-04-27-i: Wayback confirms 62+ month INTERMEDIARY classification on rubiconproject.com seller_ids 17280, 13510, 17960, 22328, 22884
+
+A direct Wayback Machine fetch of `web.archive.org/web/20210301000000/https://rubiconproject.com/sellers.json` (snapshot of 2021-02-11, cdx URL `https://web.archive.org/cdx/search/cdx?url=rubiconproject.com/sellers.json`) confirms that the seller_ids at the heart of the named-injector finding were classified INTERMEDIARY by Rubicon at least as far back as that snapshot:
+
+| seller_id | name | domain | seller_type | months continuously INTERMEDIARY |
+|---|---|---|---|---:|
+| 17280 | Seedtag Advertising SL | seedtag.com | INTERMEDIARY | 62+ |
+| 13510 | Pubnet Publicidad Y Marketing, SL | richaudience.com | INTERMEDIARY | 62+ |
+| 17960 | Sovrn Inc. | sovrnservices.com | INTERMEDIARY | 62+ |
+| 22328 | VLN Servicios Publicitarios Integrales, S.L. | sunmedia.tv | INTERMEDIARY | 62+ |
+| 22884 | Google | google.com | INTERMEDIARY | 62+ |
+
+PAPER §1¶4 claims "62+ months of unambiguous public classification" for seller_id 17280; the 2021-02-11 snapshot is the front edge of that exact window (2021-02-11 → 2026-04-27 = 62 months 16 days). Verified.
+
+The same Wayback exercise also surfaces the corporate identities behind two of the brand-domain operators previously named only by domain:
+
+- **Rich Audience** is operated by **Pubnet Publicidad Y Marketing SL** (Spanish *sociedad limitada*).
+- **SunMedia** is operated by **VLN Servicios Publicitarios Integrales SL** (Spanish *sociedad limitada*).
+
+Regulatory action would address the SL by its registered corporate name; the Spanish DPA (AEPD) is the relevant authority for both. The brand-to-corporate mapping is now documented in `memory/seedtag_richaudience_corporate_idents_20260427.md`.
+
+### E-2026-04-27-j: SmartAdServer is now operating under the Equativ brand
+
+The current `smartadserver.com/sellers.json` registry (cached 2026-04-26) lists `quality-team@equativ.com` as the contact email and contains 2,604 sellers. SmartAdServer was acquired by / merged with Equativ SAS (France) in 2023; the brand has converged on Equativ for marketing and corporate purposes, while the technical sellers.json domain remains smartadserver.com because publisher ads.txt files reference the historical domain. Live registry verification at 2026-04-26 confirms:
+
+- `1097` Themoneytizer (themoneytizer.com): INTERMEDIARY ✓ (smoking-gun line stays valid)
+- `3050` Seedtag (seedtag.com): BOTH ✓
+- `2640` Rich Audience International (richaudience.com): BOTH ✓
+- `1999` Sun Media (sunmedia.tv): INTERMEDIARY ✓
+- `4071, 4012, 4073, 4074`: NOT IN REGISTRY ✓ (CAS SDK Template C remains phantom)
+
+The corporate-name → SEC-entity table for the named operators in the FTC complaint:
+
+| Brand (in our data) | Corporate / SEC entity | Country | Form |
+|---|---|---|---|
+| SmartAdServer | Equativ SAS | France | SAS |
+| Seedtag | Seedtag Advertising SL | Spain | SL |
+| Rich Audience | Pubnet Publicidad Y Marketing SL | Spain | SL |
+| SunMedia | VLN Servicios Publicitarios Integrales SL | Spain | SL |
+| Themoneytizer | Themoneytizer SA | France | SA |
+
+### E-2026-04-27-k: Adagio's own ads.txt is honest; the DIRECT injection is added downstream
+
+Live fetch (2026-04-27) of `https://adagio.io/ads.txt` shows that the Adagio template's first 9 lines are all RESELLER:
+
+```
+OWNERDOMAIN="adagio.io"
+# -- begin Adagio
+# adagio.io, 1002, DIRECT          ← DIRECT line is COMMENTED OUT
+adform.com, 3354, RESELLER, 9f5210a2f0999e32
+rubiconproject.com, 19116, RESELLER, 0bfd66d529a55807
+pubmatic.com, 159110, RESELLER, 5d62403b186f2ace
+improvedigital.com, 1790, RESELLER
+onetag.com, 6b859b96c564fbe, RESELLER
+indexexchange.com, 194558, RESELLER
+pubwise.io, 68867843, RESELLER, c327c91a93a7cdd3
+# -- end Adagio
+```
+
+The single Adagio DIRECT line for adagio.io's own seller_id 1002 is COMMENTED OUT. All other Adagio-block lines are explicitly RESELLER.
+
+Yet ERRATA E-2026-04-22-d found 882 publishers carrying `# Adagio_0_6` markers AND `rubicon/17280 DIRECT` (which is a Seedtag line, not Adagio's). This refines the earlier framing: Adagio is not the source of the DIRECT injection. The DIRECT lines are added by a layer further upstream (or downstream, depending on perspective): the publisher-side aggregator that bundles Adagio's RESELLER block together with Seedtag/Rich Audience DIRECT lines into a single rendered ads.txt.
+
+The §3 narrative in PAPER about Adagio as "template author whose pipeline embeds those accounts" is too strong. Adagio's pipeline embeds RESELLER lines; the DIRECT lines are added by *another* aggregator that uses Adagio's block as one section of a larger composed file. The 882-publisher cohort is composing Adagio + Seedtag templates side by side. The DIRECT misdesignation is not Adagio's fault directly; it is the cohort-builder's fault. Adagio's seller_ids on those publishers (per H30 query: 17,195 publishers / 9,947 contradicted DIRECT claims) are also subject to the same composition pattern — those CONTRADICTED DIRECTs for adagio.io seller_ids are NOT what Adagio's own template publishes; they are the result of a different pipeline relabeling the lines.
+
+The implication for the FTC complaint: Adagio is a template *author* whose own template is honest. The template-author layer is not unitary; some authors are clean, some are not. The misdesignation arrives via composition by aggregators downstream of the template author. Naming Adagio in the same sentence as Seedtag would confuse two distinct roles.
+
+### E-2026-04-27-h: FY2025 10-K revenue refresh (March 2026 figures had drifted)
+
+Verified FY2025 revenue from EDGAR-filed 10-Ks (numbers updated in `tools/company_financials.json`):
+
+| Company | March 2026 estimate | FY2025 10-K | Δ |
+|---|---:|---:|---:|
+| Trade Desk (TTD) | $2.4B | $2.896B | +21% |
+| Magnite (MGNI) | $620M | $714M | +15% |
+| PubMatic (PUBM) | $290M | $283M | −2% |
+| Criteo (CRTO) | $2.1B | $1.681B | −20% (different basis; FY2025 revenue is reported figure, ex-TAC is $1.175B) |
+| LiveRamp (RAMP) | $590M | $745.6M | +26% |
+| Taboola (TBLA) | $1.7B | $1.912B | +12% |
+| Outbrain → Teads (TEAD) | $950M | $1.300B | +37% (post-merger) |
+
+The Taboola figure cited in this paper's §1¶5 is updated to $1.91B in this errata; the body text carries the original $1.7B value pinned to the March 2026 corpus.

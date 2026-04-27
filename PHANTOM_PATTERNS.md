@@ -2,6 +2,22 @@
 
 _Generated 2026-04-15 against live `evidence.db`. Updates automatically each finalize run._
 
+> **Snapshot pin.** Counts ("3,438 pubs", "27,095 publishers / 42% of corpus", "8,148 publishers / 12.6% of corpus") describe the **2026-04-15 corpus (~64,500 pubs)**. Live corpus is now 76,169 (2026-04-27). Templates A/B/C/D and the phantom-ID library replicate; the publisher denominators have grown ~18%.
+>
+> **2026-04-27 refinement on Adagio (per ERRATA E-2026-04-27-k).** ERRATA E-2026-04-22-d initially framed Adagio as the template-author layer above the nine "named primary injectors." Live fetch of `https://adagio.io/ads.txt` shows that Adagio's *own* template publishes its block as RESELLER, not DIRECT (the only DIRECT line for adagio.io itself is COMMENTED OUT in their template). Yet 882 publishers carry both `# Adagio_0_6` markers and `rubicon/17280 DIRECT` (Seedtag) on the same file — verified in the database, with paired examples on softonic.se (multiple adagio.io seller_ids RESELLER plus rubicon/17280 DIRECT) and parati.com.ar (same pattern). The DIRECT injection is therefore *not* added by Adagio; it is added by a *separate* aggregator that composes Adagio's RESELLER block side-by-side with Seedtag's DIRECT lines into one rendered file. The composing-aggregator layer is not yet identified by name. Treat Adagio as a *clean template author* whose work gets bundled into a multi-template publisher composition that *also* carries Seedtag's contradictions.
+>
+> **2026-04-27 corporate-name update on the named injectors (per ERRATA E-2026-04-27-d, -i).** The brand names this document uses (Seedtag, Rich Audience, SunMedia) map to Spanish *sociedad limitada* corporate entities verified against Rubicon's sellers.json across three Wayback snapshots (2021-02-11, 2023-06-15, 2026-04-26):
+>
+> | Brand | Corporate entity | Country / Authority |
+> |---|---|---|
+> | Seedtag | Seedtag Advertising SL | Spain — AEPD |
+> | Rich Audience | Rich Audience Technologies SL (renamed from Pubnet Publicidad Y Marketing SL between 2021-02 and 2023-06) | Spain — AEPD |
+> | SunMedia | VLN Servicios Publicitarios Integrales SL | Spain — AEPD |
+> | Themoneytizer | Themoneytizer SA | France — CNIL |
+> | SmartAdServer | Equativ SAS (post-merger) | France — CNIL |
+>
+> Smile Wanted (smilewanted.com), MGID Inc (mgid.com), and Adtelligent Inc (adtelligent.com) are confirmed as INTERMEDIARY in lijit.com/sellers.json (Sovrn registry, contact `support@sovrn.com`); the 244287-eb seller_id used in Template A is confirmed PHANTOM in Lijit's registry — the `-eb` suffix variant does not exist as a Sovrn account.
+
 A template fingerprint is a set of seller_ids that co-occur on publishers at
 high frequency. If N publishers all claim the same ~6 phantom seller_ids
 together, they are not independently making up those IDs — they are carrying

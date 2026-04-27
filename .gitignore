@@ -2,3 +2,5 @@
 false_direct_claims.jsonl
 claims/
 *.db
+*.bak
+*.bak.*

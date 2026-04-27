@@ -1,5 +1,7 @@
 # DOJ Antitrust Evidence — Google Ad-Tech Dominance
 
+> **Snapshot pin.** Numbers below are at the **2026-03-25 crawl** (332,356 page scans). Live crawler state has continued to grow; ratios (10:1 Google:Meta) are stable; raw counts will exceed those quoted here.
+
 ## Market Position (from 332,356 page scans)
 
 | Company | Page Appearances | Share |

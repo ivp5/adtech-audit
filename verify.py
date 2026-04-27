@@ -5,12 +5,14 @@
 #   bad:   smartadserver.com, 4073, DIRECT  → PHANTOM (CAS SDK template line)
 import csv, json, sys
 from functools import cache
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 from collections import Counter
 
 
 def fetch(url):
-    return urlopen(url, timeout=20).read().decode()
+    # Some publishers/SSPs 403 the default Python User-Agent. Set one explicitly.
+    # 'replace' on decode tolerates malformed bytes seen in the wild.
+    return urlopen(Request(url, headers={'User-Agent': 'verifier/1'}), timeout=20).read().decode('utf-8', 'replace')
 
 
 @cache

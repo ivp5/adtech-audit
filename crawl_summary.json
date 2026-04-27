@@ -12,5 +12,5 @@
   "mismatch_rate_strict": 28.6,
   "registry_entries": 1160000,
   "false_claims_exported": 962891,
-  "note": "Synced with supply_chain_summary.json and verified against JSONL"
+  "note": "March-23 snapshot. NOT synced with supply_chain_summary.json (March-25, 2,096,507 claims / 23,283 publishers / 710 SSPs / 1,198,139 false rows in JSONL). Counts here represent an earlier expansion. The shipped JSONL matches supply_chain_summary.json, not this file."
 }

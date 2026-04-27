@@ -6,6 +6,8 @@
 
 2,096,507 cross-verified triples. 710 SSP registries (1.89M sellers; +238 verified 2026-04-22, see R150 in parent repo — headline unchanged). 186,000 websites crawled. 23,283 publisher ads.txt files. March 14–25, 2026.
 
+> **Snapshot pin.** All numbers below are at the **2026-03-25** snapshot. Live state has since grown ~3× (76,169 publishers / 28.7M triples / 1,672 SSP registries as of 2026-04-27). Per-SSP false-claim counts in the FTC complaint and pitch are 1.4–2.9× too low against the live DB. Headline DIRECT-only rate has drifted from 57.1% to **61.1%** (verifiable-bucket; 2026-04-27 measurement). See `ERRATA.md` for the latest corrections including: criteo.com registry-redirect artifact (E-2026-04-27-b); SEC 10-K disclosure silence on the IAB framework across 7 major filers (E-2026-04-27-c); named template-injection operators Seedtag/Rich Audience/SunMedia at industrial scale (E-2026-04-27-d); foreign-issuer to domestic-registrant conversion of Criteo and Taboola (E-2026-04-27-f); Outbrain → Teads merger (E-2026-04-27-g); FY2025 revenue refresh (E-2026-04-27-h). Headline rate replicates; specific magnitudes require re-running.
+
 ## Quick Start
 
 Open `evidence.html` in any browser. No server required for the narrative and charts.
@@ -86,10 +88,10 @@ grep -cE '"CONTRADICTED"|"PHANTOM"' false_direct_claims.jsonl
 # → 1,198,139
 
 # Check a specific publisher
-grep '"publisher": "cnn.com"' false_direct_claims.jsonl | python3 -m json.tool | head -20
+grep '"publisher":"cnn.com"' false_direct_claims.jsonl | python3 -m json.tool | head -20
 
 # Top SSPs by false claims
-grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn | head -10
+grep -oE '"ssp":"[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn | head -10
 ```
 
 ## Method
@@ -106,7 +108,7 @@ grep -o '"ssp": "[^"]*"' false_direct_claims.jsonl | sort | uniq -c | sort -rn |
 
 4. **Crawl observation**: Playwright browser crawled 142,630 unique sites (Tranco 1M, tiered scheduling). 2.6M HTTP requests matched against 603 known ad-tech domains (240 companies). Compared observed companies against declared ads.txt entries to measure unauthorized tracking.
 
-5. **Consent measurement**: 721,129 cookie sync URLs parsed for TCF consent parameters. First-visit only.
+5. **Consent measurement**: 272,917 cookie sync URLs parsed for TCF consent parameters (first-visit only, March-18 measurement on the 110,610-site subset; see `consent_measurement.json`). The headline "0.012%" is computed against this 272,917 base — 34 valid TCF strings observed. The 721,129-sync figure cited elsewhere refers to total syncs captured across the full crawl; the consent rate was not re-measured at that scale.
 
 6. **Identity graph**: Co-occurrence of tracking companies on the same page load. 201 companies, 5,816 weighted edges.
 
