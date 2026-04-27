@@ -45,6 +45,31 @@ I am submitting evidence that major advertising technology companies are systema
 
 **Premium-tier publishers also carry the Seedtag template:** The same false-DIRECT signature appears in the ads.txt files of major premium news publishers including washingtonpost.com, cnn.com, theatlantic.com, engadget.com, techcrunch.com, and reuters.com. Each of these carries `rubiconproject.com, 17280, DIRECT` (Seedtag's INTERMEDIARY account at Rubicon), `pubmatic.com, 157743, DIRECT` (CONTRADICTED at PubMatic), and `xandr.com, 4009, DIRECT` (Seedtag's INTERMEDIARY account at Xandr/AppNexus). The injection mechanism for these premium publishers appears to be a co-management arrangement (CNN's MANAGERDOMAIN is `theglobeandmail.com`; The Atlantic's is `mediatradecraft.com` plus `theglobeandmail.com`; Reuters's is `freestar.com`). The false-DIRECT representation is therefore present in advertiser-side bid streams for premium news inventory, not just long-tail piracy domains — a brand-safety finding rather than a long-tail-only finding.
 
+**The labeled-block smoking gun (washingtonpost.com):** Live at `https://www.washingtonpost.com/ads.txt` (verified 2026-04-27, also visible in 2026-04-22 Wayback snapshot), the file contains a section explicitly delimited by:
+
+```
+#Seedtag start
+seedtag.com, 6623e22b4cec750006c7090c, DIRECT
+xandr.com, 4009, DIRECT, f5ab79cb980f11d1
+beachfront.com, 15250, RESELLER, e2541279e8e2ca4d
+smartadserver.com, 3050, DIRECT
+rubiconproject.com, 17280, DIRECT, 0bfd66d529a55807
+pubmatic.com, 157743, DIRECT, 5d62403b186f2ace
+lijit.com, 397546, DIRECT, fafdf38b16bf6b2b
+onetag.com, 75601b04186d260, DIRECT
+loopme.com, 11712, RESELLER, 6c8d5f95897a5a3b
+adform.com, 1889, RESELLER
+33across.com, 0010b00002MptHCAAZ, DIRECT, bbea06d9c4d2853c
+improvedigital.com, 1680, DIRECT
+#Seedtag end
+```
+
+This block is **named "Seedtag" by the publisher's own ads.txt comments**, declares Rubicon/17280 as DIRECT (Rubicon's sellers.json classifies it as INTERMEDIARY belonging to Seedtag Advertising SL), declares PubMatic/157743 as DIRECT (PubMatic's sellers.json classifies it as INTERMEDIARY for Seedtag), and declares Xandr/4009 as DIRECT (Xandr's sellers.json classifies it as INTERMEDIARY for Seedtag). The publisher's ads.txt is therefore making — under the named heading "Seedtag" — three distinct DIRECT representations that contradict the named SSPs' own registries. This is on a flagship US news publisher's live ads.txt as of the date of this complaint.
+
+**Wayback timeline of the injection (theatlantic.com):** Wayback CDX confirms the The Atlantic's ads.txt did NOT carry `rubiconproject.com, 17280, DIRECT` as recently as 2025-07-26. The line appeared between 2025-07-26 and 2025-09-25 — coincident with the engagement of MediaTradeCraft as a wrapper service (`mediatradecraft.com, 111139, DIRECT` first visible at 2025-08-13). The temporal sequence matches the wrapper-as-injector hypothesis: the false claim appeared shortly after the wrapper service was added.
+
+**Industry-wide labeled-block convention:** 3,880 publishers in the dataset have a `#Seedtag`-comment block; 2,351 of those (61%) carry the contradicted `rubiconproject.com, 17280, DIRECT` line; 2,387 carry `xandr.com, 4009, DIRECT`; 2,076 carry `pubmatic.com, 157743, DIRECT`. Similar labeled blocks exist for `#Rich Audience` (1,141 publishers), `#Smartadserver` (1,368), `#Adagio` (2,439), `#GumGum` (3,875), `#SunMedia` (214), `#Themoneytizer` (90, of which 52 carry `smartadserver.com, 1097, DIRECT`). The publisher's own ads.txt names the intermediary as the section author. See `memory/SEEDTAG_BLOCK_SMOKING_GUN_20260427.md` and `memory/wayback_atlantic_injection_pinpoint_20260427.md`.
+
 **Evidence:** All data is publicly available. Each publisher serves ads.txt at their domain. Each SSP serves sellers.json at their domain. The cross-reference is mechanical. Complete methodology, row-level evidence (1.2M records), 195-provider wrapper scorecard, and interactive verification tool available at: https://github.com/ivp5/adtech-audit (interactive browser verifier at https://ivp5.github.io/adtech-audit/).
 
 **Why this hasn't been caught:** Verification vendors check that claims *exist* in ads.txt, but not that they are *consistent* with sellers.json. Our cross-reference closes that gap. The check takes two HTTP requests and one seller_id lookup per claim; it is not computationally or technically difficult.
