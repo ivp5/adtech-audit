@@ -442,3 +442,190 @@ What it changes is *interpretation*:
   basis") makes more sense for `contractual_confidential` than for
   `precomputed_lookup` (where the basis is "we listed every common
   integer" — a different category of audit).
+
+## Update: 2026-05-09 (continued) — Cycles 244-273 deeper analysis
+
+The April-May 2026 work extended substantially beyond cycles 232-243.
+Per cycle 272's self-audit, this update separates findings by spec-
+relevance tier rather than mixing spec-violations with above-spec
+analytical critique.
+
+### E-2026-05-09-e: Live page-load reveals a SECOND framework gap
+
+Cycles 251-262 used `tmp/xray_journal.db` (3.3M live page-load network
+requests across 76K publishers) to cross-reference declared SSPs (in
+ads.txt) with fired SSPs (actual page-load network calls).
+
+**Finding (above-spec analytical):** of declared SSPs in publisher ads.txt
+files, **80-100% never fire on the actual page**. Sample paperwork
+rates per SSP (declared but no live request observed):
+
+  TheMediaGrid:       100% paperwork
+  OneTag:             100%
+  Conversant/Epsilon: 100%
+  Adform / AdYouLike / Smaato / Rise: 100% each
+  Sovrn / Sharethrough: 89-91%
+  Magnite / PubMatic / Index Exchange: 78-83%
+  Yahoo / Xandr / Criteo: 71-81%
+
+The framework doesn't require declared SSPs to fire (the spec models
+authorization, not participation), so this is structurally an above-
+spec critique — but it shows ads.txt is mostly DECORATIVE.
+
+Cycle 251 also found 5-98% **ghost-firing rate** (SSPs that fire but
+aren't declared). JWPlayer ghost-fires on 350 publisher pages, only 7
+declare it (98% ghost rate).
+
+Pearl prudence: paperwork rate may be slightly inflated by headless-
+Chrome not triggering all auctions. But 80-100% rate across 16K
+publishers is structural, not noise.
+
+### E-2026-05-09-f: Information-theoretic framing of verification primitive
+
+Cycle 256: the sellers.json registry encodes ~237 bits per row (3M rows
+× 237 bits ≈ 86 MB). The IAB-spec verification primitive (existence
+check) returns ≤1 bit per claim (yes/no). **99.6% of registry information
+is discarded at verification time.**
+
+Attribution entropy among the registry's named-publisher subset is 17.77
+bits — could distinguish ~224K entities. The framework's 1-bit output
+is 18× weaker than what the data supports.
+
+This is **spec-internal critique**: the spec could output more without
+changing data structures. Same lens applied to TCF v2 consent (cycle
+267-269): **89.9% of bid-stream consent strings have NO USABLE value**
+(84% empty, 1.8% "undefined", 0.8% "null", 0.5% template variables not
+replaced). Only 10.1% are valid TCF v2. This IS a spec violation under
+TCF — SSPs MUST NOT process empty consent under gdpr=1.
+
+### E-2026-05-09-g: Spec-internal recalibration (cycle 273)
+
+Apply the cycle 272 self-audit lens. Three tiers of finding:
+
+**Tier 1 — confirmed spec violations (no charitable reading):**
+- 26.8% of DIRECT claims: phantom AND not-in-any-registry (38% phantom
+  × 70.5% absent-from-everywhere)
+- 1.2% of compliant claims: NULL-domain entries WITHOUT is_confidential=1
+  flag (sellers.json spec section 3.1 violation)
+- 84% of bid-stream gdpr_consent= values: empty string under gdpr=1
+  (TCF v2 MUST-NOT-process violation)
+
+**Tier 2 — spec-allowed but verification-defeating:**
+- 1.8% of compliant claims (registry-side): anonymous-confidential
+  (NULL domain with is_confidential=1) — Google's apex 71.8%
+- 8 SSPs operating wildcard registries: pre-enumerate every common
+  integer ID, defeating per-SSP existence-check semantics
+
+**Tier 3 — above-spec analytical critique:**
+- 91-99% domain-mismatch industry-wide (49 of 49 SSPs ≥90%)
+- 92% paperwork rate
+- 0.30% Popperian+functional state (registry has it, exact domain
+  match, AND fires — strict composite)
+
+The PAPER's headline "57.1% false rate" sits between tiers 1 and 3:
+spec-internal (existence-check failure) gives 38%; the strict floor
+(absent from every registry) is 26.8%; the inclusive "verifiable bucket"
+(post Apr-22 refresh) is 61.1%. Each is defensible at its own granularity.
+
+### E-2026-05-09-h: Apex SSPs by phantom-to-registry ratio
+
+Pearl-disciplined apex cases:
+
+| SSP | phantom claims | registry size | ratio |
+|---|---:|---:|---:|
+| districtm.io | 29,151 | **0** (empty) | ∞ |
+| emxdgt.com (Engine Media) | 39,113 | 175 | **223×** |
+| yahoo.com | 36,500 | 469 | 78× |
+| advertising.com (Yahoo legacy) | 33,446 | 469 | 71× |
+| criteo.com | 76,037 | 2,036 | 37× |
+| freewheel.tv | 54,863 | 2,156 | 25× |
+| appnexus.com | 41,800 | 1,750 | 24× |
+| indexexchange.com | 86,810 | 3,994 | 22× |
+| smartadserver.com | 46,151 | 2,574 | 18× |
+
+DistrictM.io's empty registry case is structurally distinctive: post-
+Magnite-acquisition, the registry was apparently never republished. All
+29K publisher DIRECT claims against districtm.io are by-definition
+phantom under the spec's existence check.
+
+EMXDGT's 223× ratio is the highest of any SSP with a non-empty registry.
+39K publisher claims against 175 authorized seller accounts.
+
+### E-2026-05-09-i: Apex carrier cohort (Gray TV)
+
+Cycles 260-262 identified Gray TV's 142-station ad-ops cohort as the
+single largest contributor to the corpus's phantom+fires (real auction
++ fabricated seller_id) tier.
+
+**Cycle 262 self-correction:** the initially-claimed 3,800-publisher
+template propagation was an artifact. Most of the propagation was
+"generic phantom hubs" (smartadserver/4071 carried by 6,000 publishers
+unrelated to Gray) and "small-integer collision noise" (cycle 259: 96-
+99% of "soft phantoms" at small integers are coincidental).
+
+The genuine Gray-distinctive signature: 45+ Taboola seller_ids in
+clustered ranges (1494xxx, 1502xxx, 1625xxx) carried by 139-142 of 142
+Gray stations and 0 non-Gray. These look like deprecated Taboola
+account ranges that Gray previously operated and never cleaned up.
+
+This is **stale-ID pollution at scale** — 142 stations × ~455 phantom+
+fires each = ~64K claims (≈55% of corpus phantom+fires). The framework
+treats this identically to fresh fabrication.
+
+### E-2026-05-09-j: Temporal volatility (cycle 270-271)
+
+Across a 4-day window (2026-04-24 → 2026-04-28), aggregate mean
+false_rate dropped 1.6pp. Top movers were SSP-side registry updates,
+not publisher-side cleanups:
+
+  yieldlab.net          97.5% → 2.5%   (-95pp; SSP refreshed registry)
+  hindsightsolutions.net 0% → 100%      (5,076 claims overnight phantom)
+  pulsepoint.com        0% → 100%      (689 claims; registry dropped)
+  smartclip.com       100% → 0%        (registry refreshed)
+
+A single SSP-side registry change flips thousands of publishers'
+"compliance" overnight WITHOUT publisher action. **The framework's
+compliance rate is more like a measurement of SSP-registry-publishing-
+discipline than publisher-honesty.**
+
+### E-2026-05-09-k: Reproducer test-coverage hardening
+
+Cycles 245+247 shipped self-checking infrastructure:
+- `tools/reproducer/test_regression.sh`: confirms apex findings
+  (Google 71% anon, ad-stir.com 86% lookup, rubicon 0% comply) hold
+  on live data; 4-of-4 pass, 1-skip (proxy block) on 2026-05-09.
+- `tests/test_atlas_headlines.py`: 26-assertion atlas pipeline smoke test;
+  26 of 26 pass on 2026-05-09.
+
+Cycle 248-249 fixed atlas determinism — 5 consecutive runs now produce
+byte-identical output (modulo `generated_at` timestamp). 6 sources of
+non-determinism eliminated (tied-rank ordering, dict iteration, float
+ULP drift).
+
+H19 from E-2026-05-09-c was strengthened from 14 SSPs to 49 SSPs:
+all 49 reachable major SSPs show ≥90% domain-mismatch among NAMED
+registry entries; median is 99.4%; **Google's 91.3% is the LOWEST**
+(most-compliant) of any major SSP.
+
+### What this update does NOT change in the PAPER
+
+- Headline 57% false rate: holds
+- Named primary injectors (Seedtag, Rich Audience, etc.): holds
+- 9-injector ecosystem with 250 shared sellers across Seedtag/Rich
+  Audience: holds
+- 95-99% non-authorization of false-DIRECT-claiming publishers in
+  injectors' own registries: holds
+- Wayback CNN injection 2-day window: holds
+
+### What it suggests for future revision of the PAPER
+
+Distinguish in the paper's headline framing:
+- A FLOOR: 26.8% confirmed-by-spec failure rate (no charitable reading)
+- A SPEC RATE: 38% phantom under existence-check
+- AN INCLUSIVE RATE: 61.1% (post Apr-22 refresh, accepts above-spec
+  interpretations)
+- AN ANALYTICAL RATE: 99.7% miss the strict Popperian+functional
+  standard
+
+The PAPER currently leads with 57.1%; cycle 273 supports keeping that
+but adding the 26.8% floor as the strictest defensible number.
