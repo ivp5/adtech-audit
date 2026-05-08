@@ -328,3 +328,117 @@ Verified FY2025 revenue from EDGAR-filed 10-Ks (numbers updated in `tools/compan
 | Outbrain → Teads (TEAD) | $950M | $1.300B | +37% (post-merger) |
 
 The Taboola figure cited in this paper's §1¶5 is updated to $1.91B in this errata; the body text carries the original $1.7B value pinned to the March 2026 corpus.
+
+## Update: 2026-05-09 — Cycle 232-243 chain (deeper structural analysis)
+
+The PAPER's "71% of Google's sellers.json is confidential" finding (Finding 4
+above + PAPER §3 + Fix 6) holds. Cycles 232-243 drilled deeper and the
+deeper findings reframe how the 71% number should be interpreted.
+
+### E-2026-05-09-a: bimodal registry-anonymity distribution (cycle 235)
+
+Across 503 sellers.json registries with ≥100 entries:
+- **412 (81.9%) have 0% anonymous** entries (full compliance with naming intent)
+- **60 (11.9%) are <10%** anonymous (incidental confidential)
+- **18 (3.6%) are 10-30%** (selective confidentiality)
+- **13 (2.6%) are ≥30%** — wildcard tier (apex Google 71.8%, ad-stir.com 86%, infinety.hu 100%)
+
+The PAPER framed Google's 71% as "an unusually high rate." Cycle 235 sharpens
+this: the distribution is *bimodal*, not graduated. 91% of registries name
+their partners; a small minority deliberately don't. The compliant 91%
+proves naming IS feasible; the wildcard 2.6% is a deliberate structural
+choice, not "industry drift."
+
+### E-2026-05-09-b: epistemic-engine disambiguation (cycle 238)
+
+Within the 13 wildcard-tier registries, two opposite mechanisms operate
+beneath identical surface (NULL domain, NULL name, is_confidential=1):
+
+- `precomputed_lookup` — sequential-integer enumeration, no underlying
+  customer claim. ad-stir.com lists seller_ids 1, 2, 3, ..., 14515
+  (77.4% range coverage). genieesspv.jp lists 1...38597 (67.8% coverage).
+  Anyone claiming `<ssp>, <integer>, DIRECT` for any common integer
+  passes a basic existence-check.
+- `contractual_confidential` — random-shape IDs (e.g. Google's
+  `pub-XXXXXXXXXXXXXXXXXX` format) representing real customer accounts
+  whose names are private by contract.
+
+These are NOT the same mechanism. The PAPER's call for SSP confidentiality
+audits applies to both, but the audit questions differ:
+- For `precomputed_lookup`: does each integer ID correspond to a real
+  customer relationship? (Spec violation if no.)
+- For `contractual_confidential`: what is the aggregate count of real
+  partner accounts behind the flag? (Spec-allowed; audit is for scale-
+  reasonableness against business size.)
+
+### E-2026-05-09-c: 91-99% domain-mismatch is industry-wide (cycle 236 H19)
+
+Across 14 major SSPs, when a publisher's DIRECT claim matches a NAMED
+registry entry, the publisher's domain is NOT the same as the registry's
+domain in 91-99% of cases:
+
+| SSP | named matches | exact domain match | mismatch |
+|---|---:|---:|---:|
+| google.com | 154,787 | 7.6% | 91.3% |
+| rubiconproject.com | 179,513 | 0.4% | 99.4% |
+| pubmatic.com | 201,086 | 0.5% | 99.1% |
+| openx.com | 122,960 | 0.6% | 98.8% |
+| sovrn.com / lijit.com | 261,447 | 0.4% | 99.5% |
+| triplelift.com | 139,207 | 0.4% | 99.3% |
+| criteo.com | 1 | 0.0% | 100.0% |
+
+The PAPER's "57% of DIRECT claims are false" understates the verification
+gap. Of the remaining 43% non-false claims:
+- ~37% match a NAMED registry entry — but only 1-7% have exact domain match
+- The 91-99% non-exact NAMED claims are spec-passing but
+  externally-unverifiable (could be MCM, named-operator injection, or
+  intra-industry routing — framework cannot distinguish)
+
+**Apex synthesis:** framework-confident DIRECT claims (exact pub_domain
+== reg_domain) are ≈1-7% of total claims industry-wide. The other
+93-99% require trust in mechanisms (MCM membership, confidential
+entries, third-party managed inventory) that the verification framework
+does not surface.
+
+### E-2026-05-09-d: independent reproducers shipped
+
+`tools/reproducer/` now contains two stdlib-only Python scripts:
+
+- `verify_anonymity.py <ssp-domain>` — fetches the SSP's sellers.json
+  directly and emits the cycle 232/235/238 classification (anonymous %
+  + epistemic_engine).
+- `verify_publisher_claims.py <publisher-domain> <ssp-domain>` —
+  fetches the publisher's ads.txt and the SSP's sellers.json, classifies
+  every DIRECT claim into EXACT_MATCH / SUBSTRING_MATCH / ANONYMOUS_MATCH /
+  DOMAIN_MISMATCH / PHANTOM, reports externally-falsifiable %.
+
+Apex live verification (2026-05-09):
+- google.com: 71.4% anonymous, contractual_confidential
+- ad-stir.com: 84.9% anonymous, precomputed_lookup, ints[1, 14591]
+- rubiconproject.com: 0% anonymous, low_anonymity (compliant)
+- cnn.com → google.com: 0/7 externally-falsifiable; 4 mismatches
+  resolve to wbd.com (CNN's parent WBD) and tunein.com (WBD-owned) —
+  legitimate intra-corporate routing indistinguishable from fabrication
+
+The reproducers make the cycle 232-243 chain independently falsifiable
+without our 2000-line atlas pipeline. Run them; the structural finding
+(framework can't distinguish Popperian-named claims from Hegelian-
+opaque claims) is reproduced live in 60 seconds.
+
+### Reframing for downstream consumers
+
+The headline numbers in PAPER (57% false; 71% Google confidential;
+0.012% consent) hold. The cycle 232-243 chain doesn't change them.
+What it changes is *interpretation*:
+
+- "57% false" was a single number. Cycle 236 H19 shows 93-99% of the
+  REMAINING 43% are also non-falsifiable (just by other mechanisms).
+  The fully-falsifiable subset is 1-7%, not 43%.
+- "71% Google confidential" was treated as a concentration anomaly.
+  Cycle 235 shows this is a binary structural choice (91% comply, 2.6%
+  go wildcard). The fix-6 audit framing should distinguish lookup-table
+  registries from contractual-confidential registries.
+- Fix 6's ask ("disclose the basis for confidentiality on aggregate
+  basis") makes more sense for `contractual_confidential` than for
+  `precomputed_lookup` (where the basis is "we listed every common
+  integer" — a different category of audit).
