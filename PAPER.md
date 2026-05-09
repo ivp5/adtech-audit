@@ -62,9 +62,9 @@ We release the complete dataset, provider scorecard, and verification tools at h
 
 ### 2.1 Data Collection
 
-**ads.txt harvest.** We probed 184,456 domains for ads.txt files, sourced from the Tranco top-1M popularity ranking and an automated Playwright browser crawler operating on a tiered schedule (4h/24h/72h revisit intervals). Of these, 25,598 domains returned valid ads.txt files containing at least one DIRECT claim. After deduplication by (publisher, SSP, seller_id) triple and filtering of malformed seller IDs (containing spaces, file paths, or non-ASCII characters), 23,283 publishers with 2,096,507 verifiable DIRECT claims remained.
+**ads.txt harvest.** Initial paper (cycle 232-293) cited 23,283 publishers with 2,096,507 verifiable DIRECT claims from a 184,456-domain probe. **Current corpus state (cycle 406, 2026-05-09): 76,425 publishers with 6,560,640 DIRECT claims (and 28,768,352 total ads.txt rows including RESELLER and other relationships).** The expansion comes from later harvest waves + crawler piggyback expansion (cycle 144 simplified pipeline, cycle 232 federation). Sources unchanged: Tranco top-1M, Playwright crawler tiered schedule (4h/24h/72h), KONTRUSTMEDIA/adsdb open-source mirror.
 
-**sellers.json collection.** We fetched sellers.json registries from 710 SSP domains, comprising 1,891,801 seller entries. Sources included direct fetches from SSP domains listed in publisher ads.txt files, the KONTRUSTMEDIA/adsdb open-source repository (543 files, MIT license), and historical batches collected between March 17-25, 2026. Google's registry (994,945 entries) is 71% confidential and was excluded from intermediary classification checks but included in phantom detection. Registry stability was verified by comparing 52,477 entries across two snapshots 5 days apart — 1 reclassification observed (0.002%).
+**sellers.json collection.** We fetched sellers.json registries from 710 SSP domains in the original paper; **cycle 406 mass-probe via httpx covered 739 SSPs in registry_meta with 669 returning probe results** (630 alive_json, 10 http_403 auth-gated, 6 http_404, 4 catch-all-HTML, 2 http_429 rate-limited, 1 http_451). Original sellers count: 1,891,801. Current corpus sellers_registry: 3,050,408 (cycle 232 federation + cycle 232 glob-fix expansion). 5 SSPs are 100% phantom post-acquisition (spotxchange.com, spotx.tv, adcolony.com, aolcloud.net, yieldlab.net — registries never migrated to current owners). The biggest single registry: rtbhouse.com 7.68MB / ~50K entries (cycle 406 surfaced; not engaged in original paper). Sources included direct fetches from SSP domains listed in publisher ads.txt files, the KONTRUSTMEDIA/adsdb open-source repository (543 files, MIT license), and historical batches collected between March 17-25, 2026. Google's registry (994,945 entries) is 71% confidential and was excluded from intermediary classification checks but included in phantom detection. Registry stability was verified by comparing 52,477 entries across two snapshots 5 days apart — 1 reclassification observed (0.002%).
 
 **app-ads.txt collection.** We fetched 5,617 app-ads.txt files from mobile app developer websites via the KONTRUSTMEDIA repository, applying identical parsing and deduplication.
 
@@ -215,3 +215,80 @@ The population of available fixes is not exhausted by this list. Each fix has a 
 [6] Prior measurement work on ads.txt has focused on adoption rate (has the publisher posted a file?) and format compliance (does the file parse?) rather than truthfulness of individual declarations. Representative publications include IAB Tech Lab's own adoption-tracking posts (https://iabtechlab.com/standards/ads-txt/), successive White Ops / HUMAN *Bot Baseline Reports* (2017–2023, annual), and the ongoing journalistic investigations published by Adalytics (2022–2024). We are not aware of a prior academic or industry study that cross-references publisher DIRECT claims against the target SSP's own sellers.json registry at the scale reported in this paper; readers aware of one are invited to contact the authors so that reference [6] may be expanded.
 
 [7] United States v. Google LLC, Case No. 1:23-cv-00108 (E.D. Va. 2023), filed January 24, 2023. The U.S. Department of Justice and eight state attorneys general allege monopolization of the ad-tech stack. A copy of the court record discussing the decision is on file at `data/reference/doj_google_adtech_ruling.pdf`.
+
+---
+
+## Appendix: Updates since cycle 293 (added cycle 407, 2026-05-09)
+
+This paper was written through cycle 293. The 111 cycles since (294–406)
+have produced findings and corrections that don't appear in the body
+above. The corpus also expanded ~3.3× in that interval. This appendix
+points to where to find each later development; full chain in
+`memory/cycle*.md` files.
+
+**Single-SSP apex (cycles 379–381, corrected cycle 390):** spotxchange.com
+has 7,942 publishers carrying DIRECT-typed phantom claims (plus ~13,500
+RESELLER carriers) for 23,370 total phantom DIRECT claims; the registry
+has been zero-byte for 5+ years across the Magnite acquisition. The
+top 6 phantom seller_ids cluster in legitimate-looking 5-6-digit format;
+4 of them are within historical SpotX numeric range, 2 are
+extrapolation-guesses just above the historical max.
+
+**Multi-SSP cohort (cycles 382, 401):** 826 publishers carry phantom-
+majority DIRECT claims against all 7 cycle-211 named-injection SSPs
+simultaneously. Cycle 401 found this cohort is a tighter subset of a
+broader 10,966-publisher cohort defined by 4 specific smartadserver
+phantom seller_ids (4012, 4071, 4073, 4074, none in current registry);
+union with adform 1941 phantom = **12,140 publishers** with at least
+one signature.
+
+**Reading sharpening (cycle 391):** what cycle 232-293 framed as
+"domain-mismatch / cartel" is largely intermediary-chain — publishers
+authorize common ad-network intermediaries (NoBid LLC at lijit.com/
+273657; Somo Media / Unibots at 278628; Amazon Publisher Services
+at 375328) to resell their inventory. Same publishers → same seller_ids
+across sites. The PHANTOM subset is the spec-violating finding;
+MISMATCH is mostly normal market structure.
+
+**Severe testing (cycle 393):** N=100 random phantom claims across top
+10 SSPs re-verified against current live registries. 86 of 90 verifiable
+(95.6%) still phantom in live data. 4.4% drift, entirely in
+rubiconproject.com — bounded.
+
+**Rebrand-decorative-compliance pattern (cycle 379):** 4 of 8 ad-tech
+rebrands serve catch-all-HTML or empty bytes at /sellers.json on the
+rebranded canonical while keeping the actual registry on the legacy
+domain. Magnite has NO unified spec-compliant /sellers.json on its
+canonical domain 5+ years post-merger; rubiconproject.com (3,216 sellers)
+and telaria.com (1,717 sellers) still serve their pre-merger registries.
+
+**Mass /sellers.json probe (cycle 406):** httpx scanned 739 SSPs against
+their /sellers.json. 669 returned. 4 catch-all-HTML (loopme.com 1MB of
+HTML; rwadx.com 91KB; dable.io 768B; kevel.com 3 bytes plaintext).
+Biggest: rtbhouse.com 7.68MB. Distribution: 94% alive_json, 1.5% auth-
+gated, 0.9% catch-all, 0.6% rate-limited, 0.3% legal-block.
+
+**Methodology generalization (cycles 361–365, 370–372, 377):** the same
+"existence-check returns 1 bit; registry encodes N bits; gap is
+constitutive" structure applies to four adjacent attestation frameworks:
+DMARC (cycles 370–372 probed), TLS Certificate Transparency (cycle 377
+probed), carbon offsets (Verra registry; mapped not probed), FDA 510(k)
+predicate cascade (mapped not probed), OSS SBOM (mapped not probed).
+
+**Ledger of corrections** (in `memory/MISTAKES.md`, `memory/INCONSISTENCIES.md`,
+`release/ERRATA.md`):
+- Cycle 379's "21,433 publishers" was a DIRECT/RESELLER conflation;
+  corrected cycle 390 to 7,942 DIRECT carriers + ~13,500 RESELLER carriers.
+- Cycle 367's "criteo.com 301 redirect" mechanic is now direct content
+  (cycle 393); same effect, different mechanic.
+- Cycle 232's 26.8% phantom rate has drifted to 25.68% (cycle 400 refresh);
+  within tolerance band but no longer the exact published number.
+- Reproducer now generalizes via `tools/reproducer/cohorts/*.json`
+  (cycle 397); supports `--app` flag for app-ads.txt mobile coverage
+  (cycle 392).
+
+The body of this paper is preserved as written; updates supplement
+rather than retract. The strongest single claim — that the IAB
+framework's existence-check returns ~1 bit against ~17.77 bits of
+attribution per registry row, a 99.6% information loss at verification
+time — survives all 111 cycles of subsequent testing.
