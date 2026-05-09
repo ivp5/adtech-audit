@@ -14,12 +14,17 @@
 5. The IAB framework verifies 1 bit; the registry encodes 18 — a 99.6% loss study
 6. Empirical study: 76,425 publishers × 3,600 SSPs × 28.77M DIRECT claims, ~1% compliant
 
-Recommend **#1** — cycle 382 finding is self-evidently impossible-by-coincidence;
-the probability of 7 independent cartels picking the same 826 publishers is < 1e-100.
-A skeptical HN reader cannot dismiss "826 publishers carry identical fabricated
-claims for 7 separate companies" as easily as they can dismiss "26.8% phantom rate"
-(which invites "everyone overstates"). Title #2 is the safer "Show HN" backup if
-moderators bounce #1's specificity.
+Recommend **#1** for the structural-fact specificity. Note that the
+"impossible by coincidence" framing requires an independence assumption
+the data weakens — the 826-publisher cohort clusters around shared traits
+(piracy / streaming / low brand-safety enforcement), so the cohorts are
+correlated by common-cause targeting, not independent draws. The
+defensible framing is: 826 publishers carry phantom DIRECT claims against
+the same 7 SSPs simultaneously (a structural fact), and the cycle 211 +
+381 evidence (shared seller_ids across thousands of publishers,
+format-extrapolated IDs) makes shared template authorship the most
+parsimonious explanation among alternatives. Title #2 is the "Show HN"
+fallback if #1's specificity reads as overclaim.
 
 ## URL field
 
@@ -46,10 +51,16 @@ manga/anime/drama streaming sites (mangafire.to, dramacool.sh,
 readcomiconline.li, scan-manga.com, 9animetv.to, etc.), but legitimate
 publishers are mixed in (sport.detik.com, nativeplanet.com, mykhel.com).
 
-The probability that 7 independent ad-tech vendors each randomly chose
-the same 826 publishers (out of 76K corpus) is astronomically small.
-Most parsimonious explanation: one or a few template-injection authors
-generated a multi-SSP template fragment; the IAB framework's
+Independence-assumption probability calculations would put this at
+vanishingly small, but those calculations don't apply: the 826-publisher
+cohort clusters around shared traits (piracy / streaming / low brand-
+safety enforcement), so the per-vendor selections aren't independent
+draws — they share a common targeting axis. The structural fact is the
+fact: 826 publishers, 7 SSPs, simultaneously, with phantom-majority
+claims that don't resolve. Cycle 211 + 381 evidence (shared seller_ids
+across thousands of publishers; ID-format extrapolation just above each
+SSP's historical max) make shared template authorship the most
+parsimonious explanation among alternatives. The IAB framework's
 existence-check cannot detect this because the templated seller_ids are
 in plausibly-legitimate format ranges.
 
