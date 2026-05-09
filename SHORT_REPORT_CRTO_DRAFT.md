@@ -23,10 +23,12 @@ filing obligations.
 **Core finding:** Of 76,038 publisher DIRECT claims against Criteo's
 sellers.json registry in our corpus snapshot, **only 1 has a matching
 named-domain entry** (cycle 273 — see attached). Criteo's sellers.json
-at criteo.com has been a 301 redirect to themediagrid.com (Commerce
-Grid, Criteo's separate retail-media product) since at least
-2021-07-27 per Wayback Machine. The criteo.com/sellers.json URL
-returns Commerce Grid's registry — a different product entirely —
+at criteo.com serves the Commerce Grid registry directly (Criteo's
+separate retail-media product). Cycle 367 originally reported a
+301 redirect to themediagrid.com per Wayback; cycle 393 (2026-05-09)
+re-tested and found criteo.com/sellers.json now serves Commerce Grid
+content directly without redirect — same effect, different mechanic.
+The URL returns Commerce Grid's registry — a different product entirely —
 yet 18,617 publishers carry DIRECT authorization claims against
 criteo.com.
 
@@ -49,15 +51,17 @@ in their ads.txt corresponds to an authorized seller.
 
 | URL | Response | Returns |
 |---|---|---|
-| `https://criteo.com/sellers.json` | 301 redirect | themediagrid.com (Commerce Grid, separate product) |
+| `https://criteo.com/sellers.json` | JSON 200 (1,819 sellers) | Commerce Grid registry (separate product, not Criteo Classic) |
 | `https://static.criteo.net/sellers.json` | 404 | (no public registry) |
 | `https://exchange.criteo.com/sellers.json` | 404 | (no public registry) |
 | `https://gum.criteo.com/sellers.json` | 404 | (no public registry) |
 | `https://bidder.criteo.com/sellers.json` | 404 | (no public registry) |
 
-The 301 redirect to themediagrid.com has been in place since at least
-2021-07-27 per Wayback Machine (criteo.com/sellers.json redirected to
-themediagrid.com on that date and has never been corrected).
+The Commerce Grid registry has served at criteo.com/sellers.json since
+at least 2021-07-27 per Wayback Machine. Cycle 367 reported a 301
+redirect; cycle 393 confirmed the response is now direct content (no
+redirect step). Either way, Criteo Classic's seller_ids are absent
+from the public framework.
 
 **Implication:** Criteo's core retargeting product, $1.175B FY2025
 ex-TAC revenue per the 10-K (filed 2026-02-26), does NOT publish a
@@ -109,8 +113,9 @@ The 10-K's risk-factor section discusses regulatory risk (GDPR, CPRA,
 DMA, DSA) but does not disclose:
 - That Criteo's core product operates outside the IAB authorization
   framework
-- That the criteo.com/sellers.json URL has been a 301 redirect to a
-  different product since 2021
+- That the criteo.com/sellers.json URL serves Commerce Grid (a separate
+  product) instead of Criteo Classic's seller registry, since at least
+  2021 (mechanic shifted from 301 redirect → direct content per cycle 393)
 - That 18,617+ publishers carry DIRECT claims that fail framework
   verification
 
