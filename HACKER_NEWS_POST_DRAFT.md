@@ -78,9 +78,9 @@ What's reproducible in 60 seconds:
 git clone https://github.com/ivp5/adtech-audit
 cd adtech-audit
 
-# Single-command demo of the cycle 382 cartel finding:
+# Single-command demo of the phantom-claim shape:
 python3 tools/reproducer/verify_template_carrier.py mangafire.to
-# → 7/7 templates carried: APEX CARTEL CARRIER
+# Measured: 7/7 SSPs with DIRECT claims
 #   spotxchange.com  32 claims, REGISTRY DEAD (network error)
 #   sovrn.com       285 claims, 74 phantom + 211 mismatch
 #   seedtag.com      22 claims, 11 phantom + 11 mismatch
@@ -88,10 +88,13 @@ python3 tools/reproducer/verify_template_carrier.py mangafire.to
 #   smartadserver   136 claims, 42 phantom + 94 mismatch
 #   mgid.com         18 claims, 13 phantom + 5 mismatch
 #   themoneytizer     9 claims, 7 phantom + 2 mismatch
-#   total: 548 DIRECT claims to 7 cartel SSPs, 0 match registry+domain
+#   total: 548 DIRECT claims, 0 match registry+domain
+# The script reports MEASUREMENT (count thresholds, phantom-majority).
+# The interpretation (template injection per cycle 211/381) is reported
+# separately in a labeled "Interpretation" section, NOT as a verdict.
 
 python3 tools/reproducer/verify_template_carrier.py nytimes.com
-# → 0/7 templates carried: CLEAN
+# Measured: 0/7 SSPs with cartel-cohort claims.
 
 # Per-SSP detail:
 python3 tools/reproducer/verify_anonymity.py google.com
