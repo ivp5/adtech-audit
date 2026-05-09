@@ -12,7 +12,7 @@
 3. Show HN: SpotX has 21K publisher DIRECT claims; its registry returns 0 bytes
 4. Show HN: 99% of programmatic ad authorization fails the spec's own definition
 5. The IAB framework verifies 1 bit; the registry encodes 18 — a 99.6% loss study
-6. Empirical study: 76,425 publishers × 3,600 SSPs × 28.77M DIRECT claims, ~1% compliant
+6. Empirical study: 76,425 publishers × 4,725 SSPs × 28.77M ads.txt rows (6.56M DIRECT), ~1% compliant
 
 Recommend **#1** for the structural-fact specificity. Note that the
 "impossible by coincidence" framing requires an independence assumption
@@ -85,8 +85,9 @@ seller_ids, of which the top 6 (e.g., 173177 on 5,004 publishers; 225721
 on 9,884) appear under both spotxchange.com AND spotx.tv as a paired
 template fragment.
 
-Aggregate (the cycle 232-296 baseline): 76,425 publishers × 3,600 SSPs
-× 28.77M ads.txt DIRECT claims. ~0.97% satisfy the spec's own §4.1
+Aggregate (the cycle 232-296 baseline): 76,425 publishers × 4,725
+distinct SSPs cited (739 with public registries) × 28.77M total ads.txt
+rows, of which 6.56M are DIRECT-typed. ~0.97% satisfy the spec's own §4.1
 DIRECT definition ("directly controlled/operated by the website owner").
 The other 99% break down as 26.8% phantom (confirmed spec violation),
 ~99% domain-mismatch among NAMED entries, 1.8% spec-allowed-but-anonymous
