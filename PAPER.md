@@ -255,10 +255,15 @@ MISMATCH is mostly normal market structure.
 (95.6%) still phantom in live data. 4.4% drift, entirely in
 rubiconproject.com — bounded.
 
-**Rebrand-decorative-compliance pattern (cycle 379):** 4 of 8 ad-tech
-rebrands serve catch-all-HTML or empty bytes at /sellers.json on the
-rebranded canonical while keeping the actual registry on the legacy
-domain. Magnite has NO unified spec-compliant /sellers.json on its
+**Rebrand observable pattern (cycle 379, framing softened cycle 409):**
+4 of 8 ad-tech rebrands serve catch-all-HTML or empty bytes at
+/sellers.json on the rebranded canonical while keeping the actual
+registry on the legacy domain. The OBSERVABLE is consistent across
+multiple SSPs; the unified causal explanation ("decorative
+compliance") is interpretive overlay — each instance could
+alternatively be M&A integration failure, web-server misconfiguration,
+or project-management oversight rather than deliberate compliance
+performance. Magnite has NO unified spec-compliant /sellers.json on its
 canonical domain 5+ years post-merger; rubiconproject.com (3,216 sellers)
 and telaria.com (1,717 sellers) still serve their pre-merger registries.
 
