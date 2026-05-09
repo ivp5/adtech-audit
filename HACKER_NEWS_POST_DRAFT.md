@@ -64,9 +64,12 @@ parsimonious explanation among alternatives. The IAB framework's
 existence-check cannot detect this because the templated seller_ids are
 in plausibly-legitimate format ranges.
 
-Apex single-SSP example (cycle 379-381): **spotxchange.com — 21,433
-publishers carry SpotX DIRECT claims, 100% phantom, sustained 5+ years
-across the Magnite acquisition**. Wayback Machine has zero snapshots of
+Apex single-SSP example (cycles 379-381, corrected cycle 390):
+**spotxchange.com — 7,942 publishers carry SpotX DIRECT-typed claims
+(23,371 DIRECT phantom claims total); the registry has been zero-byte
+for 5+ years across the Magnite acquisition.** (Cycle 379 originally
+wrote 21,433 publishers — that count conflated DIRECT and RESELLER
+carriers. Cycle 390's test_reported_numbers regression caught it.). Wayback Machine has zero snapshots of
 spotxchange.com/sellers.json returning a 200-OK JSON response — only
 redirects (cycle 380). The 23K phantom claims trace to ~422 distinct
 seller_ids, of which the top 6 (e.g., 173177 on 5,004 publishers; 225721
