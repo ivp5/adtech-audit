@@ -77,16 +77,30 @@ What's reproducible in 60 seconds:
 ```
 git clone https://github.com/ivp5/adtech-audit
 cd adtech-audit
+
+# Single-command demo of the cycle 382 cartel finding:
+python3 tools/reproducer/verify_template_carrier.py mangafire.to
+# → 7/7 templates carried: APEX CARTEL CARRIER
+#   spotxchange.com  32 claims, REGISTRY DEAD (network error)
+#   sovrn.com       285 claims, 74 phantom + 211 mismatch
+#   seedtag.com      22 claims, 11 phantom + 11 mismatch
+#   richaudience.com 46 claims, 9 phantom + 37 mismatch
+#   smartadserver   136 claims, 42 phantom + 94 mismatch
+#   mgid.com         18 claims, 13 phantom + 5 mismatch
+#   themoneytizer     9 claims, 7 phantom + 2 mismatch
+#   total: 548 DIRECT claims to 7 cartel SSPs, 0 match registry+domain
+
+python3 tools/reproducer/verify_template_carrier.py nytimes.com
+# → 0/7 templates carried: CLEAN
+
+# Per-SSP detail:
 python3 tools/reproducer/verify_anonymity.py google.com
 # → 71.3% anonymous, contractual_confidential
 python3 tools/reproducer/verify_anonymity.py ad-stir.com
 # → 84.9% anonymous, precomputed_lookup, integers [1, 14591]
-python3 tools/reproducer/verify_publisher_claims.py mangafire.to spotxchange.com
-# → carries phantom DIRECT claim against a registry that returns 0 bytes
-python3 tools/reproducer/verify_publisher_claims.py mangafire.to seedtag.com
-# → carries phantom DIRECT claim from same template fragment
-# (run for sovrn.com, smartadserver.com, mgid.com, themoneytizer.com,
-#  richaudience.com — all 7 templates resolve as phantom on the same publisher)
+python3 tools/reproducer/verify_publisher_claims.py mangafire.to mgid.com
+# → 18 DIRECT claims; MISMATCH against orquidea.ai, unibots.in, b92.net
+#   (cross-vendor seller_id contamination from shared template)
 ```
 
 What I've confirmed via cosmic-ray verification (live data, 2026-05-09):
