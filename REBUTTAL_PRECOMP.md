@@ -75,7 +75,7 @@ unrepresentative"
 is a piracy site. The framework works fine for legitimate SSPs and
 publishers."
 
-**Technical response:** The 826-cohort intersection (cycle 382)
+**Technical response:** Cycle 401 sharpening: 826 is the cycle 382 7-SSP intersection using mixed filters (DIRECT+RESELLER for 5 SSPs, specific seller_ids for 2). The broader 10,966-publisher cohort is the four-ID smartadserver phantom-template; union with adform 1941 = 12,140. The 826 number (cycle 382)
 includes many piracy/streaming sites. Cycle 391 re-examined this — the
 cohort clusters around shared-targeting traits (low brand-safety
 enforcement). But:
