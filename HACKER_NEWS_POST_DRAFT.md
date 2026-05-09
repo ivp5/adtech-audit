@@ -7,7 +7,7 @@
 
 ## Title options (ranked by HN-conventional appeal)
 
-1. **Show HN: 826 publishers carry identical fabricated claims for 7 ad-tech firms**
+1. **Show HN: 10,966 publishers carry identical fabricated SmartAdServer claims; 12,140 union with the cycle-211 cartel cohort**
 2. Show HN: 60-second reproducer for the IAB ads.txt/sellers.json framework
 3. Show HN: SpotX has 21K publisher DIRECT claims; its registry returns 0 bytes
 4. Show HN: 99% of programmatic ad authorization fails the spec's own definition
@@ -41,7 +41,16 @@ I audited the IAB Tech Lab's ads.txt and sellers.json frameworks — the
 Findings + reproducer + paper + dataset are here, MIT-licensed (code) and
 CC0 (dataset).
 
-The lead finding (cycle 382 in the chain): **826 publishers carry
+The lead finding (cycle 401, sharpening cycle 382): **10,966 publishers
+carry the same four phantom SmartAdServer seller_ids (4012, 4071, 4073,
+4074), none in current SmartAdServer/Equativ registry**. Of those,
+**821 are also in the cycle 382 7-SSP intersection** (so 821 of 826 in
+the original framing). Adform 1941 layers on: 5,526 of the 10,966
+also carry that phantom, 778 carry both signatures plus the cycle 211
+cartel template. Three-cohort union: **12,140 publishers** carrying
+at least one signature.
+
+This sharpens the original cycle 382 finding without retracting it: 826 carry
 identical fabricated DIRECT-relationship claims for SEVEN separate
 ad-tech companies simultaneously**, with seller_ids that don't resolve
 against any of those companies' published registries. The 7 templates:
