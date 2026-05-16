@@ -4,7 +4,7 @@
 # media post, blockchain anchor). If an attacker substitutes the .xz +
 # .sha256 sidecar inside the kit, the values here remain authoritative.
 
-2026-05-16T17:35:39Z  cdf12a5a43cdd65d77f28a96ab780426fbaf73764d558bc55d68326d4a3e8505  receipts.db.xz
-2026-05-16T17:35:39Z  6c7757f3e4bc6f41a4ae2df4c3bafcf4901428007f02e43281bb8455bf6a120a  verify_kit.zip
+2026-05-16T18:45:29Z  dba96fcb6cfec4c7692a91b2210af85cdabe76046dd3ba2aba7fec5deccd39e2  receipts.db.xz
+2026-05-16T18:45:29Z  3788af9b90c4df7a7e8f030ac5b56b8cc75e97e0a31a8631f1717ce3c92bcad6  verify_kit.zip
 
-# EDGAR last refresh: 2026-05-16T17:35:43Z
+# EDGAR last refresh: 2026-05-16T18:45:31Z

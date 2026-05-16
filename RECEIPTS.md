@@ -43,27 +43,37 @@ via `SELECT COUNT(*) FROM <table>`):
 - **`publisher_audit`** — 76,170 publishers. Per-domain count of
   valid / phantom / contradicted / impersonation claims.
 
-- **`premium_publisher_audit`** — 14 pinned premium news domains.
+- **`premium_publisher_audit`** — 28 pinned premium news domains across
+  three cohorts: US flagship (NYT/WaPo/WSJ/Reuters/Bloomberg/Guardian/
+  BBC/CNN/Vox/Atlantic/etc.), international (Le Monde/El País/Spiegel/
+  Asahi/SCMP/etc.), specialty (ProPublica/ArsTechnica/Wired).
   Snapshot timestamp included.
 
-- **`signature_carriers`** — 8 cohort signatures (cycle211, sovrn-eb,
-  smartadserver-4id, etc.). Number of publishers carrying each, top-10
-  exemplars.
+- **`signature_carriers`** — 8 cohort signatures (cycle211_named_injection,
+  smartadserver_4id, adform_1941, google_adsense_fabricated,
+  ru_piracy_template, iab_spec_example_unfilled, etc.). Number of
+  publishers carrying each, top-10 exemplars.
 
 - **`publisher_managerdomain`** — 20,385 publisher → wrapper-service
   attributions via the IAB ads.txt v1.1 MANAGERDOMAIN directive.
 
-- **`wrapper_audit`** — 261 wrappers. Pooled false-rate per wrapper
-  service (CafeMedia/Raptive, Mediavine, TheMoneytizer, Freestar, etc.)
+- **`wrapper_audit`** — 384 wrappers (threshold: ≥2 publishers). Pooled
+  false-rate per wrapper service (CafeMedia/Raptive, Mediavine,
+  TheMoneytizer, Freestar, plus long-tail managed services).
 
-- **`edgar_grep`** — 35 EDGAR full-text-search queries. Each row carries
-  the query URL plus the hit count we observed. A reader who clicks the
-  URL gets the current count.
+- **`edgar_grep`** — 75 EDGAR full-text-search queries across 15 public
+  ad-tech and platform-owner SEC filers (DV/IAS/MGNI/PUBM/CRTO/TTD/
+  TBLA + GOOGL/META/AMZN/MSFT + CMCSA/DIS/NFLX/WBD). Each row carries
+  the query URL plus the hit count we observed.
 
-- **`external_citations`** — 8 external facts (DOJ Brinkema verdict,
-  ANA $26B benchmark, DV class action, etc.) with source URLs.
+- **`external_citations`** — 16 external facts: DOJ Brinkema verdict +
+  remedies trial, ANA $26B benchmark, DV class action, Kubient SEC
+  precedent, IAB Tech Lab specs (sellers.json, ads.txt, AAMP),
+  EU DSA Art. 39, EU AI Act, UK ICO RTB ruling, FTC dark patterns
+  report, NYT v. OpenAI, COPPA enforcement, ISBA/PwC 2020 supply-chain
+  study, ANA 2020 precursor.
 
-- **`named_findings`** — 12 curated headline-grade findings, each with
+- **`named_findings`** — 16 curated headline-grade findings, each with
   a `verifiable_via` SQL/shell snippet a reviewer can re-run.
 
 - **`snapshot_chain`** — hash-chained snapshot history. Each row records
