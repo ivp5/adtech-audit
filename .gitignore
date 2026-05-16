@@ -1,6 +1,8 @@
-# Large uncompressed files — only distribute .gz versions
+# Large uncompressed files — only distribute compressed (.xz) versions
 false_direct_claims.jsonl
 claims/
 *.db
 *.bak
 *.bak.*
+# atomic_sqlite_build leaves these on SIGTERM/SIGKILL
+receipts.db.tmp.*
