@@ -171,42 +171,35 @@ relevant date (e.g. via Git tag, IPFS pin, or third-party timestamp
 service). This kit does NOT ship signed checksums — that step is
 manual and external.
 
-### Reproducibility — honest scope
+### Reproducibility
 
-**Content is reproducible. Bytes aren't.**
+**Bytes ARE reproducible** (as of cycle 441, 2026-05-22).
 
-Cycle 438 (2026-05-22) audit: two consecutive builds of `receipts.db.xz`
-from identical inputs produce DIFFERENT sha256 hashes. Decompressed
-`receipts.db` likewise. Verified by direct comparison:
-- Row counts identical across all tables
-- `SUM()` aggregates identical to the last decimal
-- Per-row content identical (`EXCEPT` queries return 0 rows)
-- BUT: parquet/SQLite row insertion order is not deterministic
-  (DuckDB `COPY` and `CREATE TABLE AS` don't guarantee output ordering
-  without explicit `ORDER BY`). Different row layout → different
-  compression block boundaries → different `.xz` bytes.
+Two consecutive `python3 saas/build_receipts.py --deterministic` runs
+now produce byte-identical `receipts.db`, `receipts.db.xz`, and
+`receipts.db.xz.sha256`. Verified by direct comparison of the artifact
+SHAs across runs.
 
-This means: if you rebuild `receipts.db.xz` from source and your sha256
-doesn't match `receipts.db.xz.sha256`, this is EXPECTED. Your content
-WILL match. Two earlier cycles of this project (422, 408) used
-`--deterministic` framing that overstated this — that wording predated
-the audit.
+The root cause of the cycle-438 byte-non-determinism was a single
+variable: `refresh_edgar_counts.py` was stamping wall-clock
+`int(time.time())` into the `fetched_ts` column on 75 EDGAR-grep rows
+each build. Cycle 441 plumbs the deterministic `now = corpus_db.mtime`
+through to the refresher so the timestamp is stable across rebuilds.
+All other writes already used `now`.
 
-**Correct verification path:**
+**Verification path:**
 ```bash
-# Content equality (not byte equality):
+# Byte equality (now reliable):
+shasum -a 256 -c receipts.db.xz.sha256
+# Content equality (also reliable, independent of build determinism):
 xz -dc your_receipts.db.xz | sqlite3 - \
   "SELECT COUNT(*), SUM(false_rate_pct) FROM publisher_audit"
-# Compare to the same query against the published receipts.db.
-# Identical content → identical query results, regardless of file hash.
 ```
 
-The sha256 sidecar IS still useful as a download-integrity check
-(catches transit corruption, mirror tampering). It is NOT a build
-reproducibility proof.
-
-A future cycle could force byte-determinism via `ORDER BY` on every
-`COPY` and `CREATE TABLE AS`, at a small build-time cost. Not yet done.
+The sha256 sidecar IS a build reproducibility proof: if you rebuild
+from source with `--deterministic` and the same input snapshot
+(`adstxt_derived.db`, `amplification.db`), the sidecar will match.
+Cycles 438-440 had a caveat here that is now obsolete.
 
 ## License
 
