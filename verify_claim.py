@@ -79,7 +79,87 @@ def normalize_domain(d: str) -> str:
             .rstrip('/'))
 
 
-def cmd_domain(con, domain: str) -> int:
+def cmd_live_verify(domain: str) -> int:
+    """Cycle 435: bridge frozen receipts → live world. Fetches ads.txt +
+    sellers.json AT THIS MOMENT and produces a verdict against current
+    reality, not against the receipts.db snapshot. Implements verify.py
+    logic inline (no import dependency on the sibling script).
+
+    The frozen receipts.db verdict is what the project ships. But every
+    verdict ages: registries change, ads.txt is updated, publishers add
+    or remove partners. Without a live re-check, a user reading the
+    frozen verdict has no way to know if it still reflects reality.
+    This bridge gives them BOTH numbers when they want them.
+    """
+    from urllib.request import Request, urlopen
+    from collections import Counter
+    import json as _json, csv as _csv
+    from functools import lru_cache
+
+    def fetch(url: str) -> str:
+        return urlopen(
+            Request(url, headers={'User-Agent': 'verify_claim/live'}),
+            timeout=20
+        ).read().decode('utf-8', 'replace')
+
+    @lru_cache(maxsize=None)
+    def load_registry(ssp: str):
+        # cycle 434: a few SSPs publish sellers.json at a non-canonical URL
+        OVERRIDES = {
+            'google.com':       'https://realtimebidding.google.com/sellers.json',
+            'doubleclick.net':  'https://realtimebidding.google.com/sellers.json',
+            'sovrn.com':        'https://lijit.com/sellers.json',
+            'genieesspv.jp':    'https://r.genieesspv.jp/sellers.json',
+        }
+        url = OVERRIDES.get(ssp, f'https://{ssp}/sellers.json')
+        try:
+            sellers = _json.loads(fetch(url)).get('sellers') or []
+        except Exception:
+            return None
+        pubs, inter = set(), set()
+        for s in sellers:
+            sid = str(s.get('seller_id', '')).lower()
+            stype = (s.get('seller_type') or '').upper().strip()
+            (inter if stype == 'INTERMEDIARY' else pubs).add(sid)
+        return pubs, inter
+
+    print(f'=== {domain} (LIVE — fetched at query time) ===')
+    try:
+        body = fetch(f'https://{domain}/ads.txt').lstrip('﻿')
+    except Exception as e:
+        print(f'  could not fetch ads.txt: {e}')
+        return 2
+    tally = Counter()
+    for fields in _csv.reader(line.split('#', 1)[0] for line in body.splitlines()):
+        if len(fields) < 3 or fields[2].strip().upper() != 'DIRECT':
+            continue
+        ssp = fields[0].strip().lower()
+        seller_id = fields[1].strip().lower()
+        reg = load_registry(ssp)
+        verdict = ('UNCOVERED' if reg is None
+                   else 'PLAUSIBLE'    if seller_id in reg[0]
+                   else 'CONTRADICTED' if seller_id in reg[1]
+                   else 'PHANTOM')
+        tally[verdict] += 1
+    total = sum(tally.values())
+    if not total:
+        print('  no DIRECT lines found')
+        return 2
+    print(f'  total_direct claims        : {total:>7}')
+    print(f'  PLAUSIBLE (in registry)    : {tally["PLAUSIBLE"]:>7}  '
+          f'({100*tally["PLAUSIBLE"]/total:.1f}%)')
+    print(f'  PHANTOM (no registry)      : {tally["PHANTOM"]:>7}  '
+          f'({100*tally["PHANTOM"]/total:.1f}%)')
+    print(f'  CONTRADICTED (type wrong)  : {tally["CONTRADICTED"]:>7}  '
+          f'({100*tally["CONTRADICTED"]/total:.1f}%)')
+    print(f'  UNCOVERED (SSP unreachable): {tally["UNCOVERED"]:>7}  '
+          f'({100*tally["UNCOVERED"]/total:.1f}%)')
+    false = tally['PHANTOM'] + tally['CONTRADICTED']
+    print(f'  combined false-rate (live) : {100*false/total:>6.2f}%')
+    return 0
+
+
+def cmd_domain(con, domain: str, *, live_too: bool = False) -> int:
     domain = normalize_domain(domain)
     row = con.execute(
         'SELECT total_direct, direct_valid, direct_phantom, '
@@ -89,7 +169,10 @@ def cmd_domain(con, domain: str) -> int:
     if not row:
         print(f'No measurement on file for {domain}.')
         print('Possible: not in our crawl set, or coverage gap.')
-        print('Run release/verify.py against your live ads.txt to add a fresh datapoint.')
+        print('Try: python3 verify_claim.py --live ' + domain)
+        if live_too:
+            print()
+            return cmd_live_verify(domain)
         return 2
     td, dv, dp, dc, di, rate = row
     print(f'=== {domain} (from receipts.db) ===')
@@ -140,6 +223,16 @@ def cmd_domain(con, domain: str) -> int:
                       + ', '.join(f'{s.split("_")[0]}={n}' for s, n in a_rows))
         except sqlite3.OperationalError:
             pass
+
+    # Cycle 435 — bridge frozen → live. The receipts.db verdict above is
+    # frozen at the snapshot timestamp. If the user passes --live, also
+    # do a real-time fetch of the publisher's current ads.txt + each
+    # cited SSP's current sellers.json and produce a fresh verdict.
+    # The DELTA between frozen and live tells the user whether the
+    # receipt is still trustworthy or has been outrun by the world.
+    if live_too:
+        print()
+        cmd_live_verify(domain)
     return 0
 
 
@@ -505,6 +598,10 @@ def main() -> int:
                    help='Shortcut: show industrial template authors (A5 surface)')
     p.add_argument('--limit', type=int, default=20,
                    help='Row limit for --aberrations / --templates (default 20)')
+    p.add_argument('--live', action='store_true',
+                   help='Also fetch live ads.txt + sellers.json and produce a '
+                        'fresh verdict alongside the receipts.db snapshot. '
+                        'Bridges frozen receipt → current world.')
     p.add_argument('domain', nargs='?')
     args = p.parse_args()
 
@@ -518,6 +615,12 @@ def main() -> int:
     if args.aberrations: return cmd_aberrations(con, args.surface, args.limit)
     if args.findings:    return cmd_findings(con)
     if args.provenance:  return cmd_provenance(con, args.receipts)
+    if args.live and args.domain:
+        # --live + domain: skip the frozen path, do only live verification
+        # (or pass live_too=True for both)
+        return cmd_domain(con, args.domain, live_too=True)
+    if args.live:
+        print('FAIL: --live requires a domain', file=sys.stderr); return 2
     if args.domain:      return cmd_domain(con, args.domain)
     # Default action: show findings to make first impression high-value
     return cmd_findings(con)
