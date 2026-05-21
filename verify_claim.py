@@ -353,11 +353,13 @@ def cmd_report(con, target: str, out_path: Path | None = None) -> int:
 
 
 def cmd_aberrations(con, surface: str | None = None, limit: int = 20) -> int:
-    """Cycle 2026-05-21: surface micro-aberrations detected via the
-    amplification layer. Three surfaces:
-      A1_pub_internal   — pair >=2σ below the publisher's other pairs
-      A2_ssp_internal   — publisher >=2σ below the SSP's pub-mean dist
+    """Cycle 2026-05-21 + 428: surface micro-aberrations detected via
+    the amplification layer. Four surfaces:
+      A1_pub_internal   — pair below publisher's other pairs (rank-pctile)
+      A2_ssp_internal   — publisher below SSP-pub mean (rank-pctile)
       A3_xssp_coherence — publisher spans >=3 confidence tiers across SSPs
+      A5_pair_template  — per-(ssp, seller_id) industrial-template ranking
+                           (cycle 428; surfaces template authors directly)
     """
     try:
         sql = ('SELECT surface, rank, domain, ssp, seller_id, confidence, '
@@ -381,14 +383,26 @@ def cmd_aberrations(con, surface: str | None = None, limit: int = 20) -> int:
         if sf != cur:
             cur = sf
             description = {
-                'A1_pub_internal':   '(pair >=2σ below publisher mean)',
-                'A2_ssp_internal':   '(pub >=2σ below SSP-pub mean)',
+                'A1_pub_internal':   '(pair in pub bottom 1%)',
+                'A2_ssp_internal':   '(pub in SSP-pub bottom 1%)',
                 'A3_xssp_coherence': '(pub spans >=3 tiers across SSPs)',
+                'A5_pair_template':  '(per-pair template ranking — domain field = n_pubs carrying)',
             }.get(sf, '')
             print(f'  ── {sf} {description} ──')
-        print(f'    #{rk:>3} {d:<32} ssp={ssp:<22} sid={(sid or "")[:18]:<18} '
-              f'conf={conf:>5.3f}  metric={met:>6.2f}  ctx_mean={cm:>5.3f}  ctx_n={cn}')
+        # A5's `domain` field holds n_pubs count instead of a publisher domain
+        if sf == 'A5_pair_template':
+            print(f'    #{rk:>3}  pubs={d:>5}  ssp={ssp:<25} sid={(sid or "")[:32]:<32} '
+                  f'conf={conf:>5.3f}  logit={met:>6.2f}')
+        else:
+            print(f'    #{rk:>3} {d:<32} ssp={ssp:<22} sid={(sid or "")[:18]:<18} '
+                  f'conf={conf:>5.3f}  metric={met:>6.2f}  ctx_mean={cm:>5.3f}  ctx_n={cn}')
     return 0
+
+
+def cmd_templates(con, limit: int = 20) -> int:
+    """Cycle 428: shortcut for --aberrations --surface A5_pair_template.
+    Shows the industrial template authors directly."""
+    return cmd_aberrations(con, surface='A5_pair_template', limit=limit)
 
 
 def cmd_findings(con) -> int:
@@ -483,11 +497,14 @@ def main() -> int:
     p.add_argument('--provenance', action='store_true')
     p.add_argument('--aberrations', action='store_true',
                    help='Surface top micro-aberrations from amplification layer')
-    p.add_argument('--surface', choices=('A1_pub_internal', 'A2_ssp_internal',
-                                          'A3_xssp_coherence'),
+    p.add_argument('--surface',
+                   choices=('A1_pub_internal', 'A2_ssp_internal',
+                             'A3_xssp_coherence', 'A5_pair_template'),
                    help='Filter --aberrations by surface')
+    p.add_argument('--templates', action='store_true',
+                   help='Shortcut: show industrial template authors (A5 surface)')
     p.add_argument('--limit', type=int, default=20,
-                   help='Row limit for --aberrations (default 20)')
+                   help='Row limit for --aberrations / --templates (default 20)')
     p.add_argument('domain', nargs='?')
     args = p.parse_args()
 
@@ -497,6 +514,7 @@ def main() -> int:
     if args.signature:   return cmd_signature(con, args.signature)
     if args.premium:     return cmd_premium(con)
     if args.edgar:       return cmd_edgar(con)
+    if args.templates:   return cmd_templates(con, args.limit)
     if args.aberrations: return cmd_aberrations(con, args.surface, args.limit)
     if args.findings:    return cmd_findings(con)
     if args.provenance:  return cmd_provenance(con, args.receipts)
