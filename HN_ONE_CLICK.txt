@@ -1,0 +1,109 @@
+================================================================
+SUBMIT AT:  https://news.ycombinator.com/submit
+================================================================
+
+Three things to paste, in order.  Pick ONE title, paste the URL,
+post the comment as the first reply to your own submission.
+
+----------------------------------------------------------------
+TITLE  (pick one — recommended #1, defensible after cycle 412)
+----------------------------------------------------------------
+
+  1. Show HN: 60-second reproducer audits the IAB ads.txt/sellers.json framework
+     (specific, technical, no falsifiable superlatives)
+
+  2. Show HN: 26.8% of programmatic ads.txt DIRECT claims are phantom — 60-second reproducer
+     (number-led; 26.8% is corpus-snapshot; cite as such if asked)
+
+  3. SpotX has 21K publisher DIRECT claims; its registry has returned 0 bytes for 5 years
+     (apex single-SSP example; mood-piece variant)
+
+  4. Empirical study: 76K publishers × 6.56M DIRECT ads.txt claims; ~1% spec-compliant
+     (factual, no editorial framing)
+
+----------------------------------------------------------------
+URL
+----------------------------------------------------------------
+
+https://github.com/ivp5/adtech-audit
+
+(verify this is public before submitting; the project may need a
+public-repo flip first)
+
+----------------------------------------------------------------
+FIRST COMMENT  (paste as a reply to your own submission, ~2,400 chars)
+----------------------------------------------------------------
+
+Author here. The IAB Tech Lab's ads.txt and sellers.json specs are the
+"supply-chain transparency" framework underneath programmatic
+advertising. I cross-referenced 76,425 publishers' ads.txt files
+against 739 SSP sellers.json registries — 28.77M total rows, 6.56M of
+which are DIRECT-typed.
+
+Findings, ranked by defensibility:
+
+1. The framework's verification primitive returns 1 bit per claim
+   ("seller_id exists in registry: yes/no"). The registry encodes
+   ~17.77 bits per row. The gap is by design; whether it's a problem
+   depends on whether verification should have returned more than the
+   spec mandates.
+
+2. 26.8% of corpus DIRECT claims are PHANTOM (no registry record at
+   all anywhere). N=100 random-sample re-verified against current live
+   registries: 95.6% confirmation. Spec-violating subset.
+
+3. SpotX (Magnite) — 7,942 publishers carry DIRECT phantom claims;
+   spotxchange.com/sellers.json has returned zero bytes for 5+ years.
+   Wayback has zero JSON-200 snapshots. Largest single-SSP framework
+   failure documented.
+
+4. ~10,966 publishers carry the same 4 phantom SmartAdServer
+   seller_ids (4012/4071/4073/4074, none in the current registry).
+   Composition is mixed: ~20% piracy/streaming, ~80% legitimate
+   publishers across many TLDs.
+
+5. Multiple ad-tech rebrands (Sovrn, Magnite, SpotX) serve catch-all
+   HTML at /sellers.json on the canonical domain while the legacy
+   domain quietly hosts the registry. IAB Tech Lab's own sellers.json
+   path returns HTTP 200 + HTML.
+
+Reproducer (stdlib Python, no project deps):
+
+    git clone https://github.com/ivp5/adtech-audit
+    cd adtech-audit
+    python3 tools/reproducer/verify_template_carrier.py mangafire.to
+    # → 7/7 SSPs with claims; 845 DIRECT+RESELLER; 328 phantom + 517 mismatch
+    python3 tools/reproducer/verify_template_carrier.py nytimes.com
+    # → 0/7 SSPs with claims. Clean.
+
+What I welcome:
+- Counter-examples (publishers/SSPs mis-classified)
+- Methodology critique (synthetic-corpus falsifiability test in cycles 295-296)
+- Adjacent framework comparisons (carbon offsets, FDA 510(k), TLS PKI)
+
+Limits I'll name first:
+- Corpus is biased toward Tranco top-1M Western commercial sites.
+- Numbers are corpus-snapshot, not population estimates.
+- The "template injection" interpretation is parsimonious-given-evidence,
+  not proven; cycle 412 verified that 0 of the 826-cohort publishers
+  are phantom-majority on all 7 SSPs simultaneously (smartadserver in
+  particular registers as legitimate-intermediary mismatch, not
+  phantom). PAPER.md has the per-SSP breakdown.
+
+Paper: release/PAPER.md
+Dataset: release/false_direct_claims.jsonl[.gz] (CC0)
+Reproducer: tools/reproducer/ (MIT)
+Self-audit of the project's own claims: release/CLAIMS.jsonl + tools/claims.py
+
+Happy to clarify anything.
+
+================================================================
+NOTES (not for submission)
+================================================================
+
+- Best post window: Tue/Wed/Thu 6-9 AM Pacific.
+- Char count of comment: ~2,400 (under HN's 4,096-char comment limit).
+- Body is post-cycle-412 honest: no "phantom-majority across all 7"
+  superlative; numbers are corpus-snapshot with date pin available.
+- Repo must be PUBLIC before submission (currently private per CLAUDE.md).
+- After submission: don't re-comment defensively; let the data answer.

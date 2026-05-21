@@ -64,14 +64,19 @@ Independence-assumption probability calculations would put this at
 vanishingly small, but those calculations don't apply: the 826-publisher
 cohort clusters around shared traits (piracy / streaming / low brand-
 safety enforcement), so the per-vendor selections aren't independent
-draws — they share a common targeting axis. The structural fact is the
-fact: 826 publishers, 7 SSPs, simultaneously, with phantom-majority
-claims that don't resolve. Cycle 211 + 381 evidence (shared seller_ids
-across thousands of publishers; ID-format extrapolation just above each
-SSP's historical max) make shared template authorship the most
-parsimonious explanation among alternatives. The IAB framework's
-existence-check cannot detect this because the templated seller_ids are
-in plausibly-legitimate format ranges.
+draws — they share a common targeting axis. The structural fact is:
+826 publishers carry at least one phantom claim against each of the 7
+SSPs simultaneously. The phantom-MAJORITY framing is too strong for
+all 7 — smartadserver in particular has 0/826 phantom-majority because
+its seller_ids resolve to legitimate intermediaries (mismatch, not
+phantom). The honest version: ≥1 phantom per SSP, with magnitude
+varying — see release/PAPER.md for the per-SSP breakdown. Cycle 211 +
+381 evidence (shared seller_ids across thousands of publishers;
+ID-format extrapolation just above each SSP's historical max) make
+shared template authorship the most parsimonious explanation among
+alternatives. The IAB framework's existence-check cannot detect this
+because the templated seller_ids are in plausibly-legitimate format
+ranges.
 
 Apex single-SSP example (cycles 379-381, corrected cycle 390):
 **spotxchange.com — 7,942 publishers carry SpotX DIRECT-typed claims
@@ -104,15 +109,15 @@ cd adtech-audit
 
 # Single-command demo of the phantom-claim shape:
 python3 tools/reproducer/verify_template_carrier.py mangafire.to
-# Measured: 7/7 SSPs with DIRECT claims
-#   spotxchange.com  32 claims, REGISTRY DEAD (network error)
-#   sovrn.com       285 claims, 74 phantom + 211 mismatch
-#   seedtag.com      22 claims, 11 phantom + 11 mismatch
-#   richaudience.com 46 claims, 9 phantom + 37 mismatch
-#   smartadserver   136 claims, 42 phantom + 94 mismatch
-#   mgid.com         18 claims, 13 phantom + 5 mismatch
-#   themoneytizer     9 claims, 7 phantom + 2 mismatch
-#   total: 548 DIRECT claims, 0 match registry+domain
+# Measured: 7/7 SSPs with DIRECT+RESELLER claims (cycle 411 cohort schema)
+#   spotxchange.com  38 claims, REGISTRY DEAD (network error)
+#   sovrn.com       126 claims, 70 phantom + 56 mismatch
+#   seedtag.com      23 claims, 12 phantom + 11 mismatch
+#   richaudience.com 60 claims, 12 phantom + 48 mismatch
+#   smartadserver   566 claims, 172 phantom + 394 mismatch
+#   mgid.com         23 claims, 17 phantom + 6 mismatch
+#   themoneytizer     9 claims,  7 phantom + 2 mismatch
+#   total: 845 DIRECT+RESELLER claims, 0 match registry+domain
 # The script reports MEASUREMENT (count thresholds, phantom-majority).
 # The interpretation (template injection per cycle 211/381) is reported
 # separately in a labeled "Interpretation" section, NOT as a verdict.

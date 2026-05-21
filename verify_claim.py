@@ -104,6 +104,42 @@ def cmd_domain(con, domain: str) -> int:
         {'d': domain}).fetchone()
     if pinned:
         print(f'  [pinned premium publisher] snapshot epoch: {pinned[0]}')
+
+    # Cycle 2026-05-21: surface continuous-confidence detail if the
+    # amplification layer is present in this build.
+    try:
+        amp = con.execute(
+            'SELECT n_pairs, mean_confidence, sd_confidence, '
+            'p10_confidence, p50_confidence, p90_confidence, '
+            'n_very_low, n_very_high, frac_paper, frac_operational, '
+            'frac_phantom_explicit '
+            'FROM publisher_confidence_summary WHERE domain = :d',
+            {'d': domain}).fetchone()
+    except sqlite3.OperationalError:
+        amp = None  # table not in this build
+    if amp:
+        n, m, sd, p10, p50, p90, nvl, nvh, fp, fo, fpe = amp
+        print(f'\n  --- amplification (continuous confidence ∈ [0,1]) ---')
+        print(f'  pairs scored               : {n:>7}')
+        print(f'  mean confidence            : {m:>6.3f}  (sd={sd:.3f})')
+        print(f'  confidence percentiles     : p10={p10:.3f}  '
+              f'p50={p50:.3f}  p90={p90:.3f}')
+        print(f'  pairs at very_low (<0.05)  : {nvl:>7}  ({100*nvl/max(n,1):.1f}%)')
+        print(f'  pairs at very_high (>=0.95): {nvh:>7}  ({100*nvh/max(n,1):.1f}%)')
+        print(f'  signal fractions           : '
+              f'paper={fp:.2f}  operational={fo:.2f}  '
+              f'phantom_explicit={fpe:.2f}')
+        # Aberration count
+        try:
+            a_rows = list(con.execute(
+                'SELECT surface, COUNT(*) FROM pair_aberrations_top '
+                'WHERE domain = :d GROUP BY surface',
+                {'d': domain}))
+            if a_rows:
+                print(f'  aberrations flagged        : '
+                      + ', '.join(f'{s.split("_")[0]}={n}' for s, n in a_rows))
+        except sqlite3.OperationalError:
+            pass
     return 0
 
 
@@ -316,6 +352,45 @@ def cmd_report(con, target: str, out_path: Path | None = None) -> int:
     return 0
 
 
+def cmd_aberrations(con, surface: str | None = None, limit: int = 20) -> int:
+    """Cycle 2026-05-21: surface micro-aberrations detected via the
+    amplification layer. Three surfaces:
+      A1_pub_internal   — pair >=2σ below the publisher's other pairs
+      A2_ssp_internal   — publisher >=2σ below the SSP's pub-mean dist
+      A3_xssp_coherence — publisher spans >=3 confidence tiers across SSPs
+    """
+    try:
+        sql = ('SELECT surface, rank, domain, ssp, seller_id, confidence, '
+               'metric, context_mean, context_n FROM pair_aberrations_top')
+        params: dict = {}
+        if surface:
+            sql += ' WHERE surface = :sf'
+            params['sf'] = surface
+        sql += f' ORDER BY surface, rank LIMIT {int(limit)}'
+        rows = list(con.execute(sql, params))
+    except sqlite3.OperationalError:
+        print('No pair_aberrations_top in this build (amplification layer missing).')
+        return 2
+    if not rows:
+        print(f'No aberrations on file' + (f' for surface={surface}' if surface else ''))
+        return 2
+    print(f'=== Pair aberrations (top {limit} {("for " + surface) if surface else "per surface"}) ===')
+    print()
+    cur = None
+    for sf, rk, d, ssp, sid, conf, met, cm, cn in rows:
+        if sf != cur:
+            cur = sf
+            description = {
+                'A1_pub_internal':   '(pair >=2σ below publisher mean)',
+                'A2_ssp_internal':   '(pub >=2σ below SSP-pub mean)',
+                'A3_xssp_coherence': '(pub spans >=3 tiers across SSPs)',
+            }.get(sf, '')
+            print(f'  ── {sf} {description} ──')
+        print(f'    #{rk:>3} {d:<32} ssp={ssp:<22} sid={(sid or "")[:18]:<18} '
+              f'conf={conf:>5.3f}  metric={met:>6.2f}  ctx_mean={cm:>5.3f}  ctx_n={cn}')
+    return 0
+
+
 def cmd_findings(con) -> int:
     """Cycle H: surface the curated headline findings."""
     print('=== Named findings (curated headline-grade examples) ===')
@@ -406,18 +481,26 @@ def main() -> int:
     p.add_argument('--out', type=Path, default=None,
                    help='Write report to file instead of stdout')
     p.add_argument('--provenance', action='store_true')
+    p.add_argument('--aberrations', action='store_true',
+                   help='Surface top micro-aberrations from amplification layer')
+    p.add_argument('--surface', choices=('A1_pub_internal', 'A2_ssp_internal',
+                                          'A3_xssp_coherence'),
+                   help='Filter --aberrations by surface')
+    p.add_argument('--limit', type=int, default=20,
+                   help='Row limit for --aberrations (default 20)')
     p.add_argument('domain', nargs='?')
     args = p.parse_args()
 
     con = open_receipts(args.receipts)
-    if args.report:     return cmd_report(con, args.report, args.out)
-    if args.ssp:        return cmd_ssp(con, args.ssp)
-    if args.signature:  return cmd_signature(con, args.signature)
-    if args.premium:    return cmd_premium(con)
-    if args.edgar:      return cmd_edgar(con)
-    if args.findings:   return cmd_findings(con)
-    if args.provenance: return cmd_provenance(con, args.receipts)
-    if args.domain:     return cmd_domain(con, args.domain)
+    if args.report:      return cmd_report(con, args.report, args.out)
+    if args.ssp:         return cmd_ssp(con, args.ssp)
+    if args.signature:   return cmd_signature(con, args.signature)
+    if args.premium:     return cmd_premium(con)
+    if args.edgar:       return cmd_edgar(con)
+    if args.aberrations: return cmd_aberrations(con, args.surface, args.limit)
+    if args.findings:    return cmd_findings(con)
+    if args.provenance:  return cmd_provenance(con, args.receipts)
+    if args.domain:      return cmd_domain(con, args.domain)
     # Default action: show findings to make first impression high-value
     return cmd_findings(con)
 

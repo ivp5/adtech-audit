@@ -234,13 +234,33 @@ top 6 phantom seller_ids cluster in legitimate-looking 5-6-digit format;
 4 of them are within historical SpotX numeric range, 2 are
 extrapolation-guesses just above the historical max.
 
-**Multi-SSP cohort (cycles 382, 401):** 826 publishers carry phantom-
-majority DIRECT claims against all 7 cycle-211 named-injection SSPs
-simultaneously. Cycle 401 found this cohort is a tighter subset of a
-broader 10,966-publisher cohort defined by 4 specific smartadserver
-phantom seller_ids (4012, 4071, 4073, 4074, none in current registry);
-union with adform 1941 phantom = **12,140 publishers** with at least
-one signature.
+**Multi-SSP cohort (cycles 382, 401, 411, 412):** 826 publishers carry
+at least one phantom claim (DIRECT or RESELLER) against each of the
+7 cycle-211 named-injection SSPs simultaneously. The DIRECT-only
+intersection is 636 publishers; the rel-agnostic cohort matching
+cycle 382's SQL is 826. Cycle 411 made the per-SSP filter expression
+first-class data in `tools/reproducer/cohorts/cycle211_named_injection.json`
+so the reproducer reproduces the 826 number directly.
+
+A pre-cycle-412 framing of this cohort claimed "phantom-majority"
+across all 7 SSPs simultaneously. Verification (cycle 412) refutes
+that stronger claim: under both DIRECT-only and cycle-411-filter
+semantics, zero of the 826 publishers are phantom-majority across
+all 7 SSPs. The blocking SSP is smartadserver, where 826/826
+publishers have claims but 0/826 are phantom-majority — the
+seller_ids exist in the registry but are assigned to legitimate
+intermediaries (mismatch, not phantom). Per-SSP phantom-majority
+rates within the 826 cohort: spotxchange 826/826 (registry dead);
+mgid 817/826; themoneytizer 791/826; sovrn-with-eb-suffix 745/826;
+richaudience 87/826; seedtag 74/826; smartadserver 0/826. The
+correct framing is "≥1 phantom claim against each SSP," not
+"phantom-majority across all SSPs."
+
+Cycle 401 found this cohort is a tighter subset of a broader
+10,966-publisher cohort defined by 4 specific smartadserver phantom
+seller_ids (4012, 4071, 4073, 4074, none in current registry);
+union with adform 1941 phantom = **12,140 publishers** with at
+least one signature.
 
 **Reading sharpening (cycle 391):** what cycle 232-293 framed as
 "domain-mismatch / cartel" is largely intermediary-chain — publishers

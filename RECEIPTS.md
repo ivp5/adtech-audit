@@ -9,8 +9,8 @@ directly measured in `receipts.db` or has a live URL anyone can re-run.
 
 | File | Purpose | Size |
 |---|---|---|
-| `receipts.db.xz` | Compressed SQLite of every measurement | ~4 MB |
-| `verify_claim.py` | Offline CLI: looks up any claim against the DB | 15 KB |
+| `receipts.db.xz` | Compressed SQLite of every measurement | ~4.4 MB |
+| `verify_claim.py` | Offline CLI: looks up any claim against the DB | 18 KB |
 | `verify.py` | Live CLI: scans any publisher's ads.txt vs sellers.json | 2 KB |
 | `RECEIPTS.md` | This file | — |
 
@@ -19,18 +19,20 @@ directly measured in `receipts.db` or has a live URL anyone can re-run.
 ```bash
 # verify_claim.py auto-decompresses receipts.db.xz on first run; or
 # decompress manually:
-xz -dk receipts.db.xz                        # → receipts.db (~22 MB), keeps .xz
+xz -dk receipts.db.xz                        # → receipts.db (~20 MB), keeps .xz
 python3 verify_claim.py --provenance         # show manifest + hash
 python3 verify_claim.py --premium            # premium publisher audit
 python3 verify_claim.py --edgar              # EDGAR disclosure-gap URLs
 python3 verify_claim.py --ssp google.com     # per-SSP fab rate
 python3 verify_claim.py techcrunch.com       # any-publisher lookup
+python3 verify_claim.py --aberrations        # micro-anomalies (amplification)
+python3 verify_claim.py --aberrations --surface A1_pub_internal --limit 10
 python3 verify.py example.com                # live ads.txt vs sellers.json scan
 ```
 
 ## What's in `receipts.db`
 
-Twelve tables. Current row counts (sealed at snapshot time, recoverable
+Fifteen tables. Current row counts (sealed at snapshot time, recoverable
 via `SELECT COUNT(*) FROM <table>`):
 
 - **`pair_prevalence`** — 277,589 rows. Every (SSP, seller_id) pair we
@@ -83,6 +85,29 @@ via `SELECT COUNT(*) FROM <table>`):
 - **`manifest`** — schema version, snapshot timestamp, corpus source
   bytes, methodology, license terms.
 
+- **`publisher_confidence_summary`** — per-publisher continuous
+  confidence aggregates (cycle 2026-05-21 amplification layer). The
+  previous tier scheme collapsed each claim to one of 6 buckets; this
+  layer computes a continuous confidence ∈ [0, 1] per (publisher, SSP,
+  seller_id) DIRECT pair by fusing 11 signals via log-odds, then rolls
+  up per-publisher: `mean`, `p10`, `p50`, `p90`, `sd`, `n_very_low`,
+  `n_very_high`, plus `frac_paper`, `frac_operational`,
+  `frac_phantom_explicit` (the fraction of pairs whose signals fired).
+
+- **`ssp_confidence_summary`** — per-SSP equivalent: `n_publishers`,
+  `n_pairs`, plus distribution stats over per-publisher mean
+  confidence. Identifies SSPs whose pub-population is structurally
+  bimodal (one tier clean, another targeted-injected).
+
+- **`pair_aberrations_top`** — top-500-per-surface specific anomalies.
+  Three surfaces: **A1 publisher-internal pair outliers** (one pair
+  >= 2σ below the publisher's other pairs — micro-injection
+  candidates), **A2 SSP-internal publisher outliers** (one publisher
+  >= 2σ below the SSP's pub-mean distribution — targeted-campaign
+  candidates), **A3 cross-SSP coherence violations** (publishers
+  spanning ≥3 confidence tiers across ≥4 SSPs — wrapper-mixed
+  portfolios). Each row is a specific tuple a reviewer can open.
+
 ## Verifying the central claims
 
 Each claim in the project's outputs maps to a query you can run here:
@@ -96,6 +121,9 @@ Each claim in the project's outputs maps to a query you can run here:
 | "12,499 publishers carry the cycle211_named_injection signature" | `verify_claim.py --signature cycle211_named_injection` |
 | "TheMoneytizer wrapper: 998 publishers, 83% pooled false-rate" | `SELECT * FROM wrapper_audit WHERE managerdomain='themoneytizer.com';` |
 | "ANA quantified $26B/yr programmatic waste" | `SELECT * FROM external_citations WHERE fact_id='ana_q2_2025_benchmark';` |
+| "Continuous per-pair confidence (replaces 6-tier verdict)" | `SELECT mean_confidence, p10_confidence, p90_confidence FROM publisher_confidence_summary WHERE domain='nytimes.com';` |
+| "Micro-aberrations the binary tier buried" | `SELECT * FROM pair_aberrations_top WHERE surface='A1_pub_internal' ORDER BY metric DESC LIMIT 10;` |
+| "SSPs with bimodal publisher confidence (clean vs targeted-injection split)" | `SELECT ssp, n_publishers, mean_pub_confidence, n_pubs_very_low, n_pubs_high FROM ssp_confidence_summary WHERE n_pubs_very_low > 5 AND n_pubs_high > 5;` |
 
 ## Methodology in one paragraph
 

@@ -1,0 +1,97 @@
+================================================================
+PASTE INTO YOUR EMAIL CLIENT.  YOU PRESS SEND.
+================================================================
+
+TO:        aaron.sankin@themarkup.org
+SUBJECT:   Empirical audit of IAB ads.txt framework — 76,425 publishers, reproducer ships
+
+================================================================
+BODY (paste below the subject line)
+================================================================
+
+Hi Aaron,
+
+I'm reaching out because The Markup's investigative ad-tech work
+(Citizen Browser, the ANA referencing piece) is the closest model
+I've found for an empirical study I've completed and would like to
+discuss co-publishing.
+
+The audit:
+
+- 76,425 publishers × 4,725 SSPs cited × 28.77M total ads.txt rows
+  (6.56M of which are DIRECT-typed) cross-referenced against 739
+  SSP sellers.json registries.
+- 26.8% of corpus DIRECT claims are PHANTOM (no registry record at
+  all); a 100-claim re-verification against current live registries
+  produced 95.6% confirmation.
+- ~99% of NAMED-registry-matched DIRECT claims have publisher domain
+  ≠ registry domain ≠ publisher's parent OWNERDOMAIN — the spec's
+  §4.1 "directly controlled by the website owner" definition is
+  contradicted across the major SSPs (Magnite/Rubicon classifies
+  account 17280 as INTERMEDIARY for Seedtag Advertising SL since at
+  least 2020-07; the same DIRECT claim appears on 9,143 publishers).
+- SpotX/Magnite — 7,942 publishers carry SpotX DIRECT phantom claims;
+  spotxchange.com/sellers.json has returned zero bytes for 5+ years.
+  Wayback has zero JSON-200 snapshots.
+- IAB Tech Lab's own server returns HTTP 200 + HTML at the spec-
+  mandated /sellers.json and /ads.txt paths.
+
+What I've built:
+
+- Stdlib Python reproducer; no project deps. A reader can verify any
+  publisher in 60 seconds.
+- A self-auditing claims framework that re-derives every quantitative
+  claim in the paper from SQL against the corpus DB, with an append-
+  only journal of every evaluation.
+- Synthetic-corpus falsifiability test: 100% recall on planted
+  ground truth for phantom + mismatch + template-injection.
+- Live re-verification on 2026-05-09 against 5 SSPs (Seedtag, Taboola,
+  Cadent, Rich Audience, IAB Tech Lab itself); findings persist 4
+  months after corpus snapshot.
+
+Caveats I'll surface before you ask:
+
+- Corpus is biased toward Tranco top-1M Western commercial sites.
+- The "template injection" interpretation of multi-SSP cohort overlap
+  is parsimonious-given-evidence, not proven. A self-audit (cycle 412)
+  refuted my own paper's earlier strong claim — the "all 7 SSPs are
+  phantom-majority" framing was strictly false (0 of 826 publishers
+  meet that bar; smartadserver in particular registers as legitimate-
+  intermediary mismatch, not phantom). The framework caught my own
+  drift; the corrected paper is what's online.
+
+What I'd like:
+
+- A 30-minute call to walk through methodology and findings.
+- A read on whether The Markup wants editorial control of a co-
+  published piece, or whether you'd rather cite the public dataset
+  in a separately-authored Markup story.
+- An honest "this isn't a fit" if it isn't.
+
+Repo (will flip public on agreement, or sooner if useful):
+  https://github.com/ivp5/adtech-audit
+
+Paper, dataset, reproducer, and self-audit framework are all in there;
+the dataset is CC0, the code is MIT.
+
+Thank you for your time. I've been an admiring reader.
+
+— Ivan Petushkov
+ip@scale-up.vc
+
+================================================================
+DELIVERY NOTES (not for sending)
+================================================================
+
+- Body length: ~2,400 chars (well under common email-client limits).
+- Subject line is the most important field for journalist reply-rate.
+  The chosen subject names "76,425 publishers" + "reproducer ships"
+  to signal scale + actionable artifact.
+- Do NOT paste the repo URL until the repo is public. If still
+  private, replace "Repo (will flip public ...)" with "Repo access
+  available on request" or remove that line.
+- Read once more before sending. Aaron Sankin replies to specific,
+  reproducible methodology more than to scale claims.
+- If no reply in 7 days, the COPUBLICATION_PITCH_DRAFTS.md backup
+  list (Adalytics, WSJ Haggin, Bloomberg Smith, FT Nicolaou) is
+  the next stop.
