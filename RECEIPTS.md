@@ -171,14 +171,42 @@ relevant date (e.g. via Git tag, IPFS pin, or third-party timestamp
 service). This kit does NOT ship signed checksums — that step is
 manual and external.
 
-### Reproducibility
+### Reproducibility — honest scope
 
-Two builds from the same corpus produce byte-identical data tables
-modulo three timestamp columns (`snapshot_chain.snapshot_ts`,
-`manifest.snapshot_iso`, `premium_publisher_audit.snapshot_ts`) and
-the EDGAR live counts (which reflect SEC's index at fetch time).
-The `--skip-edgar` flag to `build_receipts.py` produces builds
-without live EDGAR data for fast comparison.
+**Content is reproducible. Bytes aren't.**
+
+Cycle 438 (2026-05-22) audit: two consecutive builds of `receipts.db.xz`
+from identical inputs produce DIFFERENT sha256 hashes. Decompressed
+`receipts.db` likewise. Verified by direct comparison:
+- Row counts identical across all tables
+- `SUM()` aggregates identical to the last decimal
+- Per-row content identical (`EXCEPT` queries return 0 rows)
+- BUT: parquet/SQLite row insertion order is not deterministic
+  (DuckDB `COPY` and `CREATE TABLE AS` don't guarantee output ordering
+  without explicit `ORDER BY`). Different row layout → different
+  compression block boundaries → different `.xz` bytes.
+
+This means: if you rebuild `receipts.db.xz` from source and your sha256
+doesn't match `receipts.db.xz.sha256`, this is EXPECTED. Your content
+WILL match. Two earlier cycles of this project (422, 408) used
+`--deterministic` framing that overstated this — that wording predated
+the audit.
+
+**Correct verification path:**
+```bash
+# Content equality (not byte equality):
+xz -dc your_receipts.db.xz | sqlite3 - \
+  "SELECT COUNT(*), SUM(false_rate_pct) FROM publisher_audit"
+# Compare to the same query against the published receipts.db.
+# Identical content → identical query results, regardless of file hash.
+```
+
+The sha256 sidecar IS still useful as a download-integrity check
+(catches transit corruption, mirror tampering). It is NOT a build
+reproducibility proof.
+
+A future cycle could force byte-determinism via `ORDER BY` on every
+`COPY` and `CREATE TABLE AS`, at a small build-time cost. Not yet done.
 
 ## License
 
