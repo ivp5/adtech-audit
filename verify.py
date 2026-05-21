@@ -23,6 +23,9 @@ SSP_URL_OVERRIDES = {
     'doubleclick.net':  'https://realtimebidding.google.com/sellers.json',
     'sovrn.com':        'https://lijit.com/sellers.json',
     'genieesspv.jp':    'https://r.genieesspv.jp/sellers.json',
+    # Cycle 441: criteo.net is the CDN domain; 568 publishers reference it
+    # but it doesn't publish sellers.json. Canonical is criteo.com.
+    'criteo.net':       'https://criteo.com/sellers.json',
 }
 
 
