@@ -33,6 +33,8 @@ SSP_URL_OVERRIDES = {
     # 154 pubs claim DIRECT; the canonical registry classifies the ID
     # as INTERMEDIARY (correctly surfaces 154 CONTRADICTED verdicts).
     'rubiconrubiconproject.com': 'https://rubiconproject.com/sellers.json',
+    # Cycle 441 PIN 4b: partnersdidna.io is a didna.io alias.
+    'partnersdidna.io': 'https://didna.io/sellers.json',
 }
 
 
