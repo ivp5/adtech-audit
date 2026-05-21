@@ -80,67 +80,30 @@ def normalize_domain(d: str) -> str:
 
 
 def cmd_live_verify(domain: str) -> int:
-    """Cycle 435: bridge frozen receipts → live world. Fetches ads.txt +
-    sellers.json AT THIS MOMENT and produces a verdict against current
-    reality, not against the receipts.db snapshot. Implements verify.py
-    logic inline (no import dependency on the sibling script).
+    """Cycle 435 + 440: bridge frozen receipts → live world. Imports
+    classify + verify_publisher from sibling verify.py (which carries
+    the canonical SSP_URL_OVERRIDES dict + load_registry). One source
+    of truth inside verify_kit.zip — cycle 440 eliminated the inline
+    duplicate that lived in this function pre-440.
 
-    The frozen receipts.db verdict is what the project ships. But every
-    verdict ages: registries change, ads.txt is updated, publishers add
-    or remove partners. Without a live re-check, a user reading the
-    frozen verdict has no way to know if it still reflects reality.
-    This bridge gives them BOTH numbers when they want them.
-    """
-    from urllib.request import Request, urlopen
-    from collections import Counter
-    import json as _json, csv as _csv
-    from functools import lru_cache
-
-    def fetch(url: str) -> str:
-        return urlopen(
-            Request(url, headers={'User-Agent': 'verify_claim/live'}),
-            timeout=20
-        ).read().decode('utf-8', 'replace')
-
-    @lru_cache(maxsize=None)
-    def load_registry(ssp: str):
-        # cycle 434: a few SSPs publish sellers.json at a non-canonical URL
-        OVERRIDES = {
-            'google.com':       'https://realtimebidding.google.com/sellers.json',
-            'doubleclick.net':  'https://realtimebidding.google.com/sellers.json',
-            'sovrn.com':        'https://lijit.com/sellers.json',
-            'genieesspv.jp':    'https://r.genieesspv.jp/sellers.json',
-        }
-        url = OVERRIDES.get(ssp, f'https://{ssp}/sellers.json')
-        try:
-            sellers = _json.loads(fetch(url)).get('sellers') or []
-        except Exception:
-            return None
-        pubs, inter = set(), set()
-        for s in sellers:
-            sid = str(s.get('seller_id', '')).lower()
-            stype = (s.get('seller_type') or '').upper().strip()
-            (inter if stype == 'INTERMEDIARY' else pubs).add(sid)
-        return pubs, inter
+    The frozen receipts.db verdict is what the project ships. --live
+    asks: does that verdict still match the world right now."""
+    import importlib.util as _imp
+    _verify_py = Path(__file__).resolve().parent / 'verify.py'
+    if not _verify_py.exists():
+        print(f'FAIL: verify.py missing alongside verify_claim.py '
+              f'({_verify_py}); verify_kit.zip incomplete?', file=sys.stderr)
+        return 1
+    spec = _imp.spec_from_file_location('verify', _verify_py)
+    verify = _imp.module_from_spec(spec)
+    spec.loader.exec_module(verify)
 
     print(f'=== {domain} (LIVE — fetched at query time) ===')
     try:
-        body = fetch(f'https://{domain}/ads.txt').lstrip('﻿')
+        tally = verify.verify_publisher(domain)
     except Exception as e:
         print(f'  could not fetch ads.txt: {e}')
         return 2
-    tally = Counter()
-    for fields in _csv.reader(line.split('#', 1)[0] for line in body.splitlines()):
-        if len(fields) < 3 or fields[2].strip().upper() != 'DIRECT':
-            continue
-        ssp = fields[0].strip().lower()
-        seller_id = fields[1].strip().lower()
-        reg = load_registry(ssp)
-        verdict = ('UNCOVERED' if reg is None
-                   else 'PLAUSIBLE'    if seller_id in reg[0]
-                   else 'CONTRADICTED' if seller_id in reg[1]
-                   else 'PHANTOM')
-        tally[verdict] += 1
     total = sum(tally.values())
     if not total:
         print('  no DIRECT lines found')
