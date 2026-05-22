@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Accountability Gap — Specimen Catalog of Dead SSPs</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4ECD8;
+  --paper-2:#EDE3C8;
+  --paper-3:#D9CBA0;
+  --ink:#1F1812;
+  --ink-65:rgba(31,24,18,.65);
+  --ink-45:rgba(31,24,18,.45);
+  --ink-25:rgba(31,24,18,.25);
+  --ink-10:rgba(31,24,18,.10);
+  --sepia:#6B4F2C;
+  --red:#8E2A1E;
+  --gilt:#A87539;
+  --moss:#5C6B3E;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --ui:'Inter',-apple-system,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#241B12;color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:oldstyle-nums proportional-nums}
+::selection{background:var(--ink);color:var(--paper)}
+
+.case{padding:32px 16px 80px;display:flex;justify-content:center;min-height:100vh}
+.book{
+  width:100%;max-width:1240px;background:var(--paper);position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 10px 24px rgba(0,0,0,.3);
+}
+.book::before,.book::after{content:"";position:absolute;pointer-events:none;z-index:10}
+.book::before{inset:18px;border:1px solid rgba(31,24,18,.30)}
+.book::after{inset:24px;border:1px solid rgba(31,24,18,.12)}
+
+/* Frontispiece */
+.front{padding:88px 80px 48px;border-bottom:3px double var(--ink);text-align:center;position:relative}
+.front .plate-no{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:600;margin-bottom:18px;display:inline-flex;align-items:center;gap:14px}
+.front .plate-no::before,.front .plate-no::after{content:"";display:inline-block;width:36px;height:1px;background:var(--ink)}
+.front .superordinate{font-family:var(--serif);font-style:italic;font-weight:400;font-size:18px;letter-spacing:.06em;color:var(--ink-65);margin-bottom:14px}
+.front h1{font-family:var(--serif);font-weight:500;font-size:clamp(36px,5.2vw,68px);line-height:1.05;letter-spacing:-.008em;margin:0 0 18px;color:var(--ink)}
+.front h1 em{font-style:italic;color:var(--red)}
+.front .strapline{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(16px,1.6vw,20px);line-height:1.45;color:var(--ink-65);max-width:60ch;margin:0 auto 24px}
+.front .strapline b{font-style:normal;color:var(--ink);font-weight:600}
+.front .credit{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-65);margin-top:24px}
+.front .credit b{color:var(--ink);font-weight:600}
+
+/* Section heading */
+.section{padding:48px 80px;border-bottom:1px solid var(--ink-25);position:relative}
+@media (max-width:760px){.section,.front{padding:32px 24px}}
+.section .sh{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:12px}
+.section .sh::before{content:"";display:inline-block;width:24px;height:1px;background:var(--ink)}
+.section h2{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(26px,3.2vw,38px);line-height:1.15;margin:0 0 18px;color:var(--ink);max-width:30ch}
+.section h2 em{color:var(--red)}
+.section p.lead{font-family:var(--serif);font-size:16px;line-height:1.65;color:var(--ink-65);max-width:62ch;margin:0 0 28px}
+.section p.lead b{color:var(--ink);font-weight:600}
+
+/* Specimen grid */
+.specimens{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.specimen{background:var(--paper-2);border:1px solid var(--ink-25);padding:24px 22px 20px;position:relative;display:flex;flex-direction:column;gap:12px}
+.specimen::before{content:"";position:absolute;inset:6px;border:1px solid rgba(31,24,18,.18);pointer-events:none}
+.specimen > *{position:relative;z-index:1}
+
+.specimen .cat-no{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--sepia);font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.specimen .cat-no .roman{color:var(--ink-45);font-weight:500}
+
+/* The illustration — stylized "tombstone" of the dead SSP */
+.stone{margin:8px auto 14px;width:140px;height:160px;position:relative;display:flex;align-items:flex-end;justify-content:center}
+.stone svg{width:100%;height:100%}
+.stone .name-plate{position:absolute;top:36px;left:50%;transform:translateX(-50%);font-family:var(--serif);font-style:italic;font-weight:500;font-size:13px;color:var(--ink);text-align:center;line-height:1.1;max-width:100px;letter-spacing:.01em}
+.stone .dates{position:absolute;top:76px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ink-65);text-align:center;width:100%}
+.stone .dates .em{font-family:var(--serif);font-style:italic;font-size:14px;letter-spacing:0;color:var(--ink-45);display:block;margin-top:2px}
+
+.specimen h3{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.05;margin:0;color:var(--ink);letter-spacing:-.01em;text-align:center}
+.specimen .latin{font-family:var(--serif);font-style:italic;font-weight:400;font-size:12px;color:var(--sepia);text-align:center;margin-top:2px;letter-spacing:.02em}
+
+.specimen .facts{margin-top:10px;display:flex;flex-direction:column;gap:6px;padding-top:10px;border-top:1px solid var(--ink-10);font-family:var(--mono);font-size:11px;color:var(--ink-65)}
+.specimen .facts .row{display:flex;justify-content:space-between;gap:8px;line-height:1.5}
+.specimen .facts .k{letter-spacing:.04em;text-transform:lowercase;color:var(--ink-45)}
+.specimen .facts .v{color:var(--ink);font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.specimen .facts .v.persistent{color:var(--red)}
+.specimen .description{font-family:var(--serif);font-style:italic;font-size:13.5px;line-height:1.5;color:var(--ink-65);text-align:center;padding-top:10px;border-top:1px solid var(--ink-10);margin-top:auto}
+.specimen .description b{color:var(--ink);font-weight:600;font-style:normal}
+
+/* Plaque — the page-level conclusion */
+.plaque{
+  margin:48px auto 0;
+  max-width:680px;
+  padding:32px 36px;
+  background:var(--paper-3);
+  border:2px solid var(--ink);
+  text-align:center;
+  position:relative;
+}
+.plaque::before,.plaque::after{
+  content:"";position:absolute;inset:6px;border:1px solid var(--ink);pointer-events:none
+}
+.plaque::after{inset:10px;border:1px solid rgba(31,24,18,.4)}
+.plaque .label{font-family:var(--mono);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:14px;position:relative}
+.plaque .verse{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(20px,2.4vw,28px);line-height:1.4;color:var(--ink);max-width:32ch;margin:0 auto;position:relative}
+.plaque .verse em{color:var(--red)}
+.plaque .ref{margin-top:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink-65);position:relative}
+
+/* Decorative ornament — fleur */
+.orn{display:block;width:48px;margin:24px auto;color:var(--gilt);opacity:.5}
+.orn svg{width:100%;height:auto}
+
+/* Colophon */
+.colophon{padding:48px 80px 56px;text-align:center;background:var(--paper-2);border-top:3px double var(--ink)}
+.colophon h4{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:700;margin:0 0 18px}
+.colophon p{font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.7;color:var(--ink-65);max-width:60ch;margin:0 auto 18px}
+.colophon p b{font-family:var(--serif);font-style:normal;font-weight:600;color:var(--ink)}
+.colophon .seal{margin:24px auto;width:110px;height:110px;border:2px solid var(--ink);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.colophon .seal::before{content:"";position:absolute;inset:-12px;border:1px dashed rgba(31,24,18,.4);border-radius:50%}
+.colophon .seal .top{font-family:var(--mono);font-size:8px;letter-spacing:.32em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:4px}
+.colophon .seal .core{font-family:var(--serif);font-style:italic;font-weight:600;font-size:30px;color:var(--ink);line-height:1}
+.colophon .seal .bot{font-family:var(--mono);font-size:8px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-65);font-weight:600;margin-top:4px}
+.colophon .imprint{margin-top:18px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-45);line-height:1.7}
+.colophon .imprint a{color:var(--ink-65);text-decoration:underline;text-underline-offset:3px}
+.colophon .imprint a:hover{color:var(--red)}
+
+@media print{
+  body{background:white;color:black}
+  .case{padding:0}
+  .book{box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<div class="case">
+<article class="book">
+
+  <!-- ════════════ FRONTISPIECE ════════════ -->
+  <header class="front">
+    <div class="plate-no">Plate the First · Catalog of the Departed</div>
+    <div class="superordinate">From The Accountability Gap, an audit of the open ad-supply record</div>
+    <h1>A Catalog of <em>Departed Ad-Exchanges</em>,<br>still listed by the living.</h1>
+    <p class="strapline">
+      Twelve specimens of <b>Supply-Side Platforms</b> which have been acquired, rebranded, or wound up — yet remain declared in <b>287,249 DIRECT claims</b> across <b>25,239 publishers'</b> <code style="font-family:var(--mono);font-size:.85em;background:rgba(31,24,18,.08);padding:0 4px;border-radius:2px">ads.txt</code> files at the time of pressing. Each entry's persistence is measured in years.
+    </p>
+    <div class="credit">
+      <b>The Accountability Gap</b> &nbsp;·&nbsp; Edition VIII &nbsp;·&nbsp; Snapshot 22·V·MMXXVI &nbsp;·&nbsp; CC0
+    </div>
+  </header>
+
+  <!-- ════════════ INTRODUCTION ════════════ -->
+  <section class="section">
+    <div class="sh">Praefatio</div>
+    <h2>The framework provides <em>no channel for deregistration</em>.</h2>
+    <p class="lead">When an exchange is acquired, rebranded, or goes bankrupt, no propagation occurs through the <em>ads.txt</em> standard. The publisher's file is not notified. The wrapper template is not updated. The IAB Tech Lab maintains no registry of the deceased. The result, set down below in the manner of a natural-history catalog, is the half-life of an exchange's name in the public record after it has ceased to operate. The reader will note that some names persist nine years post-acquisition. <b>This is not fraud. It is decay.</b></p>
+
+    <!-- Decorative ornament -->
+    <div class="orn" aria-hidden="true">
+      <svg viewBox="0 0 100 24">
+        <path d="M 0,12 L 32,12 M 68,12 L 100,12" stroke="currentColor" stroke-width="1" fill="none"/>
+        <circle cx="50" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="50" cy="12" r="1.5" fill="currentColor"/>
+        <path d="M 42,8 Q 50,2 58,8" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M 42,16 Q 50,22 58,16" stroke="currentColor" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- ════════════ SPECIMENS ════════════ -->
+    <div class="specimens">
+
+      <!-- Specimen I -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;001</span><span class="roman">I</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">rhythmone<br>.com</div>
+          <div class="dates">MMXIV — MMXIX<br><span class="em">acta est fabula</span></div>
+        </div>
+        <h3>RhythmOne</h3>
+        <div class="latin">Tremor-acquisita, anno MMXIX</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">7</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">14,973 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">20.18%</span></div>
+        </div>
+        <div class="description">Acquired by <b>Tremor International</b>. The merged entity has been operating as Nexxen since 2024. One in five publishers still names rhythmone.com as a DIRECT seller.</div>
+      </div>
+
+      <!-- Specimen II -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;002</span><span class="roman">II</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">emxdgt<br>.com</div>
+          <div class="dates">MMXVI — MMXXIII<br><span class="em">requiescat</span></div>
+        </div>
+        <h3>EMX Digital</h3>
+        <div class="latin">Big Village (banca rupta), anno MMXXIII</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">3</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">13,544 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">18.25%</span></div>
+        </div>
+        <div class="description">Big Village (the parent company) filed for <b>Chapter 7 bankruptcy</b>. The exchange ceased operations. The name has not been removed from the public record.</div>
+      </div>
+
+      <!-- Specimen III -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;003</span><span class="roman">III</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">advertising<br>.com</div>
+          <div class="dates">MCMXCVIII — MMXVII<br><span class="em">aurum reliquum</span></div>
+        </div>
+        <h3>Advertising.com</h3>
+        <div class="latin">Yahoo legati reliquum, anno MMXVII</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">9</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">9,384 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">12.65%</span></div>
+        </div>
+        <div class="description">An original AOL property folded into <b>Yahoo's legacy stack</b> in 2017. Nine years past its operational end, it remains the third most ubiquitous DIRECT-claimed ghost.</div>
+      </div>
+
+      <!-- Specimen IV -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;004</span><span class="roman">IV</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">districtm<br>.io</div>
+          <div class="dates">MMXII — MMXXI<br><span class="em">absorptum</span></div>
+        </div>
+        <h3>districtm</h3>
+        <div class="latin">Magnite-acquisita, anno MMXXI</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">5</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">9,407 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">12.68%</span></div>
+        </div>
+        <div class="description">Acquired by <b>Magnite</b>. Existing publishers should declare rubiconproject.com instead. They have not.</div>
+      </div>
+
+      <!-- Specimen V -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;005</span><span class="roman">V</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">spotx<br>.tv</div>
+          <div class="dates">MMVII — MMXXII<br><span class="em">absorptum</span></div>
+        </div>
+        <h3>SpotX</h3>
+        <div class="latin">Magnite-acquisita, anno MMXXII</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">4</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">7,858 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">10.55%</span></div>
+        </div>
+        <div class="description">A specialist video exchange consolidated into <b>Magnite</b>. Persists in the public record alongside its successor.</div>
+      </div>
+
+      <!-- Specimen VI -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;006</span><span class="roman">VI</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">aolcloud<br>.net</div>
+          <div class="dates">MMV — MMXVII<br><span class="em">aurum reliquum</span></div>
+        </div>
+        <h3>AolCloud</h3>
+        <div class="latin">Yahoo legati reliquum, anno MMXVII</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">9</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">7,046 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">9.49%</span></div>
+        </div>
+        <div class="description">An AOL infrastructure name absorbed into <b>Yahoo</b> in 2017. Still cited as a DIRECT seller in nearly one in ten audited <em>ads.txt</em> files.</div>
+      </div>
+
+      <!-- Specimen VII -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;007</span><span class="roman">VII</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">vi<br>.ai</div>
+          <div class="dates">MMXV — MMXXI<br><span class="em">renominatum</span></div>
+        </div>
+        <h3>Vi.ai</h3>
+        <div class="latin">renominatum, anno MMXXI</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">5</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">7,868 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">10.60%</span></div>
+        </div>
+        <div class="description">Discontinued under its old name when the parent entity rebranded. The replacement domain is unknown to most of the publishers still declaring it.</div>
+      </div>
+
+      <!-- Specimen VIII -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;008</span><span class="roman">VIII</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">admixer<br>.net</div>
+          <div class="dates">MMVIII — MMXX<br><span class="em">renominatum</span></div>
+        </div>
+        <h3>AdMixer</h3>
+        <div class="latin">renominatum, anno MMXX</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">6</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">5,754 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">7.75%</span></div>
+        </div>
+        <div class="description">Operates today as a different entity at a different domain. The ads.txt files have not followed.</div>
+      </div>
+
+      <!-- Specimen IX -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;009</span><span class="roman">IX</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">tremorhub<br>.com</div>
+          <div class="dates">MMXIV — MMXIX<br><span class="em">renominatum</span></div>
+        </div>
+        <h3>Tremor Hub</h3>
+        <div class="latin">renominatum, anno MMXIX</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">7</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">3,876 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">5.22%</span></div>
+        </div>
+        <div class="description">Renamed under a parent's rebrand. Listed alongside the very company that absorbed it.</div>
+      </div>
+
+      <!-- Specimen X -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;010</span><span class="roman">X</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">yieldlab<br>.net</div>
+          <div class="dates">MMVIII — MMXXIII<br><span class="em">requiescat</span></div>
+        </div>
+        <h3>Yieldlab</h3>
+        <div class="latin">Virtual Minds (decopulata), anno MMXXIII</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">3</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">3,812 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">5.14%</span></div>
+        </div>
+        <div class="description">A German programmatic platform whose parent (Virtual Minds) folded operations.</div>
+      </div>
+
+      <!-- Specimen XI -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;011</span><span class="roman">XI</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">aerserv<br>.com</div>
+          <div class="dates">MMXII — MMXVIII<br><span class="em">absorptum</span></div>
+        </div>
+        <h3>AerServ</h3>
+        <div class="latin">InMobi-acquisita, anno MMXVIII</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">8</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">~3,200 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">~4.3%</span></div>
+        </div>
+        <div class="description">A mobile-video exchange folded into <b>InMobi</b>. Eight years gone, still cited.</div>
+      </div>
+
+      <!-- Specimen XII -->
+      <div class="specimen">
+        <div class="cat-no"><span>Cat. №&thinsp;012</span><span class="roman">XII</span></div>
+        <div class="stone" aria-hidden="true">
+          <svg viewBox="0 0 140 160">
+            <path d="M 30,150 L 30,60 Q 30,30 70,30 Q 110,30 110,60 L 110,150 Z" fill="#D9CBA0" stroke="#1F1812" stroke-width="1.5"/>
+            <path d="M 38,150 L 38,62 Q 38,40 70,40 Q 102,40 102,62 L 102,150" fill="none" stroke="#1F1812" stroke-width=".6" opacity=".5"/>
+          </svg>
+          <div class="name-plate">adcolony<br>.com</div>
+          <div class="dates">MMVIII — MMXXI<br><span class="em">absorptum</span></div>
+        </div>
+        <h3>AdColony</h3>
+        <div class="latin">Digital Turbine-acquisita, anno MMXXI</div>
+        <div class="facts">
+          <div class="row"><span class="k">years departed</span><span class="v">5</span></div>
+          <div class="row"><span class="k">still carried by</span><span class="v persistent">~3,000 publishers</span></div>
+          <div class="row"><span class="k">% of corpus</span><span class="v persistent">~4.0%</span></div>
+        </div>
+        <div class="description">Acquired by <b>Digital Turbine</b> and folded into its broader stack. The brand persists as a memory in publisher files.</div>
+      </div>
+
+    </div>
+
+    <!-- Plaque — the conclusion -->
+    <div class="plaque">
+      <div class="label">Inscriptio · the half-life of a name</div>
+      <p class="verse">Twelve exchanges, all departed. <em>Twenty-five thousand</em> publishers still declaring them direct sellers of their inventory — for an average <em>five years</em> after each departure.</p>
+      <div class="ref">287,249 dead-SSP DIRECT claims · 33.7% of the audited corpus</div>
+    </div>
+
+  </section>
+
+  <!-- ════════════ COLOPHON ════════════ -->
+  <footer class="colophon">
+    <h4>Colophon</h4>
+    <p>Set in <b>Cormorant Garamond</b> with monotype letterpress incidentals in <b>JetBrains Mono</b>. Compiled from the May 22, MMXXVI corpus snapshot of <b>The Accountability Gap</b>, an open audit of <em>ads.txt</em> × <em>sellers.json</em> integrity. The arithmetic is reproducible in forty-three lines of Python; the catalog is a meditation on what those numbers contain.</p>
+    <p style="font-style:italic;color:var(--red)">The framework provides no propagation channel for the dead. This catalog improvises one.</p>
+
+    <div class="seal" aria-hidden="true">
+      <div class="top">Necropolis</div>
+      <div class="core">XII</div>
+      <div class="bot">MMXXVI · CC0</div>
+    </div>
+
+    <div class="imprint">
+      <a href="The Accountability Gap.html">→ principal report</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (poster).html">poster</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (atlas).html">atlas</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (plate).html">plate</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (deck).html">deck</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (terminal).html">terminal</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (filing).html">filing</a> &nbsp;·&nbsp;
+      <a href="The Accountability Gap (receipt).html">receipt</a>
+    </div>
+  </footer>
+
+</article>
+</div>
+
+</body>
+</html>

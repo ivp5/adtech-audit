@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADTECH-MON · live integrity monitor</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0E0A;
+  --bg-2:#0F1410;
+  --bg-3:#162018;
+  --grid:#1E2820;
+  --rule:#243027;
+  --fg:#C8E0CE;
+  --fg-dim:#8AA694;
+  --fg-faint:#536659;
+  --green:#7BD389;
+  --green-bright:#9EEC9E;
+  --amber:#E0B566;
+  --red:#FF6B5C;
+  --red-bg:rgba(255,107,92,.12);
+  --cyan:#6FC8D6;
+  --mono:'JetBrains Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums lining-nums}
+body{background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);background-size:80px 80px;background-position:-1px -1px;min-height:100vh}
+::selection{background:var(--green);color:var(--bg)}
+
+/* Top status bar */
+.topbar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--rule);padding:8px 14px;display:flex;gap:18px;align-items:center;font-size:11px;letter-spacing:.06em}
+.topbar .id{color:var(--green-bright);font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.topbar .id::before{content:"\25C6 ";color:var(--green)}
+.topbar .sep{color:var(--rule)}
+.topbar .item{color:var(--fg-dim)}
+.topbar .item b{color:var(--fg);font-weight:500}
+.topbar .item .blink{display:inline-block;width:6px;height:6px;background:var(--green);margin-right:4px;animation:cursorBlink 1.1s steps(2) infinite;vertical-align:1px}
+@keyframes cursorBlink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.topbar .sp{flex:1}
+.topbar .var{color:var(--fg-faint)}
+.topbar .var a{color:var(--fg-dim)}
+.topbar .var a:hover{color:var(--green-bright)}
+
+/* Wrap */
+.wrap{padding:14px;max-width:1480px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--rule)}
+@media (max-width:960px){.wrap{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:560px){.wrap{grid-template-columns:1fr;padding:8px}}
+
+/* Panel base */
+.p{background:var(--bg-2);padding:14px;display:flex;flex-direction:column;min-height:100%;overflow:hidden}
+.p .h{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--rule);font-weight:600}
+.p .h .title{color:var(--green);letter-spacing:.18em}
+.p .h .badge{padding:1px 5px;background:var(--bg-3);color:var(--fg-dim);font-size:8px}
+.p .h .badge.live{color:var(--red);border:1px solid var(--red)}
+
+/* Spans */
+.c6{grid-column:span 6}.c4{grid-column:span 4}.c3{grid-column:span 3}.c8{grid-column:span 8}.c12{grid-column:span 12}.c5{grid-column:span 5}.c7{grid-column:span 7}.c9{grid-column:span 9}
+@media (max-width:960px){.c8,.c9,.c7{grid-column:span 6}.c6,.c5{grid-column:span 6}.c4,.c3{grid-column:span 3}}
+@media (max-width:560px){[class*="c"]{grid-column:1}}
+
+/* Big number display */
+.big{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.big .num{font-size:48px;font-weight:700;line-height:1;letter-spacing:-.025em;color:var(--green-bright)}
+.big .num.red{color:var(--red)}
+.big .num.amber{color:var(--amber)}
+.big .num.cyan{color:var(--cyan)}
+.big .num .pct{font-size:.5em;color:var(--fg-faint);font-weight:500;margin-left:3px}
+.big .lbl{font-size:10px;color:var(--fg-dim);letter-spacing:.06em}
+.big .delta{font-size:10px;color:var(--green);letter-spacing:.04em}
+.big .delta.up{color:var(--red)}
+.big .delta::before{content:"\25B2 "}
+.big .delta.up::before{content:"\25B2 "}
+.big .delta.steady::before{content:"\25CF "}
+.big .delta.steady{color:var(--fg-dim)}
+
+/* Mini sparkline svg */
+.spark{width:100%;height:38px;margin-top:8px}
+.spark path.line{fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.spark path.area{opacity:.18}
+
+/* ASCII bar */
+.asciibar{font-family:var(--mono);font-size:11px;color:var(--fg-dim);line-height:1.5;letter-spacing:.04em;white-space:pre}
+.asciibar .green{color:var(--green-bright)}.asciibar .amber{color:var(--amber)}.asciibar .red{color:var(--red)}
+
+/* Tables */
+.tbl{width:100%;font-size:11.5px;border-collapse:collapse}
+.tbl th{font-size:9px;letter-spacing:.16em;color:var(--fg-faint);text-align:left;padding:4px 8px 6px 0;border-bottom:1px solid var(--rule);font-weight:600;text-transform:uppercase}
+.tbl th.r{text-align:right}
+.tbl td{padding:5px 8px 5px 0;border-bottom:1px solid var(--grid);color:var(--fg)}
+.tbl td.r{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tbody tr:hover td{background:var(--bg-3);cursor:pointer}
+.tbl .gr{display:inline-block;width:18px;text-align:center;font-weight:700}
+.tbl .gr.A,.tbl .gr.B{color:var(--green-bright)}
+.tbl .gr.C{color:var(--amber)}
+.tbl .gr.D{color:#FF9966}
+.tbl .gr.F{color:var(--red)}
+.tbl .pct-bar{display:inline-block;width:48px;height:5px;background:var(--bg-3);position:relative;vertical-align:middle;margin-right:6px}
+.tbl .pct-bar .fl{position:absolute;inset:0 auto 0 0;background:var(--green-bright)}
+.tbl .pct-bar .fl.amber{background:var(--amber)}
+.tbl .pct-bar .fl.red{background:var(--red)}
+
+/* Stream / log */
+.stream{flex:1;overflow:hidden;font-size:11px;line-height:1.6;color:var(--fg-dim);min-height:200px;position:relative}
+.stream .row{display:grid;grid-template-columns:46px 24px 1fr auto;gap:10px;align-items:center;padding:2px 0;animation:streamIn .35s ease-out}
+@keyframes streamIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.stream .ts{color:var(--fg-faint);font-size:10px}
+.stream .gr{font-weight:700;text-align:center}
+.stream .gr.A,.stream .gr.B{color:var(--green-bright)}
+.stream .gr.C{color:var(--amber)}
+.stream .gr.D{color:#FF9966}
+.stream .gr.F{color:var(--red)}
+.stream .dom{color:var(--fg);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stream .note{color:var(--fg-faint);font-size:10px;text-align:right}
+
+/* Query input */
+.query{display:flex;align-items:center;border:1px solid var(--rule);background:var(--bg);padding:0;font-family:var(--mono)}
+.query .prompt{padding:9px 0 9px 12px;color:var(--green);font-weight:700;font-size:13px;user-select:none}
+.query input{background:transparent;border:0;color:var(--fg);font-family:var(--mono);font-size:13px;padding:9px 12px;outline:none;width:100%;letter-spacing:.02em;caret-color:var(--green)}
+.query input::placeholder{color:var(--fg-faint)}
+.query button{background:var(--green);color:var(--bg);border:0;font-family:var(--mono);font-size:11px;font-weight:700;padding:0 16px;cursor:pointer;letter-spacing:.1em;text-transform:uppercase}
+.query button:hover{background:var(--green-bright)}
+
+/* Query result */
+.qres{margin-top:12px;font-size:12px;line-height:1.7;color:var(--fg);min-height:80px;opacity:0;transition:opacity .25s ease}
+.qres.show{opacity:1}
+.qres .ln{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:baseline}
+.qres .ln .arrow{color:var(--green);font-weight:600}
+.qres .ln.warn .arrow{color:var(--amber)}
+.qres .ln.fail .arrow{color:var(--red)}
+.qres .ln .txt{color:var(--fg-dim)}
+.qres .ln .txt b{color:var(--fg);font-weight:500}
+.qres .ln .txt .ok{color:var(--green-bright);font-weight:600}
+.qres .ln .txt .bad{color:var(--red);font-weight:600}
+.qres .verdict{margin-top:14px;padding:10px 14px;border-left:3px solid var(--green);background:var(--bg-3);font-size:12px;line-height:1.6;color:var(--fg)}
+.qres .verdict.warn{border-color:var(--amber)}
+.qres .verdict.fail{border-color:var(--red)}
+.qres .verdict .grade{font-size:48px;font-weight:700;line-height:1;margin-bottom:6px;display:block}
+.qres .verdict .grade.A,.qres .verdict .grade.B{color:var(--green-bright)}
+.qres .verdict .grade.C{color:var(--amber)}
+.qres .verdict .grade.D{color:#FF9966}
+.qres .verdict .grade.F{color:var(--red)}
+
+/* Geo bars */
+.geo{font-size:11px}
+.geo .row{display:grid;grid-template-columns:78px 1fr 30px;gap:10px;align-items:center;padding:3px 0}
+.geo .row .c{color:var(--fg-dim);text-transform:uppercase;letter-spacing:.06em;font-size:10px}
+.geo .row .b{position:relative;height:5px;background:var(--bg-3)}
+.geo .row .b .f{position:absolute;inset:0 auto 0 0}
+.geo .row .v{font-size:11px;color:var(--fg);text-align:right;font-variant-numeric:tabular-nums}
+
+/* Findings strip */
+.findings-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule)}
+@media (max-width:760px){.findings-strip{grid-template-columns:1fr 1fr}}
+.findings-strip .f{padding:12px;background:var(--bg-2)}
+.findings-strip .f .lbl{font-size:9px;letter-spacing:.18em;color:var(--fg-faint);text-transform:uppercase;font-weight:600;margin-bottom:6px}
+.findings-strip .f .num{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--red)}
+.findings-strip .f .num.green{color:var(--green-bright)}
+.findings-strip .f .num.amber{color:var(--amber)}
+.findings-strip .f .cap{font-size:11px;color:var(--fg-dim);margin-top:6px;line-height:1.45}
+
+/* Help panel */
+.help{font-size:11px;color:var(--fg-dim);line-height:1.7}
+.help .cmd{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:2px 0}
+.help .cmd code{font-family:var(--mono);color:var(--green-bright);background:var(--bg-3);padding:1px 5px}
+.help .cmd .descr{color:var(--fg-dim)}
+
+/* Diff display */
+.diff-mini{font-size:11px;line-height:1.7;color:var(--fg-dim)}
+.diff-mini .ln{padding:1px 4px;background:var(--bg-3);margin-bottom:1px;border-left:2px solid transparent;color:var(--fg)}
+.diff-mini .ln.a{border-color:var(--cyan)}
+.diff-mini .ln.b{border-color:var(--red)}
+.diff-mini .ln .src{color:var(--fg-faint);font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-right:8px}
+.diff-mini .ln .hi{color:var(--green-bright);font-weight:600}
+.diff-mini .ln.a .hi{color:var(--cyan);font-weight:600}
+.diff-mini .ln.b .hi{color:var(--red);font-weight:600}
+.diff-mini .note{margin-top:8px;font-size:10px;color:var(--fg-faint);font-style:italic}
+
+/* Equation panel */
+.eq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px}
+.eq .step{padding:10px 12px;background:var(--bg-3);border:1px solid var(--rule);text-align:center;min-width:0;flex:1}
+.eq .step .v{font-size:22px;font-weight:700;color:var(--fg);line-height:1}
+.eq .step .l{font-size:9px;color:var(--fg-faint);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
+.eq .op{color:var(--fg-faint);font-size:13px;font-weight:500}
+.eq .step.result{background:var(--bg);border-color:var(--red)}
+.eq .step.result .v{color:var(--red)}
+
+/* Foot */
+.foot{padding:10px 14px;margin-top:14px;font-size:10px;color:var(--fg-faint);letter-spacing:.06em;display:flex;justify-content:space-between;border-top:1px solid var(--rule);max-width:1480px;margin:14px auto 0}
+.foot a{color:var(--fg-dim)}
+.foot a:hover{color:var(--green-bright)}
+
+/* Cursor blink in input */
+.cursor{display:inline-block;width:7px;height:14px;background:var(--green);vertical-align:-2px;animation:cursorBlink 1.1s steps(2) infinite;margin-left:2px}
+
+.scanner{height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);position:fixed;left:0;right:0;top:0;z-index:60;animation:scan 4s linear infinite;opacity:.4;pointer-events:none}
+@keyframes scan{0%{top:0}100%{top:100%}}
+
+@media (prefers-reduced-motion: reduce){
+  .stream .row{animation:none}
+  .cursor,.scanner,.topbar .item .blink{animation:none}
+  body{background-image:none;background:var(--bg)}
+}
+</style>
+</head>
+<body>
+
+<div class="scanner" aria-hidden="true"></div>
+
+<div class="topbar">
+  <span class="id">ADTECH-MON</span>
+  <span class="sep">/</span>
+  <span class="item">snapshot <b>2026-03-25</b></span>
+  <span class="sep">/</span>
+  <span class="item"><span class="blink"></span><b id="t-clock">--:--:--</b> UTC</span>
+  <span class="sep">/</span>
+  <span class="item">contradictions <b id="t-counter">1,157,099</b></span>
+  <span class="sp"></span>
+  <span class="var">variant ·
+    <a href="The Accountability Gap.html">principal</a> ·
+    <a href="The Accountability Gap (filing).html">filing</a>
+  </span>
+</div>
+
+<div class="wrap">
+
+  <!-- Main metric: 57% contradicted -->
+  <div class="p c4">
+    <div class="h"><span class="title">F1 · contradicted rate</span><span class="badge live">live</span></div>
+    <div class="big">
+      <div class="num red">57<span class="pct">%</span></div>
+      <div class="lbl">ads.txt claims contradicting sellers.json</div>
+      <div class="delta steady">29.0% strict · 26.6% phantom</div>
+    </div>
+    <svg class="spark" viewBox="0 0 100 38" preserveAspectRatio="none" aria-hidden="true">
+      <path class="area" d="M 0,28 L 20,26 L 40,27 L 60,24 L 80,22 L 100,20 L 100,38 L 0,38 Z" fill="#FF6B5C"/>
+      <path class="line" d="M 0,28 L 20,26 L 40,27 L 60,24 L 80,22 L 100,20" stroke="#FF6B5C"/>
+      <circle cx="100" cy="20" r="2" fill="#FF6B5C"/>
+    </svg>
+  </div>
+
+  <!-- F2 consent rate -->
+  <div class="p c4">
+    <div class="h"><span class="title">F2 · valid consent</span><span class="badge">first-visit</span></div>
+    <div class="big">
+      <div class="num red">0.012<span class="pct">%</span></div>
+      <div class="lbl">share of identity transfers with TCF v2 consent</div>
+      <div class="delta steady">87 / 721,129</div>
+    </div>
+    <svg class="spark" viewBox="0 0 100 38" preserveAspectRatio="none" aria-hidden="true">
+      <path class="area" d="M 0,36 L 100,36 L 100,38 L 0,38 Z" fill="#FF6B5C"/>
+      <path class="line" d="M 0,36 L 100,36" stroke="#FF6B5C"/>
+    </svg>
+  </div>
+
+  <!-- F3 trackers -->
+  <div class="p c4">
+    <div class="h"><span class="title">F3 · trackers / page</span><span class="badge">avg / worst</span></div>
+    <div class="big">
+      <div class="num amber">5 <span style="color:var(--fg-faint);font-size:.5em">→</span> 294</div>
+      <div class="lbl">3rd parties told your tracking ID, per page-load</div>
+      <div class="delta up">UK 9.5× Germany</div>
+    </div>
+    <svg class="spark" viewBox="0 0 100 38" preserveAspectRatio="none" aria-hidden="true">
+      <path class="area" d="M 0,32 L 14,28 L 28,30 L 42,26 L 56,20 L 70,16 L 84,14 L 100,10 L 100,38 L 0,38 Z" fill="#E0B566"/>
+      <path class="line" d="M 0,32 L 14,28 L 28,30 L 42,26 L 56,20 L 70,16 L 84,14 L 100,10" stroke="#E0B566"/>
+      <circle cx="100" cy="10" r="2" fill="#E0B566"/>
+    </svg>
+  </div>
+
+  <!-- Query (verifier) — full width -->
+  <div class="p c8">
+    <div class="h"><span class="title">query · audit any publisher</span><span class="badge">live</span></div>
+    <form class="query" id="qform" onsubmit="return false">
+      <span class="prompt">&gt;</span>
+      <input id="qinput" type="text" placeholder="audit <domain> &mdash; e.g. nytimes.com" spellcheck="false" autocapitalize="none" autocomplete="off">
+      <button type="submit">RUN</button>
+    </form>
+    <div class="help" style="margin-top:8px;color:var(--fg-faint);font-size:10px;letter-spacing:.04em">examples · <a href="#" data-d="themoneytizer.com" class="ex" style="color:var(--green-bright)">themoneytizer.com</a> · <a href="#" data-d="ezoic.com" class="ex" style="color:var(--green-bright)">ezoic.com</a> · <a href="#" data-d="buzzfeed.com" class="ex" style="color:var(--green-bright)">buzzfeed.com</a> · <a href="#" data-d="nytimes.com" class="ex" style="color:var(--green-bright)">nytimes.com</a></div>
+    <div class="qres" id="qres"></div>
+  </div>
+
+  <!-- Help panel -->
+  <div class="p c4">
+    <div class="h"><span class="title">commands</span><span class="badge">v1</span></div>
+    <div class="help">
+      <div class="cmd"><code>audit &lt;d&gt;</code><span class="descr">audit a publisher</span></div>
+      <div class="cmd"><code>show f1</code><span class="descr">finding #1 detail</span></div>
+      <div class="cmd"><code>scorecard</code><span class="descr">wrapper grades</span></div>
+      <div class="cmd"><code>geo</code><span class="descr">tracker density by jurisdiction</span></div>
+      <div class="cmd"><code>method</code><span class="descr">verify.py source</span></div>
+      <div class="cmd"><code>clear</code><span class="descr">reset stream</span></div>
+    </div>
+  </div>
+
+  <!-- Scorecard -->
+  <div class="p c6">
+    <div class="h"><span class="title">scorecard · wrapper providers</span><span class="badge">top 8</span></div>
+    <table class="tbl">
+      <thead>
+        <tr><th>provider</th><th class="r">pubs</th><th>false-rate</th><th class="r">grade</th></tr>
+      </thead>
+      <tbody>
+        <tr data-d="cafemedia.com"><td>cafemedia / raptive</td><td class="r">530</td><td><span class="pct-bar"><span class="fl" style="width:23%"></span></span>23.3%</td><td class="r"><span class="gr B">B</span></td></tr>
+        <tr data-d="mediavine.com"><td>mediavine</td><td class="r">306</td><td><span class="pct-bar"><span class="fl" style="width:30%"></span></span>30.1%</td><td class="r"><span class="gr B">B</span></td></tr>
+        <tr data-d="playwire.com"><td>playwire</td><td class="r">201</td><td><span class="pct-bar"><span class="fl amber" style="width:48%"></span></span>48.5%</td><td class="r"><span class="gr C">C</span></td></tr>
+        <tr data-d="freestar.com"><td>freestar</td><td class="r">455</td><td><span class="pct-bar"><span class="fl amber" style="width:55%"></span></span>55.4%</td><td class="r"><span class="gr D">D</span></td></tr>
+        <tr data-d="ezoic.com"><td>ezoic</td><td class="r">267</td><td><span class="pct-bar"><span class="fl red" style="width:57%"></span></span>56.9%</td><td class="r"><span class="gr D">D</span></td></tr>
+        <tr data-d="themoneytizer.com"><td>themoneytizer</td><td class="r">429</td><td><span class="pct-bar"><span class="fl red" style="width:66%"></span></span>66.2%</td><td class="r"><span class="gr F">F</span></td></tr>
+        <tr data-d="publift.com"><td>publift</td><td class="r">291</td><td><span class="pct-bar"><span class="fl red" style="width:70%"></span></span>69.5%</td><td class="r"><span class="gr F">F</span></td></tr>
+        <tr data-d="pubnation.com"><td>pubnation</td><td class="r">73</td><td><span class="pct-bar"><span class="fl red" style="width:70%"></span></span>70.4%</td><td class="r"><span class="gr F">F</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Live stream -->
+  <div class="p c6">
+    <div class="h"><span class="title">stream · live audits</span><span class="badge live">live</span></div>
+    <div class="stream" id="stream"></div>
+  </div>
+
+  <!-- Diff exhibit -->
+  <div class="p c6">
+    <div class="h"><span class="title">exhibit A · one contradiction in full</span><span class="badge">themoneytizer / smartadserver-1097</span></div>
+    <div class="diff-mini">
+      <div class="ln a"><span class="src">ads.txt</span>smartadserver.com, <span class="hi">1097</span>, <span class="hi">DIRECT</span></div>
+      <div class="ln b"><span class="src">sellers.json</span>{ "seller_id": <span class="hi">"1097"</span>, "seller_type": <span class="hi">"INTERMEDIARY"</span> }</div>
+      <div class="note">same identifier · opposite role · both records public</div>
+    </div>
+  </div>
+
+  <!-- Geo -->
+  <div class="p c3">
+    <div class="h"><span class="title">F3 · geo</span><span class="badge">syncs/page</span></div>
+    <div class="geo">
+      <div class="row"><span class="c">Germany</span><span class="b"><span class="f" style="background:var(--green);width:8%"></span></span><span class="v">0.6</span></div>
+      <div class="row"><span class="c">France</span><span class="b"><span class="f" style="background:var(--green);width:18%"></span></span><span class="v">1.3</span></div>
+      <div class="row"><span class="c">Russia</span><span class="b"><span class="f" style="background:var(--amber);width:31%"></span></span><span class="v">2.2</span></div>
+      <div class="row"><span class="c">USA</span><span class="b"><span class="f" style="background:var(--amber);width:48%"></span></span><span class="v">3.4</span></div>
+      <div class="row"><span class="c">Japan</span><span class="b"><span class="f" style="background:var(--amber);width:65%"></span></span><span class="v">4.6</span></div>
+      <div class="row"><span class="c">UK</span><span class="b"><span class="f" style="background:var(--red);width:80%"></span></span><span class="v">5.7</span></div>
+    </div>
+  </div>
+
+  <!-- F4 equation -->
+  <div class="p c3">
+    <div class="h"><span class="title">F4 · verifiable share</span><span class="badge">~5%</span></div>
+    <div class="eq">
+      <div class="step"><div class="v">15%</div><div class="l">have ads.txt</div></div>
+      <div class="op">&times;</div>
+      <div class="step"><div class="v">45%</div><div class="l">plausible</div></div>
+      <div class="op">&times;</div>
+      <div class="step"><div class="v">76%</div><div class="l">covered</div></div>
+      <div class="op">=</div>
+      <div class="step result"><div class="v">~5%</div><div class="l">verifiable</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="foot">
+  <span>ADTECH-MON · live integrity monitor · snapshot 2026-03-25 · CC0</span>
+  <span>more variants · <a href="The Accountability Gap.html">principal</a> · <a href="The Accountability Gap (filing).html">filing</a></span>
+</div>
+
+<script>
+// Clock
+(function(){
+  const el = document.getElementById('t-clock');
+  function tick(){
+    const d = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    el.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+// Counter
+(function(){
+  const el = document.getElementById('t-counter');
+  let n = 1157099;
+  setInterval(() => {
+    if (document.hidden) return;
+    n += Math.floor(Math.random() * 3) + 1;
+    el.textContent = n.toLocaleString();
+  }, 2400);
+})();
+
+// Stream
+(function(){
+  const POOL = [
+    {d:'sportingnews.com',g:'F',n:41},{d:'gizmodo.com',g:'D',n:28},{d:'engadget.com',g:'D',n:24},
+    {d:'wired.com',g:'C',n:18},{d:'theverge.com',g:'B',n:9},{d:'cnet.com',g:'C',n:19},
+    {d:'lemonde.fr',g:'B',n:11},{d:'spiegel.de',g:'B',n:8},{d:'kotaku.com',g:'D',n:22},
+    {d:'arstechnica.com',g:'B',n:7},{d:'huffpost.com',g:'D',n:31},{d:'forbes.com',g:'C',n:17},
+    {d:'businessinsider.com',g:'D',n:26},{d:'dailymail.co.uk',g:'F',n:38},{d:'reuters.com',g:'A',n:4},
+    {d:'bbc.co.uk',g:'A',n:3},{d:'mashable.com',g:'D',n:25},{d:'vox.com',g:'B',n:10},
+    {d:'givemesport.com',g:'F',n:36},{d:'metro.co.uk',g:'F',n:42},{d:'standard.co.uk',g:'D',n:29},
+  ];
+  const list = document.getElementById('stream');
+  if(!list) return;
+  let idx = 0;
+  function pick(){ return POOL[(idx++) % POOL.length]; }
+  function timeStr(){
+    const d = new Date();
+    return String(d.getUTCHours()).padStart(2,'0') + ':' +
+           String(d.getUTCMinutes()).padStart(2,'0') + ':' +
+           String(d.getUTCSeconds()).padStart(2,'0');
+  }
+  function row(it){
+    const div = document.createElement('div');
+    div.className = 'row';
+    div.dataset.d = it.d;
+    div.innerHTML = '<span class="ts">' + timeStr() + '</span>' +
+                    '<span class="gr ' + it.g + '">' + it.g + '</span>' +
+                    '<span class="dom">' + it.d + '</span>' +
+                    '<span class="note">' + it.n + ' issues</span>';
+    return div;
+  }
+  function seed(){
+    for (let i = 0; i < 9; i++) list.appendChild(row(pick()));
+  }
+  seed();
+  setInterval(() => {
+    if (document.hidden) return;
+    list.insertBefore(row(pick()), list.firstChild);
+    while (list.children.length > 10) list.removeChild(list.lastChild);
+  }, 4500);
+  list.addEventListener('click', (e) => {
+    const r = e.target.closest('.row');
+    if (!r) return;
+    runQuery(r.dataset.d);
+  });
+})();
+
+// Query / verifier
+const QDB = {
+  "themoneytizer.com": {ssps:47, c:41, p:19, pl:40, g:'F', v:'industrial template injection: wrapper claims DIRECT for accounts the exchanges themselves classify as INTERMEDIARY.'},
+  "nytimes.com":       {ssps:32, c:18, p:12, pl:70, g:'B', v:'below the strict false-claim floor. phantom entries only.'},
+  "ezoic.com":         {ssps:41, c:38, p:19, pl:43, g:'D', v:'wrapper\'s own ads.txt mirrors the pattern it propagates.'},
+  "buzzfeed.com":      {ssps:38, c:35, p:18, pl:47, g:'D', v:'heavy template footprint; majority of claims fail.'},
+  "weather.com":       {ssps:28, c:12, p:18, pl:70, g:'B', v:'within range. missing IDs dominate over contradictions.'},
+};
+const QRES = document.getElementById('qres');
+function runQuery(raw){
+  if (!raw) return;
+  const d = raw.trim().toLowerCase().replace(/^(audit\s+)?/, '').replace(/^https?:\/\//, '').replace(/\/.*/, '');
+  document.getElementById('qinput').value = d;
+  const r = QDB[d];
+  QRES.classList.remove('show');
+  QRES.innerHTML = '<div class="ln"><span class="arrow">&gt;</span><span class="txt">resolving <b>' + d + '/ads.txt</b>...</span></div>';
+  requestAnimationFrame(() => QRES.classList.add('show'));
+  setTimeout(() => {
+    if (!r) {
+      QRES.innerHTML =
+        '<div class="ln fail"><span class="arrow">&times;</span><span class="txt">no <b>ads.txt</b> at this domain</span></div>' +
+        '<div class="verdict warn"><span class="grade" style="color:var(--fg-faint)">&mdash;</span>~85% of ad-tech-enabled sites are in this group: no public authorization file at all.</div>';
+      return;
+    }
+    QRES.innerHTML =
+      '<div class="ln"><span class="arrow">&gt;</span><span class="txt">resolved <b>' + d + '/ads.txt</b> · <span class="ok">' + r.ssps + ' exchanges</span> queried</span></div>' +
+      '<div class="ln"><span class="arrow">&gt;</span><span class="txt">cross-referenced (publisher, exchange, seller_id) triples</span></div>' +
+      '<div class="ln ' + (r.c >= 30 ? 'fail' : (r.c >= 15 ? 'warn' : '')) + '"><span class="arrow">' + (r.c >= 30 ? '&times;' : (r.c >= 15 ? '!' : '\u2713')) + '</span><span class="txt"><span class="' + (r.c >= 30 ? 'bad' : 'ok') + '">' + r.c + '%</span> contradicted · ' + r.p + '% missing · ' + r.pl + '% plausible</span></div>' +
+      '<div class="verdict ' + (r.g === 'F' ? 'fail' : (r.g === 'D' || r.g === 'C' ? 'warn' : '')) + '"><span class="grade ' + r.g + '">' + r.g + '</span>' + r.v + '</div>';
+  }, 360);
+}
+
+document.getElementById('qform').addEventListener('submit', (e) => {
+  e.preventDefault();
+  runQuery(document.getElementById('qinput').value);
+});
+document.querySelectorAll('.ex').forEach(a => a.addEventListener('click', (e) => {
+  e.preventDefault();
+  runQuery(a.dataset.d);
+}));
+document.querySelectorAll('.tbl tr[data-d]').forEach(tr => {
+  tr.addEventListener('click', () => runQuery(tr.dataset.d));
+});
+</script>
+
+</body>
+</html>

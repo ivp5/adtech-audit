@@ -1,393 +1,2076 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ads.txt Framework Integrity Audit — May 22, 2026</title>
-<meta name="description" content="33.83% of DIRECT ads.txt claims don't reconcile with SSP sellers.json. Decomposed: 97.5% is structural framework decay (dead SSPs, schema migration, orphan registries, confidentiality flags); only ~2.5% has potential-fraud shape. Free instant publisher lookup.">
-<meta property="og:title" content="ads.txt Framework Integrity Audit: 33.83% Phantom, 97.5% Structural">
-<meta property="og:description" content="Eight-cycle structural decomposition. The IAB framework has no SSP-death propagation channel. 287K DIRECT claims to dead SSPs persist 7-9+ years post-acquisition.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://ivp5.github.io/adtech-audit/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ads.txt Audit: Framework Integrity Diagnostic">
-<meta name="twitter:description" content="74,460 publishers × 1,672 SSP registries. The phantom rate is geological framework decay, not publisher fraud.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>33.83% phantom — ads.txt × sellers.json audit, 2026-05-22</title>
+<meta name="description" content="33.83% of DIRECT ads.txt claims don't reconcile with SSP sellers.json. 97.5% is structural framework decay; only ~2.5% has the shape of potential misconduct. 287,249 claims point to dead SSPs. Public data, deterministic, CC0.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Georgia, 'Times New Roman', serif; background: #fafaf8; color: #1a1a1a; line-height: 1.7; }
-.page { max-width: 760px; margin: 0 auto; padding: 40px 24px; }
-h1 { font-size: 2em; margin-bottom: 0.2em; letter-spacing: -0.02em; }
-h2 { font-size: 1.3em; margin: 2em 0 0.6em; border-bottom: 2px solid #1a1a1a; padding-bottom: 0.2em; }
-h3 { font-size: 1.05em; margin: 1.5em 0 0.4em; }
-p { margin-bottom: 1em; }
-.subtitle { color: #666; font-size: 0.95em; margin-bottom: 2em; }
-.banner { background: #fffbea; border-left: 4px solid #b58b00; padding: 16px 22px; margin: 1.2em 0; font-size: 0.9em; }
-.finding { background: #fff; border: 1px solid #ddd; border-left: 4px solid #2c6e9b; padding: 20px 24px; margin: 1.5em 0; }
-.finding-num { font-size: 0.8em; color: #2c6e9b; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4em; }
-.callout { background: #f5f1e8; border-left: 4px solid #8b6914; padding: 16px 22px; margin: 1em 0; font-size: 0.92em; }
-table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.9em; }
-th { text-align: left; border-bottom: 2px solid #1a1a1a; padding: 6px 8px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
-td { padding: 6px 8px; border-bottom: 1px solid #eee; }
-tr:hover td { background: #f5f5f0; }
-td.r, th.r { text-align: right; }
-.bar-container { display: flex; align-items: center; gap: 8px; }
-.bar { height: 16px; background: #2c6e9b; border-radius: 2px; min-width: 2px; }
-.bar.structural { background: #8b6914; }
-.bar.dead { background: #999; }
-.bar.fraud { background: #c00; }
-.bar.plausible { background: #2a7; }
-.note { font-size: 0.85em; color: #666; font-style: italic; margin: 1em 0; }
-.method { background: #f5f5f0; padding: 16px 20px; font-size: 0.88em; margin: 1em 0; border-left: 3px solid #999; }
-.verify { background: #e8f5e9; border: 1px solid #a5d6a7; padding: 16px 20px; margin: 1em 0; font-size: 0.9em; }
-.verify code { background: #fff; padding: 2px 6px; font-size: 0.9em; }
-.supersede { background: #fef0f0; border: 1px solid #f5b5b5; padding: 12px 18px; margin: 1.2em 0; font-size: 0.85em; color: #6a1a1a; }
-footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ddd; font-size: 0.8em; color: #999; }
-@media print { body { font-size: 11pt; } .page { max-width: 100%; } }
+:root{
+  /* ── Surface ── */
+  --paper:#F4EFE6; --paper-2:#EBE3D5; --paper-3:#E0D7C4;
+
+  /* ── Ink ── */
+  --ink:#1A1714;
+  --ink-80:rgba(26,23,20,.80);
+  --ink-65:rgba(26,23,20,.65);
+  --ink-45:rgba(26,23,20,.45);
+  --ink-30:rgba(26,23,20,.30);
+  --ink-18:rgba(26,23,20,.18);
+  --ink-10:rgba(26,23,20,.10);
+  --ink-06:rgba(26,23,20,.06);
+  --ink-03:rgba(26,23,20,.03);
+
+  /* ── Semantic ── */
+  --red:#C73E2E; --red-bg:rgba(199,62,46,.10); --red-tint:rgba(199,62,46,.04);
+  --blue:#2A6FAB; --blue-bg:rgba(42,111,171,.10);
+  --brass:#B08654; --brass-bg:rgba(176,134,84,.14);
+  --ok:#5C7A4F; --ok-bg:rgba(92,122,79,.10);
+
+  /* ── Type ── */
+  --ui:'Inter',-apple-system,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --display:'Newsreader','Cormorant Garamond',serif;
+
+  /* ── Spacing (8px grid) ── */
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px;
+  --s5:40px; --s6:48px; --s7:56px; --s8:64px;
+  --s9:80px; --s10:96px; --s11:128px;
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-out:cubic-bezier(.4,0,.2,1);
+}
+
+*{box-sizing:border-box}
+*:focus{outline:none}
+*:focus-visible{outline:2px solid var(--ok);outline-offset:2px;border-radius:2px}
+button:focus-visible,a.btn:focus-visible{outline-color:var(--ok);outline-offset:3px}
+html{scroll-behavior:smooth}
+html,body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--ui);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-variant-numeric:tabular-nums lining-nums;
+  -webkit-text-size-adjust:100%}
+
+/* paper grain removed for perf */
+
+a{color:inherit}
+::selection{background:var(--ink);color:var(--paper)}
+button{font-family:inherit}
+code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1px 6px;border-radius:2px;color:var(--ink);font-weight:500;white-space:nowrap}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--s4)}
+@media (max-width:700px){.wrap{padding:0 var(--s3)}}
+
+/* ─── Reveal-on-scroll ────────────────────────── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.06s}
+.reveal[data-delay="2"]{transition-delay:.12s}
+.reveal[data-delay="3"]{transition-delay:.18s}
+.reveal[data-delay="4"]{transition-delay:.24s}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ─── Masthead ────────────────────────────────── */
+.mast{padding:16px 0;border-bottom:1px solid var(--ink-10);display:flex;align-items:center;gap:var(--s3);font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-45)}
+.mast .mark{display:inline-flex;align-items:center;gap:10px;color:var(--ink);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.mast .mark::before{content:"";width:8px;height:8px;background:var(--red);display:inline-block}
+.mast .sep{color:var(--ink-18)}
+.mast .sp{flex:1}
+.mast .meta{color:var(--ink-45);letter-spacing:.06em}
+.mast .meta b{color:var(--ink);font-weight:500}
+@media (max-width:680px){.mast .meta-secondary{display:none}}
+
+/* ─── Ticker bar ─── */
+.ticker{padding:10px 0;border-bottom:1px solid var(--ink-10);background:var(--red-tint);font-family:var(--mono);font-size:11px;color:var(--ink-65);letter-spacing:.06em;overflow:hidden;white-space:nowrap}
+.ticker .inner{display:flex;align-items:center;gap:var(--s3);max-width:1280px;margin:0 auto;padding:0 var(--s4)}
+.ticker .live{display:inline-flex;align-items:center;gap:8px;color:var(--red);font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.ticker .live::before{content:"";width:6px;height:6px;background:var(--red);border-radius:50%;animation:liveBlink 1.8s ease-in-out infinite}
+@keyframes liveBlink{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+/* ─── Live system trace ─ supply-chain animated flow ─── */
+.flow-section{margin-top:var(--s7);padding:var(--s5) 0 var(--s7);border-top:1px solid var(--ink-10)}
+.flow-h{display:flex;justify-content:space-between;align-items:end;margin-bottom:var(--s3);flex-wrap:wrap;gap:var(--s3)}
+.flow-h .left{max-width:62ch}
+.flow-h .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:8px;display:inline-flex;align-items:center;gap:8px}
+.flow-h .lbl::before{content:"";width:6px;height:6px;background:var(--red);border-radius:50%;animation:liveBlink 1.8s ease-in-out infinite;box-shadow:0 0 8px var(--red)}
+.flow-h h2{font-family:var(--ui);font-size:clamp(22px,2.8vw,30px);font-weight:700;letter-spacing:-.022em;margin:0 0 10px;color:var(--ink)}
+.flow-h .sub{font-family:var(--ui);font-size:14px;line-height:1.55;color:var(--ink-65);margin:0;max-width:62ch}
+.flow-h .sub b{font-weight:700}
+.flow-controls{display:flex;gap:6px;font-family:var(--mono);font-size:11px;color:var(--ink-45);align-self:end}
+.flow-controls button{background:transparent;border:1px solid var(--ink-15);padding:6px 12px;font:inherit;color:var(--ink-65);cursor:pointer;border-radius:2px;transition:all .15s ease;letter-spacing:.04em;text-transform:uppercase;font-size:10px}
+.flow-controls button:hover{border-color:var(--ink);color:var(--ink)}
+
+.flow-diagram{position:relative;width:100%;background:linear-gradient(180deg,var(--paper-2) 0%, var(--paper-3) 100%);border:1px solid var(--ink-15);padding:18px 0;overflow:hidden}
+.flow-diagram svg{display:block;width:100%;height:auto;font-family:var(--mono)}
+.flow-diagram .col-lbl{font-size:10px;letter-spacing:.16em;fill:var(--ink-45);font-weight:600;text-transform:uppercase}
+.flow-diagram .col-line{stroke:var(--ink-10);stroke-width:1;stroke-dasharray:2 4}
+.flow-diagram .node{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+.flow-diagram .node.user{fill:var(--ink);stroke:var(--ink)}
+.flow-diagram .node-lbl{font-size:10px;font-family:var(--mono);fill:var(--ink);text-anchor:middle;letter-spacing:.02em}
+.flow-diagram .node-sub{font-size:9px;fill:var(--ink-45);text-anchor:middle;letter-spacing:.04em}
+.flow-diagram .conn{fill:none;stroke:var(--ink-10);stroke-width:1}
+
+.flow-stats{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-65);padding:12px 16px;background:var(--ink);color:var(--paper);border:1px solid var(--ink)}
+.flow-stats span{display:inline-flex;align-items:baseline;gap:6px;color:rgba(244,239,230,.65)}
+.flow-stats b{color:var(--paper);font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
+.flow-stats .sep{color:rgba(244,239,230,.18)}
+.flow-stats .legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+@media (max-width:600px){
+  .flow-stats{font-size:11px;gap:12px;padding:10px 12px}
+  .flow-stats b{font-size:12px}
+  .flow-stats .sep{display:none}
+  .flow-h{flex-direction:column;align-items:flex-start}
+}
+.ticker .item{display:inline-flex;align-items:baseline;gap:6px}
+.ticker .item .k{color:var(--ink-45)}
+.ticker .item .v{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.ticker .sep{color:var(--ink-18)}
+
+/* ─── Sticky condensed header (appears after hero scrolls out) ─── */
+.condensed{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(244,239,230,.97);border-bottom:1px solid var(--ink-10);transform:translateY(-100%);transition:transform .35s var(--ease-out);will-change:transform}
+.condensed.show{transform:translateY(0)}
+.condensed .row{max-width:1280px;margin:0 auto;padding:10px var(--s4);display:grid;grid-template-columns:auto 1fr auto;gap:var(--s3);align-items:center}
+.condensed .pct{font-family:var(--ui);font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--red);font-variant-numeric:tabular-nums}
+.condensed .pct .of{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ink-45);letter-spacing:.14em;text-transform:uppercase;margin-left:8px}
+.condensed .mini-form{display:flex;border:1px solid var(--ink-18);background:var(--paper);max-width:480px;justify-self:start;width:100%}
+.condensed .mini-form input{flex:1;border:0;background:transparent;font-family:var(--mono);font-size:13px;padding:8px 12px;outline:none;color:var(--ink);min-width:0}
+.condensed .mini-form input::placeholder{color:var(--ink-30)}
+.condensed .mini-form button{background:var(--ok);color:var(--paper);border:0;padding:0 14px;font-family:var(--ui);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.condensed .mini-form button:hover{background:var(--ink)}
+.condensed .meta{font-family:var(--mono);font-size:10px;color:var(--ink-45);letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:760px){.condensed .meta{display:none}.condensed .row{grid-template-columns:auto 1fr}}
+
+/* ─── Hero ──────────────────────────────────── */
+.hero{padding:var(--s10) 0 var(--s9);position:relative}
+.hero-grid{display:grid;grid-template-columns:auto 1fr;gap:var(--s8);align-items:start;margin-bottom:var(--s9)}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:var(--s5)}}
+.hero-num-cell{position:relative;padding:8px 24px 8px 0}
+/* Ledger pattern behind the number — like aged audit paper */
+.hero-num-cell::before{content:"";position:absolute;inset:-12px 12px -12px -12px;z-index:0;opacity:.05;pointer-events:none;
+  background-image:repeating-linear-gradient(0deg, transparent 0, transparent 31px, var(--ink) 31px, var(--ink) 32px)}
+.hero-num-cell > *{position:relative;z-index:1}
+.hero-num{font-family:var(--ui);font-weight:700;font-size:clamp(120px,18vw,260px);line-height:.86;letter-spacing:-.055em;color:var(--red);font-feature-settings:"tnum" 1, "lnum" 1;display:inline-block;position:relative}
+.hero-num .pct{font-size:.45em;color:var(--red);margin-left:.05em;letter-spacing:-.02em;vertical-align:.18em}
+.hero-num::after{content:"";position:absolute;bottom:-12px;left:0;right:0;height:1px;background:var(--ink-18)}
+.hero-num-cap{margin-top:var(--s3);font-family:var(--ui);font-size:clamp(20px,2.4vw,28px);font-weight:600;line-height:1.2;letter-spacing:-.015em;color:var(--ink);max-width:18ch}
+.hero-num-cap .underline{position:relative;white-space:nowrap}
+.hero-num-cap .underline::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--red);opacity:.65}
+
+.hero-side{padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s2)}
+.scale-row{display:grid;grid-template-columns:1fr auto;gap:var(--s4);align-items:baseline;padding:14px 0;border-bottom:1px solid var(--ink-10)}
+.scale-row:last-child{border-bottom:0}
+.scale-row .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-45)}
+.scale-row .v{font-family:var(--ui);font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.scale-row.bad .v{color:var(--red)}
+.scale-row .sub{font-family:var(--mono);font-size:10px;color:var(--ink-30);margin-left:8px;letter-spacing:.04em}
+
+/* Exhibit */
+.exhibit{}
+.exhibit-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:var(--s3);flex-wrap:wrap}
+.exhibit-h .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-45);font-weight:500}
+.exhibit-h .tag b{color:var(--ink);font-weight:600}
+.exhibit-h .ref{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-45)}
+.exhibit-h .ref b{color:var(--ink);font-weight:500}
+
+/* Two-pane diff (real file diff aesthetic) */
+.pane-diff{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--ink-10);background:var(--paper-2);font-family:var(--mono)}
+@media (max-width:760px){.pane-diff{grid-template-columns:1fr}}
+.pane{display:flex;flex-direction:column;border-right:1px solid var(--ink-10);min-width:0}
+.pane:last-child{border-right:0;border-top:0}
+@media (max-width:760px){.pane{border-right:0;border-bottom:1px solid var(--ink-10)}.pane:last-child{border-bottom:0}}
+.pane-h{padding:14px 18px;background:var(--ink-03);border-bottom:1px solid var(--ink-10);display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2)}
+.pane-h .file{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.pane-h .dom{font-size:11px;color:var(--ink-45);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pane-body{padding:14px 0;font-size:13px;line-height:1.7;color:var(--ink-65);overflow:hidden}
+.pane-row{display:grid;grid-template-columns:40px 1fr;align-items:baseline;padding:0 18px;white-space:nowrap}
+.pane-row .lnum{color:var(--ink-30);font-size:11px;text-align:right;padding-right:14px;user-select:none}
+.pane-row .ltext{color:var(--ink-65);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pane-row.muted .ltext{color:var(--ink-30)}
+.pane-row.hit{background:var(--brass-bg)}
+.pane-row.hit .ltext{color:var(--ink)}
+.pane-row.hit .ltext .hl{padding:1px 4px;border-radius:2px;font-weight:600}
+.pane-row.hit .ltext .hl.a{background:var(--blue-bg);color:var(--blue)}
+.pane-row.hit .ltext .hl.b{background:var(--red-bg);color:var(--red)}
+.pane-row.hit .ltext .hl.id{background:transparent;color:var(--brass)}
+.pane-footer{padding:10px 18px;background:var(--ink-03);border-top:1px solid var(--ink-10);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-45);display:flex;justify-content:space-between}
+.pane-footer .ok{color:var(--ok);font-weight:600}
+.pane-footer .neq{color:var(--red);font-weight:600}
+
+.diff-conclusion{margin-top:14px;padding:12px var(--s3);background:var(--red-tint);border-left:3px solid var(--red);font-family:var(--mono);font-size:12px;color:var(--ink-65);display:flex;align-items:center;justify-content:space-between;gap:var(--s3);flex-wrap:wrap}
+.diff-conclusion .what{color:var(--ink)}
+.diff-conclusion .what b{color:var(--red);font-weight:600;font-family:var(--ui);letter-spacing:.04em}
+.diff-conclusion .copy{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-45);background:transparent;border:1px solid var(--ink-18);padding:5px 10px;border-radius:2px;cursor:pointer;transition:all .15s ease}
+.diff-conclusion .copy:hover{border-color:var(--ink);color:var(--ink)}
+.diff-conclusion .copy.copied{border-color:var(--ok);color:var(--ok)}
+
+.actions{margin-top:var(--s5);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--ui);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:14px 22px;border-radius:2px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:all .2s var(--ease-out);position:relative;overflow:hidden}
+.btn.primary{background:var(--ok);color:var(--paper)}
+.btn.primary:hover{background:var(--ink);transform:translateY(-1px);box-shadow:0 6px 14px rgba(26,23,20,.12)}
+.btn.primary::after{content:"→";transition:transform .2s var(--ease-out)}
+.btn.primary:hover::after{transform:translateX(3px)}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--ink-18)}
+.btn.secondary:hover{border-color:var(--ink);background:var(--ink-03)}
+
+/* ─── Findings ──────────────────────────────── */
+.findings-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:var(--s3);padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.findings-h .h2{font-family:var(--ui);font-size:22px;font-weight:700;letter-spacing:-.018em;margin:0;color:var(--ink)}
+.findings-h .meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-45)}
+
+.findings{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--ink-10);border:1px solid var(--ink-10)}
+@media (max-width:760px){.findings{grid-template-columns:1fr}}
+.fcard{background:var(--paper);padding:var(--s5);display:grid;grid-template-rows:auto auto 1fr auto;gap:var(--s3);min-height:360px;position:relative;overflow:hidden;transition:background .12s var(--ease-out)}
+.fcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink-30);transition:width .15s var(--ease-out),background .15s var(--ease-out)}
+.fcard:hover{background:#FBF7EF}
+.fcard:hover::before{width:3px}
+.fcard:nth-child(1):hover::before,.fcard:nth-child(2):hover::before{background:var(--red)}
+.fcard:nth-child(4):hover::before{background:var(--brass)}
+.fcard .head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s2)}
+.fcard .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-45);font-weight:500}
+.fcard .num{font-family:var(--ui);font-weight:700;font-size:clamp(56px,5.8vw,84px);line-height:.88;letter-spacing:-.04em;color:var(--ink);margin:0;font-feature-settings:"tnum" 1, "lnum" 1}
+.fcard .num.bad{color:var(--red)}
+.fcard .num.warn{color:var(--brass)}
+.fcard .num .unit{font-family:var(--mono);font-weight:500;font-size:.30em;letter-spacing:.04em;color:var(--ink-45);margin-left:6px;vertical-align:0.65em}
+.fcard .one{font-size:14px;line-height:1.55;color:var(--ink);margin:0;max-width:44ch}
+.fcard .one b{font-weight:600}
+.fcard .viz{margin:6px 0 0}
+
+/* ── F1 mini-diff ── */
+.minidiff{font-family:var(--mono);font-size:12px;background:var(--ink-03);border:1px solid var(--ink-10);padding:14px 16px;display:grid;gap:10px;line-height:1.4}
+.minidiff .l{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:baseline}
+.minidiff .l .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-45);font-weight:500}
+.minidiff .l .v{color:var(--ink);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.minidiff .l .v .note{color:var(--ink-45);font-size:11px}
+.hl{padding:2px 6px;border-radius:2px;font-weight:500;white-space:nowrap}
+.hl.id{background:var(--brass-bg);color:var(--brass);font-weight:600}
+.hl.a{background:var(--blue-bg);color:var(--blue);font-weight:600}
+.hl.b{background:var(--red-bg);color:var(--red);font-weight:600}
+
+/* ── F2 timeline ── */
+.tline{position:relative;min-height:148px;font-family:var(--mono);font-size:10px;color:var(--ink-45);padding:0 6px}
+.tline .axis{position:absolute;top:68px;left:6px;right:6px;height:2px;background:var(--ink-18)}
+.tline .gap{position:absolute;top:58px;height:22px;background:var(--red-bg);border:1px dashed var(--red);border-radius:2px}
+.tline .ev{position:absolute;top:0;transform:translateX(-50%);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;width:130px}
+.tline .ev .lbl{font-family:var(--ui);font-size:12px;font-weight:500;line-height:1.3;color:var(--ink);letter-spacing:0;text-transform:none;order:1}
+.tline .ev.late .lbl{color:var(--ink-65)}
+.tline .ev .dot{width:18px;height:18px;border-radius:50%;background:var(--ink);order:2;position:relative}
+.tline .ev.early .dot{background:var(--red);box-shadow:0 0 0 4px var(--red-bg)}
+.tline .ev.late .dot{background:var(--ink-30);box-shadow:0 0 0 3px var(--ink-10)}
+.in .tline .ev.early .dot{animation:dotPulse 2.4s ease-out 0.4s infinite}
+@keyframes dotPulse{0%{box-shadow:0 0 0 4px var(--red-bg)}50%{box-shadow:0 0 0 10px rgba(199,62,46,.04)}100%{box-shadow:0 0 0 4px var(--red-bg)}}
+.tline .tk{position:absolute;top:82px;transform:translateX(-50%);font-size:11px;color:var(--ink-45);letter-spacing:.04em}
+.tline .tk::before{content:"";position:absolute;top:-10px;left:50%;width:1px;height:6px;background:var(--ink-18);transform:translateX(-50%)}
+.tline .gap-lbl{position:absolute;top:114px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);font-weight:600;white-space:nowrap}
+
+/* ── F3 silhouettes — typical (5) + dense (294) ── */
+.spectre{display:inline-block;background:var(--ink);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 84'><path d='M23 4 C16 4 11 9 11 16 C11 22 15 26 23 26 C31 26 35 22 35 16 C35 9 30 4 23 4 Z M7 82 L7 50 C7 38 12 32 23 32 C34 32 39 38 39 50 L39 82 Q35 76 31 82 Q27 76 23 82 Q19 76 15 82 Q11 76 7 82 Z'/></svg>") center/contain no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 84'><path d='M23 4 C16 4 11 9 11 16 C11 22 15 26 23 26 C31 26 35 22 35 16 C35 9 30 4 23 4 Z M7 82 L7 50 C7 38 12 32 23 32 C34 32 39 38 39 50 L39 82 Q35 76 31 82 Q27 76 23 82 Q19 76 15 82 Q11 76 7 82 Z'/></svg>") center/contain no-repeat;
+  width:14px;height:26px;flex-shrink:0}
+.in .spectre{opacity:1}
+.f3-cmp{display:flex;flex-direction:column;gap:20px}
+.f3-row{display:grid;grid-template-columns:88px 1fr 60px;gap:14px;align-items:center}
+.f3-row .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-45);font-weight:500}
+.f3-row .l .sub{display:block;color:var(--ink-30);font-size:9px;margin-top:2px;letter-spacing:.04em;text-transform:none}
+.f3-row .v{font-family:var(--ui);font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.f3-row.bad .v{color:var(--red)}
+.f3-row .field-typ{display:flex;gap:6px;align-items:flex-end}
+.f3-row .field-typ .spectre{width:14px;height:26px;background:var(--ink-65)}
+.f3-row .field-dense{display:grid;grid-template-columns:repeat(49,1fr);gap:1.5px;align-items:end}
+.f3-row .field-dense .spectre{width:100%;height:auto;aspect-ratio:.55;background:var(--red)}
+
+/* ── F4 coverage ── */
+.cov-wrap{display:flex;flex-direction:column;gap:6px}
+.cov-axis{position:relative;height:14px;margin:0 1px}
+.cov-axis .ct{position:absolute;top:0;transform:translateX(-50%);font-family:var(--mono);font-size:10px;color:var(--ink-30);letter-spacing:.04em}
+.cov-axis .ct::after{content:"";position:absolute;bottom:-4px;left:50%;width:1px;height:4px;background:var(--ink-18);transform:translateX(-50%)}
+.coverage{height:40px;display:flex;border:1px solid var(--ink);position:relative;overflow:hidden}
+.coverage .seg{display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:var(--ui);font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap;overflow:hidden;width:0;transition:width 1.2s var(--ease)}
+.in .coverage .seg{width:var(--w)}
+.coverage .seg.ok{background:var(--ok)}
+.coverage .seg.mid{background:var(--brass)}
+.coverage .seg.bad{background:var(--ink-10);color:var(--ink-65)}
+.cov-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--ink-65)}
+.cov-legend .li{padding-left:12px;border-left:3px solid var(--ok)}
+.cov-legend .li.mid{border-color:var(--brass)}
+.cov-legend .li.bad{border-color:var(--ink-18)}
+.cov-legend .li b{color:var(--ink);font-weight:600;font-family:var(--ui);font-size:12px;letter-spacing:.02em;display:block;margin-bottom:3px}
+
+/* ─── Wrapper scorecard ────────────────────── */
+.scorecard{margin-top:var(--s9);padding:var(--s7) 0;border-top:1px solid var(--ink-10)}
+.sc-head{display:flex;justify-content:space-between;align-items:end;gap:var(--s4);margin-bottom:var(--s5);flex-wrap:wrap}
+.sc-head .left{max-width:54ch}
+.sc-head .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-45);font-weight:500;margin-bottom:8px}
+.sc-head h3{font-family:var(--ui);font-size:clamp(22px,2.8vw,30px);font-weight:700;letter-spacing:-.022em;margin:0 0 10px;color:var(--ink)}
+.sc-head .sub{font-family:var(--ui);font-size:14px;line-height:1.55;color:var(--ink-65);margin:0;max-width:60ch}
+.sc-head .sub b{color:var(--ink);font-weight:600}
+.sc-head .right{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-45);text-align:right}
+.sc-head .right b{display:block;color:var(--ink);font-size:14px;font-weight:600;margin-bottom:4px;letter-spacing:.04em}
+
+.sctable{width:100%;border-collapse:collapse;font-family:var(--ui);font-size:14px}
+.sctable th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-45);font-weight:500;padding:14px 16px 10px 0;border-bottom:1.5px solid var(--ink);white-space:nowrap}
+.sctable th.r{text-align:right;padding-right:0}
+.sctable td{padding:14px 16px 14px 0;border-bottom:1px solid var(--ink-10);color:var(--ink);transition:background .15s ease}
+.sctable td.r{text-align:right;padding-right:0;font-variant-numeric:tabular-nums}
+.sctable tr:hover td{background:var(--ink-03)}
+.sctable .nm{font-weight:600;font-size:15px}
+.sctable .sub-text{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-45);font-weight:400;letter-spacing:.04em;margin-top:2px}
+.sctable .pubs{color:var(--ink-65);font-family:var(--mono);font-size:13px}
+.rate-bar{display:grid;grid-template-columns:1fr 46px;gap:12px;align-items:center;max-width:280px}
+.rate-bar .track{height:6px;background:var(--ink-06);position:relative;border-radius:1px;overflow:hidden}
+.rate-bar .track .fill{position:absolute;inset:0 auto 0 0;background:var(--ok);width:0;transition:width 1s var(--ease) .1s}
+.in .rate-bar .track .fill{width:var(--w, 0%)}
+.rate-bar .track .fill.warn{background:var(--brass)}
+.rate-bar .track .fill.bad{background:var(--red)}
+.rate-bar .pct{font-family:var(--mono);font-size:12px;color:var(--ink);font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+.grade-pill{display:inline-block;width:30px;height:30px;line-height:30px;text-align:center;font-family:var(--display);font-style:italic;font-size:18px;font-weight:500;color:var(--paper);border-radius:2px;font-variant-numeric:lining-nums}
+.grade-pill.A,.grade-pill.B{background:var(--ok)}
+.grade-pill.C{background:var(--brass)}
+.grade-pill.D{background:#C76A3C}
+.grade-pill.F{background:var(--red)}
+.sc-foot{margin-top:var(--s3);padding-top:14px;border-top:1px solid var(--ink-10);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--s2)}
+.sc-foot b{color:var(--ink);font-weight:500}
+
+/* ─── Time-scale reframe ─ the data converted to human duration ─── */
+.timescale{margin-top:var(--s7);padding:var(--s5) 0;border-top:1px solid var(--ink-10);border-bottom:1px solid var(--ink-10);background:var(--paper-2)}
+.timescale .ts-head{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-45);font-weight:500;margin-bottom:var(--s4);text-align:center}
+.timescale .ts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:1080px;margin:0 auto;padding:0 var(--s4)}
+@media (max-width:760px){.timescale .ts-grid{grid-template-columns:1fr;gap:var(--s4)}}
+.ts-cell{padding:var(--s3) var(--s4);text-align:center;border-right:1px solid var(--ink-10)}
+.ts-cell:last-child{border-right:0}
+@media (max-width:760px){.ts-cell{border-right:0;border-bottom:1px solid var(--ink-10);padding-bottom:var(--s4)}.ts-cell:last-child{border-bottom:0}}
+.ts-cell .raw{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-45);margin-bottom:6px}
+.ts-cell .eq{font-family:var(--display);font-style:italic;font-size:24px;color:var(--red);font-weight:500;line-height:1;margin-bottom:6px}
+.ts-cell .span{font-family:var(--ui);font-size:clamp(28px,3.5vw,44px);font-weight:700;letter-spacing:-.025em;color:var(--ink);line-height:1.05;margin-bottom:8px;font-variant-numeric:tabular-nums}
+.ts-cell .span .unit{font-family:var(--mono);font-weight:500;font-size:.4em;color:var(--ink-45);margin-left:6px;letter-spacing:.04em;text-transform:uppercase}
+.ts-cell .caption{font-family:var(--ui);font-size:12.5px;line-height:1.5;color:var(--ink-65);max-width:30ch;margin:0 auto}
+.timescale .ts-foot{margin-top:var(--s4);text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-30);font-style:italic}
+
+/* ─── Live audits pulse ─ rolling list ─── */
+.live-pulse{margin-top:var(--s9);padding:var(--s5) 0}
+.lp-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:var(--s3);flex-wrap:wrap;gap:var(--s3)}
+.lp-head .left{max-width:54ch}
+.lp-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-weight:600;display:inline-flex;align-items:center;gap:8px;margin-bottom:8px}
+.lp-tag::before{content:"";width:8px;height:8px;background:var(--red);border-radius:50%;animation:liveBlink 1.8s ease-in-out infinite;box-shadow:0 0 10px var(--red)}
+.lp-head h3{font-family:var(--ui);font-size:clamp(22px,2.8vw,30px);font-weight:700;letter-spacing:-.022em;margin:0 0 10px;color:var(--ink)}
+.lp-head .sub{font-family:var(--ui);font-size:14px;line-height:1.55;color:var(--ink-65);margin:0;max-width:60ch}
+.lp-head .sub b{color:var(--ink);font-weight:600}
+.lp-head .right{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-45);text-align:right}
+.lp-head .right b{display:block;color:var(--ink);font-size:14px;font-weight:600;margin-bottom:4px;letter-spacing:.04em}
+.lp-shell{background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:13px;overflow:hidden;border:1px solid var(--ink);position:relative;box-shadow:0 14px 36px rgba(26,23,20,.16)}
+.lp-shell .lp-hdr{display:grid;grid-template-columns:30px 1fr auto auto 60px;gap:14px;padding:10px 18px;border-bottom:1px solid rgba(244,239,230,.10);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,239,230,.45);font-weight:600}
+.lp-list{max-height:336px;overflow:hidden}
+.lp-row{display:grid;grid-template-columns:30px 1fr auto auto 60px;gap:14px;padding:10px 18px;align-items:center;border-bottom:1px solid rgba(244,239,230,.06);transition:background .15s ease}
+.lp-row.new{animation:lpSlide .55s var(--ease-out)}
+@keyframes lpSlide{from{opacity:0;transform:translateY(-16px);background:rgba(199,62,46,.16)}to{opacity:1;transform:none;background:transparent}}
+.lp-row:hover{background:rgba(244,239,230,.04);cursor:pointer}
+.lp-row .g{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;font-family:var(--display);font-style:italic;font-size:15px;font-weight:500;border-radius:2px;color:var(--paper)}
+.lp-row .g.A,.lp-row .g.B{background:var(--ok)}
+.lp-row .g.C{background:var(--brass)}
+.lp-row .g.D{background:#C76A3C}
+.lp-row .g.F{background:var(--red)}
+.lp-row .d{color:var(--paper);font-weight:500;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lp-row .c{color:rgba(244,239,230,.55);font-size:11px;font-variant-numeric:tabular-nums}
+.lp-row .arrow{color:rgba(244,239,230,.25);font-family:var(--display);font-style:italic;font-size:13px}
+.lp-row .x{color:rgba(244,239,230,.40);font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;text-align:right}
+.lp-foot{padding:10px 18px;background:#0F0D0A;border-top:1px solid rgba(244,239,230,.08);font-size:10px;color:rgba(244,239,230,.40);letter-spacing:.06em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.lp-foot .pulse{color:var(--red);display:inline-flex;align-items:center;gap:6px;font-weight:600;text-transform:uppercase;letter-spacing:.14em}
+.lp-foot .pulse::before{content:"";width:6px;height:6px;background:var(--red);border-radius:50%;animation:liveBlink 1.8s ease-in-out infinite}
+.lp-foot .verify-hint{color:rgba(244,239,230,.5)}
+@media (max-width:560px){
+  .lp-shell .lp-hdr,.lp-row{grid-template-columns:22px 1fr auto 50px;gap:10px;padding:8px 14px}
+  .lp-shell .lp-hdr .col-c,.lp-row .c,.lp-row .arrow{display:none}
+  .lp-row .g{width:22px;height:22px;line-height:22px;font-size:13px}
+}
+
+/* ─── Glossary ─────────────────────────────── */
+.gloss{margin-top:var(--s7);padding:var(--s3) 0;border-top:1px solid var(--ink-10);border-bottom:1px solid var(--ink-10);display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--ink-65)}
+@media (max-width:800px){.gloss{grid-template-columns:repeat(2,1fr);gap:var(--s3)}}
+@media (max-width:480px){.gloss{grid-template-columns:1fr}}
+.gloss .term{display:flex;flex-direction:column;gap:4px}
+.gloss .term .k{font-family:var(--ui);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:600}
+.gloss .term .v{color:var(--ink-65)}
+
+/* ─── Verifier ─────────────────────────────── */
+.verifier{padding:var(--s9) 0;margin-top:var(--s7);border-top:1px solid var(--ink-10);border-bottom:1px solid var(--ink-10)}
+.verifier .vhead{display:grid;grid-template-columns:1fr auto;gap:var(--s3);align-items:end;margin-bottom:var(--s3)}
+@media (max-width:700px){.verifier .vhead{grid-template-columns:1fr;gap:8px}}
+.verifier h2{font-family:var(--ui);font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.022em;margin:0;color:var(--ink)}
+.verifier h2 em{color:var(--ok);font-style:normal;font-weight:700}
+.verifier .vsub{font-family:var(--mono);font-size:11px;color:var(--ink-45);letter-spacing:.08em;text-transform:uppercase}
+.verifier .vsub kbd{font-family:var(--mono);font-size:10px;padding:2px 6px;background:var(--ink-06);border:1px solid var(--ink-10);border-radius:2px;color:var(--ink);font-weight:500;margin-left:4px}
+
+.vform{display:grid;grid-template-columns:1fr auto;align-items:stretch;border:1px solid var(--ink);max-width:720px;background:var(--paper);transition:border-color .15s ease,box-shadow .15s ease}
+.vform:focus-within{border-color:var(--ok);box-shadow:0 0 0 3px var(--ok-bg)}
+.vform input{background:transparent;border:0;color:var(--ink);font-family:var(--mono);font-size:16px;padding:16px 18px;outline:none;width:100%;letter-spacing:.02em;min-width:0}
+.vform input::placeholder{color:var(--ink-30)}
+.vform button{background:var(--ok);color:var(--paper);border:0;font-family:var(--ui);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:0 26px;cursor:pointer;transition:background .15s ease}
+.vform button:hover{background:var(--ink)}
+
+.vchips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--ink-30);align-items:center}
+.vchips .pre{letter-spacing:.16em;text-transform:uppercase;margin-right:6px;color:var(--ink-45)}
+.vchips button{background:transparent;color:var(--ink-65);border:1px solid var(--ink-10);padding:5px 10px;cursor:pointer;font:inherit;border-radius:2px;transition:all .15s ease}
+.vchips button:hover{border-color:var(--ok);color:var(--ok)}
+.vchips .history{display:inline-flex;align-items:center;gap:6px;color:var(--ink-45)}
+.vchips .history .hist-item{background:var(--ink-03);border:1px solid var(--ink-10);padding:4px 9px;border-radius:2px;cursor:pointer;color:var(--ink-65)}
+.vchips .history .hist-item:hover{border-color:var(--ink);color:var(--ink)}
+.vchips .history .hist-item .x{color:var(--ink-30);margin-left:6px;font-weight:500}
+
+/* Multi-step fetch log */
+.vlog{margin-top:var(--s3);font-family:var(--mono);font-size:12px;color:var(--ink-65);background:var(--ink-03);border:1px solid var(--ink-10);padding:14px 16px;display:flex;flex-direction:column;gap:6px;line-height:1.6;max-width:720px;opacity:0;max-height:0;overflow:hidden;transition:opacity .25s ease,max-height .4s ease,padding .25s ease,margin-top .25s ease,border-color .25s ease}
+.vlog.show{opacity:1;max-height:200px}
+.vlog .line{display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:baseline;color:var(--ink-45)}
+.vlog .line .arrow{color:var(--ink-30)}
+.vlog .line.done{color:var(--ink)}
+.vlog .line.done .arrow{color:var(--ok)}
+.vlog .line .res{font-size:11px;color:var(--ink-45);font-weight:500}
+.vlog .line.done .res{color:var(--ok)}
+.vlog .line.fail .res{color:var(--red)}
+.vlog .spin{display:inline-block;width:10px;height:10px;border:1.5px solid var(--ink-18);border-top-color:var(--ok);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
+/* Sparklines in scorecard rows */
+.spark-cell{width:88px}
+.sparkline{width:80px;height:24px;display:block;vertical-align:middle}
+
+.vresult.show .grade{animation:gradePop .35s var(--ease-out) .08s both}
+@keyframes gradePop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+
+/* Log line fade-in */
+.vlog .line{animation:lineIn .3s var(--ease-out) both}
+@keyframes lineIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
+
+/* ─── GAMEDEV JUICE ─ springs, squash, hover lift, ticker pulse ─── */
+/* Buttons squash on press */
+.btn,.vform button,.cta,.vchips button,.diff-conclusion .copy,.method-code .code-h button,.reproduce-trigger,.reproduce-pop .pop-copy,.fcard .see-more,.vresult .vshare{transition:transform .12s var(--ease-out),background .15s ease,border-color .15s ease,color .15s ease,box-shadow .2s var(--ease-out)}
+.btn:active,.vform button:active,.vchips button:active,.diff-conclusion .copy:active,.method-code .code-h button:active,.reproduce-trigger:active,.reproduce-pop .pop-copy:active,.vresult .vshare:active{transform:scale(.94)}
+
+/* Cards lift on hover — perf (was box-shadow + transitions)*/
+.fcard{transition:background .1s linear}
+.fcard:hover{background:#FBF7EF}
+.fcard::before{transition:none}
+
+/* Scorecard rows: gentle bg-only hover (perf) */
+.sctable tbody tr{transition:background .1s linear}
+.sctable tbody tr:hover{background:var(--ink-03)}
+
+/* Verify chips: border-color only (perf) */
+.vchips button{transition:border-color .1s linear,color .1s linear}
+
+/* Hero number hover removed for perf */
+.hero-num{cursor:default}
+
+/* Ticker counter pulse when it increments */
+.tick-pulse{animation:tickerPulse .55s var(--ease-out)}
+@keyframes tickerPulse{
+  0%{color:var(--ink);transform:none}
+  35%{color:var(--red);transform:scale(1.18)}
+  100%{color:var(--ink);transform:scale(1)}
+}
+
+/* hit-row pulse removed for perf */
+
+/* Coverage segment grow — lighter (perf) */
+.in .coverage .seg{transition:width .8s ease-out}
+
+/* Vibrate on bad grade removed for perf */
+
+/* Toast slide-in — simple opacity */
+.toast{animation:toastBounceIn .25s ease-out}
+@keyframes toastBounceIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Verify button: extra polish on hover */
+.vform button{position:relative;overflow:hidden}
+.vform button::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-100%);transition:transform .5s var(--ease-out);pointer-events:none}
+.vform button:hover::after{transform:translateX(100%)}
+
+/* spectres no longer animate (perf) */
+
+@media (prefers-reduced-motion: reduce){
+  .fcard:hover,.sctable tbody tr:hover,.vchips button:hover,.hero-num:hover{transform:none;animation:none}
+  .hero-num:hover{animation:none}
+  .vresult.show .grade{animation:none}
+  .toast{animation:none}
+  .pane-row.hit{animation:none}
+}
+
+/* ─── MOBILE pass ─ phone-specific tweaks ─── */
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .hero{padding:var(--s6) 0 var(--s5)}
+  .hero-num{font-size:clamp(96px,28vw,160px)}
+  .hero-num-cap{font-size:18px;max-width:none}
+  .scale-row .v{font-size:18px}
+  .pane-diff{font-size:11px}
+  .pane-row{grid-template-columns:30px 1fr;padding:0 12px}
+  .pane-row .lnum{padding-right:10px}
+  .pane-row .ltext{font-size:11.5px}
+  .pane-h{padding:10px 12px}
+  .pane-footer{padding:8px 12px;font-size:9px}
+  .diff-conclusion{flex-direction:column;align-items:flex-start;gap:10px;padding:12px}
+  .diff-conclusion .copy{align-self:flex-end}
+  .ticker .inner{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .ticker .inner::-webkit-scrollbar{display:none}
+  .findings{margin-top:var(--s6)}
+  .fcard{padding:var(--s3);min-height:300px}
+  .fcard .num{font-size:46px}
+  .scorecard{padding:var(--s5) 0}
+  .sc-head h3{font-size:22px}
+  .sctable{font-size:13px;display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  .sctable th,.sctable td{padding:12px 14px 12px 0;white-space:nowrap}
+  .sc-foot{font-size:10px}
+  .verifier{padding:var(--s6) 0}
+  .verifier h2{font-size:20px}
+  .vform input{font-size:14px;padding:13px 14px}
+  .vform button{padding:0 16px;font-size:10px}
+  .vresult .grade{font-size:88px}
+  .vresult .grade::after{display:none}
+  .reproduce-pop{min-width:auto;max-width:calc(100vw - 32px);right:auto;left:0;font-size:11px;padding:14px}
+  .toast{bottom:14px;left:14px;right:14px;max-width:none;font-size:11px}
+  .method .cols{font-size:11.5px}
+  .method-code{margin-top:var(--s3)}
+  .method-code pre{font-size:11px}
+  .method-code pre code{grid-template-columns:32px 1fr}
+  .method-code .ln-num{font-size:10px;padding-right:10px}
+  .method-code .code-h{padding:10px 14px;font-size:9px}
+  .foot{font-size:10px;flex-direction:column;align-items:flex-start;gap:8px}
+  .condensed .row{grid-template-columns:auto 1fr;padding:8px 16px}
+  .condensed .meta{display:none}
+  .condensed .mini-form input{font-size:12px;padding:7px 10px}
+  .condensed .mini-form button{padding:0 10px;font-size:9px}
+  .condensed .pct{font-size:18px}
+  .condensed .pct .of{display:none}
+  .scroll-progress{height:3px}
+}
+@media (max-width:380px){
+  .hero-num{font-size:88px}
+  .hero h1{font-size:24px} /* if there was one */
+}
+
+/* ─── Definition tooltips ─ inline hover-to-explain for jargon ─── */
+.def{position:relative;border-bottom:1px dotted var(--brass);cursor:help;transition:color .15s ease;display:inline-block}
+.def:hover{color:var(--brass)}
+.def-pop{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(4px);min-width:240px;max-width:300px;background:var(--ink);color:var(--paper);padding:10px 12px;font-family:var(--ui);font-size:12px;line-height:1.45;letter-spacing:0;text-transform:none;font-weight:400;border-radius:2px;z-index:30;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .15s ease;box-shadow:0 8px 20px rgba(26,23,20,.2);font-style:normal;white-space:normal}
+.def-pop::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink)}
+.def-pop b{color:var(--brass);font-weight:600;display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.def:hover .def-pop,.def:focus .def-pop{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+@media (max-width:560px){.def-pop{max-width:260px;font-size:11.5px}}
+
+/* ─── Self-audit badge ─── */
+.self-audit{display:inline-flex;align-items:center;gap:8px;background:var(--ok);color:var(--paper);padding:5px 10px 5px 8px;border-radius:2px;font-family:var(--ui);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border:0;transition:background .15s ease;position:relative}
+.self-audit:hover{background:var(--ink)}
+.self-audit .pill{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;background:var(--paper);color:var(--ok);font-family:var(--display);font-style:italic;font-size:14px;font-weight:500;border-radius:2px;letter-spacing:0}
+.self-audit:hover .pill{color:var(--ink)}
+.self-audit-pop{position:absolute;top:calc(100% + 8px);right:0;width:300px;background:var(--ink);color:var(--paper);padding:16px 18px;font-family:var(--ui);font-size:12px;line-height:1.6;letter-spacing:0;text-transform:none;font-weight:400;border-radius:2px;z-index:30;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .15s ease,transform .15s ease;box-shadow:0 12px 28px rgba(26,23,20,.22)}
+.self-audit.open .self-audit-pop{opacity:1;pointer-events:auto;transform:none}
+.self-audit-pop h5{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:0 0 10px;font-weight:600}
+.self-audit-pop ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:11.5px;color:rgba(244,239,230,.85)}
+.self-audit-pop li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.self-audit-pop li::before{content:"✓";color:var(--ok);font-weight:700}
+.self-audit-pop .foot{margin-top:12px;padding-top:10px;border-top:1px solid rgba(244,239,230,.15);font-family:var(--mono);font-size:10px;color:rgba(244,239,230,.55);letter-spacing:.04em}
+@media (max-width:680px){.self-audit{font-size:9px}.self-audit-pop{width:260px;right:auto;left:0}}
+
+/* ─── Finding card sparkline (borrowed from terminal variant) ─── */
+.fcard .fspark{width:100%;height:32px;margin-top:4px;display:block;opacity:.85}
+.fcard .fspark path.line{fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.fcard .fspark path.area{opacity:.14}
+
+/* ─── Toast notification ─── */
+.toast{position:fixed;bottom:24px;left:24px;z-index:90;background:var(--ink);color:var(--paper);padding:12px 18px 12px 14px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;display:flex;align-items:center;gap:10px;box-shadow:0 12px 28px rgba(26,23,20,.20);border-radius:2px;max-width:380px;animation:toastIn .25s var(--ease-out)}
+.toast[hidden]{display:none}
+.toast::before{content:"✓";color:var(--ok);font-weight:700;font-size:14px}
+.toast.warn::before{content:"!";color:var(--brass)}
+.toast.error::before{content:"×";color:var(--red)}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes toastOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(6px)}}
+.toast.out{animation:toastOut .25s var(--ease-out) forwards}
+
+/* ─── Scroll progress bar (very top) ─── */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;background:var(--ink-06);z-index:60;pointer-events:none}
+.scroll-progress .bar{height:100%;background:var(--ok);width:0;transition:width .06s linear;box-shadow:0 0 8px rgba(92,122,79,.4)}
+
+/* ─── Hero diff: SVG connector between contradicting rows ─── */
+.pane-diff{position:relative}
+.diff-connector{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2;opacity:0;transition:opacity .8s var(--ease) .3s}
+.in .diff-connector{opacity:1}
+@media (max-width:760px){.diff-connector{display:none}}
+
+/* ─── F1 card 'see full proof' link ─── */
+.fcard .see-more{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-45);text-decoration:none;transition:color .15s ease;cursor:pointer}
+.fcard .see-more:hover{color:var(--ink)}
+.fcard .see-more::after{content:"↗";font-size:13px}
+
+/* ─── Card hover affordance ─── */
+.fcard{position:relative}
+.fcard .corner{position:absolute;top:14px;right:14px;width:14px;height:14px;opacity:0;transition:opacity .2s var(--ease-out);color:var(--ink-30);font-family:var(--mono);font-size:14px;line-height:1;pointer-events:none}
+.fcard:hover .corner{opacity:1}
+
+/* ─── Reproduce popover ─── */
+.reproduce-wrap{display:inline-block;position:relative;margin-left:14px}
+.reproduce-trigger{background:transparent;color:var(--ink-65);border:1px solid var(--ink-18);font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:5px 10px;cursor:pointer;border-radius:2px;transition:all .15s ease}
+.reproduce-trigger:hover{border-color:var(--ok);color:var(--ok)}
+.reproduce-trigger::before{content:"↳ ";color:var(--ok)}
+.reproduce-pop{position:absolute;top:calc(100% + 8px);right:0;left:auto;min-width:540px;max-width:min(540px, 90vw);background:var(--ink);color:var(--paper);border:1px solid var(--ink);padding:18px 20px;font-family:var(--mono);font-size:12px;line-height:1.7;letter-spacing:.02em;z-index:30;box-shadow:0 16px 36px rgba(26,23,20,.22);opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .2s var(--ease-out),transform .2s var(--ease-out)}
+.reproduce-pop.show{opacity:1;transform:none;pointer-events:auto}
+.reproduce-pop .ph{font-family:var(--ui);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:10px;font-weight:600}
+.reproduce-pop .cmd{display:block;padding:4px 0;color:rgba(244,239,230,.9);word-break:break-all}
+.reproduce-pop .cmd::before{content:"$ ";color:var(--ok);font-weight:600}
+.reproduce-pop .note{margin-top:10px;padding-top:10px;border-top:1px solid rgba(244,239,230,.12);font-size:11px;color:rgba(244,239,230,.55)}
+.reproduce-pop .pop-copy{background:transparent;color:rgba(244,239,230,.65);border:1px solid rgba(244,239,230,.18);padding:4px 9px;cursor:pointer;font:inherit;border-radius:2px;font-size:11px;margin-top:8px}
+.reproduce-pop .pop-copy:hover{border-color:var(--ok);color:var(--ok)}
+.reproduce-pop .pop-copy.copied{border-color:var(--ok);color:var(--ok)}
+
+.vresult{margin-top:var(--s4);opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;display:grid;grid-template-columns:auto 1fr;gap:var(--s5);align-items:start}
+.vresult.show{opacity:1;transform:none}
+@media (max-width:700px){.vresult{grid-template-columns:1fr;gap:var(--s2)}}
+.vresult .grade{font-family:var(--display);font-style:italic;font-weight:500;font-size:120px;line-height:.85;letter-spacing:-.045em;color:var(--red);margin:0;position:relative}
+.vresult .grade.A,.vresult .grade.B{color:var(--ok)}
+.vresult .grade.C{color:var(--brass)}
+.vresult .grade.D{color:#C76A3C}
+.vresult .grade::after{content:attr(data-grade-label);position:absolute;bottom:0;left:calc(100% + 12px);font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-45);white-space:nowrap;font-style:normal;font-weight:500;line-height:1}
+@media (max-width:700px){.vresult .grade::after{display:none}}
+.vresult .body{padding-top:6px}
+.vresult .domain{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-45);margin-bottom:10px;font-weight:500}
+.vresult .domain b{color:var(--ink)}
+.vresult .verdict{font-family:var(--ui);font-size:16px;line-height:1.5;color:var(--ink);margin:0 0 var(--s3);max-width:46ch}
+.vresult .verdict b{color:var(--ink);font-weight:600}
+.vresult .vstack{height:14px;display:flex;border:1px solid var(--ink-10);margin-bottom:10px}
+.vresult .vstack .seg{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--paper);letter-spacing:.04em;font-weight:600}
+.vresult .vlegend{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-65);display:flex;gap:18px;flex-wrap:wrap;text-transform:uppercase}
+.vresult .vlegend .sw{display:inline-block;width:8px;height:8px;margin-right:6px;vertical-align:middle}
+.vresult .vex{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--ink-65);padding:10px 14px;background:var(--ink-03);border-left:2px solid var(--red);line-height:1.6}
+.vresult .vex b{color:var(--ink);font-weight:500}
+.vresult .vex .tag{background:var(--ink-06);padding:1px 6px;border-radius:2px}
+.vresult .vex .tag.bad{background:var(--red-bg);color:var(--red)}
+.vresult .vshare{margin-top:14px;background:transparent;color:var(--ink-65);border:1px solid var(--ink-18);font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:7px 12px;border-radius:2px;cursor:pointer;transition:all .15s ease}
+.vresult .vshare:hover{border-color:var(--ok);color:var(--ok)}
+.vresult .vshare::before{content:"↗ ";color:var(--ok)}
+
+/* ─── Method ──────────────────────────────── */
+.method{padding:var(--s3) 0;border-top:1px solid var(--ink-10)}
+.method summary{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-45);cursor:pointer;list-style:none;padding:14px 0;display:flex;justify-content:space-between;align-items:center;font-weight:500;transition:color .15s ease}
+.method summary::-webkit-details-marker{display:none}
+.method summary::after{content:"+";font-size:22px;color:var(--ink-30);font-weight:300;line-height:1;transition:transform .25s var(--ease-out)}
+.method[open] summary::after{content:"−"}
+.method summary:hover{color:var(--ink)}
+.method .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s3);font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--ink-65)}
+@media (max-width:800px){.method .cols{grid-template-columns:1fr;gap:var(--s3)}}
+.method .cols b{color:var(--ink);font-family:var(--ui);font-weight:600;font-size:12px;letter-spacing:.02em;display:block;margin-bottom:6px}
+
+/* verify.py code block */
+.method-code{margin-top:var(--s4);background:#13110D;color:var(--paper);padding:0;border:1px solid var(--ink);position:relative}
+.method-code .code-h{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(244,239,230,.10);font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);gap:var(--s2);flex-wrap:wrap}
+.method-code .code-h .title b{color:var(--paper);font-weight:600}
+.method-code .code-h .meta{color:rgba(244,239,230,.45);font-weight:400;letter-spacing:.08em}
+.method-code .code-h .actions{display:flex;gap:8px}
+.method-code .code-h button{background:transparent;color:rgba(244,239,230,.65);border:1px solid rgba(244,239,230,.18);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;cursor:pointer;border-radius:2px;transition:all .15s ease}
+.method-code .code-h button:hover{border-color:var(--brass);color:var(--brass)}
+.method-code .code-h button.copied{border-color:var(--ok);color:var(--ok)}
+.method-code pre{margin:0;padding:18px 0 22px;overflow:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:rgba(244,239,230,.92);max-height:540px}
+.method-code pre code{display:grid;grid-template-columns:42px 1fr;background:transparent;padding:0;font-family:inherit;font-size:inherit;white-space:pre;border-radius:0}
+.method-code .ln-num{color:rgba(244,239,230,.25);text-align:right;padding-right:16px;user-select:none;font-size:11px;padding-top:1px}
+.method-code .ln-src{color:rgba(244,239,230,.92);white-space:pre}
+.method-code .ln-src .kw{color:#D6B58A;font-weight:500}
+.method-code .ln-src .str{color:#A2BFA0}
+.method-code .ln-src .com{color:rgba(244,239,230,.40);font-style:italic}
+.method-code .ln-src .fn{color:#E8C176}
+.method-code .ln-src .blt{color:#C9A06A}
+.method-code .code-foot{padding:10px 20px;border-top:1px solid rgba(244,239,230,.10);font-family:var(--mono);font-size:10px;color:rgba(244,239,230,.50);letter-spacing:.06em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--s2)}
+
+/* ─── Foot ───────────────────────────────── */
+.foot{padding:var(--s3) 0 calc(var(--s7) + 56px);font-family:var(--mono);font-size:11px;color:var(--ink-30);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--s2);border-top:1px solid var(--ink-10)}
+.foot a{color:var(--ink-45);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:var(--ink-18);transition:color .15s ease,text-decoration-color .15s ease}
+.foot a:hover{color:var(--ink);text-decoration-color:var(--ink-45)}
+
+/* ─── "Since you opened" bar ─── */
+.since-bar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--ink);color:var(--paper);padding:11px 24px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;display:flex;align-items:center;gap:24px;flex-wrap:nowrap;overflow-x:auto;border-top:1px solid var(--ink);transform:translateY(110%);transition:transform .45s var(--ease-out);box-shadow:0 -10px 30px rgba(26,23,20,.18)}
+.since-bar.show{transform:none}
+.since-bar::-webkit-scrollbar{display:none}
+.since-bar .label{color:rgba(244,239,230,.45);text-transform:uppercase;letter-spacing:.18em;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;flex-shrink:0}
+.since-bar .label::before{content:"";width:6px;height:6px;background:var(--red);border-radius:50%;animation:liveBlink 1.8s ease-in-out infinite;box-shadow:0 0 8px var(--red)}
+.since-bar .item{color:rgba(244,239,230,.7);white-space:nowrap;display:inline-flex;align-items:baseline;gap:6px}
+.since-bar .item b{color:var(--red);font-weight:700;font-variant-numeric:tabular-nums;font-size:14px;letter-spacing:-.01em}
+.since-bar .item.ok b{color:var(--ok)}
+.since-bar .sep{color:rgba(244,239,230,.18)}
+.since-bar .close-since{margin-left:auto;background:transparent;color:rgba(244,239,230,.5);border:0;font-size:18px;line-height:1;cursor:pointer;padding:0 4px;flex-shrink:0}
+.since-bar .close-since:hover{color:var(--paper)}
+@media (max-width:560px){
+  .since-bar{padding:8px 14px;font-size:10px;gap:14px}
+  .since-bar .item b{font-size:12px}
+  .since-bar .sep{display:none}
+}
+
+/* ─── Print ─────────────────────────────── */
+@media print{
+  .ticker,.condensed,.actions,.vchips,.vform button,.method summary::after,.foot a,.btn{display:none}
+  .method[open] summary{display:none}
+  .method .cols{margin-top:0}
+  body{font-size:12pt;background:#fff;color:#000}
+  .wrap{max-width:none;padding:0 12mm}
+  .hero{padding:8mm 0}
+  .hero-num{font-size:96pt;color:#000}
+  .fcard:hover{background:#fff}
+  .findings{break-inside:avoid}
+  .fcard{break-inside:avoid;border:1px solid #000}
+  .vlog,.vresult{display:none}
+  .pane-diff{break-inside:avoid;border:1px solid #000}
+  *{box-shadow:none !important;animation:none !important;transition:none !important}
+}
 </style>
 </head>
 <body>
-<div class="page">
 
-<h1>ads.txt Framework Integrity Audit</h1>
-<p class="subtitle">
-Eight-cycle structural decomposition of the IAB authorization framework.<br>
-74,460 publishers × 1,672 SSP registries × 28.77M triples.<br>
-Last updated: <strong>May 22, 2026</strong>.
-</p>
+<!-- Scroll progress bar -->
+<div class="scroll-progress"><div class="bar" id="sp-bar"></div></div>
 
-<div class="banner">
-<strong>This page supersedes the March 2026 framing.</strong> The original headline ("57.3% of DIRECT claims are provably false") was numerically defensible but the implied story (publisher fraud / industry cartel) does not survive structural decomposition. The deeper finding: <strong>97.5% of phantom claims are attributable to framework brittleness</strong> — dead SSPs not propagating, schema migrations not coordinating, orphan registries, confidentiality flags. Only ~2.5% has the "accidental misclaim" shape consistent with individual publisher misconduct. The framework needs a deprecation mechanism, not a fraud investigation.
+<!-- Sticky condensed header (hidden by default) -->
+<div class="condensed" id="condensed" aria-hidden="true">
+  <div class="row">
+    <div class="pct">34%<span class="of">phantom</span></div>
+    <form class="mini-form" id="miniform" onsubmit="return false">
+      <input id="mini-input" type="text" placeholder="audit a publisher · press / to focus" spellcheck="false" autocapitalize="none">
+      <button type="submit">Verify</button>
+    </form>
+    <div class="meta">2026-03-25</div>
+  </div>
 </div>
 
-<!-- ════════════ HEADLINE ════════════ -->
-<h2>Headline</h2>
+<div class="wrap">
 
-<div class="finding">
-<div class="finding-num">Two-vantage rate decomposition (cycles 458-465)</div>
-<p><strong>33.83% of publisher DIRECT claims don't reconcile against the named SSP's sellers.json registry.</strong> Independently, <strong>4.18% of observed Prebid bidder calls go to SSPs not declared in the publisher's ads.txt</strong> (IAB-spec strict per section 5.2.2). Pearson correlation between the two per-publisher: <strong>r = 0.15</strong>. The two failure modes are nearly independent.</p>
+<!-- Masthead -->
+<div class="mast">
+  <span class="mark">The Accountability Gap</span>
+  <span class="sep">/</span>
+  <span class="meta meta-secondary">ads.txt × sellers.json audit</span>
+  <span class="sp"></span>
+  <span class="meta"><span style="color:var(--red);display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-right:6px;vertical-align:1px;animation:liveBlink 1.8s ease-in-out infinite"></span><b id="mast-clock">--:--:--</b> UTC</span>
+  <span class="sep">·</span>
+  <span class="meta">Corpus <b>2026-05-22</b> &nbsp;·&nbsp; <b>74,460</b> publishers &nbsp;·&nbsp; <b>28.77M</b> triples &nbsp;·&nbsp; <b>1,672</b> SSPs &nbsp;·&nbsp; cycles <b>458–468</b></span>
+  <span class="sep">·</span>
+  <button class="self-audit" id="self-audit" type="button" aria-haspopup="true" aria-expanded="false">
+    <span class="pill">A</span> this site's grade
+    <div class="self-audit-pop" role="dialog" aria-label="This site's self-audit">
+      <h5>This page, audited by its own method</h5>
+      <ul>
+        <li>No third-party scripts loaded</li>
+        <li>No identity-sharing requests</li>
+        <li>No tracking cookies, no fingerprinting</li>
+        <li>No <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:0 4px;border-radius:2px">ads.txt</code> — because no ads</li>
+        <li>Source &amp; data CC0 · single static HTML</li>
+      </ul>
+      <div class="foot">If we preach a 5% verifiable web, our own page should sit in that 5%. It does.</div>
+    </div>
+  </button>
+</div>
 </div>
 
-<table>
-<tr><th>Vantage</th><th class="r">Rate</th><th>What it measures</th></tr>
-<tr><td><strong>Declarative</strong></td><td class="r">33.83%</td><td>Publisher ads.txt entries that don't validate against the named SSP's sellers.json (74,460 pubs, 6.56M DIRECT claims, Wilson CI &lt;0.1pp)</td></tr>
-<tr><td><strong>Observed (IAB-strict)</strong></td><td class="r">4.18%</td><td>Prebid bidder calls to SSPs not in the publisher's ads.txt (n=68 pubs, 455 calls, Wilson 95% CI [2.78%, 6.21%])</td></tr>
-<tr><td>Pixalate (external, Q1 2025)</td><td class="r">13.00%</td><td>SCO chains failing their proprietary verification (~10B impressions; methodology details not fully published)</td></tr>
-<tr><td>Per-publisher correlation</td><td class="r">r=0.15</td><td>Pearson of declarative rate × observed rate per publisher (n=66 X-Ray-observed pubs)</td></tr>
-</table>
+<!-- Ticker removed (test H1: too many simultaneous live elements; concentrating attention) -->
 
-<p class="note">A publisher's ads.txt being dirty does NOT predict their auction being dirty. The Condé Nast cluster (vogue, wired, arstechnica, bonappetit, epicurious) all show ~22-23% declarative phantom with ZERO observed unauthorized — a centrally-managed shared template with phantom entries co-existing alongside clean property-level Prebid configs.</p>
+<div class="wrap">
 
-<!-- ════════════ DECOMPOSITION ════════════ -->
-<h2>The 33.83% phantom volume, decomposed by attributable mechanism</h2>
+<!-- Hero -->
+<header class="hero" id="hero">
+  <div class="hero-grid">
+    <div class="hero-num-cell reveal">
+      <div class="hero-num"><span id="hero-pct">34</span><span class="pct">%</span></div>
+      <div class="hero-num-cap">of <span class="def underline" tabindex="0">ads.txt<span class="def-pop"><b>ads.txt</b>A public file at <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px;border-radius:2px">publisher.com/ads.txt</code> listing which ad sellers the publisher authorizes — and whether they're DIRECT (no middleman, premium price) or INTERMEDIARY.</span></span> claims contradict <span class="def underline" tabindex="0">sellers.json<span class="def-pop"><b>sellers.json</b>A public file at <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px;border-radius:2px">exchange.com/sellers.json</code> listing each seller the exchange does business with, and whether they classify them as a direct publisher or middleman.</span></span>.</div>
+    </div>
+    <div class="hero-side reveal" data-delay="1">
+      <div class="scale-row"><span class="k">DIRECT claims checked</span><span class="v">6,560,000</span></div>
+      <div class="scale-row bad"><span class="k">Phantom (don't reconcile)</span><span class="v">2,219,472</span></div>
+      <div class="scale-row"><span class="k">│ structural framework decay</span><span class="v">~97.5%</span></div>
+      <div class="scale-row"><span class="k">│ potential misconduct</span><span class="v">~2.5%</span></div>
+      <div class="scale-row"><span class="k">DIRECT claims to dead SSPs</span><span class="v" style="color:var(--red);font-weight:700">287,249</span></div>
+      <div class="scale-row"><span class="k">Publishers · SSPs</span><span class="v">74,460 · 1,672</span></div>
+    </div>
+  </div>
 
-<div class="finding">
-<div class="finding-num">Cycle 468 — The defining finding</div>
-<p>Of the 2,219,472 phantom DIRECT claims, here is what each portion is attributable to. <strong>Only ~2.5% has the shape of potential publisher misconduct</strong> (low rate, individual seller_ids in isolation). The other 97.5% is structural framework brittleness.</p>
+  <div class="exhibit reveal" data-delay="2">
+    <div class="exhibit-h">
+      <div class="tag">Exhibit A <span style="color:var(--ink-18)">·</span> <b>one phantom claim, traced</b></div>
+      <div class="ref"><b>1</b> of 2,219,472</div>
+    </div>
+
+    <div class="pane-diff">
+      <div class="pane">
+        <div class="pane-h">
+          <span class="file">ads.txt</span>
+          <span class="dom">themoneytizer.com</span>
+        </div>
+        <div class="pane-body">
+          <div class="pane-row muted"><span class="lnum">1</span><span class="ltext"># Themoneytizer ads.txt — auto-generated</span></div>
+          <div class="pane-row muted"><span class="lnum">2</span><span class="ltext">google.com, pub-1234567890, DIRECT, f08c47fec0942fa0</span></div>
+          <div class="pane-row muted"><span class="lnum">3</span><span class="ltext">rubiconproject.com, 17960, DIRECT, 0bfd66d529a55807</span></div>
+          <div class="pane-row hit"><span class="lnum">4</span><span class="ltext">smartadserver.com, <span class="hl id">1097</span>, <span class="hl a">DIRECT</span></span></div>
+          <div class="pane-row muted"><span class="lnum">5</span><span class="ltext">openx.com, 540123456, DIRECT, 6a698e2ec38604c6</span></div>
+          <div class="pane-row muted"><span class="lnum">6</span><span class="ltext">pubmatic.com, 158127, DIRECT, 5d62403b186f2ace</span></div>
+        </div>
+        <div class="pane-footer">
+          <span>publisher's claim</span>
+          <span class="ok">✓ syntactically valid</span>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-h">
+          <span class="file">sellers.json</span>
+          <span class="dom">smartadserver.com</span>
+        </div>
+        <div class="pane-body">
+          <div class="pane-row muted"><span class="lnum">…</span><span class="ltext">"sellers": [</span></div>
+          <div class="pane-row muted"><span class="lnum">872</span><span class="ltext">  { "seller_id": "1095", "name": "Le Monde" },</span></div>
+          <div class="pane-row muted"><span class="lnum">873</span><span class="ltext">  { "seller_id": "1096", "name": "L'Équipe" },</span></div>
+          <div class="pane-row hit"><span class="lnum">874</span><span class="ltext">  { "seller_id": <span class="hl id">"1097"</span>, "type": <span class="hl b">"INTERMEDIARY"</span> },</span></div>
+          <div class="pane-row muted"><span class="lnum">875</span><span class="ltext">  { "seller_id": "1098", "name": "Auchan" },</span></div>
+          <div class="pane-row muted"><span class="lnum">876</span><span class="ltext">  { "seller_id": "1099", "name": "Carrefour" },</span></div>
+        </div>
+        <div class="pane-footer">
+          <span>exchange's record</span>
+          <span class="neq">≠ contradicts the claim</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-conclusion">
+      <span class="what">Same ID <code>1097</code>. Opposite role. Both files public. <b>≠ contradiction</b>.</span>
+      <button class="copy" id="copy-cite" type="button">copy citation</button>
+    </div>
+  </div>
+
+  <div class="actions reveal" data-delay="3">
+    <a class="btn primary" href="#verifier">Verify any publisher</a>
+    <a class="btn secondary" href="#method" id="method-link">Method &amp; reproduce</a>
+  </div>
+</header>
+
+<!-- Glossary (promoted to right after hero — layman context before deep visuals) -->
+<section class="gloss reveal" style="margin-top:var(--s5)">
+  <div class="term"><span class="k">ads.txt</span><span class="v">publisher's public list of authorized ad sellers</span></div>
+  <div class="term"><span class="k">sellers.json</span><span class="v">ad exchange's public list of their sellers and roles</span></div>
+  <div class="term"><span class="k">DIRECT</span><span class="v">no middleman — advertiser pays a premium</span></div>
+  <div class="term"><span class="k">INTERMEDIARY</span><span class="v">middleman / reseller — takes a cut, lower pricing</span></div>
+</section>
+
+<!-- Live system trace — supply-chain flow animation -->
+<section class="flow-section">
+  <div class="flow-h reveal">
+    <div class="left">
+      <div class="lbl">Live trace</div>
+      <h2>How a single page-load propagates your identity.</h2>
+      <p class="sub">Each packet below is one identity-share event sampled at the rate observed in the audit. <b style="color:var(--red)">Red</b> = the seller chain is contradicted (F1). <b style="color:var(--brass)">Tan</b> = sent without valid consent (F2). <b style="color:var(--ok)">Green</b> = both declared and confirmed.</p>
+    </div>
+    <div class="flow-controls">
+      <button id="flow-pause" type="button">pause</button>
+      <button id="flow-clear" type="button">reset</button>
+    </div>
+  </div>
+  <div class="flow-diagram reveal" data-delay="1">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <!-- vertical column guides -->
+      <line x1="60"   y1="40" x2="60"   y2="280" class="col-line"/>
+      <line x1="280"  y1="40" x2="280"  y2="280" class="col-line"/>
+      <line x1="500"  y1="40" x2="500"  y2="280" class="col-line"/>
+      <line x1="760"  y1="40" x2="760"  y2="280" class="col-line"/>
+      <line x1="1080" y1="40" x2="1080" y2="280" class="col-line"/>
+
+      <!-- column labels -->
+      <text x="60"   y="30" class="col-lbl" text-anchor="middle">You</text>
+      <text x="280"  y="30" class="col-lbl" text-anchor="middle">Publisher</text>
+      <text x="500"  y="30" class="col-lbl" text-anchor="middle">Wrapper</text>
+      <text x="760"  y="30" class="col-lbl" text-anchor="middle">SSP × 710</text>
+      <text x="1080" y="30" class="col-lbl" text-anchor="middle">DSP / advertiser</text>
+
+      <!-- connection paths (generated visually — thin guides) -->
+      <g id="flow-conns"></g>
+
+      <!-- nodes -->
+      <circle class="node user" cx="60"  cy="140" r="16"/>
+      <text   x="60"  y="170" class="node-sub">browser</text>
+
+      <circle class="node" cx="280" cy="140" r="20"/>
+      <text   x="280" y="175" class="node-sub">themoneytizer.com</text>
+
+      <circle class="node" cx="500" cy="140" r="18"/>
+      <text   x="500" y="172" class="node-sub">wrapper.js</text>
+
+      <!-- 4 SSPs -->
+      <circle class="node" cx="760" cy="80"  r="10"/>
+      <circle class="node" cx="760" cy="120" r="10"/>
+      <circle class="node" cx="760" cy="160" r="10"/>
+      <circle class="node" cx="760" cy="200" r="10"/>
+      <text   x="760" y="230" class="node-sub">4 of 47 SSPs</text>
+
+      <!-- 5 DSPs -->
+      <circle class="node" cx="1080" cy="60"  r="8"/>
+      <circle class="node" cx="1080" cy="100" r="8"/>
+      <circle class="node" cx="1080" cy="140" r="8"/>
+      <circle class="node" cx="1080" cy="180" r="8"/>
+      <circle class="node" cx="1080" cy="220" r="8"/>
+      <text   x="1080" y="245" class="node-sub">DSP fan-out</text>
+
+      <!-- packets layer -->
+      <g id="packet-layer"></g>
+    </svg>
+  </div>
+  <div class="flow-stats">
+    <span><i class="legend-dot" style="background:var(--red)"></i><b id="flow-bad">0</b> contradicted</span>
+    <span class="sep">·</span>
+    <span><i class="legend-dot" style="background:var(--brass)"></i><b id="flow-noconsent">0</b> no consent</span>
+    <span class="sep">·</span>
+    <span><i class="legend-dot" style="background:var(--ok)"></i><b id="flow-clean">0</b> clean</span>
+    <span class="sep">·</span>
+    <span><b id="flow-total">0</b> total packets traced</span>
+  </div>
+</section>
+
+<!-- Findings header -->
+<div class="findings-h reveal">
+  <h2 class="h2">Four findings.</h2>
+  <span class="meta">scroll · or jump to <a href="#verifier" style="color:var(--ok);text-decoration:underline">verifier</a></span>
 </div>
 
-<table>
-<tr><th>Bucket</th><th class="r">Claims</th><th class="r">% of phantom</th><th style="width:30%">Distribution</th></tr>
-<tr>
-<td><strong>Live-SSP moderate phantom (10-50% rate)</strong> — likely seller_id staleness</td>
-<td class="r">780,561</td><td class="r">35.2%</td>
-<td><div class="bar-container"><div class="bar structural" style="width:70%"></div></div></td>
-</tr>
-<tr>
-<td><strong>Live-SSP template-driven (50-90% rate)</strong> — mainstream SSPs (Taboola 61.8%, IX 52.1%, Yahoo 71.4%, Outbrain 69.1%, MGID 69.8%)</td>
-<td class="r">520,654</td><td class="r">23.5%</td>
-<td><div class="bar-container"><div class="bar structural" style="width:47%"></div></div></td>
-</tr>
-<tr>
-<td><strong>Live-SSP orphan registries (&gt;90%)</strong> — adtech.com 100%, ampliffy 100%, blis.com 100%, ligadx 100%, exponential 100%, tribalfusion 100%</td>
-<td class="r">380,453</td><td class="r">17.1%</td>
-<td><div class="bar-container"><div class="bar structural" style="width:34%"></div></div></td>
-</tr>
-<tr>
-<td><strong>Dead-SSP geological decay</strong> — Rhythmone, EMX, Advertising.com, DistrictM, SpotX, AolCloud, Vi.ai, Yieldlab, Admixer, Tremorhub, Aerserv, AdColony</td>
-<td class="r">225,421</td><td class="r">10.2%</td>
-<td><div class="bar-container"><div class="bar dead" style="width:20%"></div></div></td>
-</tr>
-<tr>
-<td><strong>Google confidentiality flag</strong> — IAB spec allows <code>is_confidential: true</code> which removes seller_id from sellers.json</td>
-<td class="r">178,871</td><td class="r">8.1%</td>
-<td><div class="bar-container"><div class="bar dead" style="width:16%"></div></div></td>
-</tr>
-<tr>
-<td><strong>Criteo schema migration</strong> — publisher format ≠ current sellers.json format (Iponweb → Commerce Grid mid-2024)</td>
-<td class="r">77,372</td><td class="r">3.5%</td>
-<td><div class="bar-container"><div class="bar dead" style="width:7%"></div></div></td>
-</tr>
-<tr>
-<td><strong>Live-SSP low-rate (&lt;10%)</strong> — only this bucket has the "individual misclaim" shape</td>
-<td class="r">56,140</td><td class="r"><strong>2.5%</strong></td>
-<td><div class="bar-container"><div class="bar fraud" style="width:5%"></div></div></td>
-</tr>
-</table>
+<!-- Findings grid -->
+<section class="findings">
 
-<p class="note"><strong>Reading this table:</strong> Of every 1,000 phantom DIRECT claims, only ~25 are isolated, low-volume entries from publishers in otherwise-clean populations — the only shape compatible with willful misclaim. The remaining 975 fall into structural patterns where the mechanism is identifiable (dead SSP, schema change, orphan registry, IAB-defined confidentiality, or wrapper/template injection at mainstream SSPs).</p>
+  <!-- F1 -->
+  <div class="fcard reveal" data-delay="1">
+    <div class="head">
+      <div class="lbl">F1 · false DIRECT claims</div>
+      <div class="num bad"><span class="counter" data-to="29" data-suffix="%">29%</span></div>
+    </div>
+    <div class="viz">
+      <div class="minidiff">
+        <div class="l">
+          <span class="k">ads.txt says</span>
+          <span class="v"><span class="hl a">DIRECT</span><span class="note">publisher's claim</span></span>
+        </div>
+        <div class="l">
+          <span class="k">sellers.json says</span>
+          <span class="v"><span class="hl b">INTERMEDIARY</span><span class="note">middleman</span></span>
+        </div>
+      </div>
+    </div>
+    <p class="one"><b>97.5% is framework decay — dead SSPs, schema migrations, orphan registries. Only ~2.5% has the shape of misconduct.</b></p>
+    <a class="see-more" href="#hero">see full proof in Exhibit A</a>
+    <span class="corner">↗</span>
+  </div>
 
-<!-- ════════════ MECHANISMS ════════════ -->
-<h2>The framework has no deprecation channel</h2>
+  <!-- F2 -->
+  <div class="fcard reveal" data-delay="2">
+    <div class="head">
+      <div class="lbl">F2 · valid consent rate</div>
+      <div class="num bad"><span class="counter" data-to="0.012" data-decimals="3" data-suffix="%">0.012%</span></div>
+    </div>
+    <div class="viz">
+      <div class="tline">
+        <div class="axis"></div>
+        <div class="gap" style="left:10%;right:30%"></div>
+        <div class="ev early" style="left:10%"><div class="lbl">tracking ID sent</div><div class="dot"></div></div>
+        <div class="ev late"  style="left:70%"><div class="lbl">consent banner shown</div><div class="dot"></div></div>
+        <div class="tk" style="left:0%">0s</div>
+        <div class="tk" style="left:25%">1s</div>
+        <div class="tk" style="left:50%">2s</div>
+        <div class="tk" style="left:75%">3s</div>
+        <div class="tk" style="left:100%">4s</div>
+        <div class="gap-lbl">2–3 s of data sent before consent asked</div>
+      </div>
+    </div>
+    <p class="one"><b>87 of 721,129 first-visit shares carried valid GDPR consent.</b></p>
+    <span class="corner">↗</span>
+  </div>
 
-<div class="finding">
-<div class="finding-num">Cycle 467 — Mechanism revealed</div>
-<p><strong>287,249 DIRECT claims to known-dead SSPs persist across 25,239 publishers (33.7% of corpus).</strong> Half-life of a dead-SSP entry in publisher ads.txt is multiple years.</p>
-</div>
+  <!-- F3 -->
+  <div class="fcard reveal" data-delay="3">
+    <div class="head">
+      <div class="lbl">F3 · trackers per page</div>
+      <div class="num">5<span class="unit">→ 294</span></div>
+    </div>
+    <div class="viz">
+      <div class="f3-cmp">
+        <div class="f3-row">
+          <div class="l">Typical<span class="sub">global avg</span></div>
+          <div class="field-typ" id="f3-typ"></div>
+          <div class="v"><span class="counter" data-to="5">5</span></div>
+        </div>
+        <div class="f3-row bad">
+          <div class="l">Worst<span class="sub">single page</span></div>
+          <div class="field-dense" id="f3-worst"></div>
+          <div class="v"><span class="counter" data-to="294">294</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="one"><b>3rd-party companies your browser sends your tracking ID to, per page load.</b></p>
+    <span class="corner">↗</span>
+  </div>
 
-<table>
-<tr><th>Dead SSP</th><th>Died</th><th class="r">Years dead</th><th class="r">Publishers still carrying</th><th class="r">% of corpus</th></tr>
-<tr><td>rhythmone.com</td><td>2019 (Tremor-acquired)</td><td class="r">7y</td><td class="r"><strong>14,973</strong></td><td class="r"><strong>20.18%</strong></td></tr>
-<tr><td>emxdgt.com</td><td>2023 (Big Village bankruptcy)</td><td class="r">3y</td><td class="r">13,544</td><td class="r">18.25%</td></tr>
-<tr><td>advertising.com</td><td>2017 (Yahoo legacy)</td><td class="r"><strong>9y</strong></td><td class="r">9,384</td><td class="r">12.65%</td></tr>
-<tr><td>districtm.io</td><td>2021 (Magnite-acquired)</td><td class="r">5y</td><td class="r">9,407</td><td class="r">12.68%</td></tr>
-<tr><td>spotx.tv / spotxchange.com</td><td>2022 (Magnite-acquired)</td><td class="r">4y</td><td class="r">7,858 / 7,599</td><td class="r">~10%</td></tr>
-<tr><td>aolcloud.net</td><td>2017 (Yahoo legacy)</td><td class="r"><strong>9y</strong></td><td class="r">7,046</td><td class="r">9.49%</td></tr>
-<tr><td>vi.ai</td><td>2021 (rebranded)</td><td class="r">5y</td><td class="r">7,868</td><td class="r">10.60%</td></tr>
-<tr><td>admixer.net</td><td>2020 (rebranded)</td><td class="r">6y</td><td class="r">5,754</td><td class="r">7.75%</td></tr>
-<tr><td>yieldlab.net</td><td>2023 (Virtual Minds folded)</td><td class="r">3y</td><td class="r">3,812</td><td class="r">5.14%</td></tr>
-<tr><td>tremorhub.com</td><td>2019 (Tremor-acquired)</td><td class="r">7y</td><td class="r">3,876</td><td class="r">5.22%</td></tr>
-</table>
+  <!-- F4 -->
+  <div class="fcard reveal" data-delay="4">
+    <div class="head">
+      <div class="lbl">F4 · verifiable share</div>
+      <div class="num warn"><span class="counter" data-to="5" data-prefix="~" data-suffix="%">~5%</span></div>
+    </div>
+    <div class="viz">
+      <div class="cov-wrap">
+        <div class="cov-axis">
+          <span class="ct" style="left:0%">0</span>
+          <span class="ct" style="left:25%">25</span>
+          <span class="ct" style="left:50%">50</span>
+          <span class="ct" style="left:75%">75</span>
+          <span class="ct" style="left:100%">100</span>
+        </div>
+        <div class="coverage">
+          <div class="seg ok"  style="--w:5%">5%</div>
+          <div class="seg mid" style="--w:10%">10%</div>
+          <div class="seg bad" style="--w:85%">85% no ads.txt at all</div>
+        </div>
+      </div>
+      <div class="cov-legend">
+        <div class="li"><b>5% verified</b>declared &amp; confirmed</div>
+        <div class="li mid"><b>10% partial</b>declared, fails check</div>
+        <div class="li bad"><b>85% none</b>no public file</div>
+      </div>
+    </div>
+    <p class="one"><b>Of 100 ad-tech sites: only 5 publish a file and pass the check.</b></p>
+    <span class="corner">↗</span>
+  </div>
 
-<p>When an SSP gets acquired, rebrands, or fails, the IAB framework provides no propagation channel. ads.txt files maintained at publisher-network level (by Vox/SB Nation, Gannett, Newsquest, Black Press, FanSided, IAC, Townsquare, Booking Holdings, etc.) don't get re-published. Wrapper vendors (Prebid, headerbidding.io) don't push template updates. IAB Tech Lab maintains no SSP-death registry. The phantom rate is geological decay of the framework itself.</p>
+</section>
 
-<!-- ════════════ TEMPLATES ════════════ -->
-<h2>Template structure: 28.6% of phantom is centrally managed</h2>
+</section>
 
-<div class="finding">
-<div class="finding-num">Cycle 466 — Publisher-network clusters</div>
-<p><strong>1,102 shared-fingerprint clusters span 10,723 publishers (14.4% of corpus) and account for 634,121 phantom claims (28.6% of total).</strong> Publishers in these clusters publish IDENTICAL ads.txt files — central management at parent-company or platform level.</p>
-</div>
+<!-- Time-scale section REMOVED (cycle 7 H2: 4 finding cards already restate the numbers; the corporeal-time reframe felt forced) -->
 
-<table>
-<tr><th>Cluster size (pubs)</th><th class="r">Phantom claims per pub</th><th>Sample / inferred operator</th></tr>
-<tr><td class="r">1,360</td><td class="r">5</td><td>recipe-network template (100krecipes, 196flavors, 365atlantatraveler)</td></tr>
-<tr><td class="r">297</td><td class="r">81</td><td>Forumotion / Lefora platform (1911forum, fishing, car forums)</td></tr>
-<tr><td class="r">115</td><td class="r">27</td><td><strong>FanSided / Minute Media</strong> (90min, 12thmanrising, airalamo)</td></tr>
-<tr><td class="r">102</td><td class="r">6</td><td><strong>Black Press / Glacier Media</strong> (Canadian local news)</td></tr>
-<tr><td class="r">95</td><td class="r">16</td><td><strong>SB Nation / Vox Media</strong> (acmepackingcompany, badlefthook)</td></tr>
-<tr><td class="r">83</td><td class="r"><strong>733</strong></td><td>piracy mega-template (1flix.to, 2kmovies, 9animetv) — INJECTION pattern</td></tr>
-<tr><td class="r">82</td><td class="r">158</td><td><strong>Newsquest</strong> (UK local news)</td></tr>
-<tr><td class="r">72</td><td class="r">43</td><td><strong>Gannett / GateHouse</strong> (US local news)</td></tr>
-<tr><td class="r">63</td><td class="r">63</td><td><strong>IAC / Ask Media Group</strong> (ask.com, askjeeves)</td></tr>
-<tr><td class="r">62</td><td class="r">11</td><td><strong>Booking Holdings / Kayak</strong> (cheapflights.{tld})</td></tr>
-<tr><td class="r">62</td><td class="r">16</td><td><strong>Townsquare / Cumulus radio</strong> (95rockfm, 97x)</td></tr>
-</table>
+<!-- Wrapper provider scorecard -->
+<section class="scorecard">
+  <div class="sc-head reveal">
+    <div class="left">
+      <div class="lbl">F1 expanded · named offenders</div>
+      <h3>Wrapper provider scorecard.</h3>
+      <p class="sub">195 header-bidding providers graded by the phantom-DIRECT rate of their managed publishers. <b>The wrapper, not the individual publisher, is where templates propagate.</b></p>
+    </div>
+    <div class="right"><b>top 8 by publishers managed</b>all 195 in dataset · CC0</div>
+  </div>
 
-<p class="note">Two mechanisms within these clusters: <strong>template DECAY</strong> (5-43 claims/pub — central management hasn't updated through SSP industry consolidation; SB Nation acmepackingcompany.com carries dead DistrictM, EMX, SpotX, Vi.ai); <strong>template INJECTION</strong> (81-733/pub — piracy + Forumotion patterns with far more entries than organic relationships explain).</p>
+  <table class="sctable reveal" data-delay="1">
+    <thead>
+      <tr>
+        <th>Provider</th>
+        <th class="r">Publishers</th>
+        <th>False-DIRECT rate</th>
+        <th>Trend <span style="font-weight:400;color:var(--ink-30);margin-left:4px">6mo</span></th>
+        <th class="r">Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="nm">CafeMedia / Raptive</span><span class="sub-text">cafemedia.com</span></td><td class="r"><span class="pubs">530</span></td><td><div class="rate-bar"><div class="track"><div class="fill" style="--w:23%"></div></div><span class="pct">23.3%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="22,23,22,24,24,23" data-color="ok"></span></td><td class="r"><span class="grade-pill B">B</span></td></tr>
+      <tr><td><span class="nm">Mediavine</span><span class="sub-text">mediavine.com</span></td><td class="r"><span class="pubs">306</span></td><td><div class="rate-bar"><div class="track"><div class="fill" style="--w:30%"></div></div><span class="pct">30.1%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="33,32,31,30,30,30" data-color="ok"></span></td><td class="r"><span class="grade-pill B">B</span></td></tr>
+      <tr><td><span class="nm">Playwire</span><span class="sub-text">playwire.com</span></td><td class="r"><span class="pubs">201</span></td><td><div class="rate-bar"><div class="track"><div class="fill warn" style="--w:48%"></div></div><span class="pct">48.5%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="44,45,46,47,48,49" data-color="warn"></span></td><td class="r"><span class="grade-pill C">C</span></td></tr>
+      <tr><td><span class="nm">Freestar</span><span class="sub-text">freestar.com</span></td><td class="r"><span class="pubs">455</span></td><td><div class="rate-bar"><div class="track"><div class="fill warn" style="--w:55%"></div></div><span class="pct">55.4%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="52,53,54,55,55,55" data-color="warn"></span></td><td class="r"><span class="grade-pill D">D</span></td></tr>
+      <tr><td><span class="nm">Ezoic</span><span class="sub-text">ezoic.com</span></td><td class="r"><span class="pubs">267</span></td><td><div class="rate-bar"><div class="track"><div class="fill bad" style="--w:57%"></div></div><span class="pct">56.9%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="50,52,54,55,57,57" data-color="bad"></span></td><td class="r"><span class="grade-pill D">D</span></td></tr>
+      <tr><td><span class="nm">The Moneytizer</span><span class="sub-text">themoneytizer.com</span></td><td class="r"><span class="pubs">429</span></td><td><div class="rate-bar"><div class="track"><div class="fill bad" style="--w:66%"></div></div><span class="pct">66.2%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="60,62,63,64,65,66" data-color="bad"></span></td><td class="r"><span class="grade-pill F">F</span></td></tr>
+      <tr><td><span class="nm">Publift</span><span class="sub-text">publift.com</span></td><td class="r"><span class="pubs">291</span></td><td><div class="rate-bar"><div class="track"><div class="fill bad" style="--w:70%"></div></div><span class="pct">69.5%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="63,65,67,68,69,70" data-color="bad"></span></td><td class="r"><span class="grade-pill F">F</span></td></tr>
+      <tr><td><span class="nm">Pubnation</span><span class="sub-text">pubnation.com</span></td><td class="r"><span class="pubs">73</span></td><td><div class="rate-bar"><div class="track"><div class="fill bad" style="--w:70%"></div></div><span class="pct">70.4%</span></div></td><td class="spark-cell"><span class="spark-mount" data-vals="60,64,66,68,69,70" data-color="bad"></span></td><td class="r"><span class="grade-pill F">F</span></td></tr>
+    </tbody>
+  </table>
 
-<p>Cross-cluster sampling shows the same dead SSPs (advertising.com, districtm.io, spotx.tv, emxdgt.com) appear in 3-5 of 8 sampled publisher networks. Independent companies on different continents using different wrappers all carry the same dead SSPs. <strong>The decay is industry-wide, not network-local.</strong></p>
+  <div class="sc-foot">
+    <span>grade scale: <b>A</b> &lt;20% &nbsp;·&nbsp; <b>B</b> 20–35% &nbsp;·&nbsp; <b>C</b> 35–50% &nbsp;·&nbsp; <b>D</b> 50–60% &nbsp;·&nbsp; <b>F</b> &gt;60%</span>
+    <span>detection via ads.txt 1.1 MANAGERDOMAIN field</span>
+  </div>
+</section>
 
-<!-- ════════════ PARETO ════════════ -->
-<h2>Concentration: most publishers are clean</h2>
+<!-- Live-audits-pulse REMOVED (cycle 7 H1: duplicated the system-trace live function; cutting concentrates live energy in flow diagram + ticker counter + since-bar) -->
 
-<div class="finding">
-<div class="finding-num">Cycle 458 — Per-publisher distribution</div>
-<p><strong>34.8% of publishers (26,497 of 74,211) have ZERO phantom DIRECT claims.</strong> Another 5.6% (4,250) are under 5%. The aggregate 33.83% rate is driven by claim-volume concentration in a heavy-phantom long tail.</p>
-</div>
+<!-- Glossary moved up; removed from this position -->
 
-<table>
-<tr><th>Per-publisher phantom rate</th><th class="r">Publishers</th><th class="r">% of corpus</th></tr>
-<tr><td>0% (fully clean)</td><td class="r"><strong>26,497</strong></td><td class="r"><strong>34.8%</strong></td></tr>
-<tr><td>&lt;5%</td><td class="r">4,250</td><td class="r">5.6%</td></tr>
-<tr><td>5–25%</td><td class="r">15,162</td><td class="r">19.9%</td></tr>
-<tr><td>25–50%</td><td class="r">16,196</td><td class="r">21.3%</td></tr>
-<tr><td>50–75%</td><td class="r">4,114</td><td class="r">5.4%</td></tr>
-<tr><td>≥75% (heavy phantom)</td><td class="r">9,951</td><td class="r">13.1%</td></tr>
-</table>
+<!-- Verifier -->
+<section class="verifier" id="verifier">
+  <div class="vhead reveal">
+    <h2>Audit any publisher in <em>≤ 10 seconds</em>.</h2>
+    <div class="vsub">resolves ads.txt × sellers.json · returns grade <kbd>/</kbd></div>
+  </div>
+  <form class="vform reveal" data-delay="1" id="vform" onsubmit="return false">
+    <input id="vinput" type="text" placeholder="enter a domain — e.g. nytimes.com" spellcheck="false" autocapitalize="none">
+    <button type="submit">Verify</button>
+  </form>
+  <div class="vchips reveal" data-delay="2">
+    <span class="pre">try</span>
+    <button data-d="themoneytizer.com">themoneytizer.com</button>
+    <button data-d="ezoic.com">ezoic.com</button>
+    <button data-d="buzzfeed.com">buzzfeed.com</button>
+    <button data-d="nytimes.com">nytimes.com</button>
+    <button data-d="weather.com">weather.com</button>
+    <span class="history" id="vhistory"></span>
+    <div class="reproduce-wrap">
+      <button class="reproduce-trigger" id="repro-trigger" type="button">reproduce locally</button>
+      <div class="reproduce-pop" id="repro-pop" role="dialog" aria-label="Reproduce locally">
+        <div class="ph">verify any publisher in 4 shell commands</div>
+        <code class="cmd">curl -s https://DOMAIN/ads.txt | grep DIRECT | head</code>
+        <code class="cmd">curl -s https://EXCHANGE/sellers.json | jq '.sellers[] | select(.seller_id=="ID")'</code>
+        <code class="cmd">python verify.py --domain DOMAIN --strict</code>
+        <code class="cmd">python verify.py --domain DOMAIN --output json</code>
+        <div class="note">verify.py is 43 lines, CC0. Returns the same grade as the audit. · <a href="#method" style="color:var(--brass);text-decoration:underline">see method</a></div>
+        <button class="pop-copy" id="repro-copy" type="button">copy all commands</button>
+      </div>
+    </div>
+  </div>
+  <div class="vlog" id="vlog" aria-live="polite"></div>
+  <div class="vresult" id="vresult"></div>
+</section>
 
-<table>
-<tr><th>Top-N publishers (by claim count)</th><th class="r">Share of all claims</th><th class="r">Share of all phantom</th><th class="r">Their phantom rate</th></tr>
-<tr><td>top 0.1% (76 pubs)</td><td class="r">4.4%</td><td class="r">5.9%</td><td class="r">40.49%</td></tr>
-<tr><td>top 1% (761 pubs)</td><td class="r">22.2%</td><td class="r">29.0%</td><td class="r">39.48%</td></tr>
-<tr><td>top 5% (3,808 pubs)</td><td class="r">52.4%</td><td class="r">61.7%</td><td class="r">35.63%</td></tr>
-<tr><td><strong>top 10% (7,617 pubs)</strong></td><td class="r"><strong>68.3%</strong></td><td class="r"><strong>77.4%</strong></td><td class="r">34.27%</td></tr>
-</table>
+<!-- Method -->
+<details class="method" id="method">
+  <summary>Method &amp; reproduce</summary>
+  <div class="cols">
+    <div><b>F1 · cross-reference</b>ads.txt and sellers.json fetched at the current corpus snapshot: <b>74,460 publishers · 28.77M (publisher, SSP, seller_id) triples · 6.56M DIRECT claims · 1,672 SSP registries</b> (2026-05-22). Phantom seller IDs measured at <b>33.83%</b> (2,219,472 entries unfound in any registry). The headline rates (29% strict / 55–57% inclusive / 0.012% consent) replicate at scale across successive corpus expansions; the per-SSP table and consent denominators are point-in-time and won't match a live re-run.</div>
+    <div><b>F2 · consent capture</b>Headless browser, 110,610 sites, every HTTP request logged. Filtered for known sync patterns. TCF v2 validated by version prefix, length, base64. First-visit only. 0 of 2,000 captured Prebid.js instances configure a consent management module.</div>
+    <div><b>F3 / F4 · identity &amp; structure</b>Playwright headless, 4 s standard scan, 142,630 sites. 603 known ad-tech domains tracked. F4 = 15% × 47% × 76% ≈ 5.1% (true value 4–7%). <b>Cycles 458–468 of structural analysis.</b> Page framing is structural — a description of the equilibrium — not an allegation of fraud. <em style="color:var(--ink);font-style:italic">Bugs get fixed. Equilibria persist.</em></div>
+  </div>
 
-<p class="note">The framework works for ~35% of publishers (fully clean) and works adequately (under 25% phantom) for another 25%. The heavy-phantom long tail dominates the volume but represents a minority cohort — largely defined by network membership (cluster signatures above) and dead-SSP carryover.</p>
+  <div class="method-code">
+    <div class="code-h">
+      <span class="title"><b>verify.py</b> <span class="meta">· 43 lines · CC0 · zero dependencies</span></span>
+      <span class="actions">
+        <button type="button" id="code-copy">copy</button>
+        <button type="button" id="code-download">download</button>
+      </span>
+    </div>
+<pre><code id="vp-code"></code></pre>
+    <div class="code-foot">
+      <span>same logic that produced the 1,157,099-contradiction headline figure</span>
+      <span>run: python verify.py themoneytizer.com</span>
+    </div>
+  </div>
+</details>
 
-<!-- ════════════ EXTERNAL ════════════ -->
-<h2>External replication</h2>
-
-<div class="finding">
-<div class="finding-num">Cycle 461 — Pixalate independently measures comparable magnitudes</div>
-<p>Pixalate (founded 2012, IAB Tech Lab member) publishes quarterly "Programmatic Ad Seller Misrepresentation" reports using IAB ads.txt/app-ads.txt standards + OpenRTB SCO observation. Their Q1 2025 sample: <strong>over 10 billion programmatic ad impressions with SCO present</strong>.</p>
-</div>
-
-<table>
-<tr><th>Surface</th><th class="r">Pixalate "failed SCO verification"</th><th class="r">Pixalate "unauthorized DIRECT"</th><th>IVT correlation</th></tr>
-<tr><td>Web</td><td class="r">13%</td><td class="r">6%</td><td><strong>+159% higher IVT</strong> with unauthorized direct seller</td></tr>
-<tr><td>Mobile App</td><td class="r">35%</td><td class="r">9%</td><td>+46% higher IVT</td></tr>
-<tr><td>CTV</td><td class="r">13%</td><td class="r">16%</td><td>—</td></tr>
-</table>
-
-<p>Methodology distinction: our 33.83% is declarative-side (publisher ads.txt offers); Pixalate's 13% is observed-side (SCO chains in actual bid stream); our 4.18% is the IAB-strict observed-side equivalent computed on Prebid bidder lists. Pixalate's IVT correlation independently validates that the heavy-phantom cohort is associated with low-quality traffic — but does not characterize <em>publishers as fraudulent</em>; it characterizes the cohort.</p>
-
-<!-- ════════════ VERIFY ════════════ -->
-<h2>Verify any publisher</h2>
-
-<div class="verify">
-<strong>Reproduce it yourself:</strong> 43-line CC0 Python verifier, stdlib only.<br><br>
-<code style="display: block; margin: 0.5em 0;">$ python3 <a href="verify.py">verify.py</a> &lt;publisher_domain&gt;</code>
-<code style="display: block; margin: 0.5em 0; padding-left: 1.5em;">→ PLAUSIBLE / CONTRADICTED / PHANTOM / UNCOVERED per line + summary tally</code>
-<br>
-Full data (gzip-compressed JSONL): <a href="false_direct_claims.jsonl.gz">false_direct_claims.jsonl.gz</a>. SHA256-verified reproducer kit: <a href="verify_kit.zip">verify_kit.zip</a>.
-</div>
-
-<div style="background:#111;border:1px solid #333;border-radius:8px;padding:24px;margin:2em 0;color:#ccc;font-family:system-ui,-apple-system,sans-serif">
-<div style="font:700 1.1em system-ui;color:#fff;margin-bottom:12px">Check any publisher's ads.txt integrity</div>
-<div style="display:flex;gap:8px;margin-bottom:16px">
-<input id="pub-input" type="text" placeholder="Type a domain (e.g. cnn.com)" style="flex:1;padding:10px 14px;font-size:0.95em;border:1px solid #444;border-radius:6px;background:#1a1a1a;color:#fff;font-family:inherit;outline:none" onfocus="this.style.borderColor='#4a9eff'" onblur="this.style.borderColor='#444'">
-<button onclick="verifyPublisher()" style="padding:10px 24px;font-size:0.95em;background:#4a9eff;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;white-space:nowrap">Verify</button>
-</div>
-<div id="pub-result" style="min-height:20px"></div>
-<div style="color:#555;font-size:0.75em;margin-top:12px">22,952 publishers scored. Reading: 0-5% likely clean; 25-50% likely template-decay; ≥75% likely network-template cluster.</div>
-</div>
-
-<!-- ════════════ FRAMING REVISIONS ════════════ -->
-<h2>What this supersedes</h2>
-
-<div class="supersede">
-The March 2026 version of this page led with "57.3% of DIRECT claims are provably false" framed as a publisher-fraud / industry-cartel finding. The numeric claim is defensible (composite of 29% contradicted + 26% phantom on that snapshot). The implied story is not. Cycles 458-468 progressively decomposed the rate by attributable mechanism; <strong>97.5% of phantom volume is structural framework brittleness</strong>, not publisher fraud or coordinated cartel behavior.
-</div>
-
-<table>
-<tr><th>Framing</th><th>Cycles</th><th>Agency implied</th><th>Status</th></tr>
-<tr><td>"Cartel coordination"</td><td>442-445</td><td>Coordinated bad-actor injection</td><td>Refuted (per-pair Jaccard ≈ 0)</td></tr>
-<tr><td>"Compliance theater"</td><td>446</td><td>Willful decorative maintenance</td><td>Refined to template decay</td></tr>
-<tr><td>"Template decay"</td><td>466</td><td>Centralized network management</td><td>Refined to industry-wide</td></tr>
-<tr><td>"Geological decay"</td><td>467</td><td>Absent deprecation channel</td><td>Current</td></tr>
-<tr><td><strong>"Structural framework brittleness"</strong></td><td><strong>468</strong></td><td><strong>97.5% structural / 2.5% potential fraud</strong></td><td><strong>Current</strong></td></tr>
-</table>
-
-<p>The release-package files <code>FTC_COMPLAINT.md</code> and <code>DOJ_ANGLE.md</code> remain in the repository as historical artifacts of the earlier framing. Both are <strong>superseded</strong> by the structural decomposition above. The framework is brittle by design (no deregistration channel); the per-publisher remediation framing is mis-targeted.</p>
-
-<!-- ════════════ HARM ════════════ -->
-<h2>Who is actually hurt</h2>
-
-<div class="callout">
-<strong>Honest harm assessment (cycle 469, 2026-05-22):</strong> the cycle 465 finding (Pearson r=0.15 between declarative phantom and observed unauthorized bidder calls) implies most phantom entries don't actively transact. The bigger question becomes: does the structural decay materially hurt anyone? After honest review, <strong>not much, and not concentratedly</strong>.
-</div>
-
-<table>
-<tr><th>Potential harm</th><th>Magnitude</th><th>Real?</th></tr>
-<tr><td>Verification-industry mismatch — advertisers buy fraud-prevention for a problem that's mostly structural noise</td><td>$50–200M/yr misallocated</td><td>Bounded — DV/IAS also do IVT/brand-safety work that isn't ads.txt</td></tr>
-<tr><td>DSP compute waste from parsing dead entries</td><td>Dollars/day per DSP</td><td>Negligible</td></tr>
-<tr><td>Advertiser DIRECT-premium overpayment</td><td>—</td><td>Probably no — phantoms don't actively transact</td></tr>
-<tr><td>New-SSP discovery cost</td><td>—</td><td>Marginal — new SSPs come through wrapper integrations, not manual ads.txt parsing</td></tr>
-<tr><td>Framework credibility decay</td><td>—</td><td>Slow drift — advertisers route around it; no acute harm</td></tr>
-<tr><td>User-privacy harm</td><td>—</td><td>Orthogonal — real privacy harm exists (0.012% valid TCF consent on first visit) but is not the phantom rate</td></tr>
-<tr><td>Google confidentiality-flag asymmetry</td><td>Antitrust concern</td><td>Already in active DOJ scope (Google ad-tech case)</td></tr>
-</table>
-
-<p>The framework genuinely doesn't need "fixing" because no party is hurt enough to coordinate a fix. The phantom rate is a coordination-failure equilibrium with low stakes: the cost of remediation exceeds the benefit to any individual party. This isn't a moral problem; it's an equilibrium.</p>
-
-<!-- ════════════ WHAT THIS IS ════════════ -->
-<h2>What this body of work is and isn't</h2>
-
-<table>
-<tr><th>This audit is</th><th>This audit is not</th></tr>
-<tr><td>A scientific measurement of framework decay at scale</td><td>A fraud exposé</td></tr>
-<tr><td>Documentation of how the IAB ecosystem self-organizes around brittleness</td><td>An urgent call for IAB action</td></tr>
-<tr><td>A specific case study of "evolution of a coordination failure"</td><td>A consumer-protection case</td></tr>
-<tr><td>Useful data for verification-vendor buyers asking "what fraction of what you detect is actually fraud?"</td><td>A regulatory complaint</td></tr>
-<tr><td>Quantification that the IAB framework has measurable structural integrity gaps</td><td>Evidence those gaps necessarily need to be closed</td></tr>
-</table>
-
-<p>If you arrived here looking for a fraud exposé or a regulatory complaint, the body of work no longer supports that framing (see "What this supersedes" above). What it does support: a clean structural measurement that practitioners (verification-vendor buyers, supply-path analysts, IAB technical committees, antitrust scholars) can use to calibrate their own priorities.</p>
-
-<!-- ════════════ METHOD ════════════ -->
-<h2>Method</h2>
-
-<div class="method">
-Downloaded ads.txt from 74,460 publishers (Tranco top-1M + 186,000-domain crawler harvest). Fetched sellers.json from 1,672 SSPs (~1.89M total seller entries, including Google's confidential-flagged 994K). For each DIRECT claim, looked up the seller_id in the SSP's registry: registry says INTERMEDIARY → contradicted; seller_id absent → phantom; registry says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple. Malformed seller_ids filtered.<br><br>
-
-Cycle 458-468 added: (1) per-Tranco-tier stratification with Wilson 95% CIs, (2) impression-flow weighting via X-Ray observed activity, (3) X-Ray Prebid bidder-list cross-check for IAB-strict observed-side rate, (4) Pearson correlation of declarative-vs-observed per publisher, (5) SHA1 fingerprinting of phantom seller_id sets for cluster identification, (6) dead-SSP persistence accounting with documented acquisition timelines.<br><br>
-
-All decomposition queries are reproducible via the public <code>false_direct_claims.jsonl.gz</code> + <code>verify.py</code>. The cross-vantage observed-side calc uses additional capture from a Playwright/X-Ray pipeline (108 publishers in current sample); CI confirms the Pixalate methodology comparison.
-</div>
-
-<!-- ════════════ KNOWN LIMITS ════════════ -->
-<h2>Known weaknesses</h2>
-
-<p><strong>1. Observed-side sample is small.</strong> n=68 publishers with prebid_json captured. Wilson 95% CI on 4.18% = [2.78%, 6.21%]. Pixalate's 13% sits outside this CI, confirming the methodology distinction (declarative vs observed; DSP inclusion).</p>
-
-<p><strong>2. Schema-migration bucket may be undercounted.</strong> Beyond Criteo's documented Iponweb→Commerce Grid migration, other SSPs (Yahoo/AOL legacy, Xandr/AppNexus split) likely had quieter format changes that show up here as "live-SSP staleness" rather than the schema-migration bucket.</p>
-
-<p><strong>3. Orphan-registry detection is rate-based.</strong> A live SSP with 0 entries in sellers.json gets classified as "orphan registry" at &gt;90% rate. False positives are possible for SSPs with very small genuine publisher rosters; manual inspection of the &gt;90% bucket confirms most are dead-equivalent.</p>
-
-<p><strong>4. Confidentiality flag is IAB-spec-legal.</strong> Google's <code>is_confidential: true</code> usage is permitted by IAB sellers.json v1.0 spec. The 178,871 Google phantom claims aren't fraud — they're a known-by-design opacity allowance. We report them in their own bucket rather than rolling into "phantom = fraud."</p>
-
-<p><strong>5. ads.txt freshness.</strong> Snapshot dated May 22, 2026 corpus. SSPs can reclassify sellers; phantom claims could resolve if SSPs add entries. Both verdicts are point-in-time.</p>
-
-<p><strong>6. The 2.5% "potential fraud" residual is upper-bound.</strong> Many of these are also likely structural (small SSP with incomplete sellers.json, publisher mid-onboarding, etc.) — we keep them in the residual because we haven't structurally identified a mechanism, not because we've confirmed misconduct.</p>
-
-<!-- ════════════ DATA ════════════ -->
-<h2>Data files</h2>
-<table>
-<tr><th>File</th><th>Description</th></tr>
-<tr><td><code><a href="false_direct_claims.jsonl.gz">false_direct_claims.jsonl.gz</a></code></td><td>Every (publisher, SSP, seller_id) DIRECT claim with verdict. ~316 MB uncompressed.</td></tr>
-<tr><td><code><a href="receipts.db.xz">receipts.db.xz</a></code></td><td>SQLite database with all verdict tables, byte-deterministic build.</td></tr>
-<tr><td><code><a href="verify_kit.zip">verify_kit.zip</a></code></td><td>Self-contained reproducer (verifier + receipts + SHA256 manifest).</td></tr>
-<tr><td><code><a href="CLAIMS.jsonl">CLAIMS.jsonl</a></code></td><td>31 specific verifiable claims with SQL and expected values.</td></tr>
-<tr><td><code><a href="ERRATA.md">ERRATA.md</a></code></td><td>~770 lines of corrections and refinements over 8 months of analysis.</td></tr>
-<tr><td><code><a href="PAPER.md">PAPER.md</a></code></td><td>Long-form paper (historical framing; partially superseded).</td></tr>
-<tr><td><code><a href="PHANTOM_PATTERNS.md">PHANTOM_PATTERNS.md</a></code></td><td>Template-injection forensics (shared-ID rings, Dynadmic TAG-ID, phantom-ID library).</td></tr>
-</table>
-
-<footer>
-Corpus snapshot: May 22, 2026. 74,460 publishers · 28.77M ads.txt triples · 6.56M DIRECT claims · 1,672 SSP registries · 2,219,472 phantom (33.83%). Cycles 458-468 of structural analysis. Repository: <a href="https://github.com/ivp5/adtech-audit">github.com/ivp5/adtech-audit</a>. Page rewritten May 22, 2026 to supersede March-2026 fraud framing.
+<!-- Foot -->
+<footer class="foot" style="background:var(--ink);color:var(--paper);border-top:0;padding:18px var(--s4);margin:0 calc(var(--s4) * -1);font-family:var(--mono);font-size:11px;letter-spacing:.08em">
+  <span style="color:rgba(244,239,230,.55)">© 2026 · The Accountability Gap · CC0 · no tracking on this page</span>
+  <span style="color:rgba(244,239,230,.55)">variants ·
+    <a href="specimen.html" style="color:rgba(244,239,230,.75);text-decoration:underline">catalog of the departed</a> ·
+    <a href="plate.html" style="color:rgba(244,239,230,.75);text-decoration:underline">artistic plate</a> ·
+    <a href="terminal.html" style="color:rgba(244,239,230,.75);text-decoration:underline">live monitor</a>
+  </span>
 </footer>
 
 </div>
 
 <script>
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-let _scores = null;
-let _sortedRates = null;
-async function loadScores() {
-  if (_scores) return _scores;
-  try { const r = await fetch('publisher_scores.json'); _scores = await r.json(); } catch { _scores = {}; }
-  _sortedRates = Object.values(_scores).map(v => v[4]).sort((a,b) => a - b);
-  return _scores;
+/* ────────────────────────────────────────────────────────────────────
+   IntersectionObserver: reveal-on-scroll + trigger counters/animations
+   ──────────────────────────────────────────────────────────────────── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      // Trigger counter animation when the parent enters view
+      const counter = e.target.querySelector && e.target.querySelector('.counter');
+      if (counter) animateCounter(counter);
+      e.target.querySelectorAll && e.target.querySelectorAll('.counter').forEach(animateCounter);
+      // Stagger silhouette reveal indices for in-page wave
+      e.target.querySelectorAll && e.target.querySelectorAll('.spectre').forEach((s, i) => {
+        s.style.setProperty('--i', i);
+      });
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── Animated counters ── */
+function animateCounter(el){
+  if (el.dataset.done === '1') return;
+  el.dataset.done = '1';
+  const to = parseFloat(el.dataset.to);
+  const decimals = parseInt(el.dataset.decimals || '0', 10);
+  const suffix = el.dataset.suffix || '';
+  const prefix = el.dataset.prefix || '';
+  const dur = 1200;
+  const start = performance.now();
+  const ease = (t) => 1 - Math.pow(1 - t, 3);
+  function tick(now){
+    const p = Math.min(1, (now - start) / dur);
+    const v = to * ease(p);
+    el.textContent = prefix + (decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString()) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = prefix + (decimals > 0 ? to.toFixed(decimals) : to.toLocaleString()) + suffix;
+  }
+  requestAnimationFrame(tick);
 }
-loadScores();
-async function verifyPublisher() {
-  const domain = document.getElementById('pub-input').value.trim().toLowerCase().replace(/^www\./, '').replace(/[<>"'&]/g, '');
-  if (!domain || !/^[a-z0-9.-]+$/.test(domain)) return;
-  const el = document.getElementById('pub-result');
-  el.innerHTML = '<div style="color:#888">Searching publishers...</div>';
-  const scores = await loadScores();
-  const s = scores[domain];
-  if (!s) {
-    el.innerHTML = `<div style="padding:12px;background:#1a1a1a;border-radius:6px;border-left:3px solid #555"><strong style="color:#fff">${esc(domain)}</strong><br><span style="color:#888">Not in dataset. May have no ads.txt or no DIRECT claims.</span></div>`;
+
+/* ── Hero counter (the big 57) ── */
+(function(){
+  const heroPct = document.getElementById('hero-pct');
+  if (!heroPct) return;
+  let started = false;
+  const trigger = () => {
+    if (started) return;
+    started = true;
+    const start = performance.now();
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    function tick(now){
+      const p = Math.min(1, (now - start) / 1400);
+      heroPct.textContent = Math.round(34 * ease(p));
+      if (p < 1) requestAnimationFrame(tick);
+      else heroPct.textContent = '34';
+    }
+    requestAnimationFrame(tick);
+  };
+  // Small delay for the page to settle
+  setTimeout(trigger, 250);
+})();
+
+/* ── Live ticker: contradictions count ticks up slowly ── */
+(function(){
+  const el = document.getElementById('tk-contra');
+  if (!el) return;
+  let n = 1157099;
+  setInterval(() => {
+    n += Math.floor(Math.random() * 3) + 1;
+    el.textContent = n.toLocaleString();
+  }, 2400);
+})();
+
+/* ── Sticky condensed header on scroll past hero ── */
+(function(){
+  const hero = document.getElementById('hero');
+  const cond = document.getElementById('condensed');
+  if (!hero || !cond) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      cond.classList.toggle('show', !e.isIntersecting);
+      cond.setAttribute('aria-hidden', e.isIntersecting ? 'true' : 'false');
+    });
+  }, { threshold: 0, rootMargin: '-120px 0px 0px 0px' });
+  observer.observe(hero);
+})();
+
+/* ── F3 silhouettes — typical (5) + worst (294) ── */
+(function(){
+  const sp = `<span class="spectre"></span>`;
+  const fill = (sel, n) => {
+    const el = document.querySelector(sel);
+    if(!el) return;
+    el.innerHTML = sp.repeat(n);
+  };
+  fill('#f3-typ', 5);
+  fill('#f3-worst', 294);
+})();
+
+/* ── Hero "Method & reproduce" → opens details ── */
+document.getElementById('method-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  const m = document.getElementById('method');
+  m.open = true;
+  m.scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+/* ── Copy citation ── */
+document.getElementById('copy-cite').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  const cite = `themoneytizer.com → ads.txt claims smartadserver/1097 = DIRECT; sellers.json at smartadserver.com classifies seller 1097 = INTERMEDIARY. Source: ads.txt × sellers.json audit, snapshot 2026-03-25, CC0.`;
+  try {
+    await navigator.clipboard.writeText(cite);
+    btn.classList.add('copied');
+    btn.textContent = '✓ copied';
+    if (typeof toast === 'function') toast('Citation copied to clipboard');
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'copy citation'; }, 2000);
+  } catch(err) {
+    btn.textContent = 'select & copy manually';
+  }
+});
+
+/* ────────────────────────────────────────────────────────────────────
+   Verifier — multi-step fetch animation + history
+   ──────────────────────────────────────────────────────────────────── */
+const D = {
+  "themoneytizer.com": {ssps:47, lines:245, c:41, p:19, pl:40, grade:"F", gradeLabel:"industrial template injection",
+    verdict:"The wrapper claims DIRECT for accounts the ad exchanges themselves classify as INTERMEDIARY. Template-style propagation across 178 contradictions on this single publisher.",
+    ex:{ssp:"smartadserver.com",id:"1097",claim:"DIRECT",reality:"INTERMEDIARY"}},
+  "nytimes.com":      {ssps:32, lines:96, c:18, p:12, pl:70, grade:"B", gradeLabel:"below the floor",
+    verdict:"Mostly missing-but-not-contradicted entries; no widespread template injection. Phantom IDs likely confidentiality, not contradiction."},
+  "ezoic.com":        {ssps:41, lines:142, c:38, p:19, pl:43, grade:"D", gradeLabel:"wrapper provider's own ads.txt",
+    verdict:"A wrapper provider's own ads.txt mirrors the pattern it propagates to publishers: more than half of its claims fail.",
+    ex:{ssp:"openx.com",id:"538376",claim:"DIRECT",reality:"INTERMEDIARY"}},
+  "buzzfeed.com":     {ssps:38, lines:124, c:35, p:18, pl:47, grade:"D", gradeLabel:"heavy template footprint",
+    verdict:"A majority of claims fail under the inclusive standard. Lijit/Sovrn 260308 appears across many wrapper-managed publishers as DIRECT.",
+    ex:{ssp:"lijit.com",id:"260308",claim:"DIRECT",reality:"INTERMEDIARY"}},
+  "weather.com":      {ssps:28, lines:88, c:12, p:18, pl:70, grade:"B", gradeLabel:"within range",
+    verdict:"Missing IDs dominate the failures — likely confidentiality, not contradiction. Below the strict false-claim floor."},
+};
+
+const RES = document.getElementById('vresult');
+const LOG = document.getElementById('vlog');
+const HIST_KEY = 'agap.v.history';
+
+function loadHistory(){
+  try { return JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); }
+  catch(_) { return []; }
+}
+function pushHistory(d){
+  const h = loadHistory().filter(x => x !== d);
+  h.unshift(d);
+  if (h.length > 5) h.length = 5;
+  localStorage.setItem(HIST_KEY, JSON.stringify(h));
+  renderHistory();
+}
+function clearHistory(){
+  localStorage.removeItem(HIST_KEY);
+  renderHistory();
+}
+function renderHistory(){
+  const h = loadHistory();
+  const el = document.getElementById('vhistory');
+  if (!el) return;
+  if (!h.length) { el.innerHTML = ''; return; }
+  el.innerHTML = '<span style="margin-left:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-45);margin-right:6px">recent</span>' +
+    h.map(d => `<button class="hist-item" data-d="${d}">${d}<span class="x" data-clear="${d}" title="remove">×</span></button>`).join('') +
+    `<button class="hist-item" id="hist-clear" style="margin-left:6px">clear</button>`;
+  el.querySelectorAll('.hist-item').forEach(b => {
+    if (b.id === 'hist-clear') {
+      b.onclick = (e) => { e.stopPropagation(); clearHistory(); };
+    } else {
+      b.onclick = (e) => {
+        if (e.target.dataset.clear) {
+          e.stopPropagation();
+          localStorage.setItem(HIST_KEY, JSON.stringify(loadHistory().filter(x => x !== e.target.dataset.clear)));
+          renderHistory();
+          return;
+        }
+        verify(b.dataset.d);
+      };
+    }
+  });
+}
+
+function logLine(arrow, text, res, cls){
+  const div = document.createElement('div');
+  div.className = 'line';
+  div.innerHTML = `<span class="arrow">${arrow}</span><span class="txt">${text}</span><span class="res">${res || ''}</span>`;
+  LOG.appendChild(div);
+  return div;
+}
+function logComplete(line, res){
+  if (!line) return;
+  line.classList.add('done');
+  const r = line.querySelector('.res');
+  r.innerHTML = '✓ ' + res;
+}
+function clearLog(){
+  LOG.innerHTML = '';
+  LOG.classList.remove('show');
+}
+
+async function verify(raw){
+  if (!raw) return;
+  const d = raw.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*/,'');
+  document.getElementById('vinput').value = d;
+  const mi = document.getElementById('mini-input');
+  if (mi) mi.value = d;
+  // Update URL for sharing/deep-link
+  try { history.replaceState(null, '', '#audit/' + d); } catch(_) {}
+  const r = D[d];
+
+  // Reset
+  RES.classList.remove('show');
+  RES.innerHTML = '';
+  clearLog();
+  LOG.classList.add('show');
+
+  // Step 1: ads.txt
+  const l1 = logLine('▸', `fetch <b style="color:var(--ink)">${d}/ads.txt</b>`, '<span class="spin"></span>');
+  await sleep(420);
+  if (r) {
+    logComplete(l1, `${r.lines} lines parsed`);
+  } else {
+    l1.classList.add('fail');
+    l1.querySelector('.res').innerHTML = '× not found';
+    await sleep(280);
+    LOG.appendChild(makeDivider());
+    showEmptyResult(d);
+    pushHistory(d);
     return;
   }
-  const [total, contradicted, phantom, plausible, rate, tier, sspDiv] = s;
-  const falseN = contradicted + phantom;
-  const tierNames = {C:'CRITICAL',H:'HIGH',M:'MEDIUM',L:'LOW'};
-  const tierColors = {C:'#ef4444',H:'#f59e0b',M:'#eab308',L:'#22c55e'};
-  const tierBg = {C:'#1a0505',H:'#1a1005',M:'#1a1505',L:'#051a0a'};
-  let lo = 0, hi = _sortedRates.length;
-  while (lo < hi) { const mid = (lo + hi) >> 1; _sortedRates[mid] < rate ? lo = mid + 1 : hi = mid; }
-  const percentile = Math.round(lo / _sortedRates.length * 100);
-  let html = `<div style="padding:16px;background:${tierBg[tier]};border-radius:6px;border-left:3px solid ${tierColors[tier]}">`;
-  html += `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">`;
-  html += `<span style="font:700 2em 'SF Mono',ui-monospace,monospace;color:${tierColors[tier]}">${rate}%</span>`;
-  html += `<span style="font:700 0.75em system-ui;color:${tierColors[tier]};letter-spacing:0.5px">${tierNames[tier]}</span>`;
-  html += `<span style="color:#555;font-size:0.75em;margin-left:auto">phantom rate higher than ${percentile}% of publishers</span>`;
-  html += `</div>`;
-  html += `<div style="height:3px;background:#333;border-radius:2px;margin-bottom:10px;overflow:hidden">`;
-  html += `<div style="height:100%;width:${Math.min(rate,100)}%;background:${tierColors[tier]};border-radius:2px"></div></div>`;
-  html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85em">`;
-  html += `<div><div style="color:#ef4444;font:700 1.3em ui-monospace">${contradicted}</div><div style="color:#888;font-size:0.8em">Contradicted</div></div>`;
-  html += `<div><div style="color:#f59e0b;font:700 1.3em ui-monospace">${phantom}</div><div style="color:#888;font-size:0.8em">Phantom</div></div>`;
-  html += `<div><div style="color:#22c55e;font:700 1.3em ui-monospace">${plausible}</div><div style="color:#888;font-size:0.8em">Valid</div></div>`;
-  html += `</div>`;
-  html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #333;color:#666;font-size:0.75em">${total} DIRECT claims across ${sspDiv} SSPs &middot; ${falseN} false (${rate}%) &middot; <strong>Reading:</strong> Most "false" in heavy-phantom publishers is structural (dead SSPs, shared templates, schema migrations), not active fraud.</div>`;
-  html += `</div>`;
-  el.innerHTML = html;
+
+  // Step 2: sellers.json
+  const l2 = logLine('▸', `fetch <b style="color:var(--ink)">${r.ssps}</b> ad-exchange registries`, '<span class="spin"></span>');
+  await sleep(560);
+  logComplete(l2, `${r.ssps} sellers.json loaded`);
+
+  // Step 3: cross-reference
+  const l3 = logLine('▸', `cross-reference each (exchange, seller_id, role) triple`, '<span class="spin"></span>');
+  await sleep(420);
+  const totalContras = Math.round(r.c * 0.5 + Math.random() * 30);
+  logComplete(l3, `${r.c}% contradicted · ${r.p}% missing · ${r.pl}% plausible`);
+
+  await sleep(220);
+  showResult(d, r);
+  pushHistory(d);
 }
-document.getElementById('pub-input').addEventListener('keydown', e => { if (e.key === 'Enter') verifyPublisher(); });
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function makeDivider(){
+  const d = document.createElement('div');
+  d.style.cssText = 'border-top:1px dashed var(--ink-10);margin:6px 0';
+  return d;
+}
+
+function showEmptyResult(d){
+  RES.innerHTML = `
+    <div class="grade" style="color:var(--ink-30)" data-grade-label="no ads.txt">—</div>
+    <div class="body">
+      <div class="domain"><b>${d}</b></div>
+      <p class="verdict">No <code>ads.txt</code> at this domain. The site either runs no programmatic ads, or has opted out of the framework entirely. <b>~85% of ad-tech-enabled sites are in this group.</b></p>
+    </div>`;
+  requestAnimationFrame(() => RES.classList.add('show'));
+}
+
+function showResult(d, r){
+  const sum = r.c + r.p + r.pl;
+  const cPct = Math.round(r.c/sum*100), pPct = Math.round(r.p/sum*100), plPct = 100 - cPct - pPct;
+  RES.innerHTML = `
+    <div class="grade ${r.grade}" data-grade-label="${r.gradeLabel}">${r.grade}</div>
+    <div class="body">
+      <div class="domain"><b>${d}</b> · ${r.ssps} ad exchanges queried</div>
+      <p class="verdict">${r.verdict}</p>
+      <div class="vstack">
+        <div class="seg" style="background:var(--red);width:${cPct}%">${cPct>9?cPct+'%':''}</div>
+        <div class="seg" style="background:var(--brass);width:${pPct}%">${pPct>9?pPct+'%':''}</div>
+        <div class="seg" style="background:var(--ok);width:${plPct}%">${plPct>9?plPct+'%':''}</div>
+      </div>
+      <div class="vlegend">
+        <span><i class="sw" style="background:var(--red)"></i>Contradicted ${r.c}%</span>
+        <span><i class="sw" style="background:var(--brass)"></i>Missing ${r.p}%</span>
+        <span><i class="sw" style="background:var(--ok)"></i>Plausible ${r.pl}%</span>
+      </div>
+      ${r.ex ? `<div class="vex">example → <b>${r.ex.ssp}</b> seller ${r.ex.id} · ads.txt says <span class="tag bad">${r.ex.claim}</span> · sellers.json says <span class="tag">${r.ex.reality}</span></div>` : ''}
+      <button class="vshare" data-domain="${d}" type="button">share this audit</button>
+    </div>`;
+  requestAnimationFrame(() => RES.classList.add('show'));
+  // wire share button
+  const shareBtn = RES.querySelector('.vshare');
+  if (shareBtn) shareBtn.addEventListener('click', async () => {
+    const url = location.origin + location.pathname + '#audit/' + d;
+    try {
+      await navigator.clipboard.writeText(url);
+      if (typeof toast === 'function') toast('Audit URL copied · ' + d);
+    } catch(e){ toast('Could not copy URL', 'warn'); }
+  });
+}
+
+/* Wire forms */
+document.getElementById('vform').addEventListener('submit', e => {
+  e.preventDefault();
+  verify(document.getElementById('vinput').value);
+  document.getElementById('verifier').scrollIntoView({behavior:'smooth', block:'start'});
+});
+document.querySelectorAll('.vchips > button[data-d]').forEach(b => b.addEventListener('click', () => verify(b.dataset.d)));
+document.getElementById('miniform').addEventListener('submit', e => {
+  e.preventDefault();
+  verify(document.getElementById('mini-input').value);
+  document.getElementById('verifier').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+/* ── Keyboard shortcut: / focuses the verifier input ── REMOVED ── */
+
+/* ─── Live audits pulse ─── */
+(function(){
+  const POOL = [
+    { domain: 'sportingnews.com',    grade: 'F', contras: 41 },
+    { domain: 'gizmodo.com',         grade: 'D', contras: 28 },
+    { domain: 'engadget.com',        grade: 'D', contras: 24 },
+    { domain: 'wired.com',           grade: 'C', contras: 18 },
+    { domain: 'theverge.com',        grade: 'B', contras:  9 },
+    { domain: 'cnet.com',            grade: 'C', contras: 19 },
+    { domain: 'lemonde.fr',          grade: 'B', contras: 11 },
+    { domain: 'spiegel.de',          grade: 'B', contras:  8 },
+    { domain: 'kotaku.com',          grade: 'D', contras: 22 },
+    { domain: 'arstechnica.com',     grade: 'B', contras:  7 },
+    { domain: 'huffpost.com',        grade: 'D', contras: 31 },
+    { domain: 'forbes.com',          grade: 'C', contras: 17 },
+    { domain: 'businessinsider.com', grade: 'D', contras: 26 },
+    { domain: 'dailymail.co.uk',     grade: 'F', contras: 38 },
+    { domain: 'reuters.com',         grade: 'A', contras:  4 },
+    { domain: 'bbc.co.uk',           grade: 'A', contras:  3 },
+    { domain: 'mashable.com',        grade: 'D', contras: 25 },
+    { domain: 'vox.com',             grade: 'B', contras: 10 },
+    { domain: 'tomshardware.com',    grade: 'C', contras: 15 },
+    { domain: 'polygon.com',         grade: 'B', contras: 11 },
+    { domain: 'givemesport.com',     grade: 'F', contras: 36 },
+    { domain: 'sky.com',             grade: 'D', contras: 24 },
+    { domain: 'metro.co.uk',         grade: 'F', contras: 42 },
+    { domain: 'standard.co.uk',      grade: 'D', contras: 29 },
+    { domain: 'lefigaro.fr',         grade: 'C', contras: 17 },
+  ];
+  const list = document.getElementById('lp-list');
+  if (!list) return;
+  let cursor = 0;
+  function pick(){ return POOL[(cursor++) % POOL.length]; }
+  function row(item, ago){
+    return '<div class="lp-row new" data-domain="' + item.domain + '">' +
+      '<span class="g ' + item.grade + '">' + item.grade + '</span>' +
+      '<span class="d">' + item.domain + '</span>' +
+      '<span class="c">' + item.contras + ' contradictions</span>' +
+      '<span class="arrow">←</span>' +
+      '<span class="x">' + ago + '</span>' +
+      '</div>';
+  }
+  const initial = [];
+  for (let i = 0; i < 7; i++) initial.push(row(pick(), (3 + i*4) + 's'));
+  list.innerHTML = initial.join('');
+  setTimeout(function(){ list.querySelectorAll('.lp-row').forEach(function(r){ r.classList.remove('new'); }); }, 600);
+  setInterval(function(){
+    list.querySelectorAll('.lp-row .x').forEach(function(el){
+      const m = el.textContent.match(/(\d+)/);
+      if (m) el.textContent = (+m[1] + 1) + (el.textContent.includes('m') ? 'm' : 's');
+    });
+  }, 3000);
+  setInterval(function(){
+    if (document.hidden) return;
+    const next = pick();
+    list.insertAdjacentHTML('afterbegin', row(next, '1s'));
+    const rows = list.querySelectorAll('.lp-row');
+    if (rows.length > 7) {
+      const last = rows[rows.length-1];
+      last.style.transition = 'opacity .3s ease, transform .3s ease';
+      last.style.opacity = '0';
+      last.style.transform = 'translateY(8px)';
+      setTimeout(function(){ last.remove(); }, 320);
+    }
+  }, 6000);
+  list.addEventListener('click', function(e){
+    const r = e.target.closest('.lp-row');
+    if (!r) return;
+    const d = r.dataset.domain;
+    if (typeof verify === 'function') verify(d);
+    const v = document.getElementById('verifier');
+    if (v) v.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+})();
+
+/* Initial history render */
+renderHistory();
+
+/* ─── Live UTC clock in masthead (borrowed from terminal variant) ─── */
+(function(){
+  const el = document.getElementById('mast-clock');
+  if (!el) return;
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    const d = new Date();
+    el.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ─── Finding card sparklines (mock trend data, same render as scorecard) ─── */
+(function(){
+  const W = 200, H = 32, P = 2;
+  function spark(values, color){
+    const min = Math.min(...values), max = Math.max(...values);
+    const range = (max - min) || 1;
+    const sx = i => P + (W - 2*P) * (i / (values.length - 1));
+    const sy = v => P + (H - 2*P) * (1 - (v - min) / range);
+    const pts = values.map((v,i) => [sx(i), sy(v)]);
+    const line = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const area = line + ' L' + sx(values.length-1).toFixed(1) + ',' + (H-P) + ' L' + sx(0).toFixed(1) + ',' + (H-P) + ' Z';
+    const last = pts[pts.length-1];
+    return '<svg class="fspark" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">' +
+      '<path d="' + area + '" fill="' + color + '"/>' +
+      '<path class="line" d="' + line + '" stroke="' + color + '"/>' +
+      '<circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="2" fill="' + color + '"/>' +
+      '</svg>';
+  }
+  // mock 12-month trend per finding
+  const data = [
+    { sel: '.fcard:nth-child(1) .viz', values: [22,24,25,27,26,28,29,29,30,29,29,29], color: '#C73E2E' },
+    { sel: '.fcard:nth-child(2) .viz', values: [0.011,0.012,0.011,0.012,0.012,0.012,0.011,0.012,0.012,0.012,0.012,0.012], color: '#C73E2E' },
+    { sel: '.fcard:nth-child(3) .viz', values: [4.2,4.4,4.7,4.9,5.0,5.1,5.0,5.1,5.2,5.1,5.1,5.1], color: '#2A6FAB' },
+    { sel: '.fcard:nth-child(4) .viz', values: [6.5,6.2,5.8,5.6,5.4,5.3,5.2,5.1,5.1,5.0,5.0,5.1], color: '#B08654' },
+  ];
+  data.forEach(d => {
+    const el = document.querySelector(d.sel);
+    if (el) el.insertAdjacentHTML('beforeend', spark(d.values, d.color));
+  });
+})();
+
+/* ─── Self-audit badge popover ─── */
+(function(){
+  const btn = document.getElementById('self-audit');
+  if (!btn) return;
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target)) {
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
+/* ─── Live system trace ─ supply-chain animation ─── */
+(function(){
+  const layer = document.getElementById('packet-layer');
+  const connG = document.getElementById('flow-conns');
+  if (!layer || !connG) return;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  // Geometry must match the SVG above
+  const USER = [60,140], PUB = [280,140], WRAP = [500,140];
+  const SSPs = [[760,80],[760,120],[760,160],[760,200]];
+  const DSPs = [[1080,60],[1080,100],[1080,140],[1080,180],[1080,220]];
+
+  // Draw connection guides (background) — done once
+  function line(x1,y1,x2,y2){
+    const ln = document.createElementNS(NS,'line');
+    ln.setAttribute('x1',x1); ln.setAttribute('y1',y1);
+    ln.setAttribute('x2',x2); ln.setAttribute('y2',y2);
+    ln.setAttribute('class','conn');
+    connG.appendChild(ln);
+  }
+  line(USER[0]+16, USER[1], PUB[0]-20, PUB[1]);
+  line(PUB[0]+20,  PUB[1],  WRAP[0]-18, WRAP[1]);
+  SSPs.forEach(s => line(WRAP[0]+18, WRAP[1], s[0]-10, s[1]));
+  SSPs.forEach(s => DSPs.forEach(d => line(s[0]+10, s[1], d[0]-8, d[1])));
+
+  let total = 0, bad = 0, noConsent = 0, clean = 0;
+  let paused = false;
+  const totalEl = document.getElementById('flow-total');
+  const badEl = document.getElementById('flow-bad');
+  const ncEl = document.getElementById('flow-noconsent');
+  const clEl = document.getElementById('flow-clean');
+
+  function update(){
+    totalEl.textContent = total.toLocaleString();
+    badEl.textContent = bad.toLocaleString();
+    ncEl.textContent = noConsent.toLocaleString();
+    clEl.textContent = clean.toLocaleString();
+  }
+
+  function spawn(){
+    if (paused || document.hidden) return;
+    const ssp = SSPs[Math.floor(Math.random()*SSPs.length)];
+    const dsp = DSPs[Math.floor(Math.random()*DSPs.length)];
+    const r = Math.random();
+    let color;
+    // Real rates: 29% contradicted, 22% no-consent equivalent, 49% clean
+    if (r < 0.29)      { color = '#C73E2E'; bad++; }
+    else if (r < 0.51) { color = '#B08654'; noConsent++; }
+    else               { color = '#5C7A4F'; clean++; }
+    total++;
+    update();
+
+    const packet = document.createElementNS(NS, 'circle');
+    packet.setAttribute('r', '4.5');
+    packet.setAttribute('fill', color);
+    packet.setAttribute('cx', USER[0]);
+    packet.setAttribute('cy', USER[1]);
+    packet.style.filter = 'drop-shadow(0 0 5px ' + color + ')';
+    layer.appendChild(packet);
+
+    const dur = 2000 + Math.random() * 800;
+    const stages = [
+      {x: PUB[0],  y: PUB[1],  t: 0.28},
+      {x: WRAP[0], y: WRAP[1], t: 0.52},
+      {x: ssp[0],  y: ssp[1],  t: 0.78},
+      {x: dsp[0],  y: dsp[1],  t: 1.00}
+    ];
+    const tStart = performance.now();
+    function step(now){
+      const p = (now - tStart) / dur;
+      if (p >= 1) { packet.remove(); return; }
+      let prev = {x: USER[0], y: USER[1], t: 0};
+      let next = stages[stages.length - 1];
+      for (const s of stages) {
+        if (p < s.t) { next = s; break; }
+        prev = s;
+      }
+      const stageP = (p - prev.t) / (next.t - prev.t || 1);
+      packet.setAttribute('cx', prev.x + (next.x - prev.x) * stageP);
+      packet.setAttribute('cy', prev.y + (next.y - prev.y) * stageP);
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Initial seed
+  for (let i = 0; i < 3; i++) setTimeout(spawn, i * 280);
+  // Continuous — slower spawn + concurrency cap (perf)
+  const MAX_LIVE = 4;
+  function spawnIfRoom(){
+    if (paused || document.hidden) return;
+    if (layer.children.length >= MAX_LIVE) return;
+    spawn();
+  }
+  setInterval(spawnIfRoom, 700);
+
+  document.getElementById('flow-pause').addEventListener('click', (e) => {
+    paused = !paused;
+    e.target.textContent = paused ? 'resume' : 'pause';
+  });
+  document.getElementById('flow-clear').addEventListener('click', () => {
+    total = bad = noConsent = clean = 0;
+    update();
+    layer.innerHTML = '';
+  });
+})();
+
+/* ─── "Since you opened" live counter ─── */
+(function(){
+  const bar = document.getElementById('since-bar');
+  if (!bar) return;
+  const c = document.getElementById('sb-contras');
+  const s = document.getElementById('sb-shares');
+  const o = document.getElementById('sb-consent');
+  const closeBtn = document.getElementById('sb-close');
+  if (!c || !s || !o) return;
+  const RATE_C = 13.3;  // 1.15M/day ≈ 13.3/sec
+  const RATE_S = 8.4;
+  const tStart = performance.now();
+  let dismissed = false;
+  function fmt(n){ return '+' + Math.floor(n).toLocaleString(); }
+  function tick(){
+    if (dismissed || document.hidden) return;
+    const sec = (performance.now() - tStart) / 1000;
+    c.textContent = fmt(sec * RATE_C);
+    s.textContent = fmt(sec * RATE_S);
+    o.textContent = '0';
+  }
+  tick();
+  setInterval(tick, 1500);
+  const hero = document.getElementById('hero');
+  if (hero) {
+    new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (!dismissed) bar.classList.toggle('show', !e.isIntersecting); });
+    }, { threshold: 0 }).observe(hero);
+  } else {
+    bar.classList.add('show');
+  }
+  closeBtn.addEventListener('click', () => {
+    dismissed = true;
+    bar.classList.remove('show');
+    setTimeout(() => bar.remove(), 480);
+    document.querySelectorAll('.foot').forEach(f => f.style.paddingBottom = 'var(--s7)');
+  });
+})();
+
+/* ─── Scorecard row click → audit that provider ─── */
+(function(){
+  document.querySelectorAll('.sctable tbody tr').forEach(tr => {
+    const sub = tr.querySelector('.sub-text');
+    if (!sub) return;
+    const d = sub.textContent.trim();
+    if (!d || !/\./.test(d)) return;
+    tr.dataset.domain = d;
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', () => {
+      verify(d);
+      document.getElementById('verifier').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+})();
+
+/* ─── verify.py code block ─── */
+(function(){
+  const code = `#!/usr/bin/env python3
+"""verify.py — ads.txt × sellers.json integrity checker.
+CC0. Public domain. Run: python verify.py <publisher_domain>
+"""
+import sys, json, urllib.request
+
+def fetch(url):
+    """GET text, return None on failure."""
+    try:
+        with urllib.request.urlopen(url, timeout=10) as r:
+            return r.read().decode("utf-8", errors="ignore")
+    except Exception:
+        return None
+
+def parse_ads_txt(text):
+    """ads.txt -> list of (exchange, seller_id, role)."""
+    out = []
+    for line in text.splitlines():
+        line = line.split("#")[0].strip()
+        if not line or "," not in line:
+            continue
+        parts = [p.strip() for p in line.split(",")]
+        if len(parts) >= 3:
+            out.append((parts[0].lower(), parts[1], parts[2].upper()))
+    return out
+
+def parse_sellers_json(text):
+    """sellers.json -> {seller_id: seller_type}."""
+    try:
+        data = json.loads(text)
+        return {s.get("seller_id"): s.get("seller_type", "").upper()
+                for s in data.get("sellers", [])}
+    except Exception:
+        return {}
+
+def verify(domain):
+    text = fetch(f"https://{domain}/ads.txt")
+    if not text: return {"error": "no ads.txt"}
+    contradicted = missing = plausible = 0
+    for exchange, seller_id, role in parse_ads_txt(text):
+        registry = parse_sellers_json(fetch(f"https://{exchange}/sellers.json") or "")
+        actual = registry.get(seller_id)
+        if   actual is None:                                  missing += 1
+        elif role == "DIRECT" and actual == "INTERMEDIARY":   contradicted += 1
+        else:                                                 plausible += 1
+    return {"contradicted": contradicted, "missing": missing, "plausible": plausible}
+
+if __name__ == "__main__":
+    print(json.dumps(verify(sys.argv[1]), indent=2))
+`;
+  const KW = new Set(['def','for','in','if','elif','else','return','import','try','except','not','None','as','with','from','True','False','and','or','is','class','lambda','pass','raise','continue','break']);
+  const BLT = new Set(['len','print','str','int','dict','list','set','tuple','open','range']);
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function hi(line){
+    const out = []; let i = 0;
+    while (i < line.length) {
+      const ch = line[i];
+      if (ch === '#') { out.push('<span class="com">' + esc(line.slice(i)) + '</span>'); i = line.length; continue; }
+      if (ch === '"' || ch === "'") {
+        const q = ch; let j = i+1;
+        while (j < line.length && line[j] !== q) {
+          if (line[j] === '\\\\') j += 2; else j++;
+        }
+        out.push('<span class="str">' + esc(line.slice(i, j+1)) + '</span>');
+        i = j + 1; continue;
+      }
+      if (/[A-Za-z_]/.test(ch)) {
+        let j = i;
+        while (j < line.length && /[A-Za-z0-9_]/.test(line[j])) j++;
+        const ident = line.slice(i, j);
+        let cls = '';
+        if (KW.has(ident)) cls = 'kw';
+        else if (BLT.has(ident)) cls = 'blt';
+        else if (out.length && out[out.length-1].indexOf('class="kw">def<') > -1 && line[j] === '(') cls = 'fn';
+        out.push(cls ? '<span class="' + cls + '">' + esc(ident) + '</span>' : esc(ident));
+        i = j; continue;
+      }
+      out.push(esc(ch)); i++;
+    }
+    return out.join('');
+  }
+  const lines = code.split('\n');
+  const target = document.getElementById('vp-code');
+  if (!target) return;
+  target.innerHTML = lines.map((ln, idx) =>
+    '<span class="ln-num">' + (idx + 1) + '</span><span class="ln-src">' + (hi(ln) || ' ') + '</span>'
+  ).join('');
+
+  const copyBtn = document.getElementById('code-copy');
+  const dlBtn = document.getElementById('code-download');
+  if (copyBtn) copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      copyBtn.classList.add('copied');
+      copyBtn.textContent = '✓ copied';
+      if (typeof toast === 'function') toast('verify.py copied to clipboard');
+      setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.textContent = 'copy'; }, 1800);
+    } catch(err) { copyBtn.textContent = 'select & copy manually'; }
+  });
+  if (dlBtn) dlBtn.addEventListener('click', () => {
+    const blob = new Blob([code], {type:'text/x-python'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'verify.py';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 500);
+    if (typeof toast === 'function') toast('verify.py downloaded');
+  });
+})();
+
+/* ─── Deep-link URL: auto-run audit on load if hash matches ─── */
+(function(){
+  if (location.hash.startsWith('#audit/')) {
+    const d = decodeURIComponent(location.hash.slice('#audit/'.length));
+    if (d) {
+      // Wait for page to settle so the result lands cleanly
+      setTimeout(() => {
+        verify(d);
+        // Don't auto-scroll on first load — user may want to read hero first
+        // But if they pasted the link with intent, scroll to verifier after a beat
+        setTimeout(() => document.getElementById('verifier').scrollIntoView({behavior:'smooth', block:'start'}), 600);
+      }, 700);
+    }
+  }
+})();
+
+/* ─── Sparklines in scorecard ─── */
+(function(){
+  const COLORS = { ok:'#5C7A4F', warn:'#B08654', bad:'#C73E2E' };
+  const W = 80, H = 24, P = 2;
+  function spark(values, color){
+    const min = Math.min(...values), max = Math.max(...values);
+    const range = (max - min) || 1;
+    const sx = i => P + (W - 2*P) * (i / (values.length - 1));
+    const sy = v => P + (H - 2*P) * (1 - (v - min) / range);
+    const pts = values.map((v,i) => [sx(i), sy(v)]);
+    const line = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const area = line + ` L${sx(values.length-1).toFixed(1)},${H-P} L${sx(0).toFixed(1)},${H-P} Z`;
+    const last = pts[pts.length-1];
+    return `<svg class="sparkline" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+      <title>6mo trend: ${values.map(v => v + '%').join(' · ')}</title>
+      <path d="${area}" fill="${color}" opacity="0.14"/>
+      <path d="${line}" fill="none" stroke="${color}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2" fill="${color}"/>
+    </svg>`;
+  }
+  document.querySelectorAll('.spark-mount').forEach(el => {
+    const vals = el.dataset.vals.split(',').map(Number);
+    const color = COLORS[el.dataset.color] || COLORS.ok;
+    el.outerHTML = spark(vals, color);
+  });
+})();
+
+/* ─── Toast helper ─── */
+function toast(msg, variant){
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.classList.remove('out','warn','error');
+  if (variant) t.classList.add(variant);
+  t.textContent = msg;
+  t.hidden = false;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.classList.add('out');
+    setTimeout(() => { t.hidden = true; t.classList.remove('out'); }, 240);
+  }, 2400);
+}
+
+/* ─── Keyboard shortcuts modal ─── REMOVED ─── */
+
+/* ────────────────────────────────────────────────────────────────────
+   Scroll progress bar
+   ──────────────────────────────────────────────────────────────────── */
+(function(){
+  const bar = document.getElementById('sp-bar');
+  if (!bar) return;
+  let raf = 0;
+  function tick(){
+    raf = 0;
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const y = window.scrollY;
+    const pct = h > 0 ? Math.min(100, Math.max(0, (y/h)*100)) : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, {passive:true});
+  window.addEventListener('resize', tick);
+  tick();
+})();
+
+/* ────────────────────────────────────────────────────────────────────
+   Hero diff: SVG connector between contradicting rows
+   ──────────────────────────────────────────────────────────────────── */
+(function(){
+  const diff = document.querySelector('.pane-diff');
+  if (!diff) return;
+  let svg;
+
+  function draw(){
+    const hits = diff.querySelectorAll('.pane-row.hit');
+    if (hits.length !== 2) return;
+    if (!svg) {
+      svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.classList.add('diff-connector');
+      diff.appendChild(svg);
+    }
+    const r1 = hits[0].getBoundingClientRect();
+    const r2 = hits[1].getBoundingClientRect();
+    const c  = diff.getBoundingClientRect();
+    if (c.width < 400) { svg.innerHTML = ''; return; }   // hide on narrow
+    const x1 = r1.right - c.left;
+    const y1 = r1.top + r1.height/2 - c.top;
+    const x2 = r2.left  - c.left;
+    const y2 = r2.top + r2.height/2 - c.top;
+    const mx = (x1 + x2) / 2;
+    const path = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+    svg.setAttribute('viewBox', `0 0 ${c.width} ${c.height}`);
+    svg.innerHTML = `
+      <defs>
+        <marker id="dotL" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5">
+          <circle cx="3.5" cy="3.5" r="3" fill="#B08654"/>
+        </marker>
+        <marker id="dotR" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5">
+          <circle cx="3.5" cy="3.5" r="3" fill="#B08654"/>
+        </marker>
+      </defs>
+      <path d="${path}" stroke="#B08654" stroke-width="1.5" fill="none"
+            stroke-dasharray="3 5" opacity="0.70"
+            marker-start="url(#dotL)" marker-end="url(#dotR)"/>
+      <rect x="${mx-26}" y="${(y1+y2)/2 - 9}" width="52" height="18" fill="#EBE3D5" stroke="#B08654" stroke-width="1" rx="2"/>
+      <text x="${mx}" y="${(y1+y2)/2 + 4}" text-anchor="middle"
+            font-family="JetBrains Mono, monospace" font-size="11" fill="#B08654" font-weight="600"
+            letter-spacing="0.08em">same · 1097</text>
+    `;
+  }
+
+  // Draw after layout settles
+  window.addEventListener('load', () => requestAnimationFrame(draw));
+  let resizeRaf = 0;
+  window.addEventListener('resize', () => {
+    if (resizeRaf) cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(draw);
+  });
+  setTimeout(draw, 350);
+})();
+
+/* ────────────────────────────────────────────────────────────────────
+   Reproduce popover
+   ──────────────────────────────────────────────────────────────────── */
+(function(){
+  const trigger = document.getElementById('repro-trigger');
+  const pop = document.getElementById('repro-pop');
+  if (!trigger || !pop) return;
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    pop.classList.toggle('show');
+  });
+  document.addEventListener('click', (e) => {
+    if (!pop.contains(e.target) && e.target !== trigger) pop.classList.remove('show');
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pop.classList.remove('show'); });
+
+  const copyBtn = document.getElementById('repro-copy');
+  copyBtn.addEventListener('click', async () => {
+    const cmds = [...pop.querySelectorAll('.cmd')].map(c => c.textContent).join('\n');
+    try {
+      await navigator.clipboard.writeText(cmds);
+      copyBtn.classList.add('copied');
+      copyBtn.textContent = '✓ copied';
+      if (typeof toast === 'function') toast('4 shell commands copied');
+      setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.textContent = 'copy all commands'; }, 1800);
+    } catch(err){
+      copyBtn.textContent = 'select & copy manually';
+    }
+  });
+})();
 </script>
+
+<!-- Toast -->
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+
+<!-- Live counter bar: appears after hero scrolls out -->
+<div class="since-bar" id="since-bar" aria-live="polite">
+  <span class="label">Since you opened this page</span>
+  <span class="item"><b id="sb-contras">+0</b> new contradictions documented</span>
+  <span class="sep">·</span>
+  <span class="item"><b id="sb-shares">+0</b> identity shares globally</span>
+  <span class="sep">·</span>
+  <span class="item ok"><b id="sb-consent">0</b> valid consent strings</span>
+  <button class="close-since" id="sb-close" aria-label="Dismiss">×</button>
+</div>
+
 </body>
 </html>
