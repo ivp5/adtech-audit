@@ -1481,3 +1481,102 @@ The trail has reached named-operator level on TWO orthogonal mechanisms (wrapper
 
 DNS + WHOIS on 19 sites = ~10 seconds. The IP shared-hosting clustering is a FASTER signal than MANAGERDOMAIN clustering when publishers don't declare. Pattern: when declarative-layer clues are absent, hosting-layer clustering frequently locates the operator.
 
+
+
+### E-2026-05-22-w: Trail terminus — U0 is multi-source, not single-source (cycle 477)
+
+Three final forks pursued. The trail terminates: U0 propagation has NO single common upstream — it propagates through a distributed multi-vendor ecosystem.
+
+#### Fork 1: tag_ids are SSP-brand fingerprints
+
+Each top phantom tag_id maps to one SSP family with high concentration:
+
+| tag_id | n_rows | phantom % | SSP family |
+|---|---:|---:|---|
+| 7842df1d2fe2db34 | 379,344 | 100.0% | SpotX (Magnite-acquired) |
+| 50b1c356f2c5c8fc | 588,940 | 63.2% | IndexExchange |
+| **e1a5b5b6e3255540** | **339,675** | **84.1%** | **Yahoo family** (yahoo + advertising.com + aol.com + adtech + aolcloud + adaptv + verizonmedia) |
+| 89ff185a4c4e857c | 434,272 | 61.5% | ContextWeb / Unruly |
+| a670c89d4a324e47 | 316,830 | 52.1% | RhythmOne (dead 2019) |
+| c228e6794e811952 | 256,910 | 63.0% | Taboola |
+| 9fac4a4a87c2a44f | 169,251 | 91.4% | Criteo family (+ 7 typosquats) |
+| 1e1d41537f7cad7f | 179,529 | 64.6% | EMX / Cadent |
+| 3fd707be9c4527c3 | 76,664 | 100% | DistrictM (dead) |
+| 1ad675c9de6b5176 | 36,096 | 99.8% | AdColony (dead) |
+
+#### Fork 2: typosquats reuse REAL SSP tag_ids
+
+Criteo's tag_id 9fac4a4a87c2a44f appears across:
+- criteo.com (real): 150,795 rows
+- themediagrid.com (Criteo's acquired brand): 18,397 rows
+- commercegrid.com (Criteo's Commerce Grid product): 13 rows
+- **cryteo.com, riteo.com, hemediagrid.com, crieo.com, creteo.com, 1themediagrid.com, 11criteo.com, betweendigital.com** — typosquats with 0 in registry, using Criteo's real tag_id paired with fake seller_ids
+
+The typosquat-injectors copy the real SSP's tag_id (from header-bidding library references) but pair it with fabricated seller_ids on the typo domain.
+
+#### Fork 3: 152media.info — common opening block across U0 clusters
+
+Both 1flix.to (piracy cluster) and jin115.com (matome cluster) START their ads.txt with the SAME 152media.info block at line 1-9. 152media.info OSINT:
+- Contact: `info@152media.com`
+- Address: `5724 Highway 280 East, Birmingham, AL` (USA, Alabama)
+- 1,115 sellers in their roster
+
+Real Alabama-based ad-tech. Their template appears at the head of identical-file clusters from both wrapper-managed (piracy/themoneytizer) and shared-hosted (matome/LINE Corp) sites.
+
+#### Fork 4: 50+ named wrapper-managers in the ecosystem
+
+The wrapper-management landscape is highly fragmented:
+
+```
+cafemedia.com (Raptive)    1,846 pubs    [CLEAN 2.6% own-ssp phantom]
+mediavine.com              1,480 pubs    [CLEAN 4.0%]
+themoneytizer.com          1,011 pubs    [HEAVY 58.8%]
+freestar.com                 960 pubs    [CLEAN-ISH 7.8%]
+ezoic.ai                     893 pubs    [MID 14.4%]
+publift.com                  616 pubs    [OWN-SSP CLEAN 0.3%]
+anymanager.io                425 pubs    [HEAVY 25.1% + 100% adasiaholdings]
+playwire.com                 393 pubs
+adpushup.com                 372 pubs    [HEAVY 29.6%]
+refinery89.com               367 pubs    [HEAVY 19.3%]
+bidmachine.io                314 pubs
+bloxdigital.com              300 pubs
+pubfuture.com                249 pubs    [HEAVY 11.1%]
+... + 38 more managers with 50-230 clients each
+```
+
+#### Fork 5: hosting concentration is the exception
+
+Of 194 sampled U0 carriers (from 1,358 total):
+- Only 4 IPs host ≥2 publishers
+- IP 147.92.146.242 (LINE Corp / LY Corp): 6 publishers (largest cluster)
+- 3 other IPs at 2 publishers each (OVH France, Cloudflare, DigitalOcean)
+
+The LINE Corp shared-hosting cluster is the only major shared-hosting cluster. Most U0 propagation is via wrapper-delegation, not shared hosting.
+
+#### The structural conclusion
+
+**U0 propagation is MULTI-SOURCE, not single-source.** The same phantom seller_ids reach publishers through:
+1. **IAB §5.9 MANAGERDOMAIN delegation** to 50+ named wrapper-managers
+2. **Shared hosting infrastructure** (rare; LINE Corp's IP)
+3. **Tag_id reuse with fabricated seller_ids** on typosquatted SSP domains
+4. **A common opening block from 152media.info** across cluster mechanisms
+
+Multiple corporate parents independently maintain templates containing the same phantom IDs:
+- **USA**: 152media.info, CafeMedia, Mediavine
+- **France**: themoneytizer.com
+- **Singapore**: AnyMindGroup / anymanager.io
+- **Japan**: LY Corp / LINE Corp / fourm.jp
+- **Plus 50+ smaller named operators**
+
+The clean wrappers (CafeMedia 2.6% own-ssp phantom on 1,808 clients) prove operators CAN choose not to ship phantoms. The phantom-heavy wrappers (themoneytizer 58.8%, anymanager 25.1%) prove operators DO ship them at scale. **The framework's failure is operator-side, not protocol-side.**
+
+The phantom rate is operator-choice. The IAB spec works as designed (publishers delegate → managers publish templates). The structural issue is that some managers ship templates with seller_ids that don't validate, and there is no in-protocol enforcement to detect this.
+
+#### Remaining untrodden forks
+
+- Wayback Machine emergence dating (would require many fetches; trail already at named operators)
+- Per-typosquat WHOIS / registrar tracking (pattern established)
+- Primary-source contact with named operators (requires explicit user authorization)
+
+The empirical case is complete. The phantom rate is operator-choice, distributed across 50+ named entities, propagated via multiple mechanisms, with both clean and phantom-heavy operators co-existing in the same market. The simplest framing: **operator integrity varies; the framework needs in-protocol enforcement, not new operators**.
+
