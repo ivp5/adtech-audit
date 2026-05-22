@@ -1935,3 +1935,117 @@ The protocol surfaces credential propagation as an anomaly. Is it a SPEC violati
 
 This dichotomy is the cycle 482 trail-end. Going deeper requires DSP-side data (which bidders accept INTERMEDIARY declarations from downstream-publishers vs require direct accounts) — outside the current ads.txt × sellers.json corpus.
 
+
+
+### E-2026-05-23-b: Seedtag impersonation — 10,624 publishers carry credentials registered to premium global brands (cycle 483)
+
+After cycle 482's Google-INTERMEDIARY credential propagation finding, cycle 483 drills into the impersonation_undisclosed verdict for Seedtag — the #1 most-impersonated reg_domain (65,288 events, 10,624 publishers, 10 distinct Seedtag seller_ids).
+
+But "10 distinct seller_ids" was the cycle-478 aggregate. Drilling per-seller_id shows **400+ distinct Seedtag credentials are being impersonated**, each claimed by 1-785 different publishers.
+
+#### The top-30 impersonated Seedtag credentials
+
+The seller_ids actually belong to:
+
+| # impersonators | reg_domain (real owner per Seedtag's sellers.json) |
+|---:|---|
+| 785 | themoneytizer.com (wrapper service, cycle 471-477) |
+| 711 | xapads.com (ad-tech) |
+| 582 | pubstack.io (header bidding vendor) |
+| 490 | 360playvid.com (video ad-tech) |
+| 410 | adipolo.com (cycle 481 cluster) |
+| 401 | 152media.info |
+| **386** | **sky.com** (UK Sky / Comcast) |
+| 369 | adapex.io |
+| 310 | optad360.com (wrapper) |
+| 215 | yieldlove.com |
+| **177** | **automattic.com** (WordPress.com / Tumblr / WooCommerce) |
+| 161-154 (multiple IDs) | refinery89.com |
+| **159** | **usatoday.com** (Gannett) |
+| 157 | improvedigital.com (Magnite) |
+| 153 | revistaforum.com.br (Brazilian Forum magazine) |
+| 133 | embi-media.com |
+| 119 | minutemedia.com |
+| 115 | insticator.com (wrapper) |
+| 114 | adpushup.com (wrapper) |
+| 104 | vuukle.com |
+| **46** | **uol.com.br** (Universo Online — major Brazilian portal) |
+| **34** | **sapo.pt** (major Portuguese portal) |
+| 88 | venatus.com (gaming ad-tech) |
+| 72 | massarius.com |
+| 60 | pubpower.io |
+| 56 | webads.nl |
+| 53 | audienzz.com (Swiss ad-tech) |
+| 50 | yieldbird.com (Polish ad-tech) |
+
+Plus many premium brands at <50 impersonators each: **NY Post (14), Condé Nast (7), Globo (7), Warner Bros Discovery (1), Tubi (1), Flickr (1), AutoTrader Canada, IPMGroup (Belgium), Mediahuis (Belgium), Lagardère (France), El Tiempo (Colombia), Time Out (Spain), El Universal (Mexico), Webedia, R7 / RecordTV (Brazil), Independent (UK), Epoch Times, PMC (Penske Media Corp), CNN Brasil, Naciodigital (Catalonia), Vocento (Spain), Mediaset Spain**, etc.
+
+#### Why this matters
+
+The IAB ads.txt × Seedtag sellers.json reciprocity check identifies each as a SEPARATE flag because each seller_id is registered to a different premium brand. The impersonators don't realize they're carrying credentials that registries link to *Sky*, *USA Today*, *WordPress.com*, etc. They ship a template (from themoneytizer, adpushup, pubstack, etc.) without auditing which seller_ids it contains.
+
+The wrapper services likely never INTENDED their templates to encode "impersonate USA Today" — they're propagating whatever credentials they harvested from upstream demand sources. The mechanism is structural, not intentional. But the PROTOCOL CONSEQUENCE is that 10,624 publishers' ads.txt files declare relationships with Seedtag using credentials registered to USA Today, Sky, Automattic, etc.
+
+#### Why the wrapper services have these credentials at all
+
+Seedtag's INTERMEDIARY-type credentials (BOTH/INTERMEDIARY rows in their sellers.json) are issued to wrappers that syndicate Seedtag demand. A wrapper that has authority to serve Seedtag ads on behalf of WordPress.com gets a seller_id at Seedtag. When that wrapper builds a template for OTHER publishers, the template includes the WordPress.com credential. Downstream publishers carry it.
+
+This is the **identity-laundering structural risk** of wrapper services:
+- Wrapper W gets credentials from Premium Brand P at SSP S
+- W syndicates P's inventory through its template
+- W also ships the template to non-P publishers (intentionally or by template-default)
+- Non-P publishers' ads.txt declares S's credential
+- S's sellers.json says the credential belongs to P
+- The protocol flags non-P publishers as impersonating P
+
+#### Cross-reference with cycle 478-481 cohorts
+
+Top impersonating publishers of Seedtag credentials include the cohorts identified in cycles 478-481:
+- Ayo Indonesia brand sites (jatimnetwork, harianhaluan, dikasihinfo, etc.)
+- Stoic Media (g1000000.com, mgeko.cc)
+- piracy networks (dramacool.sh, mangapicgallery)
+- Greynium IT brands (oneindia, nativeplanet, mykhel)
+- Jamaica Observer (newsmemory.com)
+- Trans Media (sport.detik.com)
+- Russian collector publishers (life.ru claims 12 different Russian publisher reg_domains)
+
+These cohorts don't curate which credentials enter their wrapper-shipped ads.txt. They ship templates AND inherit the credential-attribution problem.
+
+#### Top-15 most-impersonated reg_domains across ALL impersonation_undisclosed
+
+(not just Seedtag — full corpus)
+
+| reg_domain | events | n_impersonators | n_distinct_sids |
+|---|---:|---:|---:|
+| seedtag.com | 65,288 | 10,624 | 10 (cycle 478 aggregate; 400+ sub-IDs in detail) |
+| sunmedia.tv | 28,944 | 6,960 | 8 |
+| pixfuture.com | 21,545 | 2,571 | 22 |
+| adpone.com | 17,374 | 6,669 | 7 |
+| insticator.com | 16,229 | 6,392 | 12 |
+| smaato.com | 13,686 | 10,063 | 1 |
+| richaudience.com | 13,155 | 7,902 | 6 |
+| **wp.pl** (Poland's biggest portal) | 12,382 | 2,020 | 13 |
+| nobid.io | 11,484 | 6,493 | 6 |
+| **wpartner.pl** (WP.pl programmatic arm) | 11,353 | 2,117 | 6 |
+| nextmillennium.io | 11,112 | 4,609 | 15 |
+| ops.co | 11,026 | 3,137 | 21 |
+| hcodemedia.com | 9,795 | 3,129 | 22 |
+| vdo.ai | 9,683 | 2,547 | 13 |
+| **minutemedia.com** | 8,463 | 457 | 67 |
+
+The MinuteMedia entry is structurally different: only 457 impersonators but 67 distinct seller_ids per impersonator — bulk credential acquisition, not template propagation. Different mechanism.
+
+#### The verdict-class taxonomy resolved
+
+After cycles 478, 482, 483, the full picture:
+
+| Verdict | Events | What it means |
+|---|---:|---|
+| verified_phantom | 1,986,103 | seller_id has no registry entry, or registry has NULL domain (confidential) |
+| impersonation_undisclosed | 1,537,605 | seller_id is registered but to a different publisher (premium brands targeted) |
+| contradicted_type | 1,621,145 | seller_id is registered with type that conflicts with declared rel (often INTERMEDIARY claimed as DIRECT — cycle 482's Google-INTERMEDIARY pattern is the dominant subset, ~997K of 1,621K) |
+
+Combined: **5,144,853 structural anomalies** out of 28.77M ads.txt rows (17.9% of all rows; 33.83% of DIRECT-only rows when counted appropriately).
+
+The three mechanisms are different, but the COHORT of impersonating publishers is largely the same — the cycle 478-481 named operators (Ayo Indonesia, Stoic Media, Jamaica Observer, etc.) appear in all three verdict classes simultaneously.
+
