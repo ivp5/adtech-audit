@@ -767,3 +767,40 @@ Lead with the two-vantage framing:
 2. **4.18% of observed bidder calls go to undeclared SSPs** (observed-side — what transactions look like at strict IAB-spec)
 3. **The ~26pp gap is the compliance-theater pool** — paperwork that never transacts
 4. **Pixalate independently measures ~13% (Q1 2025) using related-but-not-identical methodology** — external corroboration of the phenomenon's existence at industry scale
+
+
+### E-2026-05-22-k: The two phantom modes are nearly independent (Pearson r=0.15)
+
+Densifying cycle 464's two-vantage decomposition: cross-correlated the declarative-side rate vs observed-side rate **per publisher** across the 66 X-Ray-observed pubs in corpus.
+
+**Pearson r(declarative_phantom_rate, observed_unauthorized_rate) = 0.1546.**
+
+The two metrics measure nearly-independent failure modes. A publisher's ads.txt being dirty does NOT predict their auction being dirty.
+
+Top "paperwork-heavy, operationally-clean" publishers (high declarative phantom, ZERO observed unauthorized):
+
+| pub | declarative phantom | observed unauth |
+|---|---:|---:|
+| sozcu.com.tr | 53.7% (512/954) | 0% (0/1) |
+| goodreturns.in | 45.8% (1,123/2,451) | 0% (0/6) |
+| moppy.jp | 40.5% (30/74) | 0% (0/2) |
+| kompas.com | 34.6% (605/1,748) | 0% (0/9) |
+| **Condé Nast cluster** (vogue, wired, arstechnica, bonappetit, epicurious) | ~22.2-23.4% each | 0% each |
+
+The Condé Nast cluster shows identical declarative phantom rate (22.2-23.4%) with ZERO observed unauthorized — strong signature of a shared ads.txt template managed at parent-company level with phantom entries from inherited wrappers, alongside clean Prebid configs at individual properties.
+
+### What this densifies in the framing
+
+The framework leaks along **two largely-separate axes**, not one:
+
+1. **Maintenance leak (33.83% declarative)** — publisher ads.txt files contain phantom entries (stale, templated, never-transacted). Discovery-side noise; buyers using ads.txt to find authorized partners see ~33% misdirection.
+
+2. **Operational leak (4.18% observed at IAB-strict)** — publisher Prebid configs call SSPs not declared in ads.txt. Validation-side rule-breaking; buyers cross-checking observed bids against ads.txt see ~4% spec-violations.
+
+Pearson r=0.15 means these are nearly disjoint cohorts. A publisher with a 30% maintenance leak is no more likely to have an operational leak than a clean publisher.
+
+**Remediation implication:** the two leaks need different fixes:
+- Maintenance leak → automated ads.txt hygiene (sellers.json cross-check, expired-entry pruning, template validation at publish time)
+- Operational leak → Prebid wrapper enforcement requiring ads.txt presence before activating a bidder
+
+Pixalate's 13% probably catches a methodology-specific weighting between these two; the 33% / 4% / r=0.15 decomposition is denser than any single rate.
