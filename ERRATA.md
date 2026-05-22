@@ -1788,3 +1788,76 @@ The empirical case is reproducible from cached corpus + public DNS + WHOIS + sel
 
 In-memory hash JOIN of publisher_directives + OWNERDOMAIN attribution: ~10s. SQL JOIN attempts on normalized domain columns ran 5+ min and were abandoned. **~300× faster** through pre-loaded Python dict lookups.
 
+
+
+### E-2026-05-22-z: Stoic Media + Jamaica Observer + other-cohort operators (cycle 481)
+
+Continuing deeper after cycle 479's Ayo Indonesia chain — the non-Indonesian top impersonators trace to additional named operator clusters.
+
+#### stoicmedia.com — the SHARED OPERATOR across both g1000000.com and mgeko.cc
+
+Two distinct top impersonators independently declare OWNERDOMAIN=stoicmedia.com:
+- **g1000000.com** (gaming): OWNERDOMAINs = stoicmedia.com + snack-media.com + amznusa.com + g1000000.com
+- **mgeko.cc** (manga reading): OWNERDOMAINs = colonist.io + mgeko.cc + stoicmedia.com
+
+**Stoic Media** is therefore named as a parent operator across multiple impersonator brands. Both sites chain themoneytizer.com as one MANAGERDOMAIN. mgeko.cc also chains luponmedia.com + pubfuture.com + pubrev.io + yieldmonk.com — a different wrapper coalition than Ayo Indonesia's chain.
+
+#### Jamaica Observer — newsmemory.com
+
+**newsmemory.com** declares **OWNERDOMAIN=jamaicaobserver.com** (Jamaica Observer, established 1993, major Caribbean newspaper) — operating via wrapper **MANAGERDOMAIN=adpushup.com**. 1,234 impersonation events across 303 distinct target reg_domains.
+
+A major Jamaican newspaper is in the impersonator-top-15 via the adpushup wrapper service.
+
+#### Detik.com (sport.detik.com)
+
+**sport.detik.com** declares OWNERDOMAIN=detik.com. Detik.com is the dominant Indonesian online news site (Trans Media's flagship digital property). They use MANAGERDOMAIN=themoneytizer.com + dev2pub.com. 1,316 impersonation events.
+
+#### colonist.io (with mgeko.cc)
+
+mgeko.cc declares colonist.io as one of its OWNERDOMAINs. Colonist.io is a Settlers-of-Catan-style online board game. The cross-OWNERDOMAIN (manga + games + Stoic Media) suggests a portfolio operator running thematically-disparate properties under the Stoic Media holding.
+
+#### adipolo.com — both impersonation target AND chained operator
+
+adipolo.com OSINT:
+- Cloudflare-protected (IP 172.67.151.150)
+- 727 sellers in their sellers.json
+- Contact: amir@adipolo.com
+- 10,168 publishers list adipolo.com as SSP
+- 21 publishers declare MANAGERDOMAIN=adipolo.com
+- 7 publishers declare INVENTORYPARTNERDOMAIN=adipolo.com
+
+adipolo.com appears as:
+- An SSP (10,168 pubs list it)
+- A wrapper-manager (21 pubs delegate to it)
+- An inventory partner (7 pubs)
+- An impersonation TARGET (cycle 478 life.ru example)
+
+Triple-role: SSP + wrapper-manager + impersonation target. The same domain plays multiple positions in different publishers' ads.txt structures.
+
+#### Operator-cluster taxonomy
+
+The top 20 impersonators now trace to several distinct named-operator clusters:
+
+| Operator cluster | Top brands | Country/HQ |
+|---|---|---|
+| **Ayo Indonesia** | jatimnetwork, harianhaluan, dikasihinfo, ayobandung, urbanjabar, koranmemo, metropolitan.id, +6 more (13 total) | Indonesia |
+| **Stoic Media** | g1000000.com, mgeko.cc (+ snack-media-related amznusa.com) | unknown HQ (US?) |
+| **Jamaica Observer** | newsmemory.com | Jamaica |
+| **Trans Media (Detik)** | sport.detik.com | Indonesia |
+| **dramacool.sh / piracy** | dramacool.sh and related (themoneytizer-managed) | piracy networks |
+| **Mangapicgallery** | iweb_2/iweb_4/pic1/pic3.mangapicgallery.com + mangago.zone/.me | piracy |
+| **Native Planet / mykhel** | nativeplanet.com, mykhel.com (Greynium Information Technology, India) | India |
+
+The impersonation activity spans multiple national publisher cohorts (Indonesia / Jamaica / Caribbean / India / piracy / US-portfolio) chained through different wrapper coalitions, but all converging on the same pool of impersonation TARGETS (Seedtag, SunMedia, Pixfuture, etc.).
+
+#### Where the trail stops
+
+The empirical operator-level mapping is now substantial:
+- 13 named publisher brand clusters under 5+ identified parent operators
+- 6+ wrapper coalitions spanning 6+ countries
+- The impersonation targets (Seedtag, SunMedia, etc.) are concentrated on 12-15 named ad-tech vendors
+- ~12-20% of all DIRECT claims (1.54M of 6.56M) are pre-classified impersonations
+- The IAB ads.txt framework supports both clean operation at scale (CafeMedia 2.6%, Mediavine 4.0%) AND concentrated impersonation operation at scale (Ayo Indonesia chain at ~12K events)
+
+Operator integrity is the differentiator. The protocol-level structure permits both. Every entity in the trail has a public address, sellers.json, and IAB-spec declarations.
+
