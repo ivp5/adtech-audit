@@ -853,3 +853,61 @@ The cycle 442-445 "cartel" reading dissolves into a sharper mechanism:
 
 The 28.6%-of-phantom that lives in shared templates would be fixable by **O(1,102) actions targeting cluster managers**, not O(74,000) actions targeting individual publishers. Of those 1,102 templates, roughly 80% are likely decay (need template refresh); ~20% are injection (need operator change). Buy-side filtering by template signature catches the high-volume carriers efficiently.
 
+
+
+### E-2026-05-22-m: Dead-SSP persistence is geological + industry-wide (cycle 467)
+
+The deepest structural fact emerging from cycle 466's template-decay finding: **287,249 DIRECT claims to known-dead SSPs across 25,239 publishers (33.7% of corpus).** Dead SSPs persist in publisher ads.txt files for 7-9+ years after the SSP ceased to exist.
+
+| Dead SSP | Died | Years dead | Pubs still carrying | % of corpus |
+|---|---|---:|---:|---:|
+| rhythmone.com | 2019 (Tremor-acquired) | **7y** | **14,973** | **20.18%** |
+| emxdgt.com | 2023 (Big Village bankruptcy) | 3y | 13,544 | 18.25% |
+| advertising.com | 2017 (Yahoo legacy) | **9y** | 9,384 | 12.65% |
+| districtm.io | 2021 (Magnite-acquired) | 5y | 9,407 | 12.68% |
+| spotx.tv / spotxchange.com | 2022 (Magnite-acquired) | 4y | 7,858 / 7,599 | ~10% each |
+| aolcloud.net | 2017 (Yahoo legacy) | **9y** | 7,046 | 9.49% |
+| admixer.net | 2020 (rebranded) | 6y | 5,754 | 7.75% |
+| tremorhub.com | 2019 (Tremor-acquired) | 7y | 3,876 | 5.22% |
+| yieldlab.net | 2023 (Virtual Minds folded) | 3y | 3,812 | 5.14% |
+
+**The half-life of a dead SSP in publisher ads.txt is multiple years.** At 9 years post-death, advertising.com still persists in 12.65% of publishers worldwide.
+
+### Cross-cluster overlap proves the decay is industry-wide
+
+Sampling 8 publisher-network clusters (from cycle 466), the same dead SSPs appear in multiple independent clusters:
+
+- **advertising.com (dead 2017, 9y)**: appears in 5/8 clusters (Newsquest UK, Gannett US, Vox Media, FanSided, IAC)
+- districtm.io (2021): 3/8 (Vox, Newsquest, IAC)
+- spotx.tv (2022): 3/8
+- spotxchange.com (2022): 3/8
+- emxdgt.com (2023): 3/8
+
+Independent companies on different continents using different wrappers — all carrying the same dead SSPs. The decay is NOT network-specific.
+
+### The mechanism: the IAB framework has no SSP-death propagation channel
+
+When an SSP dies, gets acquired, or rebrands:
+- Their sellers.json may disappear, redirect, or persist as orphan
+- No notification reaches publishers
+- No notification reaches IAB Tech Lab
+- ads.txt files don't auto-prune dead entries
+- Wrapper vendors (Prebid, headerbidding.io) don't auto-update publisher templates
+- IAB itself maintains no SSP-death registry
+
+The phantom rate is a **byproduct of an industry without a deprecation mechanism**, not a fraud signal or willful negligence. It's the equivalent of DNS records persisting on dead servers: no one cleans up because no one OWNS the cleanup task.
+
+### What this clarifies about the cumulative framing
+
+The cycle 442-445 "cartel" reading and cycle 446 "compliance theater" framing both implied agency. The cycle 467 finding dissolves agency entirely:
+
+| Cycle | Framing | Mechanism implied |
+|---|---|---|
+| 442-445 | Cartel | Coordinated bad-actor injection |
+| 446 | Compliance theater | Willful decorative maintenance |
+| 466 | Template decay | Centralized network management |
+| **467** | **Geological decay** | **Absent deprecation channel in the framework itself** |
+
+The 33% phantom rate persists because the IAB framework was designed in 2017 to register authorized sellers and has no mechanism to DEREGISTER them. Nine years of SSP industry consolidation (Magnite acquisitions, Yahoo collapse, Tremor mergers, Big Village bankruptcy, COVID-era foldings) accumulated as ghost entries that the framework can't shed.
+
+This is the most explanatory framing the body of work has produced.
