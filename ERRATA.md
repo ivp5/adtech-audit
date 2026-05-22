@@ -2274,3 +2274,104 @@ The pattern is not concealed. The structural anomaly is real per IAB strict spec
 
 Does ANY major publisher cohort use INVENTORYPARTNERDOMAIN at scale? If adoption is genuinely zero, the "pool syndication impersonation" reframe is the only way to reconcile the 1.54M flag rate with the structural reality. If adoption exists somewhere, the spec is being honored selectively — and the question becomes why some cohorts adopt and others don't.
 
+
+
+### E-2026-05-23-e: IAB v1.1 directive adoption — pool-disclosure spec exists, partially adopted (cycle 486)
+
+After cycle 485's pool-syndication reframe, tested the open question: does ANY major publisher cohort use INVENTORYPARTNERDOMAIN at scale? The publisher_directives table answers it.
+
+#### Industry-wide adoption of IAB v1.1 directives
+
+| Directive | Total rows | Distinct publishers | % of 76,426 pubs |
+|---|---:|---:|---:|
+| OWNERDOMAIN | 24,720 | 23,999 | 31.4% |
+| MANAGERDOMAIN | 20,419 | 17,942 | 23.5% |
+| INVENTORYPARTNERDOMAIN | 12,555 | 3,953 | **5.2%** |
+
+OWNERDOMAIN (ownership disclosure) at 31% adoption.
+MANAGERDOMAIN (wrapper-manager disclosure) at 24%.
+**INVENTORYPARTNERDOMAIN (pool-partner disclosure) at just 5.2%.**
+
+Even among publishers who disclose ownership, only ~16% disclose pool partners. The IAB 2022 v1.1 directives exist; adoption of the pool-disclosure piece specifically is lagging.
+
+#### Top INVENTORYPARTNERDOMAIN partners declared (where IPD IS used)
+
+| Partner | Declarations | Likely context |
+|---|---:|---|
+| tappx.com | 1,005 | mobile monetization |
+| thunder-monetize.com | 749 | monetization platform |
+| rhebus.works | 736 | wrapper |
+| admanmedia.com | 377 | ad-tech |
+| ctvbuyer.com | 343 | CTV |
+| **wurl.com** | 318 | **CTV (Roku-owned)** |
+| cnnnewsource.com | 313 | CNN syndication |
+| voisetech.com | 231 | voice/audio |
+| 9mediaonline.com | 147 | wrapper |
+| **gray.tv** | 143 | **CTV (Gray Television)** |
+| **roku.com** | 130 | **CTV** |
+| elementaltv.io | 126 | CTV |
+| **lgads.tv** | 121 | **CTV (LG Smart TV ads)** |
+| optidigital.com | 117 | wrapper |
+| **vizio.com** | 116 | **CTV (Vizio Smart TV)** |
+
+**Pattern: INVENTORYPARTNERDOMAIN adoption is concentrated in CTV** (Wurl, Gray TV, Roku, LG Ads, Vizio, ElementalTV, ctvbuyer) where pool-based syndication is structurally required. Display-web publishers mostly skip IPD even when they participate in pools.
+
+#### Ayo Indonesia's actual directive use
+
+Ayo sites are SPEC-COMPLIANT on ownership + manager disclosure:
+
+| Ayo site | OWNERDOMAIN | MANAGERDOMAINs | INVENTORYPARTNERDOMAIN |
+|---|---|---|---|
+| jatimnetwork.com | ayoindonesia.com + jatimnetwork.com | adpushup, anymanager.io, digiadglobal, hntgaming, props.id, rev.iq | (none) |
+| harianhaluan.com | ayoindonesia.com + harianhaluan.com | (same 6 managers) | (none) |
+| dikasihinfo.com | ayoindonesia.com + dikasihinfo.com | (same 6 managers) | (none) |
+| urbanjabar.com | ayoindonesia.com + urbanjabar.com | (same 6 managers) | (none) |
+| metropolitan.id | ayoindonesia.com + aboutmalang.com | (same 6 managers) | (none) |
+| **ayobandung.com** | **ayoindonesia.com** | **(same 6 managers)** | **9mediaonline.com** ← only Ayo site using IPD |
+
+All 14 top Ayo sites declare:
+- OWNERDOMAIN: ayoindonesia.com (the parent operator) + their own domain
+- MANAGERDOMAIN: 6 wrapper-managers (adpushup, anymanager.io, digiadglobal, hntgaming, props.id, rev.iq)
+
+But they do NOT declare INVENTORYPARTNERDOMAIN for the 838 OTHER props.id pool participants whose seller_ids appear in their ads.txt.
+
+#### The cycle 486 partial-compliance pattern
+
+Per IAB v1.1 §3.2: MANAGERDOMAIN authorizes a delegate to sell on the publisher's behalf using the publisher's own seller relationships. It does NOT authorize the publisher to declare OTHER publishers' seller relationships.
+
+Per IAB v1.1 §3.3: INVENTORYPARTNERDOMAIN allows declaring partners whose inventory the publisher syndicates / aggregates.
+
+Ayo Indonesia's ads.txt structure:
+- Declares OWNERDOMAIN + MANAGERDOMAIN → **spec-compliant** (§3.1, §3.2)
+- Declares 838 OTHER publishers' props.id seller_ids → **spec-non-compliant** (would require IPD entries per §3.3)
+- Has 1 IPD entry on ayobandung.com (9mediaonline.com) → partial IPD use
+
+So Ayo Indonesia adopted ~67% of IAB v1.1 (OWNER + MANAGER), skipped the piece (IPD) that would make their pool participation spec-compliant.
+
+#### The bigger structural answer
+
+The 1.54M impersonation_undisclosed events trace to:
+
+1. **Pool-syndication-but-no-IPD** (estimated majority): publisher participates in a wrapper-managed pool, declares the pool's seller_ids in ads.txt, but doesn't declare each pool member via INVENTORYPARTNERDOMAIN. IAB strict reading flags as impersonation; IAB v1.1 spec compliance would require declaring the pool partners.
+
+2. **True impersonation / squatting** (smaller subset): publishers using credentials they have no legitimate access to (no business relationship with the SSP, not part of an authorized pool).
+
+3. **Stale/inherited credentials** (medium subset): old wrapper templates carrying credentials from former pool partnerships or expired arrangements.
+
+The protocol cannot algorithmically distinguish these. The IAB v1.1 directives exist to enable the distinction (via IPD) — but adoption is 5% industry-wide.
+
+#### Cycle 486 closing position
+
+The audit's structural finding (5.14M anomalies, 33.83% phantom DIRECT rate) is REAL — the IAB protocol catches every reciprocity mismatch. The interpretation in plain English:
+
+> **The protocol is doing its job. Industry has built pool-based syndication using legacy mechanisms (DIRECT/RESELLER) that pre-date the 2022 introduction of pool-disclosure directives. The 5% IPD adoption means 95% of pool participation is mechanically flagged as impersonation, even when it's legitimately authorized via offline business relationships.**
+
+This is the spec-vs-practice gap, quantified. Not fraud at the 33.83% scale; not innocent either — somewhere in between, with the IAB protocol's own v1.1 update acknowledging the gap exists.
+
+The cleanest empirical demonstration remains Ayo Indonesia:
+- 14 verifiable props.id customers, each with their own seller_id
+- A unified 904-pair template (Jaccard ≥ 0.92) declaring 839 other publishers' credentials
+- Partial IAB v1.1 compliance (OWNER + MANAGER yes; IPD no)
+- The protocol fires 1,000+ impersonation flags per Ayo site, accurately, given the spec
+- A simple IAB v1.1 IPD declaration listing the 838 pool partners would resolve all flags
+
