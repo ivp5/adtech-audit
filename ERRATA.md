@@ -2375,3 +2375,65 @@ The cleanest empirical demonstration remains Ayo Indonesia:
 - The protocol fires 1,000+ impersonation flags per Ayo site, accurately, given the spec
 - A simple IAB v1.1 IPD declaration listing the 838 pool partners would resolve all flags
 
+
+
+### E-2026-05-23-f: IPD adoption doesn't fix the impersonation gap (cycle 488)
+
+Cycle 486 established that IAB v1.1 IPD (INVENTORYPARTNERDOMAIN, 2022) was the spec-level mechanism designed to disclose pool participation and resolve reciprocity violations like the Ayo Indonesia 904-pair template. Cycle 488 tests the natural follow-up: does IPD adoption actually fix the impersonation gap?
+
+#### Cohort comparison
+
+Phantom rates among publishers with ≥10 DIRECT claims:
+
+| Cohort | n_pubs | Mean phantom | Aggregate phantom |
+|---|---:|---:|---:|
+| IPD-adopter (any IPD declarations) | 2,747 | 26.08% | 33.46% |
+| no-IPD | 30,974 | 27.04% | 33.95% |
+| Heavy-IPD (≥10 IPD declarations) | 134 | 21.51% | 23.99% |
+
+The 0.5pp difference between general IPD-adopters and non-adopters is within noise. The 5.5pp gap between heavy-IPD and rest is real but small.
+
+#### The match analysis (the actual test)
+
+If IPD were being used as designed — to disclose the pool partners whose seller_ids appear in a publisher's ads.txt — then a publisher with phantom claims on SSPs X, Y, Z should have IPD declarations for partners that resolve to X, Y, Z.
+
+Test: among 12,720 publishers with ≥5 phantom claims, how many have ANY IPD declaration that resolves to one of the SSPs flagging them?
+
+**44 of 12,720 = 0.35%**
+
+#### Interpretation
+
+The mechanism designed to close the gap is **not used for that purpose at all**. The 5pp phantom-rate advantage among heavy-IPD publishers is a cohort-selection effect (mature operators with good ads.txt hygiene happen to also adopt IPD), not a causal effect of disclosure.
+
+#### What IPD IS being used for
+
+The top IPD-declared partners are CTV-centric (Wurl, Gray TV, Roku, LG Ads, Vizio) + a few wrapper services (Tappx, Thunder Monetize, Rhebus Works, AdmanMedia). Publishers adopting IPD are mostly:
+- CTV-tilt operators declaring CTV syndication partners
+- Premium publishers declaring legitimate inventory-partner relationships
+- A handful of display operators who picked up the directive
+
+What IPD is NOT being used for:
+- Disclosing the wrapper-template pool memberships (themoneytizer, AdPushup, Pubstack, OptAd360, Insticator) that drive the 1.54M impersonation events
+- Closing the protocol gap for the credential-propagation pattern documented cycles 482-486
+
+#### Structural conclusion (refining cycle 486)
+
+Cycle 486 said: "The spec exists; industry hasn't operationalized it for display." Cycle 488 sharpens this: **The spec exists; industry has adopted it selectively for CTV; the adoption that has happened does NOT address the display-side reciprocity gap.**
+
+The 1.54M impersonation_undisclosed events would NOT be measurably reduced by a 10× increase in IPD adoption unless that adoption specifically shifted to disclosing the wrapper-service pool memberships (Seedtag, themoneytizer, props.id, etc.) that publishers actually carry. Current adoption pattern is on a different ecosystem (CTV) than where the gap exists (display).
+
+#### Two independent ecosystems under one protocol
+
+| Aspect | CTV side | Display side |
+|---|---|---|
+| IPD adoption | meaningful (Wurl/Gray TV/Roku/LG Ads/Vizio) | near-zero |
+| Phantom rate | ~30% | ~25-35% |
+| Dominant operator pattern | direct syndication partnerships disclosed | wrapper-template credential propagation undisclosed |
+| Structural disclosure gap | substantially addressed via IPD | unaddressed |
+
+The IAB v1.1 spec works differently in two ecosystems sharing the same protocol surface. The 33.83% headline phantom rate is dominated by the display side where IPD has not been adopted as a remediation mechanism.
+
+The gap is not "IPD doesn't work" — IPD works on the CTV side where it's used as designed. The gap is that the display-side ecosystem has not adopted the disclosure pattern. Could be because: (a) wrapper services don't want to be named in publishers' ads.txt as pool partners, (b) publishers don't know which wrappers they're carrying credentials from, (c) IPD doesn't accommodate "this entire wrapper template" semantics — it expects per-partner declaration that publishers can't enumerate when the wrapper changes.
+
+Cycle 488 close: the disclosure-gap reframe (cycles 482-486) holds, but with the IPD-as-remedy interpretation refuted. The mechanism is functional in CTV; the display side has not used it; the impersonation events would persist even with 10× IPD adoption unless adoption shifted to address the credential-propagation pattern specifically.
+
