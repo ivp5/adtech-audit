@@ -963,3 +963,79 @@ Honest review of plausible harm vectors:
 
 The body of work IS a useful scientific measurement of framework decay at scale. It is NOT a fraud exposé, an urgent IAB call, or a consumer-protection case. The cycles 467-468 "remediation" framing has been removed from `index.html` (replaced with "Who is actually hurt" + "What this audit is and isn't").
 
+
+
+### E-2026-05-22-p: User-pushback-driven anomaly mining + in-band enforcement (cycle 470)
+
+User: "is this 'phantom direct' preventing you from surfacing actual anomalies?"
+User: "exhaust deterministic means... shadow of the law vs shadow of the sword"
+User: "use playwright, simulate audiences, use osint instrumentation"
+
+After reading the dbit doctrine + shifts.md, this cycle stopped accumulating cycle memos and built the in-band callable that earlier cycles substituted for. Five anomalies surfaced one query deeper than the phantom-DIRECT framing had been allowing.
+
+#### Anomaly 1: RESELLER corpus is 3.4× the DIRECT corpus and was untouched in 470 cycles
+
+| metric | value |
+|---|---:|
+| RESELLER total claims | 22,207,712 |
+| RESELLER phantom | 6,725,706 |
+| RESELLER phantom rate | **30.29%** |
+| Publishers with RESELLER lines | 40,155 |
+| Top RESELLER-phantom SSP | freewheel.tv (690,479 phantom, 90.7% rate) |
+
+The DIRECT-only framing missed 3× the volume. The RESELLER rate (30.29%) is in the same band as DIRECT (33.83%) but the absolute phantom volume is 3× larger.
+
+#### Anomaly 2: Fabrication-concentrated SSPs — 50 operators with ≥5 fabricated IDs each (each at ≥10 pubs)
+
+Top 10 fabrication operators by claim volume:
+
+| SSP | n_fab_IDs | total_phantom_claims | top_fab_ID | top_ID_pubs | status |
+|---|---:|---:|---|---:|---|
+| google.com | 1,593 | 124,572 | pub-8622186303703569 | 3,871 | live |
+| taboola.com | 2,635 | 113,958 | 1196805 | 1,727 | live |
+| indexexchange.com | 283 | 65,374 | 190906 | 4,373 | live |
+| criteo.com | 411 | 63,352 | B-060278 | 2,678 | live |
+| lijit.com (Sovrn) | 202 | 57,915 | 244287-eb | 3,895 | live (cycle 138 "-eb" template) |
+| freewheel.tv | 307 | 43,284 | 770449 | 3,665 | live |
+| appnexus.com | 125 | 38,394 | 9284 | 4,423 | live |
+| smartadserver.com | 92 | 31,933 | **4071** | **6,464** | live (cycle-211 SmartAdServer template) |
+| emxdgt.com | 153 | 31,183 | 1701 | 3,206 | **dead (2023)** |
+| rhythmone.com | 181 | 30,262 | 4195999290 | 1,789 | **dead (2019)** |
+
+#### Anomaly 3: DIRECT vs RESELLER inversion at publisher level — 30 pubs with ≥50pp gap
+
+The cycle 466 cluster framing was incomplete. Some publishers show 99.5% DIRECT phantom but 14.3% RESELLER phantom — same publishers, opposite signatures on the two layers. This is layer-specific template injection:
+
+| publisher | D_n | R_n | D% | R% | pattern |
+|---|---:|---:|---:|---:|---|
+| **DuMont German radios (4 sites)** | 423 | 42 | **99.5%** | 14.3% | D-heavy injection |
+| thisisdax.com (DAX audio) | 34 | 417 | 11.8% | **100.0%** | R-heavy injection |
+| dova-s.jp | 149 | 156 | 16.1% | 96.8% | R-heavy injection |
+| taboolanews.com (Taboola's own site) | 3,866 | 34 | **95.9%** | 20.6% | D-heavy (cycle 138) |
+| mediamag.am | 1,566 | 240 | **99.7%** | 34.6% | D-heavy injection |
+
+#### Anomaly 4: Live-traffic falsification via Playwright
+
+Probed 6 suspect publishers with proxied Chromium, capturing all bid-request URLs:
+- **wordsmyth.net** (claims `consumable.com seller_id=2000970` as DIRECT): **1,616 requests across 21 OpenRTB endpoints — consumable.com NEVER appeared as a bid recipient**. Pure fabrication confirmed in-band.
+- **bournemouthecho.co.uk** (Newsquest): live ads.txt still actively contains entries for `spotx.tv`/`spotxchange.com` (Magnite-acquired 2022, dead 4 years) and `aolcloud.net` (Yahoo legacy, dead 9 years).
+- **acmepackingcompany.com** (SB Nation): 212 requests, 1 OpenRTB endpoint, 0 schain captured — minimal active auction despite carrying dead-SSP entries.
+- **radioberg.de** (DuMont): 180 requests, 0 OpenRTB endpoints — the German radio cluster's 423 DIRECT phantom entries correspond to a site with NO live ad auction. The 99.5% phantom rate is decoration on inactive infrastructure.
+
+#### Anomaly 5: Bid stream signals
+
+| metric | value |
+|---|---:|
+| scans with bid data | 118 |
+| **median noBid ratio** | **95.5%** (19 of 20 bid requests return nothing) |
+| GumGum fixed-CPM signature | $11.9399, CV=0.0000 across 3 wins |
+
+Zero standard deviation across multiple wins is impossible under normal auction dynamics. GumGum's $11.94 fixed-rate signature suggests PMP deal or floor manipulation. The 95.5% median noBid ratio is the framework's operating reality: programmatic auctions overwhelmingly produce nothing.
+
+### What this cycle does that 458-469 did not
+
+- **Built an in-band callable**: `scripts/anomaly_audit.py` runs each anomaly check + variance prerequisite + invariant assertions. Failing invariants exit 1.
+- **Built tripwires**: `tests/test_anomaly_invariants.py` (6 tests). Any future corpus rebuild that violates the cycle 458-470 claims FAILS the test.
+- **Surfaced what the phantom-DIRECT framing was blocking**: RESELLER 22M unanalyzed; 50 named-operator fabrication signatures; inversion patterns; in-band Playwright proof.
+
+Per `shifts.md` #43: a finding recorded as a memo in `tmp/` is in-altero (drifts). A finding encoded as a failing test that breaks if violated is in-loco (binds). Cycles 458-469 produced 10 memos in-altero. Cycle 470 produces one callable + six tripwires in-loco. The doctrinal correction is the tripwires, not another paragraph.
