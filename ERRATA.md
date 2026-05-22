@@ -1087,3 +1087,79 @@ Typosquat DNS audit: 8 of 10 typo variants (ndexexchange, indexxchange, martadse
 - **Scaled Playwright (n=100+)** across genres for stronger statistical power on the bid-flow refutation
 - **Wayback temporal trajectory** on phantom claims (rotation = active maintenance; persistence = decay)
 - **Wrapper-vendor identification** for the cycle-211 SmartAdServer template (Freestar? Sortable? specific wrapper?)
+
+
+### E-2026-05-22-r: Master signifier "fabrication" removed; structural facts at higher resolution (cycle 472)
+
+User pointed out that cycles 470-471 had silently installed "fabrication" as the agency-imputing master signifier — the four refutation attempts tested whether my measurement was wrong, never whether the concept was warranted at all. Removing the signifier opens visibility into structural facts the lens had been filtering out.
+
+#### Structural fact 1: propagation units, not isolated templates
+
+The cycle-211 SmartAdServer "quartet" (4071/4012/4073/4074) is 4 members of ONE 22-pair propagation unit (U0). Union-find clustering with overlap_ratio≥0.75 + jaccard≥0.4 on top-50 phantom pairs:
+
+| unit | size | mean pubs | members |
+|---|---:|---:|---|
+| **U0** | **22 pairs** | **3,787** | SmartAdServer 4071/4012/4074/4073 + adform 1941 + IX 190906/192450/192051/196713 + appnexus 2928 + advertising.com 7574 + lijit 244287-eb + onetag 5d4e109247a89f6 + emxdgt 1701/1138 + spotx 173177 + spotxchange 173177 + yahoo 55248/58578 + outbrain 00fe7cdd... + loopme 11013 + criteo B-060278 |
+| U1 | 4 | 2,627 | aolcloud 10109 + adtech 10109 + revcontent 124709 + IX 185104 |
+| U2 | 4 | 2,516 | appnexus 13701 + openx 541177116 + e-planning 835fbafe... + vidoomy 2252369 |
+| U3 | 3 | 2,775 | triplelift 8446 + disqus 891 + zeta 891 |
+
+**1,358 publishers carry ALL top-10 members of U0 simultaneously.** Sample carriers reveal mixed cohort: piracy streaming (1flix.to, 1hd.gg, 2kmovies.mov) alongside Japanese/Russian blogs (2chblog.jp, 2ch2.net) and French sites (13or-du-hiphop.fr). The 22-pair unit traverses publisher categories — not piracy-specific, not premium-specific.
+
+#### Structural fact 2: format-respecting near-miss synthesis
+
+Phantom seller_ids are systematically near-misses of real IDs in the same SSP namespace (edit-distance ratio 0.75-0.89):
+
+| SSP | phantom | closest real IDs (similarity) |
+|---|---|---|
+| smartadserver.com | 4071 | 3401, 4007, 4010 (0.75) |
+| smartadserver.com | 4012 | 3401, 3402, 3412 (0.75) |
+| lijit.com | 244287-eb | 264487-eb, 414287-eb, 424427-eb (0.89) |
+| indexexchange.com | 190906 | 190096, 190290, 190306 (0.83) |
+| google.com | pub-8622186303703569 | pub-0831618630039759 (0.75) |
+
+The IDs aren't random — they conform to each SSP's namespace conventions but aren't in the roster. Agency-neutral interpretation: the propagation-unit string-generators respect SSP namespace conventions.
+
+#### Structural fact 3: ads.txt files are essentially frozen (cycle 467 empirically grounded)
+
+The `publisher_audit_history` table provides 5 snapshots over 27 days (Apr 24, 25, 28, May 9, May 21). It existed since at least Apr 24 and was never queried in cycles 458-471 — the cycle 467 "geological decay" claim was structural inference, not measurement.
+
+Now measured (in 0.9s on materialized table):
+
+| metric | value |
+|---|---:|
+| publishers with all 5 snapshots | 76,421 |
+| **publishers with ZERO false-rate change** | **41,330 (54.1%)** |
+| big-movers (>20pp range) | 3,407 (4.5%) |
+| median per-pub temporal range | **0.00pp** |
+| of 42,267 high-phantom pubs, improved to <10% | **4 (0.009%)** |
+| aggregate false_rate trajectory | 52.20% → 53.47% (∆ +1.27pp) |
+
+54.1% of publishers' ads.txt files are completely static. The framework is frozen at the publisher-side; what cycle 467 called "geological decay" is now an empirical claim with longitudinal data.
+
+#### Speedups delivered (cycle 472)
+
+| Query | Previous cost | New cost | Factor |
+|---|---:|---:|---:|
+| 76K-pub trajectory (cycle 467 dead-SSP per-claim queries) | multi-minute | 0.9s | ~200× |
+| 50-pair propagation-unit detection | n/a (new) | 8.9s | — |
+| Full 8-tripwire CI run | n/a | 68.6s | full coverage |
+
+#### What survives without the master signifier
+
+Without "fabrication" as an agency-imputing word:
+
+- 33.83% of DIRECT claims have seller_id strings absent from the named SSP's sellers.json (measured, robust)
+- Those strings respect each SSP's namespace conventions (edit-distance signature)
+- The strings travel in identifiable propagation units across publishers (union-find on co-occurrence)
+- The publisher-side ads.txt files are essentially frozen over 27 days
+- Some SSP domains are typosquats; some phantom IDs appear at both real and typo variants
+
+What requires agency-imputation and is therefore NOT in this framing:
+
+- "Industrial fabrication at scale" (presupposes industrial actor)
+- "Template injection" (presupposes injector)
+- "The mechanism understands convention" (presupposes mechanism with intent)
+
+The data shows propagation units; the data does not show actors. The mechanism is empirically distinguishable from independent claim-generation but not identifiable from the data alone.
+
