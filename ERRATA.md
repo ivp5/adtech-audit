@@ -941,3 +941,25 @@ The valid remediation path that the data supports:
 
 The original cartel-frame remediation (FTC enforcement against publishers, DOJ antitrust against Google) does not match the structural mechanism. The framework needs maintenance infrastructure, not regulatory enforcement against individual publishers.
 
+
+
+### E-2026-05-22-o: Who is actually hurt by the framework decay? (cycle 469)
+
+A second-order correction to the cycle 468 supersession. User question: "if people just keep obsolete files and not trim them it hurts no one, so no reason for IAB to fix anything, right? or is anyone actually hurt by this oversight?"
+
+Honest review of plausible harm vectors:
+
+| Vector | Real? | Magnitude |
+|---|---|---|
+| Verification-industry mismatch (advertisers buy fraud-prevention for mostly-structural-noise) | Bounded | ~$50-200M/yr misallocated; DV/IAS do real IVT/brand-safety work that isn't ads.txt verification |
+| DSP compute waste parsing dead entries | Negligible | dollars/day per DSP |
+| Advertiser DIRECT-premium overpayment | Probably not | phantoms don't actively transact (cycle 465 r=0.15) |
+| New-SSP discovery cost | Marginal | new SSPs enter through wrappers, not manual ads.txt parsing |
+| IAB framework credibility decay | Speculative | slow drift; advertisers route around |
+| User privacy | Orthogonal | real privacy harm exists (0.012% valid TCF consent first-visit) but it's not the phantom rate |
+| Google `is_confidential` asymmetry | Real but narrow | already in DOJ active antitrust scope |
+
+**Almost no one is materially hurt by the phantom rate at concentrated severity.** The framework doesn't need a "fix" because no party is hurt enough to coordinate one. The phantom rate is a coordination-failure equilibrium with low stakes — the cost of remediation exceeds the benefit to any individual party. This is the second defensive pattern the user caught in two days: cycle 468 superseded "publisher fraud"; cycle 469 supersedes the implicit "framework needs urgent fix" framing that replaced it.
+
+The body of work IS a useful scientific measurement of framework decay at scale. It is NOT a fraud exposé, an urgent IAB call, or a consumer-protection case. The cycles 467-468 "remediation" framing has been removed from `index.html` (replaced with "Who is actually hurt" + "What this audit is and isn't").
+

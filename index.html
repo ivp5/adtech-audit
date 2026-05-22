@@ -261,17 +261,39 @@ The March 2026 version of this page led with "57.3% of DIRECT claims are provabl
 
 <p>The release-package files <code>FTC_COMPLAINT.md</code> and <code>DOJ_ANGLE.md</code> remain in the repository as historical artifacts of the earlier framing. Both are <strong>superseded</strong> by the structural decomposition above. The framework is brittle by design (no deregistration channel); the per-publisher remediation framing is mis-targeted.</p>
 
-<!-- ════════════ RECOMMENDATIONS ════════════ -->
-<h2>Where remediation effort actually goes</h2>
+<!-- ════════════ HARM ════════════ -->
+<h2>Who is actually hurt</h2>
+
+<div class="callout">
+<strong>Honest harm assessment (cycle 469, 2026-05-22):</strong> the cycle 465 finding (Pearson r=0.15 between declarative phantom and observed unauthorized bidder calls) implies most phantom entries don't actively transact. The bigger question becomes: does the structural decay materially hurt anyone? After honest review, <strong>not much, and not concentratedly</strong>.
+</div>
 
 <table>
-<tr><th>Action</th><th>Owner</th><th>Scope</th></tr>
-<tr><td>IAB Tech Lab adopts SSP-deregistration registry + propagation channel</td><td>IAB Tech Lab</td><td>industry-wide</td></tr>
-<tr><td>Publisher-network ads.txt-template refresh pipeline (sellers.json cross-check at publish time)</td><td>Vox/Gannett/Newsquest/etc. central ads.txt management</td><td>O(1,102 clusters), not O(74,000 publishers)</td></tr>
-<tr><td>Wrapper-vendor enforcement (Prebid module: require ads.txt presence before bidder activation)</td><td>Prebid.org, headerbidding.io, headerbid.com</td><td>4.18% observed leak</td></tr>
-<tr><td>SSP sellers.json hygiene (remove dead seller_ids; document confidentiality flag scope)</td><td>SSPs individually</td><td>17.1% orphan-registry leak</td></tr>
-<tr><td>Schema-migration coordination protocol (Criteo Iponweb→Commerce Grid pattern)</td><td>IAB Tech Lab</td><td>3.5% Criteo + similar future migrations</td></tr>
+<tr><th>Potential harm</th><th>Magnitude</th><th>Real?</th></tr>
+<tr><td>Verification-industry mismatch — advertisers buy fraud-prevention for a problem that's mostly structural noise</td><td>$50–200M/yr misallocated</td><td>Bounded — DV/IAS also do IVT/brand-safety work that isn't ads.txt</td></tr>
+<tr><td>DSP compute waste from parsing dead entries</td><td>Dollars/day per DSP</td><td>Negligible</td></tr>
+<tr><td>Advertiser DIRECT-premium overpayment</td><td>—</td><td>Probably no — phantoms don't actively transact</td></tr>
+<tr><td>New-SSP discovery cost</td><td>—</td><td>Marginal — new SSPs come through wrapper integrations, not manual ads.txt parsing</td></tr>
+<tr><td>Framework credibility decay</td><td>—</td><td>Slow drift — advertisers route around it; no acute harm</td></tr>
+<tr><td>User-privacy harm</td><td>—</td><td>Orthogonal — real privacy harm exists (0.012% valid TCF consent on first visit) but is not the phantom rate</td></tr>
+<tr><td>Google confidentiality-flag asymmetry</td><td>Antitrust concern</td><td>Already in active DOJ scope (Google ad-tech case)</td></tr>
 </table>
+
+<p>The framework genuinely doesn't need "fixing" because no party is hurt enough to coordinate a fix. The phantom rate is a coordination-failure equilibrium with low stakes: the cost of remediation exceeds the benefit to any individual party. This isn't a moral problem; it's an equilibrium.</p>
+
+<!-- ════════════ WHAT THIS IS ════════════ -->
+<h2>What this body of work is and isn't</h2>
+
+<table>
+<tr><th>This audit is</th><th>This audit is not</th></tr>
+<tr><td>A scientific measurement of framework decay at scale</td><td>A fraud exposé</td></tr>
+<tr><td>Documentation of how the IAB ecosystem self-organizes around brittleness</td><td>An urgent call for IAB action</td></tr>
+<tr><td>A specific case study of "evolution of a coordination failure"</td><td>A consumer-protection case</td></tr>
+<tr><td>Useful data for verification-vendor buyers asking "what fraction of what you detect is actually fraud?"</td><td>A regulatory complaint</td></tr>
+<tr><td>Quantification that the IAB framework has measurable structural integrity gaps</td><td>Evidence those gaps necessarily need to be closed</td></tr>
+</table>
+
+<p>If you arrived here looking for a fraud exposé or a regulatory complaint, the body of work no longer supports that framing (see "What this supersedes" above). What it does support: a clean structural measurement that practitioners (verification-vendor buyers, supply-path analysts, IAB technical committees, antitrust scholars) can use to calibrate their own priorities.</p>
 
 <!-- ════════════ METHOD ════════════ -->
 <h2>Method</h2>
