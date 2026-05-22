@@ -1861,3 +1861,77 @@ The empirical operator-level mapping is now substantial:
 
 Operator integrity is the differentiator. The protocol-level structure permits both. Every entity in the trail has a public address, sellers.json, and IAB-spec declarations.
 
+
+
+### E-2026-05-23-a: Google-INTERMEDIARY credential propagation — 997K claims across 12+ SSPs (cycle 482)
+
+Continuing deeper into the publisher_top_issues taxonomy: cycle 478 mined `impersonation_undisclosed` (1.54M events, no registry entry). Cycle 482 mines the SECOND class — `contradicted_type` (1.62M events, registered but to wrong publisher per registry).
+
+#### The reframe — Sovrn `-eb` is NOT pure fabrication
+
+Cycles 472-481 framed the Sovrn `%-eb` pattern as template injection of phantom IDs. The pre-computed `publisher_top_issues` table reveals a different picture:
+
+- 176,512 Sovrn/Lijit ads.txt claims use `seller_id LIKE '%-eb'`
+- **53% (92,788) are phantom** — truly fabricated, no registry entry
+- **47% (83,724) are IN registry** — but registered to **google.com** with type=INTERMEDIARY
+
+Of the 1,405 distinct `-eb` seller_ids in Sovrn's sellers.json, **ALL 1,405 are type=INTERMEDIARY with reg_domain=google.com**. The `-eb` suffix appears to be Sovrn's internal naming for its Google-Exchange-Bidding integration credentials.
+
+Cycle 472's framing was partially right (53% fabrication) but missed the dominant mechanism (47% credential propagation). The PROTOCOL recognizes both as anomalies — phantom for the 92K, contradicted_type for the 83K.
+
+#### Industry-scale measurement
+
+Across ALL SSPs, 56,273 Google-INTERMEDIARY credentials exist in registries. **997,468 ads.txt DIRECT/RESELLER claims** by publishers OTHER than google.com sit on these credentials:
+
+| SSP | Google-INTERMEDIARY claims | Distinct publishers |
+|---|---:|---:|
+| PubMatic | 177,390 | 29,238 |
+| Rubicon/Magnite | 151,768 | 28,999 |
+| OpenX | 127,102 | 27,472 |
+| Sovrn/Lijit | 82,486 | 23,347 |
+| OneTag | 58,880 | 20,360 |
+| SmartAdServer | 57,880 | 19,551 |
+| TripleLift | 50,582 | 18,607 |
+| Index Exchange | 46,959 | 20,731 |
+| ShareThrough | 45,257 | 18,607 |
+| Adingo.jp | 42,736 | 12,782 |
+| Media.net | 36,848 | 19,117 |
+| video.unrulymedia.com | 18,795 | 12,705 |
+| InMobi | 16,439 | 9,902 |
+| Sonobi | 16,131 | 7,998 |
+| RhythmOne | 14,374 | 9,049 |
+
+The TOP 5 SSPs each propagate Google-INTERMEDIARY credentials to ~23-29K downstream publishers. Combined: ~30K unique publishers receiving these credentials.
+
+#### The mechanism
+
+The chain that produces this:
+
+1. Google contracts with SSPs (Rubicon, PubMatic, OpenX, Sovrn, etc.) for Exchange Bidding / Open Bidding integration.
+2. Each SSP issues Google an INTERMEDIARY-type seller_id at their company.
+3. Wrapper services (CafeMedia, Mediavine, themoneytizer, AdPushUp, etc.) build header-bidding templates that INCLUDE these Google-INTERMEDIARY credentials so downstream publishers can monetize Google demand via the wrapper.
+4. Downstream publishers ship the template's ads.txt content.
+5. Their ads.txt now declares: `sovrn.com, 277115-eb, DIRECT` — claiming a DIRECT relationship with Sovrn under what is actually Google's account.
+6. The IAB ads.txt × sellers.json reciprocity check flags this as `contradicted_type` (sovrn.com's registry says seller 277115-eb belongs to google.com, not to the publisher).
+
+This is **credential propagation through wrapper chains**, not impersonation. The credentials are real and registered. The protocol error is the downstream declaration — IAB spec §3.1 requires publishers to declare only sellers representing their own inventory, not sellers their wrapper-manager syndicates through.
+
+#### What this changes about the 33.83% phantom rate
+
+The 33.83% headline rate counts both `impersonation_undisclosed` (truly fabricated) and `contradicted_type` (real but wrong-owner) and `verified_phantom` (rare other cases). They're three structurally distinct anomalies. The headline rate is correct as aggregate, but the COMPOSITION matters:
+
+- ~30% is fabrication (cycle 478 impersonation_undisclosed)
+- ~30% is credential-propagation (cycle 482 contradicted_type → google.com INTERMEDIARY)
+- ~40% is other (verified_phantom, other contradicted_type)
+
+The Sovrn-EB template carriers (CafeMedia, Mediavine, themoneytizer at 2.6-4% phantom) score MUCH WORSE on credential-propagation than on fabrication. CafeMedia's 2.6% phantom rate masks heavy contradicted_type via INTERMEDIARY credentials.
+
+#### Open question for cycle 483
+
+The protocol surfaces credential propagation as an anomaly. Is it a SPEC violation that matters, or legitimate wrapper-syndication that the spec is too strict about? Both readings are defensible:
+
+- **Strict reading**: publishers shouldn't declare sellers they don't directly sell. The spec is explicit. Carrying Google's Sovrn account on your ads.txt misrepresents the supply chain.
+- **Functional reading**: wrappers can't function without propagating upstream credentials. The "INTERMEDIARY" type EXISTS precisely to permit this. The downstream declarations are how DSPs find the wrapper-bidding pool. If publishers couldn't declare them, the bidding chain would break.
+
+This dichotomy is the cycle 482 trail-end. Going deeper requires DSP-side data (which bidders accept INTERMEDIARY declarations from downstream-publishers vs require direct accounts) — outside the current ads.txt × sellers.json corpus.
+
