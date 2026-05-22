@@ -1039,3 +1039,51 @@ Zero standard deviation across multiple wins is impossible under normal auction 
 - **Surfaced what the phantom-DIRECT framing was blocking**: RESELLER 22M unanalyzed; 50 named-operator fabrication signatures; inversion patterns; in-band Playwright proof.
 
 Per `shifts.md` #43: a finding recorded as a memo in `tmp/` is in-altero (drifts). A finding encoded as a failing test that breaks if violated is in-loco (binds). Cycles 458-469 produced 10 memos in-altero. Cycle 470 produces one callable + six tripwires in-loco. The doctrinal correction is the tripwires, not another paragraph.
+
+
+### E-2026-05-22-q: Steelman + four independent refutation attempts (cycle 471)
+
+Cycle 471 steelmanned the cycle 470 fabrication position, then ran four severe refutation attempts. All four failed to refute.
+
+#### Steelman of cycle 470 position
+"The IAB ads.txt framework is leaked at scale by industrial template injection — 50+ named SSP-domains each carry ≥5 fabricated seller_ids reaching ≥10 publishers, with apex cases (SmartAdServer 4071 @ 6,464 pubs, Sovrn-eb 244287-eb @ 3,895 pubs) industrially active. Publishers claiming these IDs in ads.txt show the named SSPs never appearing as bid recipients."
+
+#### Refutation attempt log
+
+| # | hypothesis | method | n | outcome | framing |
+|---|---|---|---:|---|---|
+| 1 | "Phantom IDs are stale registry data; live-fetch will find them" | Live re-fetch top phantom IDs against current SSP sellers.json | 15 IDs | 0/15 found (Google checked vs 986,194 sellers) | **SURVIVES** |
+| 2 | "Phantom SSPs DO receive bid traffic; ads.txt is just stale" | Playwright on phantom-claiming publishers, capture all bid endpoints + schain | 10 pubs × 5 SSPs | 9/10 SSPs NEVER appear as recipient; 1 exception lacks the phantom seller_id in schain | **SURVIVES** |
+| 3 | "These IDs are documented industry conventions" | OSINT on SmartAdServer 4000-4100 range + Sovrn -eb convention | 2 templates | SmartAdServer 4071/4012/4073/4074 are SKIPPED IDs in an otherwise-allocated 4000-4100 range. Sovrn -eb is a real convention (19% of 7,284 sellers) but `244287-eb` synthesizes real seller 244287 (ConnectAd Realtime) + valid suffix into a non-existent ID | **SURVIVES** (strengthened) |
+| 4 | "in_registry=0 calculation has bugs producing false positives" | Stratified random sample of 12 phantom claims across 4 freq strata, manual verification | 12 claims | 0/12 found in current sellers.json. 0% pipeline false-positive rate at every stratum | **SURVIVES** |
+
+#### What the four refutations together demonstrate
+
+The fabrication framing has survived independent attacks from four orthogonal directions:
+- (1) attacks the staleness hypothesis
+- (2) attacks the bid-flow hypothesis
+- (3) attacks the legitimate-convention hypothesis
+- (4) attacks the pipeline-integrity hypothesis
+
+Each used different data (current SSP fetches vs Playwright captures vs OSINT vs stratified sampling) and reached the same conclusion. The simplest remaining explanation is the steelman: industrial template injection at scale.
+
+#### Cycle 471 expanded anomaly_audit.py with two new sections
+
+- `s_literal_placeholders` confirms: 358 SSPs accept seller_id "1" from 7,337 pubs; 21 SSPs accept "12345" from 437 pubs; 18 SSPs accept "0" from 581 pubs. These are raw template defaults that publishers/wrappers shipped without replacing.
+- `s_cross_ssp_sharing` reveals the backend-sharing topology:
+  - SmartAdServer 4071 propagates across 5 domains: smartadserver.com + martadserver.com (typosquat) + vdo.ai + atlas5.co + walletcircle.co + triplelift.com
+  - SmartAdServer 4074 propagates: smartadserver.com + udmserve.net + martadserver.com (typo)
+  - IndexExchange 190906: indexexchange.com + **ndexexchange.com** (typo)
+  - IndexExchange 190243: indexexchange.com + **indexxchange.com** (typo)
+  - MediaGrid DJQVCM: themediagrid.com + **tomediagrid.com** (typo)
+  - Sovrn 268876: lijit.com + sovrn.com + **ijit.com** (typo)
+  - AppNexus 9284: appnexus.com + adnxs.com (legitimate alias)
+  - YahooAOL 58578: yahoo.com + aol.com + digiteka.com
+
+Typosquat DNS audit: 8 of 10 typo variants (ndexexchange, indexxchange, martadserver, potxchange, ijit, atlas5, walletcircle, vdo.ai) resolve. Most serve cybersquat parking pages (e.g., indexxchange.com redirects to /lander).
+
+#### What still hasn't been tested
+
+- **Scaled Playwright (n=100+)** across genres for stronger statistical power on the bid-flow refutation
+- **Wayback temporal trajectory** on phantom claims (rotation = active maintenance; persistence = decay)
+- **Wrapper-vendor identification** for the cycle-211 SmartAdServer template (Freestar? Sortable? specific wrapper?)
