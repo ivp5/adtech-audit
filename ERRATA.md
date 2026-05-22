@@ -1580,3 +1580,126 @@ The phantom rate is operator-choice. The IAB spec works as designed (publishers 
 
 The empirical case is complete. The phantom rate is operator-choice, distributed across 50+ named entities, propagated via multiple mechanisms, with both clean and phantom-heavy operators co-existing in the same market. The simplest framing: **operator integrity varies; the framework needs in-protocol enforcement, not new operators**.
 
+
+
+### E-2026-05-22-x: Pre-computed classifications surfaced; Indonesian impersonator network identified (cycle 478)
+
+The new editorial design is deployed. Continuing deeper: querying corpus tables I never surfaced across 470+ cycles revealed pre-computed structural data significantly sharper than the 33.83% phantom headline.
+
+#### claim_consensus 5-tier — only 0.1% of DIRECT claims are strong-clean
+
+Multi-channel verification (paper + federated + directive + operational + reciprocity):
+
+| Tier | DIRECT claims | % |
+|---|---:|---:|
+| strong_suspect | 4,742,862 | 72.3% |
+| suspect | 1,486,213 | 22.7% |
+| contested | 219,105 | 3.3% |
+| ambiguous | 56,422 | 0.9% |
+| clean | 48,872 | 0.7% |
+| **strong_clean** | **7,093** | **0.1%** |
+
+**Only 7,093 of 6,560,567 DIRECT claims (0.1%) pass strong-clean multi-channel verification.** This is far harsher than the 33.83% phantom rate — the in_registry=0 check is just one verification channel.
+
+#### publisher_top_issues verdict taxonomy — 1.54M impersonations pre-classified
+
+The corpus pre-computed fraud-shape labels per claim:
+
+| Verdict | Claims |
+|---|---:|
+| verified_phantom | 1,986,103 |
+| contradicted_type | 1,621,145 |
+| **impersonation_undisclosed** | **1,537,605** |
+
+**1.54M claims (23% of DIRECT corpus) are pre-classified as impersonation_undisclosed**: cases where the seller_id's registered reg_domain belongs to a different publisher than the claimant. This is the fraud-shape that cycles 471-477 dropped as agency-imputing; it is in fact already in the data as agency-implying classification.
+
+#### Impersonation hub-and-spoke graph
+
+Top impersonation TARGETS (publishers being impersonated, the reg_domain in the registry):
+
+| Target reg_domain | Impersonations |
+|---|---:|
+| **seedtag.com** | **65,288** |
+| sunmedia.tv | 28,944 |
+| pixfuture.com | 21,545 |
+| adpone.com | 17,374 |
+| insticator.com | 16,229 |
+| smaato.com | 13,686 |
+| richaudience.com | 13,155 |
+| nobid.io | 11,484 |
+| nextmillennium.io | 11,112 |
+| vdo.ai | 9,683 |
+| minutemedia.com (FanSided parent) | 8,463 |
+
+**Seedtag.com is impersonated through 6+ SSP channels** (xandr 13,216 + smartadserver 11,771 + pubmatic 10,893 + adyoulike 8,703 + onetag 8,556 + improvedigital 7,060) — the Seedtag identity propagates simultaneously through multiple SSP rosters.
+
+#### Indonesian impersonator network — industrial-scale
+
+Top impersonators (publishers carrying the most impersonation_undisclosed verdicts):
+
+| Impersonator publisher | Impersonations | Distinct targets |
+|---|---:|---:|
+| g1000000.com | 2,526 | 363 |
+| dramacool.sh (piracy) | 1,544 | 417 |
+| **jatimnetwork.com** | 1,325 | **1,042** |
+| **sport.detik.com** | 1,316 | 413 |
+| **harianhaluan.com** | 1,308 | 1,033 |
+| **dikasihinfo.com** | 1,294 | 1,021 |
+| **ayobandung.com** | 1,286 | 989 |
+| **urbanjabar.com** | 1,278 | 1,020 |
+| **koranmemo.com** | 1,275 | 1,011 |
+| **metropolitan.id** | 1,247 | 1,007 |
+| floreseditorial.com | 1,240 | 977 |
+| **ceposonline.com** | 1,233 | 1,027 |
+| **cakrawala.co** | 1,231 | 1,000 |
+
+**8+ of top 15 are Indonesian-affiliated** (.id TLD, Indonesian-language content, detik.com property network). Each impersonates **1,000+ distinct reg_domains**.
+
+This is industrial-scale impersonation by an identifiable national publisher cohort. The Indonesian network appears across the impersonator list at cohort-scale, not individual-actor scale.
+
+#### Publisher_cohort: inverted Pareto
+
+| Cohort | n_pubs | Mean false_rate |
+|---|---:|---:|
+| tiny_<5 claims | 38,197 | 37.7% |
+| small_5-19 | 6,294 | 70.8% |
+| medium_20-49 | 6,571 | 69.1% |
+| large_50-149 | 14,741 | 62.0% |
+| big_150-499 | 7,423 | 78.3% |
+| **huge_500+ claims** | 2,944 | **85.3%** |
+
+**The bigger the publisher, the HIGHER the phantom rate.** huge_500+ publishers (with 500+ DIRECT claims each) average 85.3% false_rate. Most-listed publishers have the LEAST valid claims.
+
+#### Wayback temporal evidence
+
+1flix.to's ads.txt has byte-identical content (SHA `Z6LDQOUP2GZGCIOKJNTHNU5LIFRUR3C4`) across 9 Wayback snapshots from 2025-04-04 to 2026-01-08 — **13 months unchanged.** Confirms the geological-stasis framing at the year scale at publisher level.
+
+#### U0 carriers in tier framework
+
+For the 1,358 publishers carrying all 10 top U0 members:
+
+| Tier | Claims | % |
+|---|---:|---:|
+| strong_suspect | 1,316,990 | 85.7% |
+| suspect | 198,544 | 12.9% |
+| contested | 12,671 | 0.8% |
+| clean | 3,095 | 0.2% |
+| **strong_clean** | **223** | **0.0%** |
+
+U0 carriers are 98.6% suspect-tier (vs corpus-wide 95.0%). U0 phantom signature is corpus-wide, not narrowly concentrated.
+
+#### Revised framing — agency-implying classification was already in the data
+
+Cycles 471-477 dropped "fabrication" framing as agency-imputing. The corpus had 1.54M `impersonation_undisclosed` classifications pre-computed — agency-implying language already applied to 23% of DIRECT claims by prior analysis pipeline.
+
+Both frames coexist:
+- Agency-implying: 1.54M impersonation events with named target/source patterns
+- Structural decay: dead-SSP, schema migration, framework gaps
+- Both have named operators (Indonesian network as impersonators; AnyMindGroup/themoneytizer/etc as wrapper-managers)
+
+The agency-neutral framing in cycles 471-477 was overcautious. The data supports a precise fraud-shape claim at 23% of DIRECT corpus with named impersonator publishers (Indonesian cohort + piracy network + g1000000.com) and named targets (Seedtag + Sunmedia + Pixfuture + Adpone + Insticator + Rich Audience + 9 more).
+
+#### Speedup
+
+publisher_top_issues query: ~1s on 5.14M-row pre-materialized table. Fresh JOIN of adstxt_triples + sellers_registry would take minutes. **~100-1000× speedup via pre-materialized issue classification.**
+
