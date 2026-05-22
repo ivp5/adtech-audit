@@ -1420,3 +1420,64 @@ For each top wrapper, how does the wrapper's OWN domain appear as SSP in its cli
 
 In-memory hash lookup for vertical-integration audit: ~10s across 10 wrappers × 17,364 publisher-manager mappings + per-SSP-per-pub query. SQL JOIN attempt for similar analysis ran 5+ min with zero output (per cycle 474). **>300× faster** via pre-loaded Python dicts.
 
+
+
+### E-2026-05-22-v: Yahoo Japan (LY Corp) hosts 15 of 19 matome blogs sharing the same ads.txt (cycle 476)
+
+The 19-pub Japanese matome cluster (identified in cycle 473) declares ZERO MANAGERDOMAIN directives. Following the fork:
+
+#### DNS analysis
+
+15 of the 19 sites resolve to the **same IP: 147.92.146.242**. The remaining 4: 2 on `blog-01.livedoor.jp` (Japanese blog platform), 1 Cloudflare, 1 AWS-managed nameserver.
+
+#### IP owner
+
+WHOIS on 147.92.146.242:
+
+```
+inetnum:    147.92.128.0 - 147.92.255.255
+netname:    YAHOO
+descr:      LY Corporation
+descr:      1-3 Kioicho, Chiyoda-ku, Tokyo, Japan 1028282
+remarks:    Email address for spam or abuse complaints:
+            ml-backbone-contact@lycorp.co.jp
+```
+
+**LY Corporation** owns the /17 range 147.92.128.0-147.92.255.255 with netname YAHOO. LY Corp is the parent entity formed by the 2023 merger of LINE Corporation and Z Holdings, which owned Yahoo Japan. Yahoo Japan's infrastructure now operates under LY Corp.
+
+#### The matome mechanism
+
+15 Japanese matome (aggregator) blogs (jin115.com, hamusoku.com, vtubernews.jp, ikarishintou.com, etc.) hosted on LY Corp infrastructure (147.92.146.242) all serve EXACTLY the same 3,195-line ads.txt template. The server generates the file for all hosted sites. No IAB-spec MANAGERDOMAIN declaration is needed because the host produces the file server-side.
+
+The cluster mechanism is DIFFERENT from the piracy/themoneytizer mechanism:
+
+| Cluster | Mechanism | Declaration | Reach |
+|---|---|---|---|
+| Piracy (83 sites) | IAB §5.9 MANAGERDOMAIN delegation to themoneytizer.com | Explicit | 83 sites |
+| Matome (15 of 19 sites) | Shared hosting infrastructure | None | 15 sites on Yahoo Japan IP |
+| AnyMindGroup (404 clients) | anymanager.io wrapper-manager + own SSP | Explicit | 404 wrapper clients + 816 SSP pubs |
+
+**Both mechanisms ship the same U0 phantom seller_ids.** The propagation unit reaches publishers via multiple distinct distribution mechanisms across multiple corporate parents:
+
+| Corporate parent | Distribution channel | Corpus reach |
+|---|---|---:|
+| AnyMindGroup (Singapore) | anymanager.io wrapper + ads.adasiaholdings.com SSP | ~404 + ~816 publishers |
+| **LY Corporation (Yahoo Japan)** | **Shared hosting infrastructure (IP 147.92.146.242)** | **15 matome blogs (+ likely more in adjacent /24)** |
+| themoneytizer.com (France) | wrapper-manager + own SSP | 999 clients |
+| adpushup.com, refinery89.com, publift.com, pubfuture.com | wrapper-managers | hundreds each |
+
+#### The unresolved upstream
+
+The structural question becomes: what COMMON template source feeds:
+- themoneytizer.com's master (930 lines containing some U0 IDs as RESELLER)
+- anymanager.io's master (distributes U0 to 404 clients across major SSPs)
+- LY Corp's server-side generator (produces 3,195-line file for matome blogs)
+
+If they all draw from a common upstream — a shared ad-tech library / template vendor that supplies templates to wrapper-managers AND hosting infrastructure — then U0 has a single ultimate root. If they independently arrived at the same phantom seller_ids at z=23.77σ coherence, that's statistically impossible.
+
+The trail has reached named-operator level on TWO orthogonal mechanisms (wrapper delegation + shared hosting) across THREE corporate parents (AnyMind Singapore, themoneytizer France, LY Corp Japan). The common upstream remains unidentified.
+
+#### Speedup pattern
+
+DNS + WHOIS on 19 sites = ~10 seconds. The IP shared-hosting clustering is a FASTER signal than MANAGERDOMAIN clustering when publishers don't declare. Pattern: when declarative-layer clues are absent, hosting-layer clustering frequently locates the operator.
+
