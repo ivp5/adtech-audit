@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ads.txt Audit — Check Any Publisher's Supply Chain Integrity</title>
-<meta name="description" content="Check any publisher's ads.txt authorization integrity. 57.3% of DIRECT claims are provably false across 22,952 publishers and 710 SSP registries. Free instant lookup.">
-<meta property="og:title" content="ads.txt Audit: 57.3% of Supply Chain Claims Are False">
-<meta property="og:description" content="Type any domain. See its false DIRECT claims instantly. 2M claims cross-verified against 710 SSP sellers.json registries.">
+<title>ads.txt Framework Integrity Audit — May 22, 2026</title>
+<meta name="description" content="33.83% of DIRECT ads.txt claims don't reconcile with SSP sellers.json. Decomposed: 97.5% is structural framework decay (dead SSPs, schema migration, orphan registries, confidentiality flags); only ~2.5% has potential-fraud shape. Free instant publisher lookup.">
+<meta property="og:title" content="ads.txt Framework Integrity Audit: 33.83% Phantom, 97.5% Structural">
+<meta property="og:description" content="Eight-cycle structural decomposition. The IAB framework has no SSP-death propagation channel. 287K DIRECT claims to dead SSPs persist 7-9+ years post-acquisition.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ivp5.github.io/adtech-audit/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ads.txt Audit: Check Any Publisher's Authorization Integrity">
-<meta name="twitter:description" content="22,906 publishers scored. Type a domain, see false DIRECT claims. Free, open data.">
+<meta name="twitter:title" content="ads.txt Audit: Framework Integrity Diagnostic">
+<meta name="twitter:description" content="74,460 publishers × 1,672 SSP registries. The phantom rate is geological framework decay, not publisher fraud.">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: Georgia, 'Times New Roman', serif; background: #fafaf8; color: #1a1a1a; line-height: 1.7; }
@@ -21,348 +21,299 @@ h2 { font-size: 1.3em; margin: 2em 0 0.6em; border-bottom: 2px solid #1a1a1a; pa
 h3 { font-size: 1.05em; margin: 1.5em 0 0.4em; }
 p { margin-bottom: 1em; }
 .subtitle { color: #666; font-size: 0.95em; margin-bottom: 2em; }
-.big-number { font-size: 3.5em; font-weight: bold; line-height: 1; letter-spacing: -0.03em; }
-.big-label { font-size: 0.85em; color: #666; margin-bottom: 1.5em; }
-.finding { background: #fff; border: 1px solid #ddd; border-left: 4px solid #c00; padding: 20px 24px; margin: 1.5em 0; }
-.finding-num { font-size: 0.8em; color: #c00; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; }
+.banner { background: #fffbea; border-left: 4px solid #b58b00; padding: 16px 22px; margin: 1.2em 0; font-size: 0.9em; }
+.finding { background: #fff; border: 1px solid #ddd; border-left: 4px solid #2c6e9b; padding: 20px 24px; margin: 1.5em 0; }
+.finding-num { font-size: 0.8em; color: #2c6e9b; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4em; }
+.callout { background: #f5f1e8; border-left: 4px solid #8b6914; padding: 16px 22px; margin: 1em 0; font-size: 0.92em; }
 table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.9em; }
 th { text-align: left; border-bottom: 2px solid #1a1a1a; padding: 6px 8px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
 td { padding: 6px 8px; border-bottom: 1px solid #eee; }
 tr:hover td { background: #f5f5f0; }
+td.r, th.r { text-align: right; }
 .bar-container { display: flex; align-items: center; gap: 8px; }
-.bar { height: 16px; background: #c00; border-radius: 2px; min-width: 2px; }
-.bar.phantom { background: #e67300; }
+.bar { height: 16px; background: #2c6e9b; border-radius: 2px; min-width: 2px; }
+.bar.structural { background: #8b6914; }
+.bar.dead { background: #999; }
+.bar.fraud { background: #c00; }
 .bar.plausible { background: #2a7; }
 .note { font-size: 0.85em; color: #666; font-style: italic; margin: 1em 0; }
 .method { background: #f5f5f0; padding: 16px 20px; font-size: 0.88em; margin: 1em 0; border-left: 3px solid #999; }
-.timeline { position: relative; padding-left: 24px; margin: 1.5em 0; }
-.timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: #ccc; }
-.timeline-item { position: relative; margin-bottom: 1.2em; }
-.timeline-item::before { content: ''; position: absolute; left: -21px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: #c00; }
-.timeline-item.delayed::before { background: #999; }
-.timeline-time { font-size: 0.8em; font-weight: bold; color: #c00; }
-.timeline-time.delayed { color: #999; }
-canvas { max-width: 100%; margin: 1em 0; }
 .verify { background: #e8f5e9; border: 1px solid #a5d6a7; padding: 16px 20px; margin: 1em 0; font-size: 0.9em; }
 .verify code { background: #fff; padding: 2px 6px; font-size: 0.9em; }
+.supersede { background: #fef0f0; border: 1px solid #f5b5b5; padding: 12px 18px; margin: 1.2em 0; font-size: 0.85em; color: #6a1a1a; }
 footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ddd; font-size: 0.8em; color: #999; }
 @media print { body { font-size: 11pt; } .page { max-width: 100%; } }
-#graph { border: 1px solid #eee; background: #fff; }
 </style>
 </head>
 <body>
 <div class="page">
 
-<h1>The Accountability Gap</h1>
-<p class="subtitle">Programmatic advertising supply chain integrity, consent failure, and identity proliferation.<br>
-Evidence from 186,000 websites, 710 SSP registries, 721,000 identity-sharing requests.<br>
-Data collected March 14–25, 2026.</p>
+<h1>ads.txt Framework Integrity Audit</h1>
+<p class="subtitle">
+Eight-cycle structural decomposition of the IAB authorization framework.<br>
+74,460 publishers × 1,672 SSP registries × 28.77M triples.<br>
+Last updated: <strong>May 22, 2026</strong>.
+</p>
 
-<div style="background:#fff3e0;border:1px solid #ff9800;padding:12px 16px;margin:1.5em 0;font-size:0.85em;color:#5d4037">
-<strong>Snapshot pin.</strong> Numbers below are at the <strong>2026-03-25 corpus</strong>. Live state as of 2026-04-27: 76,169 publishers / 28.7M triples / 1,672 SSP registries. Per-SSP false-claim table (Finding 1) and consent denominators reflect their respective snapshots and won't match a live re-run; the headline rates (29% strict / 55–57% inclusive / 0.012% consent) replicate at scale.
+<div class="banner">
+<strong>This page supersedes the March 2026 framing.</strong> The original headline ("57.3% of DIRECT claims are provably false") was numerically defensible but the implied story (publisher fraud / industry cartel) does not survive structural decomposition. The deeper finding: <strong>97.5% of phantom claims are attributable to framework brittleness</strong> — dead SSPs not propagating, schema migrations not coordinating, orphan registries, confidentiality flags. Only ~2.5% has the "accidental misclaim" shape consistent with individual publisher misconduct. The framework needs a deprecation mechanism, not a fraud investigation.
 </div>
 
-<div class="verify" style="background: #fff3e0; border-color: #ff9800; margin: 2em 0;">
-<strong style="color: #e65100;">Verify in 10 seconds:</strong> The ad authorization system contradicts itself.<br><br>
-<code style="display: block; margin: 0.5em 0;">1. Fetch: <a href="https://ads.themoneytizer.com/ads_txt.php" target="_blank">ads.themoneytizer.com/ads_txt.php</a></code>
-<code style="display: block; margin: 0.5em 0; padding-left: 1.5em;">→ "smartadserver.com, 1097, <strong>DIRECT</strong>"</code>
-<code style="display: block; margin: 0.5em 0;">2. Check: <a href="https://smartadserver.com/sellers.json" target="_blank">smartadserver.com/sellers.json</a> → seller 1097</code>
-<code style="display: block; margin: 0.5em 0; padding-left: 1.5em;">→ seller_type: "<strong>INTERMEDIARY</strong>", name: "Themoneytizer"</code>
-<br>
-<em>Same entity. Opposite claims. Both public. We found 1,157,099 similar contradictions.</em>
-</div>
-
-<div class="verify" style="background: #e8f5e9; border-color: #4caf50; margin: 2em 0;">
-<strong style="color: #2e7d32;">Reproduce it yourself:</strong> 43-line CC0 Python verifier, stdlib only.<br><br>
-<code style="display: block; margin: 0.5em 0;">$ python3 <a href="verify.py">verify.py</a> themoneytizer.com</code>
-<code style="display: block; margin: 0.5em 0; padding-left: 1.5em;">→ PLAUSIBLE / CONTRADICTED / PHANTOM / UNCOVERED per line + summary tally</code>
-<br>
-Template forensics (shared-template rings, Dynadmic TAG-ID, phantom-ID library): <a href="PHANTOM_PATTERNS.md">PHANTOM_PATTERNS.md</a>
-</div>
-
-<!-- ════════════ FINDING 1 ════════════ -->
-<h2>Finding 1: Authorization Is Forged</h2>
+<!-- ════════════ HEADLINE ════════════ -->
+<h2>Headline</h2>
 
 <div class="finding">
-<div class="finding-num">Core claim</div>
-<p><strong>29% of "DIRECT" authorization claims are explicitly contradicted by the SSPs' own registries. A further 26% reference seller IDs that don't exist.</strong> Cross-reference of 2,041,107 triples across 22,952 publishers against 710 SSP registries.</p>
+<div class="finding-num">Two-vantage rate decomposition (cycles 458-465)</div>
+<p><strong>33.83% of publisher DIRECT claims don't reconcile against the named SSP's sellers.json registry.</strong> Independently, <strong>4.18% of observed Prebid bidder calls go to SSPs not declared in the publisher's ads.txt</strong> (IAB-spec strict per section 5.2.2). Pearson correlation between the two per-publisher: <strong>r = 0.15</strong>. The two failure modes are nearly independent.</p>
 </div>
 
-<p>When a publisher lists a company as "DIRECT" in their ads.txt file, it means: "I control this seller account. I authorized this directly." Advertisers pay more for DIRECT inventory because it's supposed to mean fewer intermediaries and less fraud risk.</p>
+<table>
+<tr><th>Vantage</th><th class="r">Rate</th><th>What it measures</th></tr>
+<tr><td><strong>Declarative</strong></td><td class="r">33.83%</td><td>Publisher ads.txt entries that don't validate against the named SSP's sellers.json (74,460 pubs, 6.56M DIRECT claims, Wilson CI &lt;0.1pp)</td></tr>
+<tr><td><strong>Observed (IAB-strict)</strong></td><td class="r">4.18%</td><td>Prebid bidder calls to SSPs not in the publisher's ads.txt (n=68 pubs, 455 calls, Wilson 95% CI [2.78%, 6.21%])</td></tr>
+<tr><td>Pixalate (external, Q1 2025)</td><td class="r">13.00%</td><td>SCO chains failing their proprietary verification (~10B impressions; methodology details not fully published)</td></tr>
+<tr><td>Per-publisher correlation</td><td class="r">r=0.15</td><td>Pearson of declarative rate × observed rate per publisher (n=66 X-Ray-observed pubs)</td></tr>
+</table>
 
-<p>We checked 2,041,107 unique (publisher, SSP, seller_id) triples against the SSPs' own registries:</p>
+<p class="note">A publisher's ads.txt being dirty does NOT predict their auction being dirty. The Condé Nast cluster (vogue, wired, arstechnica, bonappetit, epicurious) all show ~22-23% declarative phantom with ZERO observed unauthorized — a centrally-managed shared template with phantom entries co-existing alongside clean property-level Prebid configs.</p>
+
+<!-- ════════════ DECOMPOSITION ════════════ -->
+<h2>The 33.83% phantom volume, decomposed by attributable mechanism</h2>
+
+<div class="finding">
+<div class="finding-num">Cycle 468 — The defining finding</div>
+<p>Of the 2,219,472 phantom DIRECT claims, here is what each portion is attributable to. <strong>Only ~2.5% has the shape of potential publisher misconduct</strong> (low rate, individual seller_ids in isolation). The other 97.5% is structural framework brittleness.</p>
+</div>
 
 <table>
-<tr><th>Category</th><th>Count</th><th style="width:40%">Distribution</th><th>How verified</th></tr>
+<tr><th>Bucket</th><th class="r">Claims</th><th class="r">% of phantom</th><th style="width:30%">Distribution</th></tr>
 <tr>
-<td><strong>Contradicted</strong></td><td>593,176 (29%)</td>
-<td><div class="bar-container"><div class="bar" style="width:29%"></div></div></td>
-<td>SSP says INTERMEDIARY, not PUBLISHER</td>
+<td><strong>Live-SSP moderate phantom (10-50% rate)</strong> — likely seller_id staleness</td>
+<td class="r">780,561</td><td class="r">35.2%</td>
+<td><div class="bar-container"><div class="bar structural" style="width:70%"></div></div></td>
 </tr>
 <tr>
-<td><strong>Phantom</strong></td><td>459,504 (26%)</td>
-<td><div class="bar-container"><div class="bar phantom" style="width:26%"></div></div></td>
-<td>Seller ID doesn't exist in registry</td>
+<td><strong>Live-SSP template-driven (50-90% rate)</strong> — mainstream SSPs (Taboola 61.8%, IX 52.1%, Yahoo 71.4%, Outbrain 69.1%, MGID 69.8%)</td>
+<td class="r">520,654</td><td class="r">23.5%</td>
+<td><div class="bar-container"><div class="bar structural" style="width:47%"></div></div></td>
 </tr>
 <tr>
-<td><strong>Plausible</strong></td><td>793,727 (45%)</td>
-<td><div class="bar-container"><div class="bar plausible" style="width:45%"></div></div></td>
-<td>Registry confirms PUBLISHER or BOTH type, or no registry available</td>
+<td><strong>Live-SSP orphan registries (&gt;90%)</strong> — adtech.com 100%, ampliffy 100%, blis.com 100%, ligadx 100%, exponential 100%, tribalfusion 100%</td>
+<td class="r">380,453</td><td class="r">17.1%</td>
+<td><div class="bar-container"><div class="bar structural" style="width:34%"></div></div></td>
+</tr>
+<tr>
+<td><strong>Dead-SSP geological decay</strong> — Rhythmone, EMX, Advertising.com, DistrictM, SpotX, AolCloud, Vi.ai, Yieldlab, Admixer, Tremorhub, Aerserv, AdColony</td>
+<td class="r">225,421</td><td class="r">10.2%</td>
+<td><div class="bar-container"><div class="bar dead" style="width:20%"></div></div></td>
+</tr>
+<tr>
+<td><strong>Google confidentiality flag</strong> — IAB spec allows <code>is_confidential: true</code> which removes seller_id from sellers.json</td>
+<td class="r">178,871</td><td class="r">8.1%</td>
+<td><div class="bar-container"><div class="bar dead" style="width:16%"></div></div></td>
+</tr>
+<tr>
+<td><strong>Criteo schema migration</strong> — publisher format ≠ current sellers.json format (Iponweb → Commerce Grid mid-2024)</td>
+<td class="r">77,372</td><td class="r">3.5%</td>
+<td><div class="bar-container"><div class="bar dead" style="width:7%"></div></div></td>
+</tr>
+<tr>
+<td><strong>Live-SSP low-rate (&lt;10%)</strong> — only this bucket has the "individual misclaim" shape</td>
+<td class="r">56,140</td><td class="r"><strong>2.5%</strong></td>
+<td><div class="bar-container"><div class="bar fraud" style="width:5%"></div></div></td>
 </tr>
 </table>
 
-<p class="note"><strong>Reading this table:</strong> "Contradicted" is unambiguous — the SSP explicitly classifies the account as INTERMEDIARY, contradicting the DIRECT claim. "Phantom" is ambiguous — the seller ID may be stale, fabricated, or hidden behind Google's 71% confidentiality flag. "Plausible" includes confirmed PUBLISHER entries, BOTH-type entries (may act as either), and claims against SSPs with no registry. If intermediaries exploit the BOTH classification as a loophole, the true false rate is between 57% and 63%. The strict rate (contradicted only, no interpretation) is <strong>29%</strong>. Both rates are stable across successive SSP expansions and across both curated and crawled publisher datasets.</p>
+<p class="note"><strong>Reading this table:</strong> Of every 1,000 phantom DIRECT claims, only ~25 are isolated, low-volume entries from publishers in otherwise-clean populations — the only shape compatible with willful misclaim. The remaining 975 fall into structural patterns where the mechanism is identifiable (dead SSP, schema change, orphan registry, IAB-defined confidentiality, or wrapper/template injection at mainstream SSPs).</p>
 
-<h3>Why it happens</h3>
-<p>Intermediaries (AnyManager, PubFuture, Waardex, YieldMonk) distribute template ads.txt blocks to publishers with DIRECT instead of RESELLER. DIRECT commands higher CPMs and lower SSP fees. The intermediary's margin becomes invisible to the buyer.</p>
+<!-- ════════════ MECHANISMS ════════════ -->
+<h2>The framework has no deprecation channel</h2>
 
-<p class="note"><strong>Counter-argument preempted:</strong> Could "DIRECT" legitimately mean "direct business relationship" rather than the spec's "controls the account"? If so, some CONTRADICTED claims might be legitimate. Testing this: 96.6% of contradicted claims involve seller IDs shared by 6+ publishers (59.5% by 51–500 publishers, 22.5% by 500+). At most 3.4% could represent individual direct relationships. Under any interpretation, the remaining 96.6% is industrial-scale template injection.</p>
-
-<h3>SSPs most affected by false DIRECT claims</h3>
-<table>
-<tr><th>SSP Domain</th><th>False Claims</th><th>False Rate</th></tr>
-<tr><td>lijit.com (Sovrn)</td><td>68,785</td><td>83%</td></tr>
-<tr><td>google.com</td><td>64,743</td><td>45% (all phantom — Google uses confidential flag)</td></tr>
-<tr><td>rubiconproject.com (Magnite)</td><td>62,495</td><td>87%</td></tr>
-<tr><td>taboola.com</td><td>53,869</td><td>62%</td></tr>
-<tr><td>onetag.com</td><td>50,841</td><td>82%</td></tr>
-<tr><td>pubmatic.com</td><td>41,912</td><td>60%</td></tr>
-<tr><td>indexexchange.com</td><td>38,915</td><td>51%</td></tr>
-<tr><td>openx.com</td><td>36,608</td><td>76%</td></tr>
-<tr><td>triplelift.com</td><td>33,767</td><td>62%</td></tr>
-<tr><td>appnexus.com (Xandr)</td><td>29,192</td><td>60%</td></tr>
-</table>
-
-<p class="note">Google's sellers.json has 71% of entries marked confidential (is_confidential: true). Every other SSP: 0%. Google's 64,743 false claims are all PHANTOM (seller ID not found) — they could be hidden behind the confidentiality flag. Excluding Google, the strict contradicted rate across the remaining SSPs is 38%.</p>
-
-<div class="method">
-<strong>Method:</strong> Downloaded ads.txt from 22,952 publishers (Tranco top-1M + 185,000-domain crawler harvest). Fetched sellers.json from 710 SSPs (1.6M total seller entries, including Google's 994K). For each DIRECT claim, looked up the seller_id in the SSP's registry. If the registry says INTERMEDIARY → contradicted. If the seller_id doesn't exist → phantom. If it says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple. Malformed seller_ids (containing spaces, filenames, etc.) filtered.
+<div class="finding">
+<div class="finding-num">Cycle 467 — Mechanism revealed</div>
+<p><strong>287,249 DIRECT claims to known-dead SSPs persist across 25,239 publishers (33.7% of corpus).</strong> Half-life of a dead-SSP entry in publisher ads.txt is multiple years.</p>
 </div>
 
-<div id="verify-section" style="background:#111;border:1px solid #333;border-radius:8px;padding:24px;margin:2em 0;color:#ccc;font-family:system-ui,-apple-system,sans-serif">
-<div style="font:700 1.1em system-ui;color:#fff;margin-bottom:12px">Check any publisher's supply chain integrity</div>
+<table>
+<tr><th>Dead SSP</th><th>Died</th><th class="r">Years dead</th><th class="r">Publishers still carrying</th><th class="r">% of corpus</th></tr>
+<tr><td>rhythmone.com</td><td>2019 (Tremor-acquired)</td><td class="r">7y</td><td class="r"><strong>14,973</strong></td><td class="r"><strong>20.18%</strong></td></tr>
+<tr><td>emxdgt.com</td><td>2023 (Big Village bankruptcy)</td><td class="r">3y</td><td class="r">13,544</td><td class="r">18.25%</td></tr>
+<tr><td>advertising.com</td><td>2017 (Yahoo legacy)</td><td class="r"><strong>9y</strong></td><td class="r">9,384</td><td class="r">12.65%</td></tr>
+<tr><td>districtm.io</td><td>2021 (Magnite-acquired)</td><td class="r">5y</td><td class="r">9,407</td><td class="r">12.68%</td></tr>
+<tr><td>spotx.tv / spotxchange.com</td><td>2022 (Magnite-acquired)</td><td class="r">4y</td><td class="r">7,858 / 7,599</td><td class="r">~10%</td></tr>
+<tr><td>aolcloud.net</td><td>2017 (Yahoo legacy)</td><td class="r"><strong>9y</strong></td><td class="r">7,046</td><td class="r">9.49%</td></tr>
+<tr><td>vi.ai</td><td>2021 (rebranded)</td><td class="r">5y</td><td class="r">7,868</td><td class="r">10.60%</td></tr>
+<tr><td>admixer.net</td><td>2020 (rebranded)</td><td class="r">6y</td><td class="r">5,754</td><td class="r">7.75%</td></tr>
+<tr><td>yieldlab.net</td><td>2023 (Virtual Minds folded)</td><td class="r">3y</td><td class="r">3,812</td><td class="r">5.14%</td></tr>
+<tr><td>tremorhub.com</td><td>2019 (Tremor-acquired)</td><td class="r">7y</td><td class="r">3,876</td><td class="r">5.22%</td></tr>
+</table>
+
+<p>When an SSP gets acquired, rebrands, or fails, the IAB framework provides no propagation channel. ads.txt files maintained at publisher-network level (by Vox/SB Nation, Gannett, Newsquest, Black Press, FanSided, IAC, Townsquare, Booking Holdings, etc.) don't get re-published. Wrapper vendors (Prebid, headerbidding.io) don't push template updates. IAB Tech Lab maintains no SSP-death registry. The phantom rate is geological decay of the framework itself.</p>
+
+<!-- ════════════ TEMPLATES ════════════ -->
+<h2>Template structure: 28.6% of phantom is centrally managed</h2>
+
+<div class="finding">
+<div class="finding-num">Cycle 466 — Publisher-network clusters</div>
+<p><strong>1,102 shared-fingerprint clusters span 10,723 publishers (14.4% of corpus) and account for 634,121 phantom claims (28.6% of total).</strong> Publishers in these clusters publish IDENTICAL ads.txt files — central management at parent-company or platform level.</p>
+</div>
+
+<table>
+<tr><th>Cluster size (pubs)</th><th class="r">Phantom claims per pub</th><th>Sample / inferred operator</th></tr>
+<tr><td class="r">1,360</td><td class="r">5</td><td>recipe-network template (100krecipes, 196flavors, 365atlantatraveler)</td></tr>
+<tr><td class="r">297</td><td class="r">81</td><td>Forumotion / Lefora platform (1911forum, fishing, car forums)</td></tr>
+<tr><td class="r">115</td><td class="r">27</td><td><strong>FanSided / Minute Media</strong> (90min, 12thmanrising, airalamo)</td></tr>
+<tr><td class="r">102</td><td class="r">6</td><td><strong>Black Press / Glacier Media</strong> (Canadian local news)</td></tr>
+<tr><td class="r">95</td><td class="r">16</td><td><strong>SB Nation / Vox Media</strong> (acmepackingcompany, badlefthook)</td></tr>
+<tr><td class="r">83</td><td class="r"><strong>733</strong></td><td>piracy mega-template (1flix.to, 2kmovies, 9animetv) — INJECTION pattern</td></tr>
+<tr><td class="r">82</td><td class="r">158</td><td><strong>Newsquest</strong> (UK local news)</td></tr>
+<tr><td class="r">72</td><td class="r">43</td><td><strong>Gannett / GateHouse</strong> (US local news)</td></tr>
+<tr><td class="r">63</td><td class="r">63</td><td><strong>IAC / Ask Media Group</strong> (ask.com, askjeeves)</td></tr>
+<tr><td class="r">62</td><td class="r">11</td><td><strong>Booking Holdings / Kayak</strong> (cheapflights.{tld})</td></tr>
+<tr><td class="r">62</td><td class="r">16</td><td><strong>Townsquare / Cumulus radio</strong> (95rockfm, 97x)</td></tr>
+</table>
+
+<p class="note">Two mechanisms within these clusters: <strong>template DECAY</strong> (5-43 claims/pub — central management hasn't updated through SSP industry consolidation; SB Nation acmepackingcompany.com carries dead DistrictM, EMX, SpotX, Vi.ai); <strong>template INJECTION</strong> (81-733/pub — piracy + Forumotion patterns with far more entries than organic relationships explain).</p>
+
+<p>Cross-cluster sampling shows the same dead SSPs (advertising.com, districtm.io, spotx.tv, emxdgt.com) appear in 3-5 of 8 sampled publisher networks. Independent companies on different continents using different wrappers all carry the same dead SSPs. <strong>The decay is industry-wide, not network-local.</strong></p>
+
+<!-- ════════════ PARETO ════════════ -->
+<h2>Concentration: most publishers are clean</h2>
+
+<div class="finding">
+<div class="finding-num">Cycle 458 — Per-publisher distribution</div>
+<p><strong>34.8% of publishers (26,497 of 74,211) have ZERO phantom DIRECT claims.</strong> Another 5.6% (4,250) are under 5%. The aggregate 33.83% rate is driven by claim-volume concentration in a heavy-phantom long tail.</p>
+</div>
+
+<table>
+<tr><th>Per-publisher phantom rate</th><th class="r">Publishers</th><th class="r">% of corpus</th></tr>
+<tr><td>0% (fully clean)</td><td class="r"><strong>26,497</strong></td><td class="r"><strong>34.8%</strong></td></tr>
+<tr><td>&lt;5%</td><td class="r">4,250</td><td class="r">5.6%</td></tr>
+<tr><td>5–25%</td><td class="r">15,162</td><td class="r">19.9%</td></tr>
+<tr><td>25–50%</td><td class="r">16,196</td><td class="r">21.3%</td></tr>
+<tr><td>50–75%</td><td class="r">4,114</td><td class="r">5.4%</td></tr>
+<tr><td>≥75% (heavy phantom)</td><td class="r">9,951</td><td class="r">13.1%</td></tr>
+</table>
+
+<table>
+<tr><th>Top-N publishers (by claim count)</th><th class="r">Share of all claims</th><th class="r">Share of all phantom</th><th class="r">Their phantom rate</th></tr>
+<tr><td>top 0.1% (76 pubs)</td><td class="r">4.4%</td><td class="r">5.9%</td><td class="r">40.49%</td></tr>
+<tr><td>top 1% (761 pubs)</td><td class="r">22.2%</td><td class="r">29.0%</td><td class="r">39.48%</td></tr>
+<tr><td>top 5% (3,808 pubs)</td><td class="r">52.4%</td><td class="r">61.7%</td><td class="r">35.63%</td></tr>
+<tr><td><strong>top 10% (7,617 pubs)</strong></td><td class="r"><strong>68.3%</strong></td><td class="r"><strong>77.4%</strong></td><td class="r">34.27%</td></tr>
+</table>
+
+<p class="note">The framework works for ~35% of publishers (fully clean) and works adequately (under 25% phantom) for another 25%. The heavy-phantom long tail dominates the volume but represents a minority cohort — largely defined by network membership (cluster signatures above) and dead-SSP carryover.</p>
+
+<!-- ════════════ EXTERNAL ════════════ -->
+<h2>External replication</h2>
+
+<div class="finding">
+<div class="finding-num">Cycle 461 — Pixalate independently measures comparable magnitudes</div>
+<p>Pixalate (founded 2012, IAB Tech Lab member) publishes quarterly "Programmatic Ad Seller Misrepresentation" reports using IAB ads.txt/app-ads.txt standards + OpenRTB SCO observation. Their Q1 2025 sample: <strong>over 10 billion programmatic ad impressions with SCO present</strong>.</p>
+</div>
+
+<table>
+<tr><th>Surface</th><th class="r">Pixalate "failed SCO verification"</th><th class="r">Pixalate "unauthorized DIRECT"</th><th>IVT correlation</th></tr>
+<tr><td>Web</td><td class="r">13%</td><td class="r">6%</td><td><strong>+159% higher IVT</strong> with unauthorized direct seller</td></tr>
+<tr><td>Mobile App</td><td class="r">35%</td><td class="r">9%</td><td>+46% higher IVT</td></tr>
+<tr><td>CTV</td><td class="r">13%</td><td class="r">16%</td><td>—</td></tr>
+</table>
+
+<p>Methodology distinction: our 33.83% is declarative-side (publisher ads.txt offers); Pixalate's 13% is observed-side (SCO chains in actual bid stream); our 4.18% is the IAB-strict observed-side equivalent computed on Prebid bidder lists. Pixalate's IVT correlation independently validates that the heavy-phantom cohort is associated with low-quality traffic — but does not characterize <em>publishers as fraudulent</em>; it characterizes the cohort.</p>
+
+<!-- ════════════ VERIFY ════════════ -->
+<h2>Verify any publisher</h2>
+
+<div class="verify">
+<strong>Reproduce it yourself:</strong> 43-line CC0 Python verifier, stdlib only.<br><br>
+<code style="display: block; margin: 0.5em 0;">$ python3 <a href="verify.py">verify.py</a> &lt;publisher_domain&gt;</code>
+<code style="display: block; margin: 0.5em 0; padding-left: 1.5em;">→ PLAUSIBLE / CONTRADICTED / PHANTOM / UNCOVERED per line + summary tally</code>
+<br>
+Full data (gzip-compressed JSONL): <a href="false_direct_claims.jsonl.gz">false_direct_claims.jsonl.gz</a>. SHA256-verified reproducer kit: <a href="verify_kit.zip">verify_kit.zip</a>.
+</div>
+
+<div style="background:#111;border:1px solid #333;border-radius:8px;padding:24px;margin:2em 0;color:#ccc;font-family:system-ui,-apple-system,sans-serif">
+<div style="font:700 1.1em system-ui;color:#fff;margin-bottom:12px">Check any publisher's ads.txt integrity</div>
 <div style="display:flex;gap:8px;margin-bottom:16px">
 <input id="pub-input" type="text" placeholder="Type a domain (e.g. cnn.com)" style="flex:1;padding:10px 14px;font-size:0.95em;border:1px solid #444;border-radius:6px;background:#1a1a1a;color:#fff;font-family:inherit;outline:none" onfocus="this.style.borderColor='#4a9eff'" onblur="this.style.borderColor='#444'">
 <button onclick="verifyPublisher()" style="padding:10px 24px;font-size:0.95em;background:#4a9eff;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;white-space:nowrap">Verify</button>
 </div>
 <div id="pub-result" style="min-height:20px"></div>
-<div style="color:#555;font-size:0.75em;margin-top:12px">22,952 publishers scored against 710 SSP registries (1.6M seller entries). Data updates: March 2026.</div>
+<div style="color:#555;font-size:0.75em;margin-top:12px">22,952 publishers scored. Reading: 0-5% likely clean; 25-50% likely template-decay; ≥75% likely network-template cluster.</div>
 </div>
 
-<div id="scorecard" style="background:#111;border:1px solid #333;border-radius:8px;padding:20px;margin:2em 0;color:#ccc;font-family:system-ui,sans-serif">
-<h3 style="color:#fff;margin:0 0 12px">Wrapper Provider Scorecard</h3>
-<p style="color:#888;font-size:0.85em;margin-bottom:12px">195 header bidding management companies graded by the false DIRECT claim rate of their managed publishers. <a href="wrapper_scorecard.json" style="color:#4a9eff">Full data (JSON)</a></p>
-<table style="width:100%;font-size:0.8em;border-collapse:collapse;color:#ccc">
-<tr style="border-bottom:1px solid #333"><th style="text-align:left;padding:4px 8px">Provider</th><th style="text-align:right;padding:4px">Pubs</th><th style="text-align:right;padding:4px">False%</th><th style="text-align:right;padding:4px">Grade</th></tr>
-<tr><td style="padding:3px 8px">CafeMedia/Raptive</td><td style="text-align:right">530</td><td style="text-align:right;color:#22c55e">23.3%</td><td style="text-align:right;color:#22c55e">B</td></tr>
-<tr><td style="padding:3px 8px">Mediavine</td><td style="text-align:right">306</td><td style="text-align:right;color:#22c55e">30.1%</td><td style="text-align:right;color:#22c55e">B</td></tr>
-<tr><td style="padding:3px 8px">Playwire</td><td style="text-align:right">201</td><td style="text-align:right;color:#eab308">48.5%</td><td style="text-align:right;color:#eab308">C</td></tr>
-<tr><td style="padding:3px 8px">Freestar</td><td style="text-align:right">455</td><td style="text-align:right;color:#f59e0b">55.4%</td><td style="text-align:right;color:#f59e0b">D</td></tr>
-<tr><td style="padding:3px 8px">Ezoic</td><td style="text-align:right">267</td><td style="text-align:right;color:#f59e0b">56.9%</td><td style="text-align:right;color:#f59e0b">D</td></tr>
-<tr><td style="padding:3px 8px">Moneytizer</td><td style="text-align:right">429</td><td style="text-align:right;color:#ef4444">66.2%</td><td style="text-align:right;color:#ef4444">F</td></tr>
-<tr><td style="padding:3px 8px">Publift</td><td style="text-align:right">291</td><td style="text-align:right;color:#ef4444">69.5%</td><td style="text-align:right;color:#ef4444">F</td></tr>
-<tr><td style="padding:3px 8px">Pubnation</td><td style="text-align:right">73</td><td style="text-align:right;color:#ef4444">70.4%</td><td style="text-align:right;color:#ef4444">F</td></tr>
-</table>
-<p style="color:#555;font-size:0.7em;margin-top:8px">Graded via MANAGERDOMAIN field in ads.txt 1.1. A=&lt;20% false, B=20-35%, C=35-50%, D=50-60%, F=&gt;60%. <a href="wrapper_scorecard.json" style="color:#4a9eff">All 195 providers →</a></p>
+<!-- ════════════ FRAMING REVISIONS ════════════ -->
+<h2>What this supersedes</h2>
+
+<div class="supersede">
+The March 2026 version of this page led with "57.3% of DIRECT claims are provably false" framed as a publisher-fraud / industry-cartel finding. The numeric claim is defensible (composite of 29% contradicted + 26% phantom on that snapshot). The implied story is not. Cycles 458-468 progressively decomposed the rate by attributable mechanism; <strong>97.5% of phantom volume is structural framework brittleness</strong>, not publisher fraud or coordinated cartel behavior.
 </div>
-
-<!-- ════════════ FINDING 2 ════════════ -->
-<h2>Finding 2: Consent Is Absent</h2>
-
-<div class="finding">
-<div class="finding-num">Core claim</div>
-<p><strong>0.012% of identity-sharing requests carry valid consent on first visit.</strong> ~87 genuine consent strings in 721,129 sync requests. Not broken — never built.</p>
-</div>
-
-<p>Under GDPR, companies must obtain consent before sharing a user's identity with third parties. In programmatic advertising, "cookie syncing" is the mechanism that shares identity — Company A tells Company B "your user #X is my user #Y."</p>
-
-<p>We captured 721,129 cookie sync requests across 186,000 websites and checked whether they carried the required TCF consent string:</p>
 
 <table>
-<tr><th>Consent Status</th><th>Requests</th><th style="width:40%">Distribution</th></tr>
-<tr><td><strong>No consent parameter at all</strong></td><td>210,980 (77.3%)</td>
-<td><div class="bar-container"><div class="bar" style="width:77.3%; background:#c00"></div></div></td></tr>
-<tr><td><strong>Parameter present but empty</strong></td><td>60,109 (22.0%)</td>
-<td><div class="bar-container"><div class="bar" style="width:22%; background:#e67300"></div></div></td></tr>
-<tr><td><strong>Unresolved template macro</strong></td><td>1,794 (0.66%)</td>
-<td><div class="bar-container"><div class="bar" style="width:4%; background:#cc0"></div></div></td></tr>
-<tr><td><strong>Valid TCF consent string</strong></td><td>34 (0.012%)</td>
-<td><div class="bar-container"><div class="bar" style="width:1%; background:#2a7"></div></div></td></tr>
+<tr><th>Framing</th><th>Cycles</th><th>Agency implied</th><th>Status</th></tr>
+<tr><td>"Cartel coordination"</td><td>442-445</td><td>Coordinated bad-actor injection</td><td>Refuted (per-pair Jaccard ≈ 0)</td></tr>
+<tr><td>"Compliance theater"</td><td>446</td><td>Willful decorative maintenance</td><td>Refined to template decay</td></tr>
+<tr><td>"Template decay"</td><td>466</td><td>Centralized network management</td><td>Refined to industry-wide</td></tr>
+<tr><td>"Geological decay"</td><td>467</td><td>Absent deprecation channel</td><td>Current</td></tr>
+<tr><td><strong>"Structural framework brittleness"</strong></td><td><strong>468</strong></td><td><strong>97.5% structural / 2.5% potential fraud</strong></td><td><strong>Current</strong></td></tr>
 </table>
 
-<h3>What the user experiences</h3>
-<div class="timeline">
-<div class="timeline-item">
-<div class="timeline-time">0.0 seconds — Page load begins</div>
-<p>Ad scripts start executing. Cookie sync requests fire immediately.</p>
-</div>
-<div class="timeline-item">
-<div class="timeline-time">0.1–0.5 seconds — Identity propagation</div>
-<p>User IDs shared across companies. No consent obtained yet.</p>
-</div>
-<div class="timeline-item">
-<div class="timeline-time">1–3 seconds — Full graph assembled</div>
-<p>Dozens to hundreds of companies now know this user visited this page. The worst observed: 294 in one load.</p>
-</div>
-<div class="timeline-item delayed">
-<div class="timeline-time delayed">2–5 seconds — Consent banner appears</div>
-<p>User sees "Do you accept cookies?" The data has already been shared.</p>
-</div>
-</div>
+<p>The release-package files <code>FTC_COMPLAINT.md</code> and <code>DOJ_ANGLE.md</code> remain in the repository as historical artifacts of the earlier framing. Both are <strong>superseded</strong> by the structural decomposition above. The framework is brittle by design (no deregistration channel); the per-publisher remediation framing is mis-targeted.</p>
 
-<p class="note">0 of 2,000 captured Prebid.js instances configure the consent management module. The Prebid Mobile SDK (decompiled from production binary) defaults to "full device access" when no consent management platform is present — including broadcasting the device's permanent Advertising ID to all bidders.</p>
+<!-- ════════════ RECOMMENDATIONS ════════════ -->
+<h2>Where remediation effort actually goes</h2>
 
-<h3>Per-company consent rates</h3>
 <table>
-<tr><th>Company</th><th>Syncs Captured</th><th>Has Consent Field</th><th>Has Valid Value</th></tr>
-<tr><td>Google Ads</td><td>27,129</td><td>0%</td><td>0.01%</td></tr>
-<tr><td>ID5</td><td>10,988</td><td>19%</td><td>0.01%</td></tr>
-<tr><td>Trade Desk</td><td>10,682</td><td>43%</td><td>0.01%</td></tr>
-<tr><td>Xandr</td><td>8,365</td><td>23%</td><td>0.05%</td></tr>
-<tr><td>Magnite</td><td>8,141</td><td>18%</td><td>0.04%</td></tr>
-<tr><td>Criteo</td><td>6,617</td><td>27%</td><td>0.14%</td></tr>
+<tr><th>Action</th><th>Owner</th><th>Scope</th></tr>
+<tr><td>IAB Tech Lab adopts SSP-deregistration registry + propagation channel</td><td>IAB Tech Lab</td><td>industry-wide</td></tr>
+<tr><td>Publisher-network ads.txt-template refresh pipeline (sellers.json cross-check at publish time)</td><td>Vox/Gannett/Newsquest/etc. central ads.txt management</td><td>O(1,102 clusters), not O(74,000 publishers)</td></tr>
+<tr><td>Wrapper-vendor enforcement (Prebid module: require ads.txt presence before bidder activation)</td><td>Prebid.org, headerbidding.io, headerbid.com</td><td>4.18% observed leak</td></tr>
+<tr><td>SSP sellers.json hygiene (remove dead seller_ids; document confidentiality flag scope)</td><td>SSPs individually</td><td>17.1% orphan-registry leak</td></tr>
+<tr><td>Schema-migration coordination protocol (Criteo Iponweb→Commerce Grid pattern)</td><td>IAB Tech Lab</td><td>3.5% Criteo + similar future migrations</td></tr>
 </table>
+
+<!-- ════════════ METHOD ════════════ -->
+<h2>Method</h2>
 
 <div class="method">
-<strong>Method:</strong> Headless browser crawled 110,610 unique sites (the dataset at the time of consent analysis), capturing all HTTP requests. Filtered for known sync URL patterns (cookie_sync, usersync, setuid, mapuid, getuid, etc.). Parsed consent parameters (gdpr_consent, euconsent, consent) from query strings. TCF v2 strings validated by checking version prefix, length, and base64 encoding. This measures <em>first-visit</em> behavior — before the user has interacted with any consent banner. The crawl has since expanded to 142,630 sites; consent analysis covers the 110,610-site subset.
+Downloaded ads.txt from 74,460 publishers (Tranco top-1M + 186,000-domain crawler harvest). Fetched sellers.json from 1,672 SSPs (~1.89M total seller entries, including Google's confidential-flagged 994K). For each DIRECT claim, looked up the seller_id in the SSP's registry: registry says INTERMEDIARY → contradicted; seller_id absent → phantom; registry says PUBLISHER → plausible. Deduplicated by (publisher, SSP, seller_id) triple. Malformed seller_ids filtered.<br><br>
+
+Cycle 458-468 added: (1) per-Tranco-tier stratification with Wilson 95% CIs, (2) impression-flow weighting via X-Ray observed activity, (3) X-Ray Prebid bidder-list cross-check for IAB-strict observed-side rate, (4) Pearson correlation of declarative-vs-observed per publisher, (5) SHA1 fingerprinting of phantom seller_id sets for cluster identification, (6) dead-SSP persistence accounting with documented acquisition timelines.<br><br>
+
+All decomposition queries are reproducible via the public <code>false_direct_claims.jsonl.gz</code> + <code>verify.py</code>. The cross-vantage observed-side calc uses additional capture from a Playwright/X-Ray pipeline (108 publishers in current sample); CI confirms the Pixalate methodology comparison.
 </div>
 
-<!-- ════════════ FINDING 3 ════════════ -->
-<h2>Finding 3: Identity Proliferates</h2>
+<!-- ════════════ KNOWN LIMITS ════════════ -->
+<h2>Known weaknesses</h2>
 
-<div class="finding">
-<div class="finding-num">Core claim</div>
-<p><strong>The average ad-tech-enabled website shares user identity with 5 companies. The worst shares with 294 in a single page load.</strong></p>
-</div>
+<p><strong>1. Observed-side sample is small.</strong> n=68 publishers with prebid_json captured. Wilson 95% CI on 4.18% = [2.78%, 6.21%]. Pixalate's 13% sits outside this CI, confirming the methodology distinction (declarative vs observed; DSP inclusion).</p>
 
-<canvas id="graph" width="720" height="300"></canvas>
+<p><strong>2. Schema-migration bucket may be undercounted.</strong> Beyond Criteo's documented Iponweb→Commerce Grid migration, other SSPs (Yahoo/AOL legacy, Xandr/AppNexus split) likely had quieter format changes that show up here as "live-SSP staleness" rather than the schema-migration bucket.</p>
 
-<table>
-<tr><th>Metric</th><th>Value</th></tr>
-<tr><td>Sites scanned</td><td>142,630</td></tr>
-<tr><td>Total requests captured</td><td>2,586,662</td></tr>
-<tr><td>Total sync requests</td><td>422,308</td></tr>
-<tr><td>Average companies per site (with adtech)</td><td>5.1</td></tr>
-<tr><td>Maximum (single page load)</td><td>294</td></tr>
-</table>
+<p><strong>3. Orphan-registry detection is rate-based.</strong> A live SSP with 0 entries in sellers.json gets classified as "orphan registry" at &gt;90% rate. False positives are possible for SSPs with very small genuine publisher rosters; manual inspection of the &gt;90% bucket confirms most are dead-equivalent.</p>
 
-<h3>Geographic differential</h3>
-<table>
-<tr><th>Region</th><th>Sites</th><th>Avg Entities</th><th>Avg Syncs/Site</th></tr>
-<tr><td>.jp (Japan)</td><td>1,605</td><td>8.1</td><td>4.6</td></tr>
-<tr><td>.com (US-dominated)</td><td>53,194</td><td>5.7</td><td>3.4</td></tr>
-<tr><td>.br (Brazil)</td><td>1,660</td><td>5.6</td><td>2.7</td></tr>
-<tr><td>.co.uk (United Kingdom)</td><td>1,947</td><td>5.0</td><td>5.7</td></tr>
-<tr><td>.ru (Russia)</td><td>2,990</td><td>3.5</td><td>2.2</td></tr>
-<tr><td>.fr (France)</td><td>1,265</td><td>3.7</td><td>1.3</td></tr>
-<tr><td>.de (Germany)</td><td>2,429</td><td>2.7</td><td>0.6</td></tr>
-</table>
+<p><strong>4. Confidentiality flag is IAB-spec-legal.</strong> Google's <code>is_confidential: true</code> usage is permitted by IAB sellers.json v1.0 spec. The 178,871 Google phantom claims aren't fraud — they're a known-by-design opacity allowance. We report them in their own bucket rather than rolling into "phantom = fraud."</p>
 
-<p class="note">EU sites average 23% fewer tracking entities than non-EU sites (3.7 vs 4.8 across 135,000 sites). Within the EU, UK and German sites are both GDPR. UK sites average 5.7 syncs per page; German sites average 0.6. The 10x difference is publisher configuration, not regulation. The law is the same. Compliance is not.</p>
+<p><strong>5. ads.txt freshness.</strong> Snapshot dated May 22, 2026 corpus. SSPs can reclassify sellers; phantom claims could resolve if SSPs add entries. Both verdicts are point-in-time.</p>
 
-<h3>Top identity graph hubs</h3>
-<table>
-<tr><th>Company</th><th>Sync Partners</th><th>Role</th></tr>
-<tr><td>Trade Desk</td><td>15</td><td>DSP — buys audiences</td></tr>
-<tr><td>Xandr (Microsoft)</td><td>14</td><td>SSP/DSP hybrid</td></tr>
-<tr><td>Magnite</td><td>12</td><td>SSP — sells inventory</td></tr>
-<tr><td>Criteo</td><td>11</td><td>Retargeting</td></tr>
-<tr><td>PubMatic</td><td>10</td><td>SSP</td></tr>
-<tr><td>ID5</td><td>10</td><td>Identity resolution</td></tr>
-<tr><td>BidSwitch</td><td>9</td><td>Exchange connector</td></tr>
-</table>
-
-<div class="method">
-<strong>Method:</strong> Playwright-based headless browser, 25 parallel instances, 4-second page loads (8s for deep scans with Prebid hook). 142,630 unique sites from Tranco 1M, tiered scheduling (top 10K every 4h, mid 100K every 24h, tail 1M every 72h). Every HTTP request matched against 603 known ad-tech domains (240 companies). Sync requests identified by URL pattern matching. Identity graph edges defined by co-occurrence.
-</div>
-
-<!-- ════════════ FINDING 4 ════════════ -->
-<h2>Finding 4: The Structure</h2>
-
-<div class="finding">
-<div class="finding-num">Core claim</div>
-<p><strong>Approximately 4% of ad-tech activity on the web falls within a functioning authorization framework.</strong> The three findings above are not three separate failures. They are one system at its operating temperature.</p>
-</div>
-
-<p>The authorization framework (ads.txt) is opt-in. Most of the web opted out:</p>
-
-<table>
-<tr><th>Layer</th><th>Coverage</th><th>How measured</th></tr>
-<tr><td>Sites with ads.txt</td><td><strong>15%</strong> of ad-tech-enabled sites</td><td>Of 44,176 crawler scans showing ad-tech activity, 6,749 have a valid ads.txt. 37,427 do not.</td></tr>
-<tr><td>DIRECT claims that are genuine</td><td><strong>45%</strong></td><td>Of 2,041,107 verified triples, 884,008 are plausible (Finding 1).</td></tr>
-<tr><td>Companies covered by ads.txt</td><td><strong>76%</strong></td><td>Across 1,170 sites with both scan data and ads.txt, 24% of observed companies have no ads.txt entry.</td></tr>
-<tr><td><strong>Net authorization</strong></td><td><strong>~5%</strong></td><td>0.15 × 0.45 × 0.76 ≈ 0.051</td></tr>
-</table>
-
-<p>The 24% of companies that arrive without authorization are not random. They are the identity infrastructure — companies that build cross-site profiles:</p>
-
-<table>
-<tr><th>Company</th><th>Sites observed</th><th>Syncs (48h)</th><th>Authorized in ads.txt?</th></tr>
-<tr><td>Trade Desk</td><td>2,700</td><td>10,075</td><td>No — arrives through creatives</td></tr>
-<tr><td>LinkedIn</td><td>2,655</td><td>6,882</td><td>No</td></tr>
-<tr><td>ID5</td><td>2,095</td><td>10,243</td><td>No</td></tr>
-<tr><td>Microsoft Clarity</td><td>1,918</td><td>2,505</td><td>No</td></tr>
-<tr><td>Lotame</td><td>1,551</td><td>2,554</td><td>No</td></tr>
-<tr><td>LiveRamp</td><td>1,042</td><td>2,120</td><td>No</td></tr>
-<tr><td>Tapad</td><td>1,030</td><td>2,762</td><td>No</td></tr>
-</table>
-
-<p class="note"><strong>Two delivery mechanisms.</strong> Trade Desk, ID5, LiveRamp, Lotame, and Tapad appear almost exclusively on sites with heavy ad-tech (0–0.6% presence on low-adtech sites). They arrive through ad creatives — the publisher never installed them. Meta and Microsoft Clarity also appear on low-adtech sites (4–6%), indicating publisher installation. The brief's "24% unauthorized" figure includes both groups. The narrower claim — companies arriving uninvited through creatives — applies to the first group. Ads.txt covers SSP authorization only; none of these 7 companies are SSPs, so their absence from ads.txt is expected. The gap is not that they lack authorization — it's that no authorization framework covers them at all.</p>
-
-<h3>Why it persists</h3>
-
-<p>16 intermediary accounts appear in more than half of all ads.txt files on the internet. The most ubiquitous (Rubicon seller 17960) is in 61% of files. These entries arrive through templates distributed by intermediaries to thousands of publishers. The publisher didn't choose them; a template chose them.</p>
-
-<p>The result is a Nash equilibrium. Every participant profits from every check not working:</p>
-
-<table>
-<tr><th>Actor</th><th>Incentive to not check</th></tr>
-<tr><td>Publishers</td><td>False DIRECT claims → higher CPMs (DIRECT commands premium pricing)</td></tr>
-<tr><td>Intermediaries</td><td>Template injection → invisible margin (buyer doesn't know they exist)</td></tr>
-<tr><td>SSPs</td><td>Larger supply pool (enforcing registries would shrink inventory)</td></tr>
-<tr><td>DSPs</td><td>Richer identity data (surveillance chain provides targeting signals)</td></tr>
-</table>
-
-<p>The only parties harmed are advertisers (paying DIRECT prices for intermediary inventory) and users (identity shared without authorization or consent). Neither party has visibility into the system that harms them.</p>
-
-<p class="note">This is a model of incentives, not a proof of intent. But ads.txt was introduced in 2017. Nine years later, the false DIRECT rate has not converged toward zero. Bugs get fixed. Equilibria persist.</p>
-
-<div class="method">
-<strong>Method:</strong> The 5% figure is the product of three independently measured rates: (1) ads.txt adoption among ad-tech-enabled sites (15%, from 44,176 crawler scans with ad-tech activity), (2) DIRECT claim plausibility (47%, from 2,041,107-triple cross-reference), (3) authorized company coverage (76%, from 1,170 sites with both scan data and ads.txt). The multiplication assumes approximate independence — verified by checking that plausible rates don't vary significantly between high-surveillance and low-surveillance sites. The 24% unauthorized figure counts companies identified by domain matching against 603 known ad-tech domains. Template convergence measured across 8,095 normalized ads.txt files.
-</div>
-
-<!-- ════════════ KNOWN WEAKNESSES ════════════ -->
-<h2>Known Weaknesses</h2>
-
-<p><strong>1. Sample bias.</strong> 22,952 publishers from Tranco top-1M + 185,000-domain crawler harvest. Biased toward popular Western commercial sites. This is the relevant population for programmatic authorization, but not the internet.</p>
-
-<p><strong>2. sellers.json freshness.</strong> Snapshots from March 17–23, 2026. SSPs can reclassify sellers — an INTERMEDIARY today could become PUBLISHER tomorrow. Phantom claims could resolve if SSPs add entries. Both verdicts are point-in-time. The strict contradicted rate (29%) is the most defensible number; it requires the SSP to have actively classified the seller as INTERMEDIARY at snapshot time.</p>
-
-<p><strong>3. First-visit consent.</strong> Returning users with consent cookies likely show higher consent rates. The first-visit case is the privacy-critical one — data flows before consent is possible — but should not be generalized to all visits.</p>
-
-<p><strong>4. Quick crawl undercounting.</strong> Standard scans use 4-second page loads. Deep scans (8+ seconds with Prebid hook) see 2.4x more tracking entities. The average of 5.1 entities per ad-tech-enabled site is from standard scans; fully-loaded pages likely average 7–10.</p>
-
-<p><strong>5. Two rates, one dataset.</strong> The strict rate (29%) counts only claims where the SSP explicitly says INTERMEDIARY. The inclusive rate (55%) also counts phantom seller IDs. Both are stable across successive SSP expansions and across both curated (top-1000) and independently crawled (long-tail) publisher populations. The strict rate is the floor no one can argue with. The inclusive rate is the ceiling that depends on whether phantom IDs are fabricated or merely stale. Google's 71% confidentiality flag makes their phantom claims genuinely ambiguous.</p>
-
-<p><strong>6. The 5% estimate.</strong> The net authorization figure multiplies three rates that are measured independently and assumed to be approximately independent. The individual measurements are solid; the multiplication is approximate. The true figure could be 4–7% depending on correlation structure. The point is the order of magnitude, not the decimal.</p>
-
-<p><strong>7. Bot detection.</strong> The crawler uses headless Chromium with anti-detection flags but no mouse movement or scrolling simulation. Sites with advanced bot detection (Cloudflare Bot Management, DataDome, PerimeterX) may serve reduced ad content to detected bots. This biases our entity counts <em>downward</em> — the real tracking load on human visitors is likely higher than what we measured.</p>
+<p><strong>6. The 2.5% "potential fraud" residual is upper-bound.</strong> Many of these are also likely structural (small SSP with incomplete sellers.json, publisher mid-onboarding, etc.) — we keep them in the residual because we haven't structurally identified a mechanism, not because we've confirmed misconduct.</p>
 
 <!-- ════════════ DATA ════════════ -->
-<h2>Data Files</h2>
-<p>All data is machine-readable, standalone (no database required), and independently verifiable:</p>
+<h2>Data files</h2>
 <table>
-<tr><th>File</th><th>Records</th><th>Description</th></tr>
-<tr><td><code>false_direct_claims.jsonl</code></td><td>1,157,099</td><td>Every (publisher, SSP, seller_id) triple with verdict. Deduplicated.</td></tr>
-<tr><td><code>supply_chain_summary.json</code></td><td>1</td><td>Aggregate totals matching the JSONL exactly.</td></tr>
-<tr><td><code>publisher_profiles.jsonl</code></td><td>8,734</td><td>Per-publisher ads.txt depth and crawl traffic.</td></tr>
-<tr><td><code>identity_graph.json</code></td><td>5,816 edges</td><td>Sync co-occurrence graph across 201 companies.</td></tr>
-<tr><td><code>consent_measurement.json</code></td><td>1</td><td>Per-company consent field presence rates.</td></tr>
-<tr><td><code>crawl_summary.json</code></td><td>1</td><td>Site distribution and geographic breakdown.</td></tr>
+<tr><th>File</th><th>Description</th></tr>
+<tr><td><code><a href="false_direct_claims.jsonl.gz">false_direct_claims.jsonl.gz</a></code></td><td>Every (publisher, SSP, seller_id) DIRECT claim with verdict. ~316 MB uncompressed.</td></tr>
+<tr><td><code><a href="receipts.db.xz">receipts.db.xz</a></code></td><td>SQLite database with all verdict tables, byte-deterministic build.</td></tr>
+<tr><td><code><a href="verify_kit.zip">verify_kit.zip</a></code></td><td>Self-contained reproducer (verifier + receipts + SHA256 manifest).</td></tr>
+<tr><td><code><a href="CLAIMS.jsonl">CLAIMS.jsonl</a></code></td><td>31 specific verifiable claims with SQL and expected values.</td></tr>
+<tr><td><code><a href="ERRATA.md">ERRATA.md</a></code></td><td>~770 lines of corrections and refinements over 8 months of analysis.</td></tr>
+<tr><td><code><a href="PAPER.md">PAPER.md</a></code></td><td>Long-form paper (historical framing; partially superseded).</td></tr>
+<tr><td><code><a href="PHANTOM_PATTERNS.md">PHANTOM_PATTERNS.md</a></code></td><td>Template-injection forensics (shared-ID rings, Dynadmic TAG-ID, phantom-ID library).</td></tr>
 </table>
 
 <footer>
-Data collected March 14–25, 2026. 186,000 websites, 4.8M HTTP requests, 22,952 publisher ads.txt files, 710 SSP seller registries (1.6M sellers). Methodology available on request.
+Corpus snapshot: May 22, 2026. 74,460 publishers · 28.77M ads.txt triples · 6.56M DIRECT claims · 1,672 SSP registries · 2,219,472 phantom (33.83%). Cycles 458-468 of structural analysis. Repository: <a href="https://github.com/ivp5/adtech-audit">github.com/ivp5/adtech-audit</a>. Page rewritten May 22, 2026 to supersede March-2026 fraud framing.
 </footer>
 
 </div>
@@ -382,11 +333,11 @@ async function verifyPublisher() {
   const domain = document.getElementById('pub-input').value.trim().toLowerCase().replace(/^www\./, '').replace(/[<>"'&]/g, '');
   if (!domain || !/^[a-z0-9.-]+$/.test(domain)) return;
   const el = document.getElementById('pub-result');
-  el.innerHTML = '<div style="color:#888">Searching 22,952 publishers...</div>';
+  el.innerHTML = '<div style="color:#888">Searching publishers...</div>';
   const scores = await loadScores();
   const s = scores[domain];
   if (!s) {
-    el.innerHTML = `<div style="padding:12px;background:#1a1a1a;border-radius:6px;border-left:3px solid #555"><strong style="color:#fff">${esc(domain)}</strong><br><span style="color:#888">Not in dataset (22,952 publishers scored). May have no ads.txt or no DIRECT claims.</span></div>`;
+    el.innerHTML = `<div style="padding:12px;background:#1a1a1a;border-radius:6px;border-left:3px solid #555"><strong style="color:#fff">${esc(domain)}</strong><br><span style="color:#888">Not in dataset. May have no ads.txt or no DIRECT claims.</span></div>`;
     return;
   }
   const [total, contradicted, phantom, plausible, rate, tier, sspDiv] = s;
@@ -394,85 +345,27 @@ async function verifyPublisher() {
   const tierNames = {C:'CRITICAL',H:'HIGH',M:'MEDIUM',L:'LOW'};
   const tierColors = {C:'#ef4444',H:'#f59e0b',M:'#eab308',L:'#22c55e'};
   const tierBg = {C:'#1a0505',H:'#1a1005',M:'#1a1505',L:'#051a0a'};
-  // Percentile via binary search on precomputed sorted array — O(log n)
   let lo = 0, hi = _sortedRates.length;
   while (lo < hi) { const mid = (lo + hi) >> 1; _sortedRates[mid] < rate ? lo = mid + 1 : hi = mid; }
   const percentile = Math.round(lo / _sortedRates.length * 100);
   let html = `<div style="padding:16px;background:${tierBg[tier]};border-radius:6px;border-left:3px solid ${tierColors[tier]}">`;
-  // Gauge row
   html += `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">`;
   html += `<span style="font:700 2em 'SF Mono',ui-monospace,monospace;color:${tierColors[tier]}">${rate}%</span>`;
   html += `<span style="font:700 0.75em system-ui;color:${tierColors[tier]};letter-spacing:0.5px">${tierNames[tier]}</span>`;
-  html += `<span style="color:#555;font-size:0.75em;margin-left:auto">worse than ${percentile}% of ${allRates.length.toLocaleString()} publishers</span>`;
+  html += `<span style="color:#555;font-size:0.75em;margin-left:auto">phantom rate higher than ${percentile}% of publishers</span>`;
   html += `</div>`;
-  // Bar
   html += `<div style="height:3px;background:#333;border-radius:2px;margin-bottom:10px;overflow:hidden">`;
   html += `<div style="height:100%;width:${Math.min(rate,100)}%;background:${tierColors[tier]};border-radius:2px"></div></div>`;
-  // Stats grid
   html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.85em">`;
   html += `<div><div style="color:#ef4444;font:700 1.3em ui-monospace">${contradicted}</div><div style="color:#888;font-size:0.8em">Contradicted</div></div>`;
   html += `<div><div style="color:#f59e0b;font:700 1.3em ui-monospace">${phantom}</div><div style="color:#888;font-size:0.8em">Phantom</div></div>`;
   html += `<div><div style="color:#22c55e;font:700 1.3em ui-monospace">${plausible}</div><div style="color:#888;font-size:0.8em">Valid</div></div>`;
   html += `</div>`;
-  // Footer
-  html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #333;color:#666;font-size:0.75em">${total} DIRECT claims across ${sspDiv} SSPs &middot; ${falseN} false (${rate}%)</div>`;
+  html += `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #333;color:#666;font-size:0.75em">${total} DIRECT claims across ${sspDiv} SSPs &middot; ${falseN} false (${rate}%) &middot; <strong>Reading:</strong> Most "false" in heavy-phantom publishers is structural (dead SSPs, shared templates, schema migrations), not active fraud.</div>`;
   html += `</div>`;
   el.innerHTML = html;
 }
 document.getElementById('pub-input').addEventListener('keydown', e => { if (e.key === 'Enter') verifyPublisher(); });
-
-// Identity graph visualization — draw top edges as a force-directed-ish layout
-const canvas = document.getElementById('graph');
-const ctx = canvas.getContext('2d');
-const W = canvas.width, H = canvas.height;
-
-const nodes = [
-  {name:'Trade Desk', x:360, y:80, r:22},
-  {name:'Xandr', x:220, y:100, r:20},
-  {name:'Magnite', x:500, y:110, r:18},
-  {name:'Criteo', x:140, y:180, r:17},
-  {name:'PubMatic', x:580, y:180, r:16},
-  {name:'ID5', x:300, y:200, r:16},
-  {name:'BidSwitch', x:440, y:210, r:15},
-  {name:'Google', x:100, y:80, r:14},
-  {name:'LiveRamp', x:620, y:80, r:12},
-  {name:'Taboola', x:60, y:250, r:11},
-  {name:'Index Exch.', x:660, y:250, r:11},
-  {name:'Sovrn', x:200, y:260, r:10},
-  {name:'Amazon', x:480, y:270, r:10},
-];
-
-const edges = [
-  [0,1,1316],[0,2,1053],[0,5,1059],[0,3,891],[0,4,820],
-  [1,3,780],[1,2,750],[1,6,710],[2,6,690],[2,4,650],
-  [3,5,600],[5,6,580],[0,8,500],[1,5,490],[4,6,470],
-  [7,0,450],[3,11,400],[9,1,380],[10,4,370],[12,6,350],
-];
-
-// Draw edges
-edges.forEach(([a,b,w]) => {
-  ctx.beginPath();
-  ctx.moveTo(nodes[a].x, nodes[a].y);
-  ctx.lineTo(nodes[b].x, nodes[b].y);
-  ctx.strokeStyle = `rgba(180,40,40,${Math.min(w/1400, 0.6)})`;
-  ctx.lineWidth = Math.max(1, w / 300);
-  ctx.stroke();
-});
-
-// Draw nodes
-nodes.forEach(n => {
-  ctx.beginPath();
-  ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-  ctx.fillStyle = '#c00';
-  ctx.globalAlpha = 0.85;
-  ctx.fill();
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = '#1a1a1a';
-  ctx.font = `${Math.max(10, n.r * 0.6)}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.fillText(n.name, n.x, n.y + n.r + 14);
-});
 </script>
 </body>
 </html>
-

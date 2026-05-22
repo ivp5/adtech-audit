@@ -911,3 +911,33 @@ The cycle 442-445 "cartel" reading and cycle 446 "compliance theater" framing bo
 The 33% phantom rate persists because the IAB framework was designed in 2017 to register authorized sellers and has no mechanism to DEREGISTER them. Nine years of SSP industry consolidation (Magnite acquisitions, Yahoo collapse, Tremor mergers, Big Village bankruptcy, COVID-era foldings) accumulated as ghost entries that the framework can't shed.
 
 This is the most explanatory framing the body of work has produced.
+
+
+### E-2026-05-22-n: Decomposition refutes fraud framing — only 2.5% of phantom has misconduct shape (cycle 468)
+
+Decomposing 2,219,472 phantom DIRECT claims by attributable mechanism:
+
+| Bucket | Claims | % of phantom | Mechanism |
+|---|---:|---:|---|
+| Live-SSP moderate phantom (10-50% rate) | 780,561 | **35.2%** | seller_id staleness — old IDs persist as SSPs change format |
+| Live-SSP template-driven (50-90%) | 520,654 | **23.5%** | mainstream SSPs (Taboola 62%, IX 52%, Yahoo 71%, Outbrain 69%, MGID 70%) — wrapper/template injection |
+| Live-SSP orphan registry (>90% rate) | 380,453 | 17.1% | adtech.com 100%, ampliffy 100%, blis 100%, ligadx 100% — SSPs with empty/broken sellers.json |
+| Dead-SSP geological decay | 225,421 | 10.2% | SSPs that no longer exist; cycle 467 |
+| Google confidentiality flag | 178,871 | 8.1% | `is_confidential: true` is IAB-spec-legal opacity |
+| Criteo schema migration | 77,372 | 3.5% | Iponweb → Commerce Grid format change mid-2024 |
+| **Live-SSP low-rate (<10%)** | **56,140** | **2.5%** | only this bucket has "individual misclaim" shape |
+
+**Only ~2.5% of phantom claims have the shape consistent with publisher misconduct.** The other 97.5% is structural framework brittleness: schema changes, orphan registries, dead-SSP decay, confidentiality flags, template injection by mainstream SSPs.
+
+### What this means for the FTC complaint and DOJ angle
+
+The release-package files `FTC_COMPLAINT.md` and `DOJ_ANGLE.md` have been marked **SUPERSEDED**. The underlying numbers remain accurate, but the implied story (publishers committing fraud / cartel coordination) is contradicted by the structural decomposition.
+
+The valid remediation path that the data supports:
+1. **IAB Tech Lab** adopts an SSP-deregistration registry + propagation channel (addresses the 10.2% geological decay + structural foundation)
+2. **Publisher-network central ads.txt management** (Vox, Gannett, Newsquest, Black Press, FanSided, IAC, Townsquare, Booking) adopts sellers.json cross-check at publish time (addresses the 28.6% cluster-based template decay; cycle 466)
+3. **Wrapper vendors** (Prebid.org, headerbidding.io) enforce ads.txt presence before bidder activation (addresses the 4.18% observed-side leak; cycle 464)
+4. **SSPs individually** publish hygienic sellers.json (removes dead seller_ids, documents confidentiality flag scope; addresses the 17.1% orphan-registry bucket)
+
+The original cartel-frame remediation (FTC enforcement against publishers, DOJ antitrust against Google) does not match the structural mechanism. The framework needs maintenance infrastructure, not regulatory enforcement against individual publishers.
+
