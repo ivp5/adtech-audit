@@ -2049,3 +2049,107 @@ Combined: **5,144,853 structural anomalies** out of 28.77M ads.txt rows (17.9% o
 
 The three mechanisms are different, but the COHORT of impersonating publishers is largely the same — the cycle 478-481 named operators (Ayo Indonesia, Stoic Media, Jamaica Observer, etc.) appear in all three verdict classes simultaneously.
 
+
+
+### E-2026-05-23-c: The Ayo Indonesia universal-template proof — 904-pair core, 86.7% props.id, intra-Indonesian identity collapse (cycle 484)
+
+After cycle 483's premium-brand-impersonation finding, drilled into the cohort signature itself. Computed pairwise Jaccard similarity of `impersonation_undisclosed` pair-sets across the top-9 Ayo Indonesia sites.
+
+#### Empirical proof of single-template propagation
+
+| pair | Jaccard |
+|---|---:|
+| jatimnetwork.com ∩ harianhaluan.com | 0.952 |
+| jatimnetwork.com ∩ dikasihinfo.com | 0.961 |
+| dikasihinfo.com ∩ urbanjabar.com | 0.982 |
+| urbanjabar.com ∩ metropolitan.id | 0.977 |
+| harianhaluan.com ∩ dikasihinfo.com | 0.975 |
+| ... | mostly 0.92-0.98 |
+| (lowest pair) ceposonline.com ∩ all others | 0.75-0.78 |
+
+**Universal intersection across all 9 sites: 904 (ssp, seller_id) pairs.** Each site carries 1,096-1,169 total impersonation pairs. The 904-pair UNIVERSAL CORE = 80% template overlap. The remaining 200-300 per-site entries are individual variation on top of the core template.
+
+This empirically PROVES cycle 478-479's claim that Ayo Indonesia ships a unified template — at near-identity level. No comparable Jaccard structure exists for unrelated publisher cohorts (control: random publisher pairs have Jaccard <0.05).
+
+#### Template composition
+
+The 904-pair core touches **50 distinct SSPs** and impersonates **860 distinct brand domains**.
+
+Concentration in the template:
+
+| SSP | seller_ids in template | % of template |
+|---|---:|---:|
+| **props.id** | **784** | **86.7%** |
+| google.com | 24 | 2.7% |
+| appnexus.com | 10 | 1.1% |
+| pubmatic.com | 8 | 0.9% |
+| smartadserver.com | 5 | 0.6% |
+| lijit.com (Sovrn) | 5 | 0.6% |
+| adtelligent.com | 5 | 0.6% |
+| affinity.com | 3 | 0.3% |
+| mgid.com | 3 | 0.3% |
+| adyoulike.com | 3 | 0.3% |
+| openx.com, playstream.media, onetag.com, richaudience.com, nsightvideo.com | 2 each | |
+| 36 other SSPs | 1-2 each | |
+
+**props.id is the dominant carrier.** 784 of 904 entries (86.7%) of the universal template are props.id credentials. The rest is distributed across 49 other SSPs.
+
+#### props.id is a real Indonesian SSP
+
+ccurl-verified live state of props.id:
+- Live website at `https://props.id/`
+- sellers.json: 2,329 sellers, all PUBLISHER type, 2,324 distinct publisher domains
+- Contact email: `info@props.id`
+- Contact address: `Regentwon Gold Blok J2 No. 8` (Indonesian, likely Surabaya)
+- Top registered publishers in sellers.json:
+  - `com.bsm.id` (Beritasatu Media's BSM app)
+  - `com.beritasatu` (Berita Satu mobile app)
+  - `jawapos.com` (Jawa Pos newspaper, major Indonesian daily)
+  - `beritanusa.com`
+  - `farah.id`
+  - `sumbar.disway.id`
+  - …2,300+ others (small Indonesian websites + apps)
+
+props.id is a legitimate Indonesian SSP with a legitimate-looking sellers.json. Its 2,329 sellers represent (per the registry) real Indonesian publisher inventory.
+
+#### What Ayo Indonesia is actually impersonating
+
+The 784 props.id credentials in Ayo Indonesia's universal template are NOT random fabrications. They're the registered seller_ids of 784 OTHER Indonesian publishers — including:
+
+- **Berita Satu Media Holdings**: BSM apps + Beritasatu — owned by **Lippo Group** (one of Indonesia's largest conglomerates)
+- **JawaPos Group**: major newspaper publishing group
+- **Investor.id**: financial news
+- **Berita Nusa**: regional news
+- **Disway.id**: regional news network
+- Hundreds of smaller Indonesian websites + apps
+
+Per the IAB reciprocity check: when jatimnetwork.com declares `props.id, 4137, DIRECT`, but props.id's sellers.json says 4137 belongs to `com.beritasatu`, the protocol fires impersonation. jatimnetwork.com is claiming to be Berita Satu.
+
+#### Reframe: this is intra-Indonesian publisher identity collapse
+
+Cycle 483 found Ayo Indonesia impersonating premium global brands (Sky, USA Today, Automattic) via small-international-SSP credentials. Cycle 484 finds the DOMINANT mechanism: Ayo Indonesia impersonating OTHER MAJOR INDONESIAN PUBLISHERS (Berita Satu, JawaPos, Investor.id) via props.id credentials.
+
+The premium-global-brand impersonations (Seedtag/SunMedia/AdPone/Insticator pointing to international brands) account for ~13% of the universal template. The remaining 87% is **intra-Indonesian publisher identity collapse** — small Indonesian site impersonating large Indonesian publisher's props.id credentials.
+
+This recontextualizes the cycle 478-479 Ayo Indonesia finding:
+
+- Cycle 479: "Ayo Indonesia uses 6-country wrapper coalition"
+- Cycle 484: "Ayo Indonesia primarily uses ONE Indonesian SSP (props.id) impersonating the major Indonesian media holdings (Berita Satu/Lippo, JawaPos, Investor.id) — international SSPs are just 13% spice"
+
+The "wrapper coalition" framing was overcomplicated. The dominant pattern is local Indonesian SSP infrastructure being used to impersonate the dominant Indonesian media groups.
+
+#### What this likely means structurally
+
+Berita Satu, JawaPos, Investor.id ARE registered with props.id (as PUBLISHERs of their inventory). props.id legitimately syndicates their inventory.
+
+When Ayo Indonesia (or its wrapper, AnyMindGroup) builds a template, the template includes props.id seller_ids that the wrapper has access to syndicate. The downstream Ayo Indonesia sites ship the template. Their ads.txt now declares 784 props.id credentials that registry-attest to Berita Satu / JawaPos / Investor.id.
+
+The likely intent: monetize Ayo Indonesia traffic by claiming Berita Satu-class inventory at props.id. The structural consequence: 1.5M flag events at protocol scale, all flagging Ayo as impersonating major Indonesian publishers.
+
+#### Open questions for cycle 485+
+
+1. Does props.id KNOW its credentials are being declared by non-customers? Are they complicit, negligent, or unaware?
+2. Do Berita Satu / JawaPos / Investor.id know their credentials are being claimed?
+3. Does the Indonesian Press Council or IAB Indonesia have any mechanism to address this?
+4. The 13% international-SSP portion routes through Seedtag/Pixfuture/etc. — do those SSPs' compliance teams notice the cohort signature?
+
