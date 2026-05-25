@@ -3109,3 +3109,82 @@ This is what CafeMedia and Mediavine have done across at minimum 6 (probably 20+
 #### Primary-source evidence cached
 
 `tmp/20260525_h196_named_entity_reciprocity_sweep/` — 5 fetched upstream SSP sellers.json files (themediagrid 303K, sharethrough 807K, indexexchange 547K, openx 1.96M, media.net 340K) with H196 cross-tab logic. Reproduces in 30s.
+
+
+### E-2026-05-25-k: Refutation pass — H195/H196 mechanism claim was incomplete (H197)
+
+H195 and H196 claimed "upstream-SSP named-entity reciprocity" was the differentiator between hygienic and template-paste managers. H197 ran the Popperian negative-control probe and **partially refuted** that claim.
+
+#### The probe: do template-paste managers have named-entity sids on upstream SSPs?
+
+For each manager, count sellers in upstream SSPs' sellers_registry where `domain=$manager_domain`:
+
+| Manager | Tier | dom-matches | SSP count |
+|---|---|---:|---:|
+| cafemedia.com | HYGIENIC | 266 | 107 |
+| mediavine.com | HYGIENIC | 173 | 106 |
+| **freestar.com** | TEMPLATE | **922** | **147** |
+| themoneytizer.com | TEMPLATE | 395 | 106 |
+| adpushup.com | TEMPLATE | 203 | 159 |
+| refinery89.com | TEMPLATE | 154 | 103 |
+| buysellads.com | TEMPLATE | 142 | 88 |
+| anymanager.io | TEMPLATE | 128 | 72 |
+| bloxdigital.com | TEMPLATE | 99 | 58 |
+| stroeer.com | TEMPLATE | 37 | 24 |
+
+**Freestar has 922 named sids across 147 upstream SSPs — MORE than CafeMedia (266) and Mediavine (173) combined.** TheMoneytizer has 395 across 106. Most template-paste managers have substantial named-entity reciprocity. The H195/H196 framing of "reciprocity = hygienic" was wrong.
+
+#### The real mechanism
+
+For each cohort, what fraction of their publishers' DIRECT credentials have `reg_domain = $manager_domain`?
+
+| Manager | Pubs | Total DIRECT | reg_domain=mgr hits | **Hit ratio** |
+|---|---:|---:|---:|---:|
+| **cafemedia.com** | 1,846 | 154,248 | 104,671 | **67.86%** |
+| **mediavine.com** | 1,481 | 102,387 | 64,047 | **62.55%** |
+| buysellads.com | 152 | 36,350 | 8,291 | 22.81% |
+| freestar.com | 960 | 288,513 | 45,975 | **15.94%** |
+| themoneytizer.com | 1,013 | 754,863 | 45,730 | **6.06%** |
+| bloxdigital.com | 300 | 177,847 | 9,489 | **5.34%** |
+
+CafeMedia + Mediavine route **62-68% of their cohort's DIRECT credentials** through manager-attributed sids. Template-paste managers route only **5-23%**.
+
+#### Two-factor decomposition
+
+Two factors generate this ratio:
+
+1. **Template size**: average DIRECT credentials per publisher
+   - CafeMedia: 154,248 / 1,846 = **84 DIRECT/pub**
+   - Mediavine: 102,387 / 1,481 = **69 DIRECT/pub**
+   - Freestar: 288,513 / 960 = **301 DIRECT/pub**
+   - TheMoneytizer: 754,863 / 1,013 = **745 DIRECT/pub**
+   - BLOX: 177,847 / 300 = **593 DIRECT/pub**
+2. **Manager-attributed sid usage**: of the cited sids, how many match the manager's named entries on upstream SSPs?
+   - For freestar's triplelift sids: only 1 of 4 sampled (sid 5579) is cited by the cohort. The other 3 named sids have ZERO cohort citations.
+   - For CafeMedia's triplelift sids: ALL 4 sampled (4800-4803) are cited by 1,843 of 1,846 publishers.
+
+Hygienic managers use SMALL templates with HIGH usage of their named sids. Template-paste managers use LARGE templates with LOW usage of their named sids (the templates contain mostly other-publisher-attributed credentials).
+
+#### Refined mechanism statement (correcting H195/H196)
+
+**Wrong (H195/H196)**: "Hygienic managers have named-entity reciprocity on upstream SSPs; template-paste managers don't."
+
+**Correct (H197)**: "Most managers (hygienic and template-paste alike) have named-entity reciprocity on dozens of upstream SSPs. The distinction is operational: hygienic managers ALSO restrict their template content to (mostly) manager-attributed sids, keeping templates small and dominated by hits. Template-paste managers fill huge templates with other-publisher-attributed sids, drowning out their own named entries."
+
+#### Implication for fix recommendation
+
+The fix isn't "negotiate registry reciprocity" — template-paste managers already do. The fix is two-pronged:
+1. **Reduce template size** to only what the publisher actually monetizes
+2. **Prioritize manager-attributed sids** in that template
+
+CafeMedia + Mediavine have done both. Freestar/BLOX/BSA/TheMoneytizer have done #1 partially (reciprocity exists) but not #2 (they paste huge other-attributed-sid templates anyway).
+
+#### Tripwire
+
+`tests/test_h197_reg_domain_match_ratio.py` (54th in production runner) asserts: CafeMedia + Mediavine maintain ≥ 55% reg_domain=mgr hit ratio. Drop = mechanism shift toward template-paste practice.
+
+#### Self-correction on H195/H196
+
+The H195 (E-2026-05-25-i) and H196 (E-2026-05-25-j) entries claim or imply that named-entity reciprocity is the distinguishing mechanism. H197 partially refutes that. The triplelift CMI sids ARE real and the publishers DO cite them — but the claim that template-paste managers DON'T have similar arrangements is wrong. They do; their publishers just cite other things in larger volume.
+
+The H195/H196 page text needs the equivalent correction.
