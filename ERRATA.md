@@ -3188,3 +3188,79 @@ CafeMedia + Mediavine have done both. Freestar/BLOX/BSA/TheMoneytizer have done 
 The H195 (E-2026-05-25-i) and H196 (E-2026-05-25-j) entries claim or imply that named-entity reciprocity is the distinguishing mechanism. H197 partially refutes that. The triplelift CMI sids ARE real and the publishers DO cite them — but the claim that template-paste managers DON'T have similar arrangements is wrong. They do; their publishers just cite other things in larger volume.
 
 The H195/H196 page text needs the equivalent correction.
+
+
+### E-2026-05-25-l: Apex victim reg_domains — 73.6% don't publish ads.txt (H198)
+
+H197 established that template-size × manager-attributed-sid-usage-ratio is the actual differentiator. H198 turned the lens around: of the seller_ids being template-pasted into apex impersonation cells, **whose identities are being attributed without consent?**
+
+#### Apex victim distribution
+
+For the 592 apex cells (n_direct ≥ 100, imp rate ≥ 95%), enumerated the impersonated seller_ids' reg_domain values:
+
+- **109,254 total victim mentions**
+- **1,558 distinct victim reg_domains**
+- Top 200 victims = **64.5%** of mentions (long-tailed, not a small concentrated cabal)
+- Top 100 = 32.5%, top 50 = 16.5%, top 25 = 8.4%, top 10 = 3.6%
+
+The distribution refutes any "small set of stolen identities" hypothesis. Template-paste's victim pool is diffuse — 1,558 distinct reg_domains spread across the long tail.
+
+#### Coordinated vs external partition
+
+For each victim, checked whether it appears as a publisher_domain anywhere in the corpus (i.e., has its own ads.txt):
+
+| Class | Mentions | % | Distinct | % |
+|---|---:|---:|---:|---:|
+| **Coordinated** (victim has own ads.txt) | 41,097 | 37.6% | 412 | 26.4% |
+| **External** (victim has no ads.txt) | **68,157** | **62.4%** | **1,146** | **73.6%** |
+
+**73.6% of distinct victim reg_domains never published an ads.txt.** They can't reciprocate the manager's claim of representation even if they wanted to. The cascade flags impersonation correctly, but the structural mechanism is "untraceable attribution" rather than "stolen identity."
+
+#### Top 10 external victims (all in apex)
+
+| Victim reg_domain | Mentions | Apex pubs citing |
+|---|---:|---:|
+| `https://sli.members.salemsurround.com` | 529 | 5 |
+| demiroren.com.tr | 510 | 113 |
+| standardmedia.com | 355 | 347 |
+| adamspg.com | 353 | 347 |
+| drapermedia.net | 353 | 347 |
+| samplenewsgroup.com | 352 | 347 |
+| branfordseven.com | 351 | 347 |
+| allenmediabroadcasting.com | 351 | 347 |
+| appenmediagroup.com | 351 | 347 |
+| bahakeldigital.com | 351 | 347 |
+
+The 23 reg_domains appearing in exactly 347 apex pubs are the **BLOX shared template pool** — every Lee Enterprises managed property's seller_ids appear in every other Lee property's ads.txt. From the outside they look like impersonation; from inside they're a coordinated newspaper-group arrangement. But the alleged "owners" (standardmedia.com, adamspg.com, samplenewsgroup.com, ...) don't publish ads.txt themselves to reciprocate.
+
+The demiroren.com.tr + motorpresse.de + 113-apex-pub cluster is the **Stroeer German cluster** (H191). Same shared-pool pattern at smaller scale.
+
+#### Top entry oddity
+
+`https://sli.members.salemsurround.com` (529 mentions, 5 publishers) appears to be a URL-as-domain parsing artifact in some SSP's sellers.json — Salem Media's content/monetization platform. Worth a primary-source check (separate H-cycle).
+
+#### Structural finding
+
+The cascade's apex-tier "impersonation" verdict has three layers, only now fully surfaced:
+
+| Layer | Mechanism | Mentions |
+|---|---|---:|
+| Coordinated co-pool (e.g., 347-pub BLOX) | Shared template among pool members; victim is co-member | 41,097 (37.6%) |
+| External untraceable | Victim doesn't publish ads.txt; can't reciprocate | 68,157 (62.4%) |
+
+The "stolen identity" framing is misleading. The structural reality is closer to: **upstream SSPs' sellers.json files attribute seller_ids to many small domains that don't participate in the spec ecosystem, and template-paste managers route customer ads.txt through those untraceable attributions.** Whether the attribution is correct upstream-side is unverifiable from the publisher-side cascade.
+
+#### Refined fix recommendation (final form)
+
+The fix collapses to **two ecosystem actions** + one operator-side action:
+1. **Upstream SSPs**: stop registering seller_ids with reg_domain pointing at domains that haven't published an ads.txt acknowledging the relationship. If the alleged owner can't reciprocate, the SSP shouldn't attribute (or should mark as confidential).
+2. **Template-paste managers**: reduce template size to only what each publisher actually monetizes.
+3. **The IAB v1.1 cascade spec**: consider a verdict subclass "unverifiable_attribution" for cases where reg_domain ≠ publisher AND reg_domain has no ads.txt — distinguishing from genuine impersonation where the alleged owner DOES publish ads.txt that doesn't acknowledge the relationship.
+
+#### Tripwire
+
+`tests/test_h198_apex_victim_distribution.py` (55th in production runner) asserts: top-200 victim concentration ≤ 80% AND external-victim share ≥ 50%. Drops in either direction = distribution-shift signals worth investigating.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h198_apex_reg_domain_victims/` — victims_v2.log (full ranked enumeration), coordinated_vs_stolen.log (partition results).
