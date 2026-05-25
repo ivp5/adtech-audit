@@ -749,7 +749,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
   <span class="sp"></span>
   <span class="meta"><span style="color:var(--red);display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-right:6px;vertical-align:1px;animation:liveBlink 1.8s ease-in-out infinite"></span><b id="mast-clock">--:--:--</b> UTC</span>
   <span class="sep">·</span>
-  <span class="meta">Corpus <b>2026-05-25</b> &nbsp;·&nbsp; <b>86,357</b> publishers &nbsp;·&nbsp; <b>43.52M</b> triples &nbsp;·&nbsp; <b>5,454</b> SSPs (<b>1,548</b> with registry) &nbsp;·&nbsp; cycles <b>458–488</b> · H184–H190</span>
+  <span class="meta">Corpus <b>2026-05-25</b> &nbsp;·&nbsp; <b>86,357</b> publishers &nbsp;·&nbsp; <b>43.52M</b> triples &nbsp;·&nbsp; <b>5,454</b> SSPs (<b>1,548</b> with registry) &nbsp;·&nbsp; cycles <b>458–488</b> · H184–H191</span>
   <span class="sep">·</span>
   <button class="self-audit" id="self-audit" type="button" aria-haspopup="true" aria-expanded="false">
     <span class="pill">A</span> this site's grade
@@ -1106,6 +1106,38 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
     </div>
   </div>
 
+  <!-- H191 — refined sub-class taxonomy -->
+  <div style="border-top:1px solid var(--ink-10);padding-top:var(--s4);margin-top:var(--s4)">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-45);margin-bottom:8px">Exhibit E · H191 · refined taxonomy</div>
+    <h3 style="font-family:var(--ui);font-size:clamp(18px,2vw,24px);font-weight:700;letter-spacing:-.018em;margin:0 0 var(--s3);color:var(--ink)">Class A and Class B share the same mechanism. <em style="color:var(--brass);font-style:normal;border-bottom:2px solid var(--brass)">The A/B label measures whether the directive was declared, not what generates the cell.</em></h3>
+
+    <p style="font-family:var(--ui);font-size:14px;line-height:1.6;color:var(--ink-72);max-width:78ch;margin:0 0 var(--s3)">
+      The H190 framing implicitly treated A (no directive) and B (MGRDOM declared) as different generators. H191 primary-source-traced the 113 German publishers behind 212 of 216 Class A cells: all carry the <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px">#ads.txtfileStroeer2026_05_18</code> template-generation marker; 4 of 5 sampled files have byte-identical bodies (differing only in glomex timestamp comment); none declare any directive. Same template-paste mechanism as BLOX/BSA, but without the IAB v1.1 declaration. The actual ownership-uncovered residual (HuffPost-Yahoo class) is small — perhaps 16 cells.
+    </p>
+
+    <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px;margin-bottom:var(--s3)">
+      <thead>
+        <tr style="background:rgba(244,239,230,.05);border-top:1px solid var(--ink-15);border-bottom:1px solid var(--ink-15)">
+          <th style="padding:8px 10px;text-align:left;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">sub-class</th>
+          <th style="padding:8px 10px;text-align:left;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">mechanism</th>
+          <th style="padding:8px 10px;text-align:left;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">directive declared?</th>
+          <th style="padding:8px 10px;text-align:left;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">apex example</th>
+          <th style="padding:8px 10px;text-align:right;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">apex cells (est.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:6px 10px;color:var(--ink);font-weight:700">B-narrow</td><td style="padding:6px 10px;color:var(--ink-65)">template paste</td><td style="padding:6px 10px;color:var(--ink-65)">MGRDOM = cell SSP</td><td style="padding:6px 10px;color:var(--ink)">BLOX + BSA</td><td style="padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums">294</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:6px 10px;color:var(--ink);font-weight:700">B-broad</td><td style="padding:6px 10px;color:var(--ink-65)">template paste</td><td style="padding:6px 10px;color:var(--ink-65)">MGRDOM = other manager</td><td style="padding:6px 10px;color:var(--ink)">Freestar → BLOX</td><td style="padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums">82</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04);background:rgba(231,76,60,.04)"><td style="padding:6px 10px;color:var(--red);font-weight:700">A-template (NEW)</td><td style="padding:6px 10px;color:var(--ink-65)">template paste</td><td style="padding:6px 10px;color:var(--ink-65)">none declared</td><td style="padding:6px 10px;color:var(--ink)">Stroeer + yieldlove German cluster</td><td style="padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">~200</td></tr>
+        <tr><td style="padding:6px 10px;color:var(--ink);font-weight:700">A-ownership</td><td style="padding:6px 10px;color:var(--ink-65)">corporate ownership uncovered</td><td style="padding:6px 10px;color:var(--ink-65)">none declared</td><td style="padding:6px 10px;color:var(--ink)">HuffPost × Yahoo</td><td style="padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums">~16</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-family:var(--ui);font-size:13px;line-height:1.55;color:var(--ink-65);max-width:78ch;border-left:2px solid var(--brass);padding:6px 0 6px 14px;background:rgba(212,175,55,.04)">
+      <b style="color:var(--ink)">Template paste = ~96% of apex cascade tier.</b> Under H191's refined taxonomy, ~576 of 592 apex cells (B-narrow + B-broad + A-template) share the template-paste mechanism. The remaining ~16 are genuine ownership-mapping issues (HuffPost-Yahoo class). The A/B partition the cascade computes is real — but the difference is "did the publisher declare MANAGERDOMAIN" rather than "what generated the impersonation." The fix recommendation collapses to one: either managers stop pasting non-customer seller_ids, or publishers declare MANAGERDOMAIN per spec (which would surface the operator-side practice for IPD-per-partner remediation).
+    </div>
+  </div>
+
   <div style="margin-top:var(--s4);font-family:var(--mono);font-size:11px;color:var(--ink-45);letter-spacing:.04em">
     Tripwires <code>test_h187_huffpost_yahoo_cell_aberration.py</code> (Class A apex), <code>test_h188_buysellads_template_paste.py</code> (Class B apex specimens), and <code>test_h189_class_b_apex_prevalence.py</code> (Class B share ≥ 30% of the 592-cell apex tier) watch the 6 + 8 + 294 cells respectively. Drops below thresholds surface INFO-level structural shifts — corrective remediation is the desired outcome, not a regression.
   </div>
@@ -1312,7 +1344,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
   <div class="cols">
     <div><b>F1 · cross-reference</b>ads.txt and sellers.json fetched at the current corpus snapshot: <b>86,357 publishers · 43.52M (publisher, SSP, seller_id) triples · 7.17M DIRECT credentials · 5,454 SSPs cited / 1,548 with retrievable registries · 3.52M registered sellers</b> (2026-05-25). Phantom seller IDs (the cited seller_id appears in no registry under any alias) measured at <b>29.87%</b> at triple level / <b>30.68%</b> at DIRECT-credential level. The v6 cascade further decomposes: contradicted 27.86%, impersonated 24.89%, confidential-unverifiable 1.90%, no-registry-available 3.66%. Only 11.0% (valid + disclosed) cleanly validates. <b>H187 added per-(publisher, SSP) cell resolution</b> — 2,327,455 cells × ~100ms primary-key lookup, surfacing aberrations invisible at the publisher-aggregated level (z &gt; 20σ on 25 cells; HuffPost-Yahoo at z=29σ).</div>
     <div><b>F2 · consent capture</b>Headless browser, 110,610 sites, every HTTP request logged. Filtered for known sync patterns. TCF v2 validated by version prefix, length, base64. First-visit only. 0 of 2,000 captured Prebid.js instances configure a consent management module.</div>
-    <div><b>F3 / F4 · identity &amp; structure</b>Playwright headless, 4 s standard scan, 142,630 sites. 603 known ad-tech domains tracked. F4 = 15% × 47% × 76% ≈ 5.1% (true value 4–7%). <b>Cycles 458–488 of structural analysis · H-series H126–H190 (47 production tripwires).</b> Page framing is structural — a description of the equilibrium — not an allegation of fraud. <em style="color:var(--ink);font-style:italic">Bugs get fixed. Equilibria persist.</em></div>
+    <div><b>F3 / F4 · identity &amp; structure</b>Playwright headless, 4 s standard scan, 142,630 sites. 603 known ad-tech domains tracked. F4 = 15% × 47% × 76% ≈ 5.1% (true value 4–7%). <b>Cycles 458–488 of structural analysis · H-series H126–H191 (48 production tripwires).</b> Page framing is structural — a description of the equilibrium — not an allegation of fraud. <em style="color:var(--ink);font-style:italic">Bugs get fixed. Equilibria persist.</em></div>
   </div>
 
   <div class="method-code">

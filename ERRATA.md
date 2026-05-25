@@ -2702,3 +2702,67 @@ The 36.5% Class A residual reduces to the registry-mapping problem (HuffPost-Yah
 #### Self-correction on H189
 
 H189's open question #1 asked "are CafeMedia + Mediavine Class B at the cell level?" The H190 answer is unambiguous: **NO**, they are the cleanest manager cohort, not Class B. The spec works for them.
+
+
+### E-2026-05-25-e: Class A is mostly template-paste-without-directive — Stroeer German cluster (H191)
+
+H189-H190 partitioned the cascade's `impersonation_undisclosed` apex into Class A (no MANAGERDOMAIN cover, 36.5%) and Class B (MGRDOM declared, 63.5%). The implicit assumption: A and B were different mechanisms. H191 refutes that assumption.
+
+#### Trace: yieldlove + stroeer.de apex publishers
+
+113 distinct German publishers appear in apex cells against `yieldlove.com` AND `stroeer.de`. That accounts for **212 of the 216 Class A apex cells** (212 cells across 2 SSPs = 106 publisher-pairs, plus the long tail). The same publishers cited by both SSPs.
+
+#### Primary-source verification (5 sampled publishers)
+
+```
+57e4c797c9a0675d38c6539aa15efc0d  all-in.de/ads.txt           (45,496 bytes, 1,021 lines)
+75fa6efb1cd97b681bef2d8a71303d43  allgaeuer-zeitung.de/ads.txt (45,496 bytes, 1,021 lines)
+8ec06a96c1b3ef5b1aad905340b20a3a  augsburger-allgemeine.de    (45,496 bytes, 1,021 lines)
+b299ba2fd357fe1d6871a8563c2e0aa9  obermain.de/ads.txt          (45,496 bytes, 1,021 lines)
+5a83b732e68882f61a917d90f5a894b9  imsueden.de/ads.txt          (53,334 bytes, 1,184 lines)
+```
+
+4 of 5 files: **same byte length (45,496), same line count (1,021), different MD5**. Diff reveals the ONLY difference is a single glomex-generated timestamp comment line (18-hour offset). Template body byte-identical. The 5th publisher (imsueden.de) carries an additional 16 yieldlove lines + 53 stroeer.com lines on top of the same template tail.
+
+#### Two key markers in every file
+
+```
+#ads.txtfileStroeer2026_05_18           ← Stroeer template generation stamp
+# begin glomex ads.txt for $domain (...) ← glomex-managed timestamp
+```
+
+The `Stroeer` comment marker is a self-identifying template signature. The glomex marker indicates these publishers use glomex (a German video-platform / ads-monetization tool) which orchestrates the Stroeer template paste.
+
+#### Why these are "Class A" despite template-paste mechanism
+
+All 5 publishers declare **zero MANAGERDOMAIN, OWNERDOMAIN, or INVENTORYPARTNERDOMAIN directives**. The cascade verdict checks for the directive; finding none, classifies the impersonation as `impersonation_undisclosed` and the cell as Class A. But the mechanism — template paste of upstream operator credentials — is identical to BLOX (Class B-narrow) and BSA (Class B-narrow).
+
+#### Reframe of the A/B partition
+
+The H190 framing implicit: A and B are different mechanisms (registry-ownership-gap vs template-paste-cover). H191 corrects: **A and B mostly share ONE mechanism (template paste); the distinction measures directive-declaration status, not generator type**. Refined taxonomy:
+
+| Sub-class | Mechanism | Directive | Apex cells (est.) |
+|---|---|---|---|
+| **B-narrow** | template paste | MGRDOM = cell SSP | 294 |
+| **B-broad** | template paste | MGRDOM = other manager | 82 |
+| **A-template** (NEW) | template paste | NONE declared | ~200 (yieldlove + stroeer + tail) |
+| **A-ownership** (residual) | corporate ownership uncovered | NONE declared | ~16 (HuffPost-Yahoo 6 + tail) |
+
+Under this refined taxonomy, **template paste accounts for ~96% of the apex cascade tier** (576/592 cells); the remaining ~4% is genuine ownership-mapping issues (HuffPost-Yahoo class).
+
+The cascade verdict alone cannot distinguish these sub-classes; primary-source fingerprinting (template-marker comments + line-count + Jaccard on SSP-specific blocks) is required. The cascade fires accurately on the symptom; the operational practice underlying the symptom is mostly one thing.
+
+#### Implication for fix recommendation
+
+H190 closed: "the break is not in the protocol; it's in operator practice." H191 refines: the operator practice is specifically template paste, ~96% of apex. The two-pronged fix from H190 still holds:
+
+1. **Manager side**: stop template-pasting non-customer seller_ids; use IPD-per-partner per IAB v1.1 spec (CafeMedia + Mediavine prove this scales to 3,327+ publishers)
+2. **Publisher side**: declare MANAGERDOMAIN per spec when an upstream manager generates your ads.txt (would move A-template cells into B classification, making the issue more visible to remediation tools)
+
+#### Tripwire
+
+`tests/test_h191_stroeer_german_cluster.py` (48th in production runner) asserts: yieldlove + stroeer.de apex cells remain ≥ 80. Drop = INFO-level structural shift (Stroeer template change OR publishers adopted MGRDOM cover). Both corrective.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h191_class_a_taxonomy/` — 5 fetched German publisher ads.txt files + fetch log + cross-tab logs. Reproduces in 30s via `ccurl fetch https://obermain.de/ads.txt && head -1 *_ads.txt.txt` → all show `#ads.txtfileStroeer2026_05_18`.
