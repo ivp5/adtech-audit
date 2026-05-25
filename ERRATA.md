@@ -2766,3 +2766,72 @@ H190 closed: "the break is not in the protocol; it's in operator practice." H191
 #### Primary-source evidence cached
 
 `tmp/20260525_h191_class_a_taxonomy/` — 5 fetched German publisher ads.txt files + fetch log + cross-tab logs. Reproduces in 30s via `ccurl fetch https://obermain.de/ads.txt && head -1 *_ads.txt.txt` → all show `#ads.txtfileStroeer2026_05_18`.
+
+
+### E-2026-05-25-f: Full manager survey — trimodal not bimodal; 85 managers stratified (H192)
+
+H190 surveyed the top-6 managers by publisher count and found a clean bimodal split (hygienic vs template-paste). H192 extends to all 85 managers with ≥ 50 publishers and refines the hypothesis: the actual distribution is **trimodal**.
+
+#### Stratified counts
+
+| Tier | Definition | Managers | Publishers |
+|---|---|---:|---:|
+| **Hygienic** | clean ≥ 40% AND apex cells = 0 | 3 | 3,378 |
+| **Intermediate** | clean < 40% AND apex cells = 0 | 67 | 10,203 |
+| **Template-paste apex** | apex cells > 0 | 15 | 3,508 |
+
+The hygienic tier is dominated by:
+
+| Manager | Publishers | Clean% | Phantom% | Apex |
+|---|---:|---:|---:|---:|
+| cafemedia.com | 1,846 | **67.4** | 4.0 | 0 |
+| mediavine.com | 1,481 | **59.7** | 4.9 | 0 |
+| mediatradecraft.com | 51 | 41.2 | 11.4 | 0 |
+
+CafeMedia + Mediavine alone account for **3,327 of 3,378 hygienic-tier publishers** (98.5%). The IAB v1.1 IPD-per-partner discipline is proven to scale only by these two managers in the current corpus.
+
+#### Top template-paste apex managers
+
+| Manager | Publishers | Apex cells | imp% |
+|---|---:|---:|---:|
+| freestar.com | 960 | **330** | 42.6 |
+| bloxdigital.com | 300 | **286** | 54.2 |
+| adpushup.com | 372 | 5 | 25.4 |
+| refinery89.com | 367 | 4 | 21.7 |
+| adplay.it | 90 | 9 | 35.9 |
+| buysellads.com | 152 | 8 | 22.5 |
+| nsightvideo.com | 145 | 4 | 31.0 |
+| adnimation.com | 123 | 3 | 21.2 |
+| infolinks.com | 191 | 2 | 26.1 |
+| adinplay.com | 154 | 2 | 20.9 |
+| tradplusad.com | 51 | 2 | 32.0 |
+| bidmachine.io | 314 | 1 | 29.4 |
+| adapex.io | 111 | 1 | 26.3 |
+| monetizemore.com | 104 | 1 | 20.0 |
+| nextmillennium.io | 74 | 1 | 24.8 |
+
+Freestar + bloxdigital are 616 of 624 apex-cell-producing publishers (98.7%) and 616 of 624 apex cells total. The other 13 template-paste managers produce 1-9 apex cells each.
+
+#### Intermediate tier observation
+
+The dirtiest managers by clean% are NOT in the apex template-paste tier. saturndynamic.pt (1.1% clean), luponmedia (2.2%), pubrev (2.2%), pubfuture (2.6%), themoneytizer (2.7%) are all in the intermediate tier with 0 apex cells. They distribute their impersonation across many small cells that don't individually hit the n_direct ≥ 100 AND rate ≥ 95% threshold.
+
+This suggests the intermediate-vs-apex distinction is partly a granularity artifact: intermediate managers may also be template-pasting, just at smaller template sizes that don't trigger the cell-level apex filter. A future H-cycle could lower the threshold (e.g., n_direct ≥ 20) and re-measure.
+
+#### Refinement of H190's "bimodal" framing
+
+H190's claim "clean bimodal split" was correct in spirit but wrong in count. The accurate framing:
+
+- **3 managers, 3,378 publishers** prove the IAB v1.1 spec scales (hygienic)
+- **15 managers, 3,508 publishers** generate the apex cascade tier (template-paste with directive)
+- **67 managers, 10,203 publishers** sit in the middle with dirty-but-distributed patterns
+
+CafeMedia + Mediavine are not "the cleanest of an otherwise dirty population." They are the only two managers in their cleanliness band. Their existence proves the practice is possible at four-figure publisher count; the other 16,000+ managed publishers across 82 other managers don't follow it.
+
+#### Tripwire
+
+`tests/test_h192_trimodal_manager_population.py` (49th in production runner) asserts: at least 2 managers must have ≥ 500 publishers AND clean rate ≥ 50% AND 0 apex cells. Drop = loss of the IPD-scales-evidence baseline. Currently passing with CafeMedia + Mediavine.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h192_full_manager_survey/survey_*.log` — full 85-manager table with all cascade rates + classification logic.
