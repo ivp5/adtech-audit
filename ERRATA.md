@@ -2511,3 +2511,58 @@ H187 tripwire `tests/test_h187_huffpost_yahoo_cell_aberration.py` (the 44th in t
 
 The 33.83% headline phantom rate is not a measurement artifact, a foreign-market problem, or an unfamiliar-operator problem. It applies inside the largest U.S. ad-tech company's own walled-garden boundary, where every party in the cascade is the same parent. The protocol fires accurately; the disclosure has not been declared, even at the trivial limit case where declaration would cost a single line of text per file owned by the same company that owns the SSP doing the flagging.
 
+
+
+### E-2026-05-25-b: BuySellAds Class-B cell impersonation — template-paste with MANAGERDOMAIN cover (H188)
+
+H187's per-cell cascade flagged a second apex cluster with no shared operator with HuffPost-Yahoo: 8 cells against `buysellads.com`, all at z=25.7–25.9σ, n_direct=528, ~99% impersonation rate. Drilled in via primary-source fetch.
+
+#### Smoking gun: byte-identical customer ads.txt
+
+```
+6e1e0a18cfe9c274deeb3c978eb1c851  1stwebdesigner.com/ads.txt
+6e1e0a18cfe9c274deeb3c978eb1c851  html.com/ads.txt
+28aba3fcb82c58733596b7d0872bc0fd  gameinfo.io/ads.txt   (1 line prepended; remaining 1316 identical)
+```
+
+All three end with `MANAGERDOMAIN=buysellads.com` — the IAB v1.1 directive is present. So this is *not* the HuffPost-Yahoo class (no directive cover).
+
+#### Mechanism
+
+BuySellAds runs a managed-publisher SSP. Their service template-pastes their entire 532-seller PUBLISHER roster into every customer's ads.txt, then appends `MANAGERDOMAIN=buysellads.com`. From the v6 cascade's perspective, each `buysellads.com, 36, DIRECT` line on 1stwebdesigner.com is impersonation: BSA's registry says sid=36 belongs to `cprogramming.com`. The directive doesn't validate the template because the cascade matches `directive_value=reg_domain`, looking for `cprogramming.com` in 1stwebdesigner's directives — not `buysellads.com`.
+
+#### Registry reciprocity gap
+
+Per IAB v1.1: when publisher P declares `MANAGERDOMAIN=M`, M's sellers.json should list P as a seller. Cross-check:
+
+| Publisher | In BSA registry? |
+|---|---|
+| 1stwebdesigner.com | **ABSENT** |
+| html.com | sid=2004 |
+| gameinfo.io | sid=10238 |
+| gun.deals | sid=9581 |
+| modlar.com | **ABSENT** |
+| javascriptsource.com | **ABSENT** |
+| static4.buysellads.net | **ABSENT** |
+| check-adblock.buysellads.net | **ABSENT** |
+
+5 of 8 victim publishers declare `MANAGERDOMAIN=buysellads.com` while BSA's sellers.json does not list them — own-side spec compliance gap that the directive doesn't cover.
+
+#### Class definition
+
+The `impersonation_undisclosed` verdict has at least two distinct generators:
+
+| Class | Directive declared? | Mechanism | Apex example | Apex cells (z>20σ) |
+|---|---|---|---|---|
+| **A** — corporate ownership uncovered | None | Operator's registry doesn't reflect ownership | HuffPost × Yahoo | 6 |
+| **B** — template-paste with MANAGERDOMAIN cover | MANAGERDOMAIN=$ssp | Operator template-pastes full customer roster | 8 BSA cells | 8 |
+
+The cascade verdict alone can't distinguish them; H187 per-cell resolution + a `MANAGERDOMAIN` cross-check is what discriminates. Class A fixes one-side (operator updates registry). Class B requires two-side spec interpretation (managers stop pasting non-owned seller_ids; publishers SHOULD use `INVENTORYPARTNERDOMAIN` per partner if they monetize others' inventory).
+
+#### Tripwire
+
+`tests/test_h188_buysellads_template_paste.py` (45th in production runner) asserts: for the 8 BSA cells, impersonation rate ≥ 95% with n_direct ≥ 100. Drop below threshold is INFO-level structural-shift signal — BSA either fixed the template OR remediated the registry; both are positive outcomes.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h188_buysellads/` — `buysellads_sellers.json` (BSA registry, DUNS 012336774, 532 sellers), three byte-fingerprinted customer ads.txt files, fetch log. Reproduces in 30 seconds via `ccurl fetch https://1stwebdesigner.com/ads.txt && ccurl fetch https://html.com/ads.txt && md5 1*.txt h*.txt`.
