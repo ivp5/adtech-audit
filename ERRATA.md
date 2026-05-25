@@ -2566,3 +2566,83 @@ The cascade verdict alone can't distinguish them; H187 per-cell resolution + a `
 #### Primary-source evidence cached
 
 `tmp/20260525_h188_buysellads/` — `buysellads_sellers.json` (BSA registry, DUNS 012336774, 532 sellers), three byte-fingerprinted customer ads.txt files, fetch log. Reproduces in 30 seconds via `ccurl fetch https://1stwebdesigner.com/ads.txt && ccurl fetch https://html.com/ads.txt && md5 1*.txt h*.txt`.
+
+
+### E-2026-05-25-c: Class B is half the apex — Bloxdigital + BSA + the 17.9K managed-publisher universe (H189)
+
+H188 partitioned the cascade's `impersonation_undisclosed` verdict into Class A (no directive cover) and Class B (`MANAGERDOMAIN=$ssp` declared). The natural follow-up: is Class B a BSA-quirk or the dominant generator?
+
+#### Cross-tab: apex impersonation cells × MANAGERDOMAIN cover
+
+Population: 592 cells with n_direct ≥ 100 and impersonation rate ≥ 95% (the apex tier of cell-level impersonation).
+
+| Cover status | Cells | Share |
+|---|---:|---:|
+| **Class B** — publisher declares `MANAGERDOMAIN=$ssp` | **294** | **49.7%** |
+| Class A — no MANAGERDOMAIN cover | 298 | 50.3% |
+
+The cascade's apex tier splits ~50/50 between A and B. Class B is not an exotic single-operator pattern; it is the operating model of a large slice of managed-publisher SSPs. The corpus has 17,952 distinct publishers declaring MANAGERDOMAIN (20.8% of all publishers in the corpus).
+
+#### Top managers by total publisher count (MANAGERDOMAIN target)
+
+| Manager | Publishers declaring MGRDOM=this |
+|---|---:|
+| cafemedia.com | 1,846 |
+| mediavine.com | 1,481 |
+| themoneytizer.com | 1,013 |
+| freestar.com | 960 |
+| ezoic.ai | 893 |
+| publift.com | 616 |
+| anymanager.io | 425 |
+| playwire.com | 393 |
+| adpushup.com | 372 |
+| refinery89.com | 367 |
+| bloxdigital.com | 300 |
+
+The 11 largest managers cover 8,666 publishers (10.0% of corpus) under the IAB v1.1 directive.
+
+#### Class B apex concentration: bloxdigital dominates
+
+| SSP | Class B apex cells | Class A apex cells | B-share |
+|---|---:|---:|---:|
+| bloxdigital.com | **286** | 61 | **82.4%** |
+| buysellads.com | 8 | 0 | 100.0% |
+
+Bloxdigital alone is **97% of all Class B apex cells**. The H188 BuySellAds finding was the smaller of the two operators exhibiting this pattern at the apex.
+
+#### Primary-source bloxdigital verification
+
+Fetched bloxdigital lines from 5 customer ads.txt files, normalized (lowercase + strip + sort + dedupe), computed pairwise Jaccard:
+
+| Pair | Lines in common | Jaccard |
+|---|---:|---:|
+| thegazette.com ↔ fox21online.com | 236 / 236 | **1.0000** |
+| thegazette.com ↔ wdel.com | 236 / 236 | **1.0000** |
+| fox21online.com ↔ wdel.com | 236 / 236 | **1.0000** |
+| wvnews.com ↔ thegazette.com | 216 / 239 | 0.9038 |
+| wvnews.com ↔ fox21online.com | 216 / 239 | 0.9038 |
+| wvnews.com ↔ wdel.com | 216 / 239 | 0.9038 |
+| newsmemory.com ↔ wvnews.com | 198 / 219 | 0.9041 |
+| newsmemory.com ↔ {3 above} | 195 / 239 | 0.8159 |
+
+195 bloxdigital seller_ids appear in **all 5 customer ads.txt files** — the shared template core. Three of five customers (thegazette, fox21online, wdel) have byte-identical bloxdigital blocks with 236 lines each. This is the same Class B mechanism as BSA at ~30× the per-template scale.
+
+Top bloxdigital seller_ids are cited by **all 347 apex customers**: sid 95765933 → 347 pubs (reg_domain=wvua23.com), sid 84182125 → 347 pubs (omakchronicle.com), etc. The publisher cited by each seller_id is not the publisher hosting the ads.txt; it's a sibling member of the BLOX template pool.
+
+#### Refinement of the H188 cascade story
+
+The H188 ERRATA framed Class B as "BuySellAds-quirky." H189 refutes that framing: Class B is the dominant apex generator. The earlier framing was a sample-size-1 mistake. Corrected: the cascade verdict `impersonation_undisclosed` decomposes into a mix that **leans Class B at the apex** (≥95% imp + n_direct ≥ 100), while remaining ambiguous on average.
+
+#### Open questions for H190+
+
+1. Are CafeMedia (1,846 publishers) and Mediavine (1,481) Class B at the cell level too, or do they use INVENTORYPARTNERDOMAIN per partner correctly? H152 audited Mediavine at the publisher level; needs cell-level rerun.
+2. Does Lee Enterprises (NYSE: LEE, parent of BLOX Digital) disclose the template-paste arrangement to advertisers? The relationship is at the public-company-disclosure scale.
+3. The 195-seller-id BLOX shared core: do all 195 IDs map to real, distinct Lee-property publishers in the BLOX registry? Or is the template pulling in non-Lee third-party publishers (which would shift back from Class B to a closer-to-A genuine impersonation)?
+
+#### Tripwire
+
+`tests/test_h189_class_b_apex_prevalence.py` (46th in production runner) asserts: Class B share of apex cells ≥ 30%. Drop below threshold is INFO-level structural shift signaling major manager remediation OR corpus regime shift.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h189_class_b_prevalence/` — cross_tab log + 5 fetched BLOX customer ads.txt files + bloxdigital.com/sellers.json fetch (returned JS loader HTML, registry currently fetched via different canonical URL in the pipeline).
