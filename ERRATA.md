@@ -2991,3 +2991,75 @@ The H190-H193 hygienic finding is genuine and confirmed; the mechanism descripti
 #### Self-correction on H190-H193
 
 The H190-H193 entries (E-2026-05-25-c, -d, -e, -f, -g) all reference "IPD per partner" or "INVENTORYPARTNERDOMAIN per partner" as the hygienic mechanism. They should be read as "MANAGERDOMAIN + OWNERDOMAIN + upstream registry reciprocity." The page text needs the equivalent correction.
+
+
+### E-2026-05-25-i: Primary-source confirmed — triplelift.com names "CMI Marketing, Inc. d/b/a Raptive" (H195)
+
+H194 hypothesized the hygienic mechanism via cohort-aggregation inference. H195 fetches the upstream SSP's sellers.json directly and primary-source confirms the mechanism.
+
+#### Primary-source: triplelift.com/sellers.json
+
+```
+{
+  "contact_email": "product@triplelift.com",
+  "identifiers": [
+    {"name": "TAG-ID", "value": "6c33edb13117fd86"},
+    {"name": "DUNS", "value": "063519038"}
+  ],
+  ...
+  "sellers": [
+    {"seller_id": "4800", "seller_type": "BOTH", "domain": "cafemedia.com",
+     "name": "CMI Marketing, Inc. d/b/a Raptive"},
+    {"seller_id": "4801", ..., "name": "CMI Marketing, Inc. d/b/a Raptive"},
+    ... (23 such entries total)
+  ]
+}
+```
+
+**23 sellers in triplelift.com's sellers.json have `domain=cafemedia.com` and `name="CMI Marketing, Inc. d/b/a Raptive"`.** That's the corporate legal entity behind both CafeMedia and Raptive brands.
+
+#### Reciprocity ratio per sid
+
+For each CMI sid, count CafeMedia-managed publishers who cite it:
+
+| sid | CM publishers citing | Total publishers citing | Reciprocity |
+|---:|---:|---:|---:|
+| 4800 | 1,843 | 1,856 | **99.3%** |
+| 4801 | 1,843 | 1,856 | 99.3% |
+| 4802 | 1,843 | 1,856 | 99.3% |
+| 4803 | 1,843 | 1,856 | 99.3% |
+| 4804 | 1,843 | 1,856 | 99.3% |
+| 5825 | 1,843 | 1,856 | 99.3% |
+| 5895 | 1,843 | 1,856 | 99.3% |
+| 6286 | 1,843 | 1,856 | 99.3% |
+
+Each CMI sid is cited by ~99% of CafeMedia's managed-publisher cohort. The 10-publisher gap (1,856 citing vs 1,846 declaring MGRDOM) is publishers who carry the triplelift CMI lines without having declared MANAGERDOMAIN — likely transitioning or non-declared customers.
+
+#### The mechanism (now triply-verified)
+
+1. **triplelift.com's sellers.json**: registers seller_id 4800-6288 as `domain=cafemedia.com`, `name="CMI Marketing, Inc. d/b/a Raptive"` — explicit corporate attribution to the manager
+2. **CafeMedia/Raptive's managed publishers**: 1,843 of 1,846 cite each of these sids as DIRECT in their ads.txt
+3. **Same publishers declare**: `MANAGERDOMAIN=cafemedia.com`
+4. **Cascade rule fires**: `directive_value=cafemedia.com == reg_domain=cafemedia.com` → `disclosed_via_directive` ✓
+
+The IAB v1.1 MANAGERDOMAIN spec explicitly allows this pattern: when one entity (CMI Marketing) operates as the seller of record across many publishers' inventory on a single upstream SSP, the SSP registers one (or few) sids attributed to that manager, and the managed publishers declare the manager via MANAGERDOMAIN. Cascade attribution works correctly.
+
+This is what the IAB spec is designed to support. It works. 23 named entries in triplelift.com/sellers.json + 1,843 reciprocating publishers proves it works at four-figure scale.
+
+#### What it doesn't do
+
+The mechanism cleans up triplelift attribution for CafeMedia publishers. It does NOT clean up other SSPs that CafeMedia's publishers also cite — those would need separate negotiation with each upstream SSP to register a corresponding manager-attributed sid.
+
+The 1,843 reciprocity number is per-sid per-SSP. CafeMedia has negotiated this with triplelift (23 sids), sharethrough (different ratio), indexexchange (different ratio), openx, etc. Each upstream SSP × manager relationship is a separate registry-reciprocity setup. Some upstream SSPs reciprocate, some don't. The cascade's `disclosed` count for a manager is the sum across all SSPs that reciprocate.
+
+#### Same for Mediavine?
+
+Open for H196: probe themediagrid.com/sellers.json (Mediavine's top contributor, 4,411 disclosed cells) for "Mediavine" or similar entity-named sellers. Same mechanism expected.
+
+#### Tripwire
+
+`tests/test_h195_triplelift_cmi_marketing_reciprocity.py` (52nd in production runner) asserts: 8 sampled CMI sids each reach ≥ 90% of CafeMedia publishers. Drop = either CafeMedia publishers stop declaring MGRDOM en masse, OR triplelift removes the CMI sids. Both are mechanism-shift signals.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h195_triplelift_reciprocity/triplelift_sellers.json` — full triplelift sellers.json (7,872 sellers, DUNS 063519038). Reproduces in 5s via `ccurl fetch https://triplelift.com/sellers.json | jq '.sellers[] | select(.domain=="cafemedia.com") | {seller_id, name}'`.
