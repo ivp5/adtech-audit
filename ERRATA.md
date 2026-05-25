@@ -2905,3 +2905,89 @@ The page should now reflect: managed-publisher ads.txt is **overwhelmingly** tem
 #### Open for H194+
 
 The two-pronged fix recommendation (H190) still stands but now with population-scale framing: ~83 of 85 managers must change practice (either stop pasting non-customer sids, or declare MANAGERDOMAIN per spec so the cascade can attribute cleanly). The remaining ~16,000 managed publishers under non-hygienic managers would benefit. CafeMedia/Mediavine continue as the lighthouse cases proving it works at four-figure scale.
+
+
+### E-2026-05-25-h: Mechanism correction — H190's "IPD per partner" was wrong (H194)
+
+H190-H193 framed CafeMedia + Mediavine as "hygienic — using INVENTORYPARTNERDOMAIN per partner." H194 traced the actual mechanism via Wayback longitudinal + cohort SSP attribution. The mechanism description was wrong; the hygienic measurement stands.
+
+#### Wayback longitudinal — directive adoption timeline
+
+| Publisher | First MGR/OWN | First IPD | Current state |
+|---|---|---|---|
+| eliteprospects.com (CafeMedia) | 2024-01 | never | OWN=2, MGR=2 |
+| whec.com (CafeMedia) | 2022-08 | never | OWN=1, MGR=1 |
+| kob.com (CafeMedia) | 2022-08 | never | OWN=1, MGR=1 |
+| thetakeout.com (Mediavine) | 2022-11 (OWN only) | **2023-09** | OWN=1, MGR=1, IPD=0 |
+| housedigest.com (Mediavine) | 2023-08 | never | OWN=1, MGR=1 |
+| broadwayworld.com (Mediavine) | 2024-03 | never | OWN=1, MGR=1 |
+
+**Mediavine experimented with INVENTORYPARTNERDOMAIN starting 2023-09 and abandoned it by 2024-06.** thetakeout.com had IPD=1 from 2023-09 to 2024-03, then IPD=0 from 2024-06 onward.
+
+Neither manager currently uses IPD. They use MANAGERDOMAIN + OWNERDOMAIN.
+
+#### Source of "disclosed" credentials — by SSP
+
+For CafeMedia cohort (1,846 publishers, 100,502 total disclosed credentials):
+
+| Source SSP | Disclosed cells contributed |
+|---|---:|
+| triplelift.com | 31,333 |
+| sharethrough.com | 6,456 |
+| indexexchange.com | 3,754 |
+| openx.com | 3,715 |
+| yieldmo.com | 3,699 |
+| yahoo.com | 3,694 |
+| media.net | 3,624 |
+| pubmatic.com | 1,954 |
+| rubiconproject.com | 1,918 |
+| aps.amazon.com | 1,875 |
+| **cafemedia.com (the manager's own SSP entry)** | **447 (0.4%)** |
+
+Mediavine cohort (1,481 publishers, 59,995 total disclosed):
+
+| Source SSP | Disclosed cells |
+|---|---:|
+| themediagrid.com | 4,411 |
+| indexexchange.com | 2,961 |
+| triplelift.com | 2,960 |
+| media.net | 2,874 |
+| **mediavine.com (own SSP)** | **285 (0.5%)** |
+
+#### Actual mechanism (corrected)
+
+The disclosed credentials come from **upstream SSPs registering seller_ids with `reg_domain` pointing at the manager domain (cafemedia.com/raptive.com) or the publisher domain itself**. The publisher's MANAGERDOMAIN=cafemedia.com or OWNERDOMAIN=$self directive matches. Cascade clears as `disclosed_via_directive` or `valid`.
+
+So the mechanism is **two-side reciprocity at the upstream SSP registry level**, not INVENTORYPARTNERDOMAIN declared by the publisher. The H190-H193 wording was sloppy.
+
+What CafeMedia/Mediavine actually do:
+1. Adopt MANAGERDOMAIN=$manager + OWNERDOMAIN=$publisher directives across their managed publishers
+2. Negotiate with upstream SSPs (triplelift, sharethrough, indexexchange, etc.) so the SSP's sellers.json registers each managed-publisher seller_id with `reg_domain` set to the manager's domain (raptive.com / cafemedia.com) or the publisher's own domain
+3. The cascade's `disclosed_via_directive` rule then matches: `directive_value = reg_domain`
+
+What template-paste managers (Freestar, BLOX, BSA) don't do: get upstream SSPs to register their template's seller_ids with reg_domain matching either the manager or the publisher. Their template's seller_ids point at sibling-customer publishers in the upstream SSP's registry. No directive matches.
+
+#### Per-publisher clean% distribution within hygienic cohorts
+
+| Cohort | Min | 25p | Median | 75p | 90p | Max | Mean |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| CafeMedia (n=1,846) | 22.2% | 70.0% | **70.0%** | 70.5% | 70.9% | 94.7% | 68.9% |
+| Mediavine (n=1,481) | 28.8% | 60.0% | **60.0%** | 60.0% | 60.0% | 70.6% | 59.7% |
+
+The "hygienic" rates are NOT long-tail-dominated artifacts — they're tight distributions where 80%+ of publishers sit within 1 percentage point of the median. The minimum cases (eliteprospects.com at 22% clean despite being CafeMedia-managed) are outliers with unusually wide SSP rosters (510 credentials across many non-Raptive-managed SSPs).
+
+The H190-H193 hygienic finding is genuine and confirmed; the mechanism description needed correction.
+
+#### What this changes on the page
+
+- Replace "IPD per partner" phrasing with "MANAGERDOMAIN + OWNERDOMAIN + upstream registry reciprocity"
+- Add: "Mediavine experimented with INVENTORYPARTNERDOMAIN 2023-09 to 2024-06 and abandoned it" — IPD adoption is not how either manager achieves hygiene
+- Clarify the fix recommendation: it's not "use IPD per partner" — it's "get upstream SSPs to register your managed publishers with reg_domain pointing at you, and have publishers declare MANAGERDOMAIN reciprocally"
+
+#### Tripwire
+
+`tests/test_h194_cafemedia_mechanism_via_upstream_registry.py` (51st in production runner) asserts: for both hygienic managers, upstream-SSP disclosed credentials remain >100x the manager's own-SSP-entry contribution. Inversion would signal a pivot in mechanism.
+
+#### Self-correction on H190-H193
+
+The H190-H193 entries (E-2026-05-25-c, -d, -e, -f, -g) all reference "IPD per partner" or "INVENTORYPARTNERDOMAIN per partner" as the hygienic mechanism. They should be read as "MANAGERDOMAIN + OWNERDOMAIN + upstream registry reciprocity." The page text needs the equivalent correction.
