@@ -2437,3 +2437,77 @@ The gap is not "IPD doesn't work" — IPD works on the CTV side where it's used 
 
 Cycle 488 close: the disclosure-gap reframe (cycles 482-486) holds, but with the IPD-as-remedy interpretation refuted. The mechanism is functional in CTV; the display side has not used it; the impersonation events would persist even with 10× IPD adoption unless adoption shifted to address the credential-propagation pattern specifically.
 
+
+
+### E-2026-05-25-a: Yahoo's own HuffPost subsidiaries cascade as impersonation against Yahoo's own sellers.json (H187 per-cell)
+
+Cycle 488 framed the impersonation gap as a CTV-vs-display ecosystem split where adoption of IAB v1.1 IPD was uneven. H187 (per-cell cascade materialization) provides the strongest single piece of evidence that the gap exists even at maximum ownership-clarity: when the publisher is owned by the SSP, the cascade still fails.
+
+#### The materialization
+
+Built `publisher_ssp_cascade` table at per-(publisher, SSP) cell granularity instead of per-publisher aggregate:
+
+| Layer | Rows | Resolution |
+|---|---:|---|
+| corpus aggregate | 1 | 7.17M triples |
+| per-publisher (prior layer) | 86,087 | 83 triples/row |
+| **per-cell (H187 new)** | **2,327,455** | **3.08 triples/row** |
+| per-triple | 7,170,535 | 1 |
+
+27× finer granularity than the per-publisher table. Vectorized z-score detection (numpy `bincount` over the SSP-index) runs in 4.53s on the full 2.3M cells. Build wall: 16.17s (3.40s pure DuckDB classify+group).
+
+#### Aberration tiers (z-score over Bernoulli variance, n_direct ≥ 5)
+
+| z threshold | phantom cells | contra cells | imp cells | total |
+|---|---:|---:|---:|---:|
+| z > 3σ | 11,544 | 3,072 | 10,181 | 24,797 |
+| z > 5σ | 3,231 | 597 | 2,605 | 6,433 |
+| z > 10σ | 443 | 166 | 554 | 1,163 |
+| z > 20σ | 46 | 21 | 108 | **175 EXTREME** |
+
+The per-cell layer surfaces 24,797 cell-level aberrations that the per-publisher aggregate hides.
+
+#### The apex finding — HuffPost cascades 70%+ impersonation against yahoo.com
+
+Yahoo owns HuffPost (acquired with AOL 2017; rebranded under Yahoo Inc. 2021). All 6 HuffPost regional domains cascade at ~70% impersonation against yahoo.com:
+
+| Publisher (Yahoo subsidiary) | n_direct | imp rate | z |
+|---|---:|---:|---:|
+| huffingtonpost.gr | 96 | 71.9% | 29.9 |
+| huffpost.gr | 96 | 71.9% | 29.9 |
+| huffpost.com | 96 | 69.8% | 29.0 |
+| huffingtonpost.com | 96 | 69.8% | 29.0 |
+| huffingtonpost.jp | 96 | 69.8% | 29.0 |
+| huffingtonpost.in | 96 | 69.8% | 29.0 |
+
+The cascade rule fires impersonation_undisclosed when an ads.txt declares `yahoo.com, <sid>, DIRECT` and Yahoo's authoritative sellers.json maps that `<sid>` to a `domain` field different from the publisher's domain, with no covering IAB v1.1 OWNERDOMAIN / MANAGERDOMAIN / IPD directive to disclose the relationship.
+
+These six domains are not template-injection victims, not piracy aggregators, not foreign domains spoofing a U.S. brand — they are the parent company's own subsidiaries, on the parent company's own SSP, evaluated against the parent company's own published seller registry. The cascade fires at 70% because Yahoo has not declared the HuffPost properties in HuffPost's own ads.txt via any of the IAB v1.1 directives that would cover the relationship.
+
+#### What this strengthens in the prior framing
+
+Cycle 488 left open the possibility that the display-side impersonation gap was driven by wrapper-template propagation across unrelated publishers (Seedtag, themoneytizer, props.id). The HuffPost finding shows the gap exists even at the ownership-identity limit. A parent company's own owned subsidiaries, served by the parent's own SSP, with the parent's own registry — and the cascade still fires at z = 29σ for 6 of 6 regional sites.
+
+The remediation here is not "industry-wide IPD adoption." It is a one-line OWNERDOMAIN declaration in each HuffPost ads.txt — a single field per file that Yahoo has not added to its own owned properties' ads.txt files.
+
+If Yahoo has not added OWNERDOMAIN to ads.txt files Yahoo controls end-to-end (publisher + SSP + registry all under one corporate roof), the assumption that the broader display ecosystem will adopt IAB v1.1 directives to close the 1.54M impersonation-undisclosed gap looks structurally unfounded.
+
+#### Other apex per-cell aberrations surfaced
+
+| cell | n | rate | z |
+|---|---:|---:|---:|
+| exblog.jp / google.com phantom | 6,376 | 97.7% | 88.9 |
+| taboola.com / taboola.com phantom (self-referential) | 1,580 | 99.7% | 29.9 |
+| 5 .de Taboola template cluster (identical 13-row × 76.9% contradicted signature: ilovemusic.de, wunderweib.de, tvmovie.de, lecker.de, autozeitung.de) | 13 each | 76.9% | ~25 |
+| 6 .de funeral-notice template cluster (identical 325-row × 14.8% signature, trauer.nrw family) | 325 each | 14.8% | ~13 |
+
+The exblog.jp / google.com cell is the single highest cell z-score in the entire 2.3M-cell corpus. The taboola.com self-referential cell shows the operator's own first-party publisher domain cascading at 99.7% phantom against the operator's own registry — the same structural failure mode as HuffPost-Yahoo, on a different operator.
+
+#### Tripwire lock
+
+H187 tripwire `tests/test_h187_huffpost_yahoo_cell_aberration.py` (the 44th in the production runner) asserts: for the 6 HuffPost regional domains, the cell against yahoo.com must remain at impersonation rate ≥ 60% with n_direct ≥ 50. A drop below the threshold is an INFO-level structural-shift signal (Yahoo fixing the registry mapping or HuffPost dropping Yahoo from ads.txt) that surfaces for investigation rather than blocking, since the corrective outcome would be a good event.
+
+#### Plain-English closing
+
+The 33.83% headline phantom rate is not a measurement artifact, a foreign-market problem, or an unfamiliar-operator problem. It applies inside the largest U.S. ad-tech company's own walled-garden boundary, where every party in the cascade is the same parent. The protocol fires accurately; the disclosure has not been declared, even at the trivial limit case where declaration would cost a single line of text per file owned by the same company that owns the SSP doing the flagging.
+

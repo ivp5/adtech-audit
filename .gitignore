@@ -6,3 +6,6 @@ claims/
 *.bak.*
 # atomic_sqlite_build leaves these on SIGTERM/SIGKILL
 receipts.db.tmp.*
+# Python bytecode
+__pycache__/
+*.pyc
