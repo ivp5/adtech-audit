@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>33.83% phantom — ads.txt × sellers.json audit, 2026-05-22</title>
+<title>29.87% phantom — ads.txt × sellers.json audit, 2026-05-25</title>
 <meta name="description" content="33.83% of DIRECT ads.txt claims don't reconcile with SSP sellers.json. 97.5% is structural framework decay; only ~2.5% has the shape of potential misconduct. 287,249 claims point to dead SSPs. Public data, deterministic, CC0.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -749,7 +749,7 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
   <span class="sp"></span>
   <span class="meta"><span style="color:var(--red);display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-right:6px;vertical-align:1px;animation:liveBlink 1.8s ease-in-out infinite"></span><b id="mast-clock">--:--:--</b> UTC</span>
   <span class="sep">·</span>
-  <span class="meta">Corpus <b>2026-05-22</b> &nbsp;·&nbsp; <b>74,460</b> publishers &nbsp;·&nbsp; <b>28.77M</b> triples &nbsp;·&nbsp; <b>1,672</b> SSPs &nbsp;·&nbsp; cycles <b>458–468</b></span>
+  <span class="meta">Corpus <b>2026-05-25</b> &nbsp;·&nbsp; <b>86,357</b> publishers &nbsp;·&nbsp; <b>43.52M</b> triples &nbsp;·&nbsp; <b>5,454</b> SSPs (<b>1,548</b> with registry) &nbsp;·&nbsp; cycles <b>458–488</b> · H184–H187</span>
   <span class="sep">·</span>
   <button class="self-audit" id="self-audit" type="button" aria-haspopup="true" aria-expanded="false">
     <span class="pill">A</span> this site's grade
@@ -776,16 +776,19 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
 <header class="hero" id="hero">
   <div class="hero-grid">
     <div class="hero-num-cell reveal">
-      <div class="hero-num"><span id="hero-pct">34</span><span class="pct">%</span></div>
-      <div class="hero-num-cap">of <span class="def underline" tabindex="0">ads.txt<span class="def-pop"><b>ads.txt</b>A public file at <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px;border-radius:2px">publisher.com/ads.txt</code> listing which ad sellers the publisher authorizes — and whether they're DIRECT (no middleman, premium price) or INTERMEDIARY.</span></span> claims contradict <span class="def underline" tabindex="0">sellers.json<span class="def-pop"><b>sellers.json</b>A public file at <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px;border-radius:2px">exchange.com/sellers.json</code> listing each seller the exchange does business with, and whether they classify them as a direct publisher or middleman.</span></span>.</div>
+      <div class="hero-num"><span id="hero-pct">30</span><span class="pct">%</span></div>
+      <div class="hero-num-cap">of <span class="def underline" tabindex="0">ads.txt<span class="def-pop"><b>ads.txt</b>A public file at <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px;border-radius:2px">publisher.com/ads.txt</code> listing which ad sellers the publisher authorizes — and whether they're DIRECT (no middleman, premium price) or INTERMEDIARY.</span></span> claims contradict <span class="def underline" tabindex="0">sellers.json<span class="def-pop"><b>sellers.json</b>A public file at <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px;border-radius:2px">exchange.com/sellers.json</code> listing each seller the exchange does business with, and whether they classify them as a direct publisher or middleman.</span></span>. <span style="display:block;margin-top:8px;font-size:14px;color:var(--ink-72)">Of <b>7.17M DIRECT credentials</b> in the corpus, only <b>11.0%</b> cleanly validate (valid + disclosed). The other <b>89.0%</b> distributes across phantom, contradicted, impersonated, confidential-unverifiable, and no-registry — see the cascade panel below.</span></div>
     </div>
     <div class="hero-side reveal" data-delay="1">
-      <div class="scale-row"><span class="k">DIRECT claims checked</span><span class="v">6,560,000</span></div>
-      <div class="scale-row bad"><span class="k">Phantom (don't reconcile)</span><span class="v">2,219,472</span></div>
-      <div class="scale-row"><span class="k">│ structural framework decay</span><span class="v">~97.5%</span></div>
-      <div class="scale-row"><span class="k">│ potential misconduct</span><span class="v">~2.5%</span></div>
-      <div class="scale-row"><span class="k">DIRECT claims to dead SSPs</span><span class="v" style="color:var(--red);font-weight:700">287,249</span></div>
-      <div class="scale-row"><span class="k">Publishers · SSPs</span><span class="v">74,460 · 1,672</span></div>
+      <div class="scale-row"><span class="k">DIRECT credentials audited</span><span class="v">7,170,535</span></div>
+      <div class="scale-row bad"><span class="k">Phantom (seller_id not in registry)</span><span class="v">2,200,137 · 30.7%</span></div>
+      <div class="scale-row bad"><span class="k">Contradicted (registry says other)</span><span class="v">1,997,664 · 27.9%</span></div>
+      <div class="scale-row bad"><span class="k">Impersonated (DIRECT but reg says INTERMEDIARY)</span><span class="v">1,784,653 · 24.9%</span></div>
+      <div class="scale-row"><span class="k">│ Confidential (registry hides seller)</span><span class="v">136,553 · 1.9%</span></div>
+      <div class="scale-row"><span class="k">│ No registry available</span><span class="v">262,096 · 3.7%</span></div>
+      <div class="scale-row"><span class="k">Validates cleanly (valid + disclosed)</span><span class="v" style="color:var(--ok);font-weight:700">788,986 · 11.0%</span></div>
+      <div class="scale-row"><span class="k">Publishers · SSPs claimed</span><span class="v">86,357 · 5,454</span></div>
+      <div class="scale-row"><span class="k">Per-cell cascade (H187 resolution)</span><span class="v">2.33M cells · 27× finer</span></div>
     </div>
   </div>
 
@@ -923,6 +926,106 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
     <span><i class="legend-dot" style="background:var(--ok)"></i><b id="flow-clean">0</b> clean</span>
     <span class="sep">·</span>
     <span><b id="flow-total">0</b> total packets traced</span>
+  </div>
+</section>
+
+<!-- ─── Cascade-resolution panel (H187 — new) ─────────────────────────── -->
+<section class="cascade reveal" id="cascade" style="margin:var(--s8) 0 var(--s9);padding:var(--s5) var(--s5) var(--s6);background:var(--paper-2);border:1px solid var(--ink-15);border-left:3px solid var(--red)">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap;margin-bottom:var(--s4)">
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:6px">Resolution upgrade · H187 · per-cell cascade</div>
+      <h2 style="font-family:var(--ui);font-size:clamp(22px,2.6vw,30px);font-weight:700;letter-spacing:-.022em;margin:0;color:var(--ink)">The 89% the headline rate doesn't show.</h2>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--ink-45);letter-spacing:.04em">
+      <div>2,327,455 cells · 27× finer than per-publisher</div>
+      <div>~100ms primary-key lookup · 1,381 cells z &gt; 3σ · 25 z &gt; 20σ</div>
+    </div>
+  </div>
+
+  <p style="font-family:var(--ui);font-size:15px;line-height:1.6;color:var(--ink-72);max-width:78ch;margin:0 0 var(--s4)">
+    Earlier audits collapsed each DIRECT claim to one verdict (real / phantom). The v6 cascade unpacks the failure modes. Of <b>7,170,535 DIRECT credentials</b> in the May 25 corpus, only 11.0% cleanly validate. The other 89% breaks into five qualitatively different failures, each pointing at a different actor in the chain:
+  </p>
+
+  <!-- Cascade bars -->
+  <div style="display:grid;grid-template-columns:auto 1fr auto auto;gap:8px var(--s3);align-items:center;font-family:var(--mono);font-size:12px;margin-bottom:var(--s5)">
+    <div style="color:var(--ink-65);text-transform:uppercase;letter-spacing:.12em;font-size:10px">verdict</div>
+    <div style="color:var(--ink-65);text-transform:uppercase;letter-spacing:.12em;font-size:10px">distribution</div>
+    <div style="color:var(--ink-65);text-transform:uppercase;letter-spacing:.12em;font-size:10px;text-align:right">count</div>
+    <div style="color:var(--ink-65);text-transform:uppercase;letter-spacing:.12em;font-size:10px;text-align:right">%</div>
+
+    <div><b style="color:var(--ok)">valid</b><span style="color:var(--ink-45);margin-left:6px">registry confirms DIRECT</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--ok);height:100%;width:1.49%"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">107,190</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--ok);font-weight:700">1.49%</div>
+
+    <div><b style="color:var(--ok)">disclosed</b><span style="color:var(--ink-45);margin-left:6px">registry confirms named seller</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--ok);height:100%;width:9.51%;opacity:.7"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">681,796</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--ok);font-weight:600">9.51%</div>
+
+    <div><b style="color:var(--red)">phantom</b><span style="color:var(--ink-45);margin-left:6px">seller_id missing from registry entirely</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--red);height:100%;width:30.68%"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">2,200,137</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">30.68%</div>
+
+    <div><b style="color:var(--red)">contradicted</b><span style="color:var(--ink-45);margin-left:6px">registry has different seller_type</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--red);height:100%;width:27.86%;opacity:.85"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">1,997,664</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">27.86%</div>
+
+    <div><b style="color:var(--red)">impersonated</b><span style="color:var(--ink-45);margin-left:6px">DIRECT claimed, registry says INTERMEDIARY</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--red);height:100%;width:24.89%;opacity:.7"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">1,784,653</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">24.89%</div>
+
+    <div><b style="color:var(--brass)">confidential</b><span style="color:var(--ink-45);margin-left:6px">registry hides seller — unverifiable</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--brass);height:100%;width:1.90%"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">136,553</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--brass);font-weight:600">1.90%</div>
+
+    <div><b style="color:var(--ink-45)">no_registry</b><span style="color:var(--ink-45);margin-left:6px">SSP never published sellers.json</span></div>
+    <div><div style="background:rgba(244,239,230,.10);height:10px;border:1px solid var(--ink-10)"><div style="background:var(--ink-45);height:100%;width:3.66%"></div></div></div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums">262,096</div>
+    <div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-65);font-weight:600">3.66%</div>
+  </div>
+
+  <!-- HuffPost-Yahoo exhibit -->
+  <div style="border-top:1px solid var(--ink-10);padding-top:var(--s4)">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-45);margin-bottom:8px">Exhibit B · the apex cell · <b style="color:var(--red)">z = 29σ</b> above population baseline</div>
+    <h3 style="font-family:var(--ui);font-size:clamp(18px,2vw,24px);font-weight:700;letter-spacing:-.018em;margin:0 0 var(--s3);color:var(--ink)">Yahoo's own HuffPost properties cascade as <em style="color:var(--red);font-style:normal;border-bottom:2px solid var(--red)">impersonation against Yahoo's own sellers.json registry</em>.</h3>
+
+    <p style="font-family:var(--ui);font-size:14px;line-height:1.6;color:var(--ink-72);max-width:78ch;margin:0 0 var(--s4)">
+      Yahoo acquired HuffPost from BuzzFeed in 2024 and operates it as a wholly-owned subsidiary. Six HuffPost regional domains list <code style="background:rgba(244,239,230,.10);color:var(--brass);padding:1px 4px">yahoo.com</code> 96 times each in their ads.txt as DIRECT. Yahoo's own sellers.json classifies ~70% of those seller_ids as INTERMEDIARY. The cascade verdict for each cell: <b style="color:var(--red)">impersonation</b>. This is the cascade defect at maximum embarrassment — the parent company's subsidiary fails the audit against the parent's own registry.
+    </p>
+
+    <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;margin-bottom:var(--s3)">
+      <thead>
+        <tr style="background:rgba(244,239,230,.05);border-top:1px solid var(--ink-15);border-bottom:1px solid var(--ink-15)">
+          <th style="padding:8px 12px;text-align:left;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">huffpost domain</th>
+          <th style="padding:8px 12px;text-align:left;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">cell ssp</th>
+          <th style="padding:8px 12px;text-align:right;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">n_direct</th>
+          <th style="padding:8px 12px;text-align:right;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">imp</th>
+          <th style="padding:8px 12px;text-align:right;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">rate</th>
+          <th style="padding:8px 12px;text-align:right;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-65);font-weight:600">z-score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 12px;color:var(--ink)">huffpost.com</td><td style="padding:7px 12px;color:var(--ink-65)">yahoo.com</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums">96</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">67</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">69.8%</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">+29</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 12px;color:var(--ink)">huffpost.gr</td><td style="padding:7px 12px;color:var(--ink-65)">yahoo.com</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums">96</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">69</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">71.9%</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">+29</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 12px;color:var(--ink)">huffingtonpost.com</td><td style="padding:7px 12px;color:var(--ink-65)">yahoo.com</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums">96</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">67</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">69.8%</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">+29</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 12px;color:var(--ink)">huffingtonpost.gr</td><td style="padding:7px 12px;color:var(--ink-65)">yahoo.com</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums">96</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">69</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">71.9%</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">+29</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 12px;color:var(--ink)">huffingtonpost.jp</td><td style="padding:7px 12px;color:var(--ink-65)">yahoo.com</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums">96</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">67</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">69.8%</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">+29</td></tr>
+        <tr><td style="padding:7px 12px;color:var(--ink)">huffingtonpost.in</td><td style="padding:7px 12px;color:var(--ink-65)">yahoo.com</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums">96</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">67</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red);font-weight:700">69.8%</td><td style="padding:7px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">+29</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-family:var(--ui);font-size:13px;line-height:1.55;color:var(--ink-65);max-width:78ch;border-left:2px solid var(--brass);padding:6px 0 6px 14px;background:rgba(212,175,55,.04)">
+      <b style="color:var(--ink)">Tension:</b> H185 had inferred that publishers declaring IAB v1.1 <code>OWNERDOMAIN</code> / <code>INVENTORYPARTNERDOMAIN</code> would resolve cleaner. <b>H186 refuted that</b> — the cascade outcome correlates with SSP-count regime (bimodal), not with directive adoption. H187's per-cell resolution then surfaces this HuffPost-Yahoo case as direct counter-evidence: the publisher is a wholly-owned subsidiary of the SSP, the ownership relation is unambiguous, no directive is needed to declare it — and the cascade still fails. The break isn't in publishers neglecting to declare ownership. It's in the registries not reflecting the ownership relations the operators themselves already know.
+    </div>
+  </div>
+
+  <div style="margin-top:var(--s4);font-family:var(--mono);font-size:11px;color:var(--ink-45);letter-spacing:.04em">
+    Tripwire <code>tests/test_h187_huffpost_yahoo_cell_aberration.py</code> watches these 6 cells. Drop below 60% impersonation rate or 50 n_direct surfaces an INFO-level structural-shift signal — corrective remediation is the desired outcome, not a regression.
   </div>
 </section>
 
@@ -1125,9 +1228,9 @@ code{font-family:var(--mono);font-size:.92em;background:var(--ink-06);padding:1p
 <details class="method" id="method">
   <summary>Method &amp; reproduce</summary>
   <div class="cols">
-    <div><b>F1 · cross-reference</b>ads.txt and sellers.json fetched at the current corpus snapshot: <b>74,460 publishers · 28.77M (publisher, SSP, seller_id) triples · 6.56M DIRECT claims · 1,672 SSP registries</b> (2026-05-22). Phantom seller IDs measured at <b>33.83%</b> (2,219,472 entries unfound in any registry). The headline rates (29% strict / 55–57% inclusive / 0.012% consent) replicate at scale across successive corpus expansions; the per-SSP table and consent denominators are point-in-time and won't match a live re-run.</div>
+    <div><b>F1 · cross-reference</b>ads.txt and sellers.json fetched at the current corpus snapshot: <b>86,357 publishers · 43.52M (publisher, SSP, seller_id) triples · 7.17M DIRECT credentials · 5,454 SSPs cited / 1,548 with retrievable registries · 3.52M registered sellers</b> (2026-05-25). Phantom seller IDs (the cited seller_id appears in no registry under any alias) measured at <b>29.87%</b> at triple level / <b>30.68%</b> at DIRECT-credential level. The v6 cascade further decomposes: contradicted 27.86%, impersonated 24.89%, confidential-unverifiable 1.90%, no-registry-available 3.66%. Only 11.0% (valid + disclosed) cleanly validates. <b>H187 added per-(publisher, SSP) cell resolution</b> — 2,327,455 cells × ~100ms primary-key lookup, surfacing aberrations invisible at the publisher-aggregated level (z &gt; 20σ on 25 cells; HuffPost-Yahoo at z=29σ).</div>
     <div><b>F2 · consent capture</b>Headless browser, 110,610 sites, every HTTP request logged. Filtered for known sync patterns. TCF v2 validated by version prefix, length, base64. First-visit only. 0 of 2,000 captured Prebid.js instances configure a consent management module.</div>
-    <div><b>F3 / F4 · identity &amp; structure</b>Playwright headless, 4 s standard scan, 142,630 sites. 603 known ad-tech domains tracked. F4 = 15% × 47% × 76% ≈ 5.1% (true value 4–7%). <b>Cycles 458–468 of structural analysis.</b> Page framing is structural — a description of the equilibrium — not an allegation of fraud. <em style="color:var(--ink);font-style:italic">Bugs get fixed. Equilibria persist.</em></div>
+    <div><b>F3 / F4 · identity &amp; structure</b>Playwright headless, 4 s standard scan, 142,630 sites. 603 known ad-tech domains tracked. F4 = 15% × 47% × 76% ≈ 5.1% (true value 4–7%). <b>Cycles 458–488 of structural analysis · H-series H126–H187 (44 production tripwires).</b> Page framing is structural — a description of the equilibrium — not an allegation of fraud. <em style="color:var(--ink);font-style:italic">Bugs get fixed. Equilibria persist.</em></div>
   </div>
 
   <div class="method-code">
