@@ -2646,3 +2646,59 @@ The H188 ERRATA framed Class B as "BuySellAds-quirky." H189 refutes that framing
 #### Primary-source evidence cached
 
 `tmp/20260525_h189_class_b_prevalence/` — cross_tab log + 5 fetched BLOX customer ads.txt files + bloxdigital.com/sellers.json fetch (returned JS loader HTML, registry currently fetched via different canonical URL in the pipeline).
+
+
+### E-2026-05-25-d: Two manager populations — hygienic vs template-paste; CafeMedia + Mediavine are clean (H190)
+
+H189 measured "Class B narrow" (publisher declares `MANAGERDOMAIN=$ssp` and the cell's SSP is the declared manager). H190 broadens the question: how does the apex cascade look across the 6 largest managers by publisher count? Does Class B generalize, or is it concentrated?
+
+#### Cohort cascade rates by top-6 manager
+
+| Manager | Publishers | imp rate | phantom rate | contradicted | disclosed | apex cells |
+|---|---:|---:|---:|---:|---:|---:|
+| **CafeMedia (cafemedia.com)** | 1,846 | **3.61%** | 4.02% | 22.45% | **65.16%** | **0** |
+| **Mediavine (mediavine.com)** | 1,481 | **4.23%** | 4.90% | 29.75% | **58.60%** | **0** |
+| Ezoic (ezoic.ai) | 893 | 8.33% | 11.98% | 44.34% | 28.15% | 0 |
+| Publift (publift.com) | 616 | 15.92% | 24.04% | 39.98% | 13.34% | 0 |
+| TheMoneytizer (themoneytizer.com) | 1,013 | 24.34% | 35.27% | 33.46% | 2.37% | 0 |
+| **Freestar (freestar.com)** | 960 | **42.55%** | 13.80% | 28.56% | 12.47% | **330** |
+
+This is a **clean bimodal split**:
+
+- **Hygienic managers** (CafeMedia + Mediavine, 3,327 combined publishers): ~60% disclosed via IAB v1.1 IPD-per-partner, near-zero apex impersonation. They are the empirical proof that the spec CAN scale.
+- **Template-paste managers** (Freestar prominently, plus BLOX-via-Freestar and BSA from H188): high impersonation rates, apex-cluster generation.
+- **Intermediate cohort** (Ezoic, Publift, TheMoneytizer): high contradicted rate (33-44%) but 0 apex cells — they distribute impersonation widely rather than concentrating it in template-paste clusters.
+
+#### Freestar — propagator of the BLOX template
+
+All 330 of Freestar's apex cells are against `cell.ssp = bloxdigital.com`. Cross-checked: of the 347 publishers showing apex impersonation against bloxdigital.com (H189), 330 also declare `MANAGERDOMAIN=freestar.com`. **Freestar is including BLOX template-paste in the ads.txt files it generates for the BLOX-network publishers it co-manages.** Same 195-seller-id BLOX core template, propagated via Freestar's pipeline.
+
+#### Broader Class B partition (refining H189)
+
+H189 measured narrow Class B (MGRDOM = cell SSP) at 49.7% (294/592). Adding broad Class B (publisher has *any* MGRDOM, cell.ssp differs):
+
+| Subset | Apex cells | % of 592 |
+|---|---:|---:|
+| Class A (no MANAGERDOMAIN at all) | 216 | 36.5% |
+| Class B-narrow (MGRDOM = cell SSP) | 294 | 49.7% |
+| Class B-broad (MGRDOM declared, but ≠ cell SSP) | 82 | 13.9% |
+| **Total Class B (narrow + broad)** | **376** | **63.5%** |
+
+Top B-broad managers by apex cell count: Freestar 59, AdPlay 9, Salem Media 5, AdVerge 5, AdPushUp 5, NSight Video 4, Refinery89 4. The B-broad mechanism: publisher is managed by manager M, M's pipeline injects template content for upstream SSP S, the cell against S fires apex impersonation because S's registry doesn't recognize the publisher.
+
+#### Implication for cascade interpretation
+
+The cascade verdict `impersonation_undisclosed` is **63.5% Class B at the apex** under the broader definition. The cleanest fix is two-pronged:
+
+1. **Manager side**: stop template-pasting non-customer seller_ids; use IPD-per-partner instead (the CafeMedia/Mediavine pattern works at 3,327-publisher scale).
+2. **Upstream SSP side**: maintain registry reciprocity — list publishers that declare MGRDOM=$you.
+
+The 36.5% Class A residual reduces to the registry-mapping problem (HuffPost-Yahoo + yieldlove + stroeer + the long tail of operators with stale or wrong reg_domain mappings).
+
+#### Tripwire
+
+`tests/test_h190_hygienic_managers_clean.py` (47th in production runner) asserts: CafeMedia + Mediavine cohorts maintain 0 apex impersonation cells. Drop = INFO-level structural regression in the cleanest cohort — either disclosure practice slipped, or upstream template propagation reached them.
+
+#### Self-correction on H189
+
+H189's open question #1 asked "are CafeMedia + Mediavine Class B at the cell level?" The H190 answer is unambiguous: **NO**, they are the cleanest manager cohort, not Class B. The spec works for them.
