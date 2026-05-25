@@ -3264,3 +3264,78 @@ The fix collapses to **two ecosystem actions** + one operator-side action:
 #### Primary-source evidence cached
 
 `tmp/20260525_h198_apex_reg_domain_victims/` — victims_v2.log (full ranked enumeration), coordinated_vs_stolen.log (partition results).
+
+
+### E-2026-05-25-m: Mobile is cleaner than web at aggregate — trimodal doesn't replicate (H199)
+
+H187-H198 characterized the web cascade end-to-end. H199 opens a parallel dimension: does the trimodal manager population (hygienic / intermediate / template-paste) replicate in mobile?
+
+#### Cascade rates by ecosystem
+
+Compared top 10 mobile SSPs to top 12 web SSPs (by aggregate volume):
+
+| SSP | Pubs | Total DIRECT | val% | disc% | phan% | con% | imp% | cnf% | **clean%** |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **MOBILE** | | | | | | | | | |
+| fyber.com | 2,922 | 5,183 | 19.6 | 20.7 | 7.3 | 0.0 | 47.8 | 4.7 | **40.2** |
+| applovin.com | 7,288 | 12,701 | 23.6 | 7.6 | 45.8 | 0.1 | 22.8 | 0.1 | 31.2 |
+| tappx.com | 5,213 | 7,580 | 1.7 | 28.8 | 48.6 | 0.0 | 20.9 | 0.0 | 30.5 |
+| vungle.com | 4,919 | 7,480 | 16.8 | 8.1 | 43.2 | 0.0 | 31.9 | 0.0 | 24.9 |
+| ironsrc.com | 4,495 | 7,658 | 18.4 | 2.7 | 32.9 | 0.0 | 46.1 | 0.0 | 21.1 |
+| mintegral.com | 4,566 | 9,065 | 14.6 | 6.0 | 38.4 | 3.5 | 37.4 | 0.0 | 20.7 |
+| inmobi.com | 20,915 | 50,632 | 2.5 | 12.2 | 42.4 | 27.1 | 15.8 | 0.0 | 14.7 |
+| chartboost.com | 2,409 | 3,603 | 11.4 | 1.0 | 43.3 | 0.0 | 40.9 | 3.4 | 12.4 |
+| smaato.com | 19,640 | 73,020 | 0.7 | 9.1 | 39.0 | 22.6 | 28.6 | 0.0 | 9.8 |
+| **WEB (selected)** | | | | | | | | | |
+| triplelift.com | 25,607 | 172,853 | 0.4 | 29.8 | 18.7 | 37.2 | 14.0 | 0.0 | 30.1 |
+| media.net | 27,106 | 108,368 | 0.4 | 18.8 | 23.9 | 44.6 | 12.3 | 0.0 | 19.2 |
+| yahoo.com | 17,719 | 52,310 | 0.3 | 16.9 | 71.9 | 5.9 | 5.0 | 0.0 | 17.2 |
+| sharethrough.com | 27,020 | 115,133 | 0.6 | 15.7 | 5.9 | 64.7 | 13.2 | 0.0 | 16.3 |
+| indexexchange.com | 29,267 | 169,346 | 0.6 | 14.1 | 52.3 | 22.9 | 10.1 | 0.0 | 14.7 |
+| openx.com | 28,657 | 151,898 | 0.6 | 12.5 | 15.9 | 60.1 | 10.8 | 0.0 | 13.1 |
+| pubmatic.com | 33,714 | 223,078 | 0.6 | 8.3 | 4.9 | 74.2 | 12.0 | 0.0 | 8.9 |
+| appnexus.com | 30,252 | 158,409 | 0.3 | 7.7 | 31.4 | 29.3 | 31.2 | 0.0 | 8.0 |
+| google.com | 80,187 | 447,647 | 3.0 | 4.2 | 42.7 | 0.0 | 29.2 | 21.0 | 7.2 |
+| rubiconproject.com | 35,585 | 240,024 | 0.3 | 5.7 | 18.0 | 69.4 | 6.7 | 0.0 | 6.0 |
+| sovrn.com | 21,290 | 97,016 | 0.4 | 4.9 | 15.8 | 52.0 | 26.5 | 0.4 | 5.3 |
+| lijit.com | 30,691 | 262,052 | 0.2 | 2.8 | 28.0 | 55.4 | 13.4 | 0.1 | 3.0 |
+
+#### Aggregate finding
+
+| Ecosystem | DIRECT total | Clean% | Apex cells |
+|---|---:|---:|---:|
+| **MOBILE** (10 SSPs) | 178,955 | **16.06%** | **0** |
+| **WEB** (12 SSPs) | 2,198,134 | 10.81% | 0 |
+
+**Mobile is structurally cleaner than web at the aggregate** — 5.25pp gap. Neither ecosystem has apex cells (n_direct≥100 + rate≥95%) on the receiver-SSP side; the apex tier is exclusively on manager-SSP backends (BLOX, BSA).
+
+#### Trimodal doesn't replicate in mobile
+
+The web trimodal (hygienic / intermediate / template-apex) has no clean equivalent in mobile:
+
+- **No mobile hygienic-tier manager** equivalent to CafeMedia/Mediavine. The cleanest mobile SSP is fyber.com at 40.2% (one notch below CafeMedia's 67%).
+- **No mobile apex-template-paste manager** equivalent to BLOX/BSA. Mobile SSPs receive 1-4 DIRECT credentials per publisher on average (smaato 73K/19.6K pubs = 3.7/pub); BLOX gets 593/pub.
+- Mobile distribution is **flatter** — no extreme outliers in either direction.
+
+#### Possible structural reasons
+
+1. **App store gatekeeping**: Apple/Google approval introduces a verification layer not present in web publishing. Mobile SSPs may rely on app store identity for onboarding.
+2. **Smaller manager ecosystem in mobile**: web has 85+ MANAGERDOMAIN targets; mobile has fewer wrapper-managers. anymanager.io (425 pubs, 4.7% clean, intermediate) and fourm.jp (215 pubs, 6.4% clean) are the closest mobile-leaning equivalents, both intermediate not hygienic.
+3. **Different registry conventions**: app bundle IDs (com.zynga.fruitsamurai) vs domain names may have less template-paste because they're harder to template across unrelated developers.
+4. **Per-publisher credential count is lower**: mobile pubs cite ~7.5 DIRECT/pub on mobile SSPs vs web pubs at ~27.5 DIRECT/pub on web SSPs. Less surface area for template-paste.
+
+The mobile ecosystem may genuinely be cleaner OR may simply lack the apex-template-paste managers that drive the web's worst cells. The per-cell n_direct distributions differ enough that direct comparison is approximate.
+
+#### Tripwire
+
+`tests/test_h199_mobile_vs_web_aggregate.py` (56th in production runner) asserts: mobile aggregate clean% > web aggregate clean%. Inversion = mobile inherits web's template-paste pattern.
+
+#### Primary-source evidence cached
+
+`tmp/20260525_h199_mobile_cascade_compare.log` — full per-SSP comparison table.
+
+#### Open for H200+
+
+1. Probe app-store-gated mobile registries (admob/unityads have 0 sellers — possibly behind auth; or they don't publish sellers.json publicly)
+2. anymanager.io (AnyMind) deep-dive as the largest mobile-leaning manager
+3. Tappx (#H184) re-look at cell level with mobile lens
