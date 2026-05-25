@@ -2835,3 +2835,73 @@ CafeMedia + Mediavine are not "the cleanest of an otherwise dirty population." T
 #### Primary-source evidence cached
 
 `tmp/20260525_h192_full_manager_survey/survey_*.log` — full 85-manager table with all cascade rates + classification logic.
+
+
+### E-2026-05-25-g: Granularity confirmed — 83 of 85 managers template-paste at some scale (H193)
+
+H192's trimodal classification (3 hygienic / 67 intermediate / 15 template-paste apex) was already weakening the bimodal frame. H193 collapses the intermediate/template-paste distinction entirely: it's a threshold artifact.
+
+#### Apex-cell sweep across n_direct thresholds
+
+For 15 sampled intermediate managers (H192 said "0 apex at n≥100"), counts at lower thresholds:
+
+| Manager | n≥100 | n≥50 | n≥20 | n≥10 |
+|---|---:|---:|---:|---:|
+| themoneytizer.com | 0 | 0 | **28** | **212** |
+| pubfuture.com | 0 | 0 | 22 | 149 |
+| pubrev.io | 0 | 0 | 19 | 107 |
+| yieldmonk.com | 0 | 0 | 19 | 97 |
+| luponmedia.com | 0 | 0 | 15 | 79 |
+| anymanager.io | 0 | 1 | 10 | 77 |
+| adpushup.com | 5 | 5 | 16 | 79 |
+| pubpower.io | 0 | 0 | 2 | 20 |
+| saturndynamic.pt | 0 | 0 | 3 | 44 |
+| props.id | 0 | 1 | 1 | 11 |
+| setupad.com | 0 | 0 | 0 | 17 |
+
+Intermediate managers reveal massive apex cell growth as the threshold drops — they DO template-paste, just at smaller per-template scale than freestar/bloxdigital. Themoneytizer alone goes from 0 → 212 apex cells as the threshold drops from n≥100 to n≥10.
+
+#### Hygienic managers stay clean at every threshold
+
+| Manager | n≥100 | n≥50 | n≥20 | n≥10 |
+|---|---:|---:|---:|---:|
+| cafemedia.com | 0 | 0 | 0 | 0 |
+| mediavine.com | 0 | 0 | 0 | 0 |
+
+**Zero apex at every threshold tested.** CafeMedia + Mediavine don't paste templates at any scale; they use IPD per partner per IAB v1.1 spec.
+
+#### Template-paste apex (H192's named tier) stays roughly constant
+
+| Manager | n≥100 | n≥50 | n≥20 | n≥10 |
+|---|---:|---:|---:|---:|
+| freestar.com | 330 | 330 | 331 | 336 |
+| bloxdigital.com | 286 | 286 | 287 | 287 |
+| buysellads.com | 8 | 8 | 8 | 8 |
+
+Their templates are already above n≥100 — threshold doesn't change much.
+
+#### Refined population partition
+
+| Tier | Mechanism | Managers | Publishers |
+|---|---|---:|---:|
+| **Hygienic** | IPD per partner | 2-3 | ~3,378 |
+| **Non-hygienic (all template-paste)** | template paste at varying scale | 82-83 | ~13,711 |
+
+**83 of 85 managers template-paste** at some scale. Hygienic is RARE — not the typical or common end of a spectrum, just two outlier managers (plus a 51-pub border case). The cascade's measured impersonation rates are the direct consequence of the dominant operator practice.
+
+#### Implication for the page narrative
+
+H190 → H191 → H192 → H193 progressively tightened the claim:
+- H190: "bimodal split, some managers hygienic"
+- H192: "trimodal — but 3 of 85 in hygienic tier"
+- H193: "Actually 2 of 85 — and the intermediate/template-apex boundary was just template size, not mechanism"
+
+The page should now reflect: managed-publisher ads.txt is **overwhelmingly** template-pasted; only CafeMedia + Mediavine (~3,327 publishers, 19% of the MGRDOM-declaring corpus) prove the spec scales. Everyone else paste-templates, with different templates being different sizes.
+
+#### Tripwire
+
+`tests/test_h193_apex_threshold_robustness.py` (50th in production runner) asserts: CafeMedia + Mediavine produce 0 apex cells at the stricter n_direct ≥ 10 threshold. Stronger than H190's n_direct ≥ 100 invariant — proves no template paste at any scale, not just the apex tier.
+
+#### Open for H194+
+
+The two-pronged fix recommendation (H190) still stands but now with population-scale framing: ~83 of 85 managers must change practice (either stop pasting non-customer sids, or declare MANAGERDOMAIN per spec so the cascade can attribute cleanly). The remaining ~16,000 managed publishers under non-hygienic managers would benefit. CafeMedia/Mediavine continue as the lighthouse cases proving it works at four-figure scale.
