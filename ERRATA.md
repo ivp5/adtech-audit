@@ -3500,3 +3500,43 @@ assert the split on the CHANGING-file cohort too (the 78%), not only
 stable. **Doctrine:** a fixed-subject longitudinal design trades coverage
 for causal cleanliness — always measure the coverage before generalizing,
 and cross-check with a coverage-complete instrument.
+
+### E-2026-05-29-d: the registry oracle has gaps — 8% of "phantom" is fetch coverage, not the publisher's (PASS-2)
+
+**Examines the assumption under everything:** every phantom verdict
+(in_registry=0) treats the SSP sellers.json registry as ground truth. But
+registries are fetched and cached — if MY data is incomplete, the gap counts
+as the publisher's phantom. Checked it.
+
+**The scary framing and the bounded reality (report both):**
+- 72% of SSPs claimed in ads.txt (3,906 of 5,454) have NO registry in the
+  corpus at all. A claim to any of them is auto-phantom — not because the
+  seller is fake, but because there is no registry to check.
+- BUT those SSPs are overwhelmingly tiny. By VOLUME, the no-registry gap is
+  only 817,915 of 10,367,799 phantom lines = **8%**. The other 92% is real
+  phantom against an SSP that DOES publish a registry.
+
+So a headline "phantom rate" pools THREE things, not two:
+- ~92% real phantom (registry exists, seller absent) → splits 97/3 into
+  decay / pinned-fabrication (E-2026-05-29-b/c)
+- ~8% fetch-coverage gap (no registry to check) → not the publisher's
+  phantom; ours
+
+**Already isolated in the materialized layer:** the cascade's no_registry
+verdict (n_no_reg DIRECT + r_no_reg RESELLER) = 817,915, matching the gap to
+the line. The architecture separated this all along; this entry just
+surfaces it as a headline caveat. The decay-vs-fabrication conclusion is
+UNAFFECTED — it was measured on the real-phantom population (registries
+exist) via the CV discriminator, not on the gap.
+
+**Net effect on the rate:** any phantom RATE that counts in_registry=0
+without excluding no-registry SSPs is inflated ~8% by coverage. The
+verdict-level analysis (cascade) is clean; the aggregate rate is not, unless
+no_registry is netted out.
+
+**Doctrine:** before trusting a binary verdict (in/out of registry), audit
+the oracle's COMPLETENESS, not just its values. "Absent from the registry"
+silently fuses "absent from a registry that exists" with "no registry
+fetched" — the first is signal, the second is your own coverage. A 72%-of-
+SSPs gap that is 8%-of-volume is the normal long-tail shape; report both so
+neither the count nor the volume misleads.
