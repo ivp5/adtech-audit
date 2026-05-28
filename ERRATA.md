@@ -3460,3 +3460,43 @@ cases CV < 0.02). **Memory:**
 **Doctrine:** a high phantom RATE is not itself evidence of fabrication;
 phantom STABILITY OVER TIME is. Fabrication is pinned, decay fluctuates.
 Measure the variance, not the level.
+
+### E-2026-05-29-c: coverage correction — the decay finding was first validated on 22% of phantom; CV generalizes it to 100% (PASS-2)
+
+**Self-correction on E-2026-05-29-a/b.** The stable-file decay test (phantom
+rises 69% under unchanged files; 18.9:1 ratchet) was run on publishers whose
+ads.txt did not change. A coverage check found that cohort is 83% of
+publishers but **only 22% of phantom volume** — the other 78% of phantom
+sits on CHANGING-file publishers (17% of publishers), which the stable-file
+design deliberately excludes (changing files confound publisher-edits with
+registry-pruning). So the decay finding was initially validated on the
+MINORITY of the phantom it describes — a near-miss.
+
+**Resolution:** the coefficient-of-variation discriminator (E-2026-05-29-b)
+does not require a stable file — it measures phantom-count variance over
+time, valid for every publisher. Run on both cohorts:
+- stable-file (22% of phantom): 3% pinned (CV<0.02), 97% fluctuating
+- changing-file (78% of phantom): 2% pinned, 98% fluctuating
+
+Identical ~97/3 split on both. The decay-dominant conclusion HOLDS on the
+full corpus, not just the stable minority — but it is the CV test, not the
+stable-file rise/fall, that carries the generalization. The stable-file
+ratchet is corroborating (and the cleaner direction-isolation), but covers
+only 22%.
+
+**Why this matters as method:** a longitudinal test that holds the subject
+fixed (stable-file) buys clean causal direction at the cost of coverage —
+it can only see the subjects that didn't move. Before generalizing from it,
+check what fraction of the phenomenon the fixed-subject cohort actually
+represents. Here it was 22%; the conclusion survived only because a
+coverage-complete instrument (CV) independently agreed. Had they disagreed,
+the proposed PAPER correction would have shipped a claim validated on the
+wrong fifth of the data.
+
+**Affects:** strengthens the evidence basis cited in
+`PAPER_abstract_correction.proposed.md` (still STAGED, not applied).
+**Tripwire:** `tests/test_phantom_is_decay_not_fault.py` CV test should
+assert the split on the CHANGING-file cohort too (the 78%), not only
+stable. **Doctrine:** a fixed-subject longitudinal design trades coverage
+for causal cleanliness — always measure the coverage before generalizing,
+and cross-check with a coverage-complete instrument.

@@ -10,12 +10,24 @@
 Two abstract sentences infer "not staleness → fabrication" from a SPATIAL
 re-fetch test (fetch more registries, count reclassifications) that is
 structurally blind to TEMPORAL staleness (sellers that WERE in the registry
-and got pruned). The stable-file decay test (publisher_audit_history, 9
-snapshots) and the CV discriminator show 97% of phantom is temporal decay
-(fluctuating, ratchets 18.9:1) and only 3% is pinned fabrication — a split
-that independently reproduces the project's own cycle-468 mechanism
-decomposition (97.5% structural / 2.5% misconduct). See ERRATA
-E-2026-05-29-a and E-2026-05-29-b.
+and got pruned).
+
+EVIDENCE BASIS (corrected after a coverage check). The temporal claim rests
+primarily on the coefficient-of-variation discriminator (phantom-count
+variance per publisher across 9 snapshots), which is valid for ALL
+publishers regardless of whether their file changed — the better instrument.
+It was verified to cover the phantom volume, not just a convenient subset:
+- stable-file publishers (file unchanged ±2 lines): 83% of publishers but
+  only 22% of phantom volume — 3% pinned (CV<0.02), 97% fluctuating.
+- changing-file publishers: 17% of publishers but 78% of phantom volume —
+  2% pinned, 98% fluctuating.
+Both cohorts give the same ~97/3 split, so it holds on the FULL corpus, not
+just the stable minority. (The earlier stable-file-only decay test — 69%
+rose / 13% fell, 18.9:1 ratchet — is corroborating but covers only the 22%;
+the CV discriminator is what generalizes.) The 97/3 split independently
+reproduces the project's cycle-468 mechanism decomposition (97.5%
+structural / 2.5% misconduct) by an unrelated method. See ERRATA
+E-2026-05-29-a, E-2026-05-29-b, E-2026-05-29-c.
 
 The spatial findings themselves are TRUE and kept (2.7% reclassify on
 re-fetch; 0.2% on the larger expansion). What changes is the INFERENCE:
