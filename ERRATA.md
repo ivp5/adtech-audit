@@ -3540,3 +3540,42 @@ silently fuses "absent from a registry that exists" with "no registry
 fetched" — the first is signal, the second is your own coverage. A 72%-of-
 SSPs gap that is 8%-of-volume is the normal long-tail shape; report both so
 neither the count nor the volume misleads.
+
+### E-2026-05-29-e: "fail verification" is a check-outcome, not a fraud claim — read the 57.1% accordingly (PASS-2)
+
+After applying the abstract correction (E-2026-05-29-a/b, PAPER.md lines
+15+97), a full read-back of the abstract surfaced a CONNOTATION seam (not a
+logical contradiction — verified: the abstract reserves "unambiguously
+false" for the 29% contradicted rate only, and uses the weaker "fail
+verification" for the 57.1%).
+
+The seam: "57.1% of claims fail verification" reads to a casual eye as a
+fraud headline, but the corrected text immediately establishes that the
+phantom half (28%) is dominantly temporal decay, and that ~8% of phantom
+volume (≈3.7pp of DIRECT claims, current corpus) is a registry-COVERAGE
+artifact — claims to SSPs with no fetchable sellers.json, which are
+UNVERIFIABLE rather than failed. Strictly, something unverifiable did not
+"fail verification"; it could not be verified.
+
+Resolution (deliberately NOT a third edit to the published thesis): the
+abstract is internally consistent as written — "fail verification" means
+"did not match / could not be confirmed against the registry," true for
+both the contradicted and phantom halves regardless of cause, and distinct
+from "false" (reserved for the 29%). Editing it again to fix a connotation,
+absent a logical defect, would be over-correction. Instead, the reader
+guidance is recorded here:
+
+- 29% CONTRADICTED — hard, unambiguous (registry says INTERMEDIARY). The
+  robust finding; lead with this.
+- 28% PHANTOM — soft: ~97% temporal decay, ~3% pinned fabrication, and
+  ~3.7pp-of-DIRECT is an unverifiable coverage artifact, not a failure.
+- 57.1% "fail verification" — a CHECK-OUTCOME (did-not-confirm), NOT a
+  fraud rate. Do not read it as "57% fabricated."
+
+**Doctrine:** "fail verification" / "phantom" / "false" / "fabricated" are
+four different claims; a rate that pools them under the strongest word
+mis-reads. The correction kept them distinct in the prose; this entry keeps
+them distinct in the reader's head. Current-corpus exact figures:
+contradicted 27.2%, phantom 34.2% (of which 3.7pp-of-DIRECT no-registry),
+verifiable-failure rate ≈57.7% — the abstract's 57.1% is the 710-snapshot
+scope it states.
