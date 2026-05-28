@@ -3412,3 +3412,51 @@ under stable files; 18.9:1 ratchet; 99% blocks mixed valid+phantom),
 deletion is invisible to a snapshot-difference that only adds sources. To
 test decay you must hold the claimant fixed and watch time, not hold time
 fixed and add registries.
+
+### E-2026-05-29-b: decay and fabrication have OPPOSITE temporal signatures — CV<0.02 discriminates them (PASS-2)
+
+**Refines E-2026-05-29-a**, which was over-broad in implying "phantom is
+decay." Decay and fabrication are BOTH real and temporally distinguishable.
+The named apex cases in PAPER.md (Taboola, the injectors) survive as genuine
+fabrication; the bulk rate is decay. A coefficient-of-variation test on
+per-publisher phantom count across the 9 snapshots separates them
+operationally.
+
+**The opposite signatures:**
+- DECAY (the ~30% bulk): phantom FLUCTUATES with registry churn — sellers
+  pruned and re-admitted snapshot to snapshot. High CV. The copied-block-
+  meets-pruning ratchet (E-2026-05-29-a).
+- FABRICATION (Taboola-class): phantom PINNED at a fixed high level, flat
+  across snapshots — the block never referenced real-then-pruned sellers;
+  it was always phantom and doesn't move. Near-zero CV.
+
+**Measured (phantom-count CV across snapshots, stable-file publishers):**
+- taboola.com: CV=0.0003 (1577→1576 phantom over 5 weeks, spread 1/1580)
+- taboolanews.com: CV=0.0005 (spread 5/3,866)
+- general stable-file cohort (13,147 pubs): median CV=0.1443; only 3%
+  near-pinned (CV<0.02, fabrication-like), 97% fluctuating (decay-like).
+
+**Convergence with cycle 468 (independent methods, same answer):** the
+PAPER's mechanism-attribution decomposition put ~97.5% structural /
+2.5% misconduct. This temporal-variance test independently finds 97%
+decay-like / 3% pinned-fabrication-like. Two unrelated methods
+(mechanism-attribution vs phantom-count variance over time) converge on the
+same ~97/3 split — strong mutual corroboration. The CV<0.02 cut gives an
+OPERATIONAL discriminator where the project previously had only manual
+per-case attribution.
+
+**Net:** the aggregate "fabrication" framing is wrong (97% is decay,
+E-2026-05-29-a), AND the named sharp cases (Taboola contradicting its own
+sellers.json, stable at 99.75%; the named injectors) are genuine
+fabrication, identifiable by temporal pinning. Both PAPER claims can stand
+if scoped: the apex case studies survive; the corpus-wide "57% false /
+fabrication-dominates" headline does not.
+
+**Tripwire:** extend `tests/test_phantom_is_decay_not_fault.py` with the CV
+discriminator (pinned-fabrication ≤ ~5% of stable-file cohort; named apex
+cases CV < 0.02). **Memory:**
+`finding_decay_vs_fabrication_cv_discriminator_20260529.md`.
+
+**Doctrine:** a high phantom RATE is not itself evidence of fabrication;
+phantom STABILITY OVER TIME is. Fabrication is pinned, decay fluctuates.
+Measure the variance, not the level.
