@@ -3339,3 +3339,76 @@ The mobile ecosystem may genuinely be cleaner OR may simply lack the apex-templa
 1. Probe app-store-gated mobile registries (admob/unityads have 0 sellers — possibly behind auth; or they don't publish sellers.json publicly)
 2. anymanager.io (AnyMind) deep-dive as the largest mobile-leaning manager
 3. Tappx (#H184) re-look at cell level with mobile lens
+
+### E-2026-05-29-a: The staleness refutation tested the wrong axis — phantom is a temporal decay ratchet (PASS-2)
+
+**Corrects:** the "Phantom IDs are stale registry data" → "0/15 found on
+re-fetch" → **SURVIVES** verdict (this file, ~line 1055; the falsification
+table) and the PAPER.md abstract claim "Staleness cannot account for more
+than 0.2% of the phantom class. The fabrication-to-staleness ratio is
+approximately 490:1." Both measured SPATIAL staleness only and are
+structurally blind to TEMPORAL staleness, which dominates.
+
+**The two staleness axes (the whole error):**
+- SPATIAL staleness — "is this phantom seller in some current registry I
+  hadn't fetched yet?" Tested by re-fetching more registries and counting
+  reclassifications. Answer: rarely (the 490:1 / 36:1 / 0.2% numbers). The
+  project concluded "not staleness → fabrication."
+- TEMPORAL staleness — "was this seller in the registry BEFORE, and did the
+  registry prune it?" NEVER tested by re-fetch (this file flagged it as the
+  missing test at ~line 1088 "Wayback temporal trajectory" and ~line 1250
+  "requires temporal data"). A seller valid last quarter and pruned this
+  quarter is spatially absent (re-fetch finds nothing) yet pure decay.
+
+**The temporal test, finally run (publisher_audit_history, 9 snapshots
+2026-04-24 → 05-29):** take publishers whose ads.txt file stayed STABLE
+(±2 DIRECT lines, ≥20) and watch phantom with the file held fixed:
+- phantom ROSE in 13,062 (69%), FELL in 2,392 (13%), SAME 3,586 (19%).
+The publishers did NOTHING; phantom rose 5× more than it fell. Phantom
+climbs UNDER a static file because registries drop sellers beneath it. This
+isolates direction (not a common-cause confound): registry pruning PRODUCES
+phantom.
+
+**The ratchet (sets the equilibrium rate):** stable-file cohort over 5
+weeks GAINED 53,115 phantom lines, CLEARED 2,816 — an 18.9:1 accumulation.
+Recovery is rarely registry re-admission (5-10%); mostly the line is
+manually deleted. Phantom pours in passively (pruning, free) and trickles
+out only by an act that's ~19× rarer. The ~30% corpus phantom rate is a
+DECAY-EQUILIBRIUM metric — ecosystem pruning-rate ÷ re-paste-rate — not a
+fabrication metric.
+
+**Cross-SSP corroboration:** high-churn SSPs (≥50 recorded registry
+changes) median 21.6% DIRECT-phantom vs low-churn 3.9% (5.5×). Consistent
+with decay, though confoundable alone — the stable-file test is the
+direction-isolating evidence.
+
+**Reconciliation with the 490:1, honestly bounded:** 40% of DIRECT-phantom
+pairs are on SSPs with recorded churn (registry_refresh_journal); the other
+60% are "never-observed-churning," but that journal is a thin observation
+log (650 events / 630 SSPs over a short window) and undercounts churn
+massively — absence of recorded churn ≠ absence of churn. So this does NOT
+cleanly overturn the 490:1; it shows the 490:1 measures only the spatial
+axis and omits the temporal one entirely, while the ratchet is direct
+evidence the temporal axis is large. Both can hold: fabrication-vs-spatial-
+staleness ≈ 490:1, AND temporal decay is the dominant motion of the rate.
+
+**Net framing:** PAPER.md's HEADER already retracted the fraud story
+("97.5% structural framework brittleness") but its ABSTRACT still asserts
+"fabrication dominates staleness ~36:1 / 490:1." This entry supplies the
+MECHANISM the header gestures at: the "brittleness" is specifically a
+temporal decay ratchet, and the 490:1 is an artifact of testing
+spatial-not-temporal staleness. The wrapper-suppression of DIRECT-phantom
+(E-2026-05-25-d "hygienic managers") is explained: wrappers are the only
+actors who RE-PASTE, resetting the decay clock — the pawl the
+self-managing publisher isn't.
+
+**Tripwires:** `tests/test_phantom_is_decay_not_fault.py` (phantom rises
+under stable files; 18.9:1 ratchet; 99% blocks mixed valid+phantom),
+`tests/test_phantom_two_mechanisms.py`, `tests/test_wrapper_direct_phantom_direction.py`.
+**Memory:** `finding_valid_and_phantom_same_origin_20260529.md`,
+`finding_wrapper_suppresses_direct_phantom_20260529.md`.
+
+**Doctrine:** "not in any registry I fetched" ≠ "never authorized." A
+deletion is invisible to a snapshot-difference that only adds sources. To
+test decay you must hold the claimant fixed and watch time, not hold time
+fixed and add registries.
