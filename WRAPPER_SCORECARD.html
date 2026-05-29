@@ -3,36 +3,47 @@
 <head>
 <meta charset="utf-8">
 <title>ads.txt Wrapper Accountability Scorecard</title>
-<meta name="description" content="Per-wrapper phantom-claim rate scorecard. 104 wrappers ranked by how clean the ads.txt files they manage are.">
+<meta name="description" content="Per-wrapper phantom-claim rate scorecard. 108 wrappers ranked by how clean the ads.txt files they manage are.">
 <style>
-  body { font:15px/1.5 -apple-system,system-ui,sans-serif; color:#222; max-width:920px; margin:2rem auto; padding:0 1rem; background:#fafafa; }
-  h1 { margin:0 0 .3rem; font-size:1.7rem; }
-  .lead { color:#666; margin:0 0 1.5rem; }
-  .stat { display:inline-block; margin:0 1.5rem 1rem 0; }
-  .stat b { display:block; font-size:1.5rem; color:#0a6; }
-  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #ddd; }
-  th, td { padding:.5rem .8rem; text-align:left; border-bottom:1px solid #eee; }
-  th { background:#f5f5f5; color:#666; font-weight:500; font-size:.9rem; }
-  td.num { text-align:right; font-variant-numeric:tabular-nums; }
-  tr.clean td.rate { color:#0a6; font-weight:600; }
-  tr.middle td.rate { color:#c70; font-weight:600; }
-  tr.concerning td.rate { color:#a00; font-weight:600; }
-  .bar { display:inline-block; height:8px; background:linear-gradient(90deg,#0a6 0,#c70 50%,#a00 100%); vertical-align:middle; border-radius:2px; }
-  footer { margin:2rem 0; color:#888; font-size:.9rem; border-top:1px solid #ddd; padding-top:1rem; }
-  footer a { color:#888; }
-  .key { font-size:.85rem; color:#666; margin:.5rem 0 1rem; }
+body { font:15px/1.5 -apple-system,system-ui,sans-serif; color:#222; max-width:1080px; margin:2rem auto; padding:0 1rem; background:#fafafa; }
+h1 { margin:0 0 .3rem; font-size:1.6rem; }
+.lead { color:#666; margin:0 0 1rem; }
+.stat { display:inline-block; margin:0 1.2rem 1rem 0; }
+.stat b { display:block; font-size:1.4rem; color:#0a6; }
+.metric { display:inline-block; margin:0 1.5rem 1rem 0; }
+.metric b { display:block; font-size:1.5rem; }
+table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #ddd; }
+th, td { padding:.4rem .6rem; text-align:left; border-bottom:1px solid #eee; }
+th { background:#f5f5f5; color:#666; font-weight:500; font-size:.9rem; }
+td.num { text-align:right; font-variant-numeric:tabular-nums; }
+.bar { display:inline-block; height:8px; background:linear-gradient(90deg,#0a6 0,#c70 50%,#a00 100%); vertical-align:middle; border-radius:2px; }
+code { font-size:11px; background:#f0f0f0; padding:1px 4px; border-radius:2px; }
+nav { font-size:.85rem; color:#888; }
+nav a { color:#888; }
+footer { margin:2rem 0; color:#888; font-size:.85rem; border-top:1px solid #ddd; padding-top:1rem; }
+footer a { color:#888; }
+
+tr.clean td.rate {color:#0a6; font-weight:600;}
+tr.middle td.rate {color:#c70; font-weight:600;}
+tr.concerning td.rate {color:#a00; font-weight:600;}
+.tier-clean {color:#0a6;}
+.tier-middle {color:#c70;}
+.tier-concerning {color:#a00;}
+
+.shadow-explainer { background:#fed; border-left:3px solid #a40; padding:.6rem 1rem; margin:1rem 0; }
+.key { font-size:.85rem; color:#666; margin:.5rem 0 1rem; }
 </style>
 </head>
 <body>
   <h1>ads.txt Wrapper Accountability Scorecard</h1>
-  <p class="lead">Per-MANAGERDOMAIN phantom-claim rate across 76,426 publishers. Wrappers with ≥30 managed publishers shown. Phantom = seller_id absent from the SSP's own sellers.json registry.</p>
+  <p class="lead">Per-MANAGERDOMAIN phantom-claim rate across 86,357 publishers. Wrappers with ≥30 managed publishers shown. Phantom = seller_id absent from the SSP's own sellers.json registry.</p>
 
   <div>
-    <div class="stat"><b>104</b>wrappers ranked</div>
+    <div class="stat"><b>108</b>wrappers ranked</div>
     <div class="stat"><b>8×</b>spread (cleanest vs dirtiest)</div>
-    <div class="stat"><b>6.7%</b>cleanest phantom rate</div>
-    <div class="stat"><b>52.6%</b>dirtiest phantom rate</div>
-    <div class="stat"><b>25.7%</b>corpus-wide rate</div>
+    <div class="stat"><b>6.3%</b>cleanest phantom rate</div>
+    <div class="stat"><b>47.4%</b>dirtiest phantom rate</div>
+    <div class="stat"><b>30.7%</b>corpus-wide rate</div>
   </div>
 
   <p class="key">Color-coded: <span style="color:#0a6;font-weight:600;">clean (&lt;15%)</span>&nbsp;·&nbsp;<span style="color:#c70;font-weight:600;">middle (15–30%)</span>&nbsp;·&nbsp;<span style="color:#a00;font-weight:600;">concerning (≥30%)</span></p>
@@ -47,115 +58,119 @@
       <th>Tier</th>
     </tr></thead>
     <tbody>
-      <tr class="clean"><td>cafemedia.com</td><td class="num">1,838</td><td class="num">153,593</td><td class="num">10,240</td><td class="num rate">6.7%<span class="bar" style="width:20px;margin-left:.5rem;"></span></td><td>clean</td></tr>
-      <tr class="clean"><td>mediavine.com</td><td class="num">1,478</td><td class="num">102,234</td><td class="num">10,714</td><td class="num rate">10.5%<span class="bar" style="width:31px;margin-left:.5rem;"></span></td><td>clean</td></tr>
-      <tr class="clean"><td>contentignite.com</td><td class="num">47</td><td class="num">1,518</td><td class="num">216</td><td class="num rate">14.2%<span class="bar" style="width:42px;margin-left:.5rem;"></span></td><td>clean</td></tr>
-      <tr class="clean"><td>pubnation.com</td><td class="num">149</td><td class="num">8,949</td><td class="num">1,323</td><td class="num rate">14.8%<span class="bar" style="width:44px;margin-left:.5rem;"></span></td><td>clean</td></tr>
-      <tr class="middle"><td>ezoic.ai</td><td class="num">882</td><td class="num">63,859</td><td class="num">10,264</td><td class="num rate">16.1%<span class="bar" style="width:48px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>mediatradecraft.com</td><td class="num">51</td><td class="num">5,817</td><td class="num">1,036</td><td class="num rate">17.8%<span class="bar" style="width:53px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>bloxdigital.com</td><td class="num">299</td><td class="num">177,203</td><td class="num">31,569</td><td class="num rate">17.8%<span class="bar" style="width:53px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>freestar.com</td><td class="num">959</td><td class="num">287,869</td><td class="num">52,073</td><td class="num rate">18.1%<span class="bar" style="width:54px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>longitudeads.com</td><td class="num">57</td><td class="num">2,240</td><td class="num">408</td><td class="num rate">18.2%<span class="bar" style="width:54px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>journeymv.com</td><td class="num">117</td><td class="num">5,749</td><td class="num">1,104</td><td class="num rate">19.2%<span class="bar" style="width:57px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>playwire.com</td><td class="num">385</td><td class="num">43,479</td><td class="num">8,713</td><td class="num rate">20.0%<span class="bar" style="width:60px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>network-n.com</td><td class="num">49</td><td class="num">4,725</td><td class="num">1,038</td><td class="num rate">22.0%<span class="bar" style="width:65px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>bcn.group</td><td class="num">33</td><td class="num">3,365</td><td class="num">753</td><td class="num rate">22.4%<span class="bar" style="width:67px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>366.fr</td><td class="num">40</td><td class="num">1,634</td><td class="num">368</td><td class="num rate">22.5%<span class="bar" style="width:67px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>mmedia.nl</td><td class="num">69</td><td class="num">6,289</td><td class="num">1,504</td><td class="num rate">23.9%<span class="bar" style="width:71px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>snigelweb.com</td><td class="num">197</td><td class="num">33,434</td><td class="num">8,031</td><td class="num rate">24.0%<span class="bar" style="width:72px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>admetricspro.com</td><td class="num">51</td><td class="num">5,748</td><td class="num">1,429</td><td class="num rate">24.9%<span class="bar" style="width:74px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>nextmillennium.io</td><td class="num">74</td><td class="num">6,910</td><td class="num">1,795</td><td class="num rate">26.0%<span class="bar" style="width:77px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>pmc.com</td><td class="num">98</td><td class="num">13,468</td><td class="num">3,526</td><td class="num rate">26.2%<span class="bar" style="width:78px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>audienzz.com</td><td class="num">42</td><td class="num">3,206</td><td class="num">846</td><td class="num rate">26.4%<span class="bar" style="width:79px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>highfivve.com</td><td class="num">43</td><td class="num">2,939</td><td class="num">778</td><td class="num rate">26.5%<span class="bar" style="width:79px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>didna.io</td><td class="num">37</td><td class="num">5,482</td><td class="num">1,547</td><td class="num rate">28.2%<span class="bar" style="width:84px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>adsinteractive.com</td><td class="num">54</td><td class="num">818</td><td class="num">232</td><td class="num rate">28.4%<span class="bar" style="width:85px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>advergic.com</td><td class="num">47</td><td class="num">3,087</td><td class="num">877</td><td class="num rate">28.4%<span class="bar" style="width:85px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>ops.co</td><td class="num">169</td><td class="num">27,788</td><td class="num">7,911</td><td class="num rate">28.5%<span class="bar" style="width:85px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>hbagency.it</td><td class="num">157</td><td class="num">26,131</td><td class="num">7,494</td><td class="num rate">28.7%<span class="bar" style="width:86px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>m32.media</td><td class="num">53</td><td class="num">1,240</td><td class="num">361</td><td class="num rate">29.1%<span class="bar" style="width:87px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>ascendeum.com</td><td class="num">109</td><td class="num">10,833</td><td class="num">3,165</td><td class="num rate">29.2%<span class="bar" style="width:87px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>hitopic.fr</td><td class="num">48</td><td class="num">5,138</td><td class="num">1,506</td><td class="num rate">29.3%<span class="bar" style="width:87px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>dorvan.it</td><td class="num">81</td><td class="num">8,092</td><td class="num">2,399</td><td class="num rate">29.6%<span class="bar" style="width:88px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="middle"><td>snack-media.com</td><td class="num">157</td><td class="num">44,543</td><td class="num">13,305</td><td class="num rate">29.9%<span class="bar" style="width:89px;margin-left:.5rem;"></span></td><td>middle</td></tr>
-      <tr class="concerning"><td>movingup.it</td><td class="num">32</td><td class="num">7,714</td><td class="num">2,323</td><td class="num rate">30.1%<span class="bar" style="width:90px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>yourbow.com</td><td class="num">91</td><td class="num">3,835</td><td class="num">1,173</td><td class="num rate">30.6%<span class="bar" style="width:91px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>sevio.com</td><td class="num">63</td><td class="num">2,671</td><td class="num">821</td><td class="num rate">30.7%<span class="bar" style="width:92px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>tradehouse.media</td><td class="num">79</td><td class="num">13,953</td><td class="num">4,418</td><td class="num rate">31.7%<span class="bar" style="width:94px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>sparteo.com</td><td class="num">98</td><td class="num">2,299</td><td class="num">735</td><td class="num rate">32.0%<span class="bar" style="width:95px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>digitalmatter.ai</td><td class="num">58</td><td class="num">8,403</td><td class="num">2,694</td><td class="num rate">32.1%<span class="bar" style="width:96px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>publift.com</td><td class="num">613</td><td class="num">94,930</td><td class="num">30,684</td><td class="num rate">32.3%<span class="bar" style="width:96px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>quartermedia.de</td><td class="num">40</td><td class="num">1,483</td><td class="num">480</td><td class="num rate">32.4%<span class="bar" style="width:97px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>phaistosnetworks.gr</td><td class="num">43</td><td class="num">5,286</td><td class="num">1,715</td><td class="num rate">32.4%<span class="bar" style="width:97px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>hcodemedia.com</td><td class="num">55</td><td class="num">17,370</td><td class="num">5,639</td><td class="num rate">32.5%<span class="bar" style="width:97px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>refinery89.com</td><td class="num">363</td><td class="num">76,521</td><td class="num">25,205</td><td class="num rate">32.9%<span class="bar" style="width:98px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>cultureg.eu</td><td class="num">42</td><td class="num">6,422</td><td class="num">2,121</td><td class="num rate">33.0%<span class="bar" style="width:99px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>stepnetwork.dk</td><td class="num">32</td><td class="num">362</td><td class="num">120</td><td class="num rate">33.1%<span class="bar" style="width:99px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>adapex.io</td><td class="num">109</td><td class="num">56,489</td><td class="num">19,039</td><td class="num rate">33.7%<span class="bar" style="width:101px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>optidigital.com</td><td class="num">94</td><td class="num">7,586</td><td class="num">2,558</td><td class="num rate">33.7%<span class="bar" style="width:101px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>nitropay.com</td><td class="num">213</td><td class="num">21,069</td><td class="num">7,150</td><td class="num rate">33.9%<span class="bar" style="width:101px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>buysellads.com</td><td class="num">151</td><td class="num">36,177</td><td class="num">12,299</td><td class="num rate">34.0%<span class="bar" style="width:101px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>venatus.com</td><td class="num">222</td><td class="num">23,016</td><td class="num">7,844</td><td class="num rate">34.1%<span class="bar" style="width:102px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>publir.com</td><td class="num">38</td><td class="num">11,789</td><td class="num">4,052</td><td class="num rate">34.4%<span class="bar" style="width:103px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>exmarketplace.com</td><td class="num">49</td><td class="num">8,121</td><td class="num">2,795</td><td class="num rate">34.4%<span class="bar" style="width:103px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>monumetric.com</td><td class="num">98</td><td class="num">13,491</td><td class="num">4,652</td><td class="num rate">34.5%<span class="bar" style="width:103px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>premiumads.com.br</td><td class="num">97</td><td class="num">26,537</td><td class="num">9,234</td><td class="num rate">34.8%<span class="bar" style="width:104px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>evolutionadv.it</td><td class="num">110</td><td class="num">42,554</td><td class="num">14,827</td><td class="num rate">34.8%<span class="bar" style="width:104px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>aditude.io</td><td class="num">94</td><td class="num">14,597</td><td class="num">5,131</td><td class="num rate">35.2%<span class="bar" style="width:105px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>eadv.it</td><td class="num">39</td><td class="num">928</td><td class="num">327</td><td class="num rate">35.2%<span class="bar" style="width:105px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>infolinks.com</td><td class="num">190</td><td class="num">31,103</td><td class="num">10,964</td><td class="num rate">35.3%<span class="bar" style="width:105px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>digitalbloom.it</td><td class="num">34</td><td class="num">14,649</td><td class="num">5,174</td><td class="num rate">35.3%<span class="bar" style="width:105px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>nsightvideo.com</td><td class="num">145</td><td class="num">40,021</td><td class="num">14,314</td><td class="num rate">35.8%<span class="bar" style="width:107px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>waytogrow.eu</td><td class="num">40</td><td class="num">7,183</td><td class="num">2,575</td><td class="num rate">35.8%<span class="bar" style="width:107px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>adinplay.com</td><td class="num">149</td><td class="num">29,348</td><td class="num">10,600</td><td class="num rate">36.1%<span class="bar" style="width:108px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>pubgalaxy.com</td><td class="num">145</td><td class="num">41,985</td><td class="num">15,327</td><td class="num rate">36.5%<span class="bar" style="width:109px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>setupad.com</td><td class="num">226</td><td class="num">75,952</td><td class="num">27,932</td><td class="num rate">36.8%<span class="bar" style="width:110px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>adnimation.com</td><td class="num">122</td><td class="num">22,439</td><td class="num">8,258</td><td class="num rate">36.8%<span class="bar" style="width:110px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>alright.com.br</td><td class="num">89</td><td class="num">23,100</td><td class="num">8,557</td><td class="num rate">37.0%<span class="bar" style="width:111px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>adplay.it</td><td class="num">90</td><td class="num">17,425</td><td class="num">6,464</td><td class="num rate">37.1%<span class="bar" style="width:111px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>clickio.com</td><td class="num">172</td><td class="num">40,661</td><td class="num">15,100</td><td class="num rate">37.1%<span class="bar" style="width:111px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>orangeclickmedia.com</td><td class="num">165</td><td class="num">20,750</td><td class="num">7,767</td><td class="num rate">37.4%<span class="bar" style="width:112px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>copper6.com</td><td class="num">114</td><td class="num">40,077</td><td class="num">15,148</td><td class="num rate">37.8%<span class="bar" style="width:113px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>carliba.io</td><td class="num">101</td><td class="num">35,031</td><td class="num">13,330</td><td class="num rate">38.1%<span class="bar" style="width:114px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>symplr.de</td><td class="num">143</td><td class="num">26,168</td><td class="num">10,024</td><td class="num rate">38.3%<span class="bar" style="width:114px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>vuukle.com</td><td class="num">69</td><td class="num">44,633</td><td class="num">17,223</td><td class="num rate">38.6%<span class="bar" style="width:115px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>massarius.com</td><td class="num">33</td><td class="num">13,835</td><td class="num">5,410</td><td class="num rate">39.1%<span class="bar" style="width:117px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>pixfuture.com</td><td class="num">86</td><td class="num">70,085</td><td class="num">27,450</td><td class="num rate">39.2%<span class="bar" style="width:117px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>rev.iq</td><td class="num">89</td><td class="num">87,592</td><td class="num">35,411</td><td class="num rate">40.4%<span class="bar" style="width:121px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>adseleto.com</td><td class="num">51</td><td class="num">1,474</td><td class="num">603</td><td class="num rate">40.9%<span class="bar" style="width:122px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>pubfuture.com</td><td class="num">242</td><td class="num">287,855</td><td class="num">118,244</td><td class="num rate">41.1%<span class="bar" style="width:123px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>vidcrunch.com</td><td class="num">71</td><td class="num">35,858</td><td class="num">14,792</td><td class="num rate">41.3%<span class="bar" style="width:123px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>props.id</td><td class="num">49</td><td class="num">67,914</td><td class="num">28,110</td><td class="num rate">41.4%<span class="bar" style="width:124px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>1xl.co.uk</td><td class="num">159</td><td class="num">46,430</td><td class="num">19,233</td><td class="num rate">41.4%<span class="bar" style="width:124px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>tapmind.com</td><td class="num">37</td><td class="num">27,688</td><td class="num">11,519</td><td class="num rate">41.6%<span class="bar" style="width:124px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>revbid.net</td><td class="num">86</td><td class="num">76,976</td><td class="num">32,178</td><td class="num rate">41.8%<span class="bar" style="width:125px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>projectagora.com</td><td class="num">66</td><td class="num">14,922</td><td class="num">6,240</td><td class="num rate">41.8%<span class="bar" style="width:125px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>adpushup.com</td><td class="num">370</td><td class="num">252,025</td><td class="num">105,451</td><td class="num rate">41.8%<span class="bar" style="width:125px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>digiadglobal.com</td><td class="num">58</td><td class="num">83,771</td><td class="num">35,154</td><td class="num rate">42.0%<span class="bar" style="width:125px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>themoneytizer.com</td><td class="num">998</td><td class="num">750,827</td><td class="num">315,769</td><td class="num rate">42.1%<span class="bar" style="width:126px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>yieldmonk.com</td><td class="num">154</td><td class="num">160,733</td><td class="num">68,205</td><td class="num rate">42.4%<span class="bar" style="width:127px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>pubrev.io</td><td class="num">111</td><td class="num">181,442</td><td class="num">77,103</td><td class="num rate">42.5%<span class="bar" style="width:127px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>anymanager.io</td><td class="num">394</td><td class="num">286,657</td><td class="num">123,999</td><td class="num rate">43.3%<span class="bar" style="width:129px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>netpub.media</td><td class="num">48</td><td class="num">27,202</td><td class="num">11,774</td><td class="num rate">43.3%<span class="bar" style="width:129px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>idmnet.pl</td><td class="num">43</td><td class="num">8,737</td><td class="num">3,782</td><td class="num rate">43.3%<span class="bar" style="width:129px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>streamlyn.com</td><td class="num">66</td><td class="num">52,218</td><td class="num">22,679</td><td class="num rate">43.4%<span class="bar" style="width:130px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>pubpower.io</td><td class="num">147</td><td class="num">88,272</td><td class="num">38,531</td><td class="num rate">43.7%<span class="bar" style="width:130px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>empower.net</td><td class="num">93</td><td class="num">41,839</td><td class="num">18,323</td><td class="num rate">43.8%<span class="bar" style="width:131px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>luponmedia.com</td><td class="num">137</td><td class="num">166,922</td><td class="num">73,265</td><td class="num rate">43.9%<span class="bar" style="width:131px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>semseoymas.com</td><td class="num">68</td><td class="num">21,469</td><td class="num">9,448</td><td class="num rate">44.0%<span class="bar" style="width:132px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>spacefoot.com</td><td class="num">131</td><td class="num">30,642</td><td class="num">13,549</td><td class="num rate">44.2%<span class="bar" style="width:132px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>fourm.jp</td><td class="num">214</td><td class="num">64,744</td><td class="num">28,733</td><td class="num rate">44.4%<span class="bar" style="width:133px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>monetizemore.com</td><td class="num">101</td><td class="num">26,501</td><td class="num">11,859</td><td class="num rate">44.7%<span class="bar" style="width:134px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>traffective.com</td><td class="num">137</td><td class="num">16,694</td><td class="num">7,502</td><td class="num rate">44.9%<span class="bar" style="width:134px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>iqdigital.de</td><td class="num">31</td><td class="num">3,988</td><td class="num">1,832</td><td class="num rate">45.9%<span class="bar" style="width:137px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="clean"><td>mediavine.com</td><td class="num">1,480</td><td class="num">102,387</td><td class="num">6,436</td><td class="num rate">6.3%<span class="bar" style="width:18px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>pubnation.com</td><td class="num">149</td><td class="num">8,949</td><td class="num">566</td><td class="num rate">6.3%<span class="bar" style="width:18px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>cafemedia.com</td><td class="num">1,846</td><td class="num">154,248</td><td class="num">10,039</td><td class="num rate">6.5%<span class="bar" style="width:19px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>bcn.group</td><td class="num">33</td><td class="num">3,365</td><td class="num">401</td><td class="num rate">11.9%<span class="bar" style="width:35px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>mediatradecraft.com</td><td class="num">51</td><td class="num">5,817</td><td class="num">721</td><td class="num rate">12.4%<span class="bar" style="width:37px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>network-n.com</td><td class="num">49</td><td class="num">4,725</td><td class="num">610</td><td class="num rate">12.9%<span class="bar" style="width:38px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>contentignite.com</td><td class="num">47</td><td class="num">1,518</td><td class="num">198</td><td class="num rate">13.0%<span class="bar" style="width:39px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>journeymv.com</td><td class="num">118</td><td class="num">5,797</td><td class="num">807</td><td class="num rate">13.9%<span class="bar" style="width:41px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="clean"><td>ezoic.ai</td><td class="num">893</td><td class="num">64,455</td><td class="num">9,459</td><td class="num rate">14.7%<span class="bar" style="width:44px;margin-left:.5rem;"></span></td><td>clean</td></tr>
+      <tr class="middle"><td>snigelweb.com</td><td class="num">197</td><td class="num">33,434</td><td class="num">5,085</td><td class="num rate">15.2%<span class="bar" style="width:45px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>bloxdigital.com</td><td class="num">300</td><td class="num">177,847</td><td class="num">27,097</td><td class="num rate">15.2%<span class="bar" style="width:45px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>freestar.com</td><td class="num">960</td><td class="num">288,513</td><td class="num">44,103</td><td class="num rate">15.3%<span class="bar" style="width:45px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>longitudeads.com</td><td class="num">57</td><td class="num">2,240</td><td class="num">351</td><td class="num rate">15.7%<span class="bar" style="width:47px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>mmedia.nl</td><td class="num">69</td><td class="num">6,289</td><td class="num">1,015</td><td class="num rate">16.1%<span class="bar" style="width:48px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>highfivve.com</td><td class="num">43</td><td class="num">2,939</td><td class="num">501</td><td class="num rate">17.0%<span class="bar" style="width:51px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>adsinteractive.com</td><td class="num">55</td><td class="num">824</td><td class="num">143</td><td class="num rate">17.4%<span class="bar" style="width:52px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>quartermedia.de</td><td class="num">40</td><td class="num">1,483</td><td class="num">258</td><td class="num rate">17.4%<span class="bar" style="width:52px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>audienzz.com</td><td class="num">42</td><td class="num">3,206</td><td class="num">558</td><td class="num rate">17.4%<span class="bar" style="width:52px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>eadv.it</td><td class="num">39</td><td class="num">928</td><td class="num">169</td><td class="num rate">18.2%<span class="bar" style="width:54px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>playwire.com</td><td class="num">393</td><td class="num">44,726</td><td class="num">8,200</td><td class="num rate">18.3%<span class="bar" style="width:55px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>366.fr</td><td class="num">40</td><td class="num">1,634</td><td class="num">301</td><td class="num rate">18.4%<span class="bar" style="width:55px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>stepnetwork.dk</td><td class="num">32</td><td class="num">362</td><td class="num">70</td><td class="num rate">19.3%<span class="bar" style="width:58px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>sparteo.com</td><td class="num">99</td><td class="num">2,304</td><td class="num">446</td><td class="num rate">19.4%<span class="bar" style="width:58px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>m32.media</td><td class="num">54</td><td class="num">1,259</td><td class="num">253</td><td class="num rate">20.1%<span class="bar" style="width:60px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>hbagency.it</td><td class="num">169</td><td class="num">27,505</td><td class="num">5,675</td><td class="num rate">20.6%<span class="bar" style="width:61px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>nextmillennium.io</td><td class="num">74</td><td class="num">6,910</td><td class="num">1,495</td><td class="num rate">21.6%<span class="bar" style="width:64px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>didna.io</td><td class="num">37</td><td class="num">5,482</td><td class="num">1,217</td><td class="num rate">22.2%<span class="bar" style="width:66px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>pmc.com</td><td class="num">98</td><td class="num">13,468</td><td class="num">3,177</td><td class="num rate">23.6%<span class="bar" style="width:70px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>admetricspro.com</td><td class="num">51</td><td class="num">5,748</td><td class="num">1,367</td><td class="num rate">23.8%<span class="bar" style="width:71px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>dorvan.it</td><td class="num">85</td><td class="num">8,555</td><td class="num">2,043</td><td class="num rate">23.9%<span class="bar" style="width:71px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>tradehouse.media</td><td class="num">79</td><td class="num">13,953</td><td class="num">3,355</td><td class="num rate">24.0%<span class="bar" style="width:72px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>traffective.com</td><td class="num">137</td><td class="num">16,694</td><td class="num">4,029</td><td class="num rate">24.1%<span class="bar" style="width:72px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>ops.co</td><td class="num">169</td><td class="num">27,788</td><td class="num">6,717</td><td class="num rate">24.2%<span class="bar" style="width:72px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>phaistosnetworks.gr</td><td class="num">43</td><td class="num">5,286</td><td class="num">1,283</td><td class="num rate">24.3%<span class="bar" style="width:72px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>yourbow.com</td><td class="num">91</td><td class="num">3,835</td><td class="num">934</td><td class="num rate">24.4%<span class="bar" style="width:73px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>hitopic.fr</td><td class="num">51</td><td class="num">5,417</td><td class="num">1,332</td><td class="num rate">24.6%<span class="bar" style="width:73px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>snack-media.com</td><td class="num">160</td><td class="num">45,270</td><td class="num">11,203</td><td class="num rate">24.7%<span class="bar" style="width:74px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>adplay.it</td><td class="num">90</td><td class="num">17,425</td><td class="num">4,517</td><td class="num rate">25.9%<span class="bar" style="width:77px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>advergic.com</td><td class="num">47</td><td class="num">3,087</td><td class="num">804</td><td class="num rate">26.0%<span class="bar" style="width:78px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>ascendeum.com</td><td class="num">110</td><td class="num">10,876</td><td class="num">2,835</td><td class="num rate">26.1%<span class="bar" style="width:78px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>thejungletechnology.com</td><td class="num">36</td><td class="num">10,619</td><td class="num">2,780</td><td class="num rate">26.2%<span class="bar" style="width:78px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>movingup.it</td><td class="num">33</td><td class="num">7,860</td><td class="num">2,083</td><td class="num rate">26.5%<span class="bar" style="width:79px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>publift.com</td><td class="num">616</td><td class="num">95,152</td><td class="num">25,235</td><td class="num rate">26.5%<span class="bar" style="width:79px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>hcodemedia.com</td><td class="num">55</td><td class="num">17,370</td><td class="num">4,725</td><td class="num rate">27.2%<span class="bar" style="width:81px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>sevio.com</td><td class="num">63</td><td class="num">2,671</td><td class="num">728</td><td class="num rate">27.3%<span class="bar" style="width:81px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>digitalmatter.ai</td><td class="num">58</td><td class="num">8,403</td><td class="num">2,302</td><td class="num rate">27.4%<span class="bar" style="width:82px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>premiumads.com.br</td><td class="num">99</td><td class="num">26,619</td><td class="num">7,394</td><td class="num rate">27.8%<span class="bar" style="width:83px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>optidigital.com</td><td class="num">95</td><td class="num">7,600</td><td class="num">2,152</td><td class="num rate">28.3%<span class="bar" style="width:84px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>cultureg.eu</td><td class="num">44</td><td class="num">6,694</td><td class="num">1,908</td><td class="num rate">28.5%<span class="bar" style="width:85px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>publir.com</td><td class="num">38</td><td class="num">11,789</td><td class="num">3,382</td><td class="num rate">28.7%<span class="bar" style="width:86px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>adapex.io</td><td class="num">111</td><td class="num">56,705</td><td class="num">16,278</td><td class="num rate">28.7%<span class="bar" style="width:86px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>refinery89.com</td><td class="num">367</td><td class="num">78,750</td><td class="num">22,932</td><td class="num rate">29.1%<span class="bar" style="width:87px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>venatus.com</td><td class="num">223</td><td class="num">23,062</td><td class="num">6,825</td><td class="num rate">29.6%<span class="bar" style="width:88px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="middle"><td>iqdigital.de</td><td class="num">31</td><td class="num">3,988</td><td class="num">1,190</td><td class="num rate">29.8%<span class="bar" style="width:89px;margin-left:.5rem;"></span></td><td>middle</td></tr>
+      <tr class="concerning"><td>pubgalaxy.com</td><td class="num">145</td><td class="num">41,985</td><td class="num">12,596</td><td class="num rate">30.0%<span class="bar" style="width:90px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>aditude.io</td><td class="num">95</td><td class="num">14,692</td><td class="num">4,432</td><td class="num rate">30.2%<span class="bar" style="width:90px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>waytogrow.eu</td><td class="num">40</td><td class="num">7,183</td><td class="num">2,170</td><td class="num rate">30.2%<span class="bar" style="width:90px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>nsightvideo.com</td><td class="num">145</td><td class="num">40,021</td><td class="num">12,151</td><td class="num rate">30.4%<span class="bar" style="width:91px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>evolutionadv.it</td><td class="num">110</td><td class="num">42,554</td><td class="num">12,959</td><td class="num rate">30.5%<span class="bar" style="width:91px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>infolinks.com</td><td class="num">191</td><td class="num">31,170</td><td class="num">9,533</td><td class="num rate">30.6%<span class="bar" style="width:91px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>nitropay.com</td><td class="num">215</td><td class="num">21,156</td><td class="num">6,491</td><td class="num rate">30.7%<span class="bar" style="width:92px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>orangeclickmedia.com</td><td class="num">165</td><td class="num">20,750</td><td class="num">6,411</td><td class="num rate">30.9%<span class="bar" style="width:92px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>exmarketplace.com</td><td class="num">50</td><td class="num">8,140</td><td class="num">2,531</td><td class="num rate">31.1%<span class="bar" style="width:93px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>adnimation.com</td><td class="num">123</td><td class="num">22,516</td><td class="num">7,012</td><td class="num rate">31.1%<span class="bar" style="width:93px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>monumetric.com</td><td class="num">98</td><td class="num">13,491</td><td class="num">4,212</td><td class="num rate">31.2%<span class="bar" style="width:93px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>copper6.com</td><td class="num">114</td><td class="num">40,077</td><td class="num">12,679</td><td class="num rate">31.6%<span class="bar" style="width:94px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>clickio.com</td><td class="num">172</td><td class="num">40,661</td><td class="num">12,884</td><td class="num rate">31.7%<span class="bar" style="width:95px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>carliba.io</td><td class="num">101</td><td class="num">35,031</td><td class="num">11,139</td><td class="num rate">31.8%<span class="bar" style="width:95px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>buysellads.com</td><td class="num">152</td><td class="num">36,350</td><td class="num">11,597</td><td class="num rate">31.9%<span class="bar" style="width:95px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>alright.com.br</td><td class="num">90</td><td class="num">23,248</td><td class="num">7,422</td><td class="num rate">31.9%<span class="bar" style="width:95px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>digitalbloom.it</td><td class="num">34</td><td class="num">14,649</td><td class="num">4,713</td><td class="num rate">32.2%<span class="bar" style="width:96px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>symplr.de</td><td class="num">146</td><td class="num">27,024</td><td class="num">8,707</td><td class="num rate">32.2%<span class="bar" style="width:96px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>setupad.com</td><td class="num">226</td><td class="num">75,952</td><td class="num">25,004</td><td class="num rate">32.9%<span class="bar" style="width:98px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>vuukle.com</td><td class="num">69</td><td class="num">44,633</td><td class="num">14,718</td><td class="num rate">33.0%<span class="bar" style="width:98px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>spacefoot.com</td><td class="num">132</td><td class="num">30,719</td><td class="num">10,175</td><td class="num rate">33.1%<span class="bar" style="width:99px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>pixfuture.com</td><td class="num">86</td><td class="num">70,085</td><td class="num">23,402</td><td class="num rate">33.4%<span class="bar" style="width:100px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>adinplay.com</td><td class="num">154</td><td class="num">30,107</td><td class="num">10,153</td><td class="num rate">33.7%<span class="bar" style="width:101px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>massarius.com</td><td class="num">33</td><td class="num">13,835</td><td class="num">4,680</td><td class="num rate">33.8%<span class="bar" style="width:101px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>tapmind.com</td><td class="num">61</td><td class="num">36,869</td><td class="num">12,715</td><td class="num rate">34.5%<span class="bar" style="width:103px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>vidcrunch.com</td><td class="num">72</td><td class="num">37,899</td><td class="num">13,277</td><td class="num rate">35.0%<span class="bar" style="width:105px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>tradplusad.com</td><td class="num">51</td><td class="num">9,452</td><td class="num">3,324</td><td class="num rate">35.2%<span class="bar" style="width:105px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>pubfuture.com</td><td class="num">249</td><td class="num">296,071</td><td class="num">105,283</td><td class="num rate">35.6%<span class="bar" style="width:106px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>rev.iq</td><td class="num">91</td><td class="num">91,126</td><td class="num">32,806</td><td class="num rate">36.0%<span class="bar" style="width:108px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>idmnet.pl</td><td class="num">43</td><td class="num">8,737</td><td class="num">3,176</td><td class="num rate">36.4%<span class="bar" style="width:109px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>streamlyn.com</td><td class="num">106</td><td class="num">65,558</td><td class="num">24,141</td><td class="num rate">36.8%<span class="bar" style="width:110px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>yieldmonk.com</td><td class="num">187</td><td class="num">168,665</td><td class="num">62,116</td><td class="num rate">36.8%<span class="bar" style="width:110px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>thegermanemedia.com</td><td class="num">34</td><td class="num">18,908</td><td class="num">6,964</td><td class="num rate">36.8%<span class="bar" style="width:110px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>adseleto.com</td><td class="num">52</td><td class="num">1,541</td><td class="num">570</td><td class="num rate">37.0%<span class="bar" style="width:110px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>projectagora.com</td><td class="num">66</td><td class="num">14,922</td><td class="num">5,535</td><td class="num rate">37.1%<span class="bar" style="width:111px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>props.id</td><td class="num">54</td><td class="num">71,479</td><td class="num">26,594</td><td class="num rate">37.2%<span class="bar" style="width:111px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>adpushup.com</td><td class="num">372</td><td class="num">255,127</td><td class="num">95,091</td><td class="num rate">37.3%<span class="bar" style="width:111px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>anymanager.io</td><td class="num">425</td><td class="num">302,510</td><td class="num">113,044</td><td class="num rate">37.4%<span class="bar" style="width:112px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>revbid.net</td><td class="num">90</td><td class="num">80,303</td><td class="num">30,034</td><td class="num rate">37.4%<span class="bar" style="width:112px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>digiadglobal.com</td><td class="num">60</td><td class="num">87,305</td><td class="num">32,665</td><td class="num rate">37.4%<span class="bar" style="width:112px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>ad-alliance.de</td><td class="num">34</td><td class="num">1,668</td><td class="num">630</td><td class="num rate">37.8%<span class="bar" style="width:113px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>bidmachine.io</td><td class="num">314</td><td class="num">104,478</td><td class="num">39,638</td><td class="num rate">37.9%<span class="bar" style="width:113px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>pubrev.io</td><td class="num">112</td><td class="num">182,279</td><td class="num">69,204</td><td class="num rate">38.0%<span class="bar" style="width:113px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>themoneytizer.com</td><td class="num">1,013</td><td class="num">754,863</td><td class="num">288,525</td><td class="num rate">38.2%<span class="bar" style="width:114px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>netpub.media</td><td class="num">50</td><td class="num">28,458</td><td class="num">11,091</td><td class="num rate">39.0%<span class="bar" style="width:116px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>1xl.co.uk</td><td class="num">159</td><td class="num">46,430</td><td class="num">18,357</td><td class="num rate">39.5%<span class="bar" style="width:118px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>pubpower.io</td><td class="num">148</td><td class="num">88,800</td><td class="num">35,138</td><td class="num rate">39.6%<span class="bar" style="width:118px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>fourm.jp</td><td class="num">215</td><td class="num">65,437</td><td class="num">25,966</td><td class="num rate">39.7%<span class="bar" style="width:119px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>luponmedia.com</td><td class="num">137</td><td class="num">166,922</td><td class="num">66,434</td><td class="num rate">39.8%<span class="bar" style="width:119px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>semseoymas.com</td><td class="num">69</td><td class="num">21,867</td><td class="num">8,822</td><td class="num rate">40.3%<span class="bar" style="width:121px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>empower.net</td><td class="num">93</td><td class="num">41,839</td><td class="num">17,156</td><td class="num rate">41.0%<span class="bar" style="width:123px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>monetizemore.com</td><td class="num">103</td><td class="num">26,808</td><td class="num">11,117</td><td class="num rate">41.5%<span class="bar" style="width:124px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
+      <tr class="concerning"><td>saturndynamic.pt</td><td class="num">104</td><td class="num">71,996</td><td class="num">30,678</td><td class="num rate">42.6%<span class="bar" style="width:127px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
       <tr class="concerning"><td>ask.com</td><td class="num">83</td><td class="num">11,039</td><td class="num">5,229</td><td class="num rate">47.4%<span class="bar" style="width:142px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>saturndynamic.pt</td><td class="num">99</td><td class="num">69,575</td><td class="num">33,273</td><td class="num rate">47.8%<span class="bar" style="width:143px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
-      <tr class="concerning"><td>ad-alliance.de</td><td class="num">34</td><td class="num">1,668</td><td class="num">877</td><td class="num rate">52.6%<span class="bar" style="width:157px;margin-left:.5rem;"></span></td><td>concerning</td></tr>
     </tbody>
   </table>
 
   <footer>
-    <p>Methodology: For each publisher declaring a MANAGERDOMAIN in their ads.txt v1.1 file, we attribute each DIRECT claim's phantom verdict (seller_id present in the SSP's sellers.json registry: yes/no) to that wrapper. Pooled across all managed publishers per wrapper. Computed 2026-05-09 from corpus of 76,426 publishers.</p>
+    <p>Methodology: For each publisher declaring a MANAGERDOMAIN in their ads.txt v1.1 file, we attribute each DIRECT claim's phantom verdict (seller_id present in the SSP's sellers.json registry: yes/no) to that wrapper. Pooled across all managed publishers per wrapper. Computed 2026-05-27 from corpus of 86,357 publishers.</p>
     <p>Open-source reproducer: <a href="https://github.com/ivp5/adtech-audit"><code>github.com/ivp5/adtech-audit</code></a> (MIT) · Public dataset: <code>release/false_direct_claims.jsonl</code> (CC0).</p>
     <p>The wrapper service decides what's in your ads.txt. Cleanliness varies by 7× across the industry. This is the receipt.</p>
   </footer>

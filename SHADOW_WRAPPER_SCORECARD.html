@@ -3,27 +3,39 @@
 <meta charset="utf-8"><title>Shadow Wrapper Scorecard — fingerprint-derived</title>
 <meta name="description" content="290 fingerprint-clustered publisher cohorts ≥10 publishers each. Shadow wrappers (no declared MANAGERDOMAIN) are highlighted.">
 <style>
-body { font:14px/1.5 -apple-system,system-ui,sans-serif; max-width:1080px; margin:2rem auto; padding:0 1rem; color:#222; background:#fafafa; }
+body { font:15px/1.5 -apple-system,system-ui,sans-serif; color:#222; max-width:1080px; margin:2rem auto; padding:0 1rem; background:#fafafa; }
 h1 { margin:0 0 .3rem; font-size:1.6rem; }
-.lead { color:#666; margin:0 0 1rem; font-size:13px; }
+.lead { color:#666; margin:0 0 1rem; }
 .stat { display:inline-block; margin:0 1.2rem 1rem 0; }
-.stat b { display:block; font-size:1.4rem; }
-table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #ddd; font-size:13px; }
+.stat b { display:block; font-size:1.4rem; color:#0a6; }
+.metric { display:inline-block; margin:0 1.5rem 1rem 0; }
+.metric b { display:block; font-size:1.5rem; }
+table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #ddd; }
 th, td { padding:.4rem .6rem; text-align:left; border-bottom:1px solid #eee; }
-th { background:#f5f5f5; color:#666; font-weight:500; }
+th { background:#f5f5f5; color:#666; font-weight:500; font-size:.9rem; }
 td.num { text-align:right; font-variant-numeric:tabular-nums; }
-tr.clean td.rate { color:#0a6; font-weight:600; }
-tr.middle td.rate { color:#c70; font-weight:600; }
-tr.concerning td.rate { color:#a00; font-weight:600; }
+.bar { display:inline-block; height:8px; background:linear-gradient(90deg,#0a6 0,#c70 50%,#a00 100%); vertical-align:middle; border-radius:2px; }
 code { font-size:11px; background:#f0f0f0; padding:1px 4px; border-radius:2px; }
+nav { font-size:.85rem; color:#888; }
+nav a { color:#888; }
 footer { margin:2rem 0; color:#888; font-size:.85rem; border-top:1px solid #ddd; padding-top:1rem; }
+footer a { color:#888; }
+
+tr.clean td.rate {color:#0a6; font-weight:600;}
+tr.middle td.rate {color:#c70; font-weight:600;}
+tr.concerning td.rate {color:#a00; font-weight:600;}
+.tier-clean {color:#0a6;}
+.tier-middle {color:#c70;}
+.tier-concerning {color:#a00;}
+
 .shadow-explainer { background:#fed; border-left:3px solid #a40; padding:.6rem 1rem; margin:1rem 0; }
+.key { font-size:.85rem; color:#666; margin:.5rem 0 1rem; }
 </style></head><body>
 <h1>Shadow Wrapper Scorecard</h1>
 <p class="lead">Fingerprint-derived publisher cohorts ≥10 publishers each. <b>Shadow</b> = no MANAGERDOMAIN declared in any exemplar publisher (the cohort identifies a wrapper service the publishers don't surface). Cycle 423 H_8 finding: ~86% of large clusters are shadow.</p>
 
 <div class="shadow-explainer">
-  <b>Why this matters</b>: the wrapper scorecard ranks <i>declared</i> wrappers (104 entries). A <b>shadow wrapper</b> is an operator distributing identical ads.txt templates to many publishers without surfacing the relationship via MANAGERDOMAIN. Publishers carrying the same fingerprint share the same template author. This scorecard makes those shadows visible.
+  <b>Why this matters</b>: the wrapper scorecard ranks <i>declared</i> wrappers. A <b>shadow wrapper</b> is an operator distributing identical ads.txt templates to many publishers without surfacing the relationship via MANAGERDOMAIN. Publishers carrying the same fingerprint share the same template author. This scorecard makes those shadows visible.
 </div>
 
 <div>
@@ -335,7 +347,7 @@ footer { margin:2rem 0; color:#888; font-size:.85rem; border-top:1px solid #ddd;
 </tbody></table>
 
 <footer>
-  <p>Methodology: fingerprint = SHA-256 of sorted (ssp, seller_id) pairs in the publisher's ads.txt DIRECT-typed lines. Two publishers with identical fingerprints have structurally identical files — share a template author. <b>SHADOW</b> = none of the cluster's 10 exemplar publishers declares a MANAGERDOMAIN directive.</p>
+  <p>Methodology: fingerprint = SHA-256 of sorted (ssp, seller_id) pairs in the publisher's ads.txt DIRECT-typed lines. Two publishers with identical fingerprints have structurally identical files — share a template author. <b>SHADOW</b> = none of the cluster's exemplar publishers declares a MANAGERDOMAIN directive.</p>
   <p>Source: <a href="https://github.com/ivp5/adtech-audit">github.com/ivp5/adtech-audit</a> (MIT)</p>
 </footer>
 </body></html>
