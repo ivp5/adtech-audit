@@ -3579,3 +3579,84 @@ them distinct in the reader's head. Current-corpus exact figures:
 contradicted 27.2%, phantom 34.2% (of which 3.7pp-of-DIRECT no-registry),
 verifiable-failure rate ≈57.7% — the abstract's 57.1% is the 710-snapshot
 scope it states.
+
+### E-2026-05-29-f: behavioral instrumentation built — phantom is orthogonal to observed behavior; the biggest phantom "jump" was 90.6% a measurement artifact; registry aliasing inflates the SSP count
+
+A post-PASS-2 self-audit built the one cross-join the corpus never had —
+`ssp_audit_history` (registry over time) × X-Ray `entities_json` (what
+actually fires on a page) — and ran four further checks. All numbers
+reproduce against `tmp/adstxt_derived.db` + `tmp/xray_journal.db`. None
+overturns the published thesis; together they sharpen it and further
+deflate any "publisher fraud" reading.
+
+**1. Phantom is orthogonal to behavior (strengthens the cycle-465 r=0.15 note).**
+- High-phantom SSPs do NOT "go dark" — they fire on *more* sites, not fewer:
+  Spearman(phantom_rate, observed/declared reach) = +0.194 across 85 observed
+  SSPs; the high-phantom half is seen on a median 2,177 sites vs 1,367 for the
+  low-phantom half. Phantom is a registry-*listing* gap, not an *activity* gap.
+  (Criteo: 100% phantom yet observed on 10,885 sites — schema-migration, very
+  much alive.)
+- The apparent "phantom-dirty publishers carry ~10× the identity-sync tail" is
+  a SCALE CONFOUND: phantom-clean publishers have a median of 1 DIRECT line,
+  phantom-dirty a median of 69; once publisher size is held fixed, the sync gap
+  collapses to 1.0–1.5× across all bands. So phantom ⊥ surveillance, ⊥ CPM
+  (H303), ⊥ virtue — it tracks size and age, not conduct.
+
+**2. The single biggest phantom "decay event" was 90.6% a measurement artifact.**
+The corpus's largest phantom jump — +301,181 DIRECT-phantom, 2026-05-09→05-21 —
+occurred with `total_direct` delta = **+0** (byte-frozen claim set). 90.6%
+(+272,745) came from 771 SSPs whose `sellers_registered` went 0→positive: our
+own crawler fetched a sellers.json it hadn't held before, reclassifying
+*unchanged* claims `no_reg → phantom` (colossusssp +12,128, yandex +10,482,
+synacor +8,012, …). Only 9.4% came from existing registries; 0% from pruning.
+**Reader guidance:** phantom *levels* are real cross-sectionally, but phantom
+*trends* are dominated by our registry coverage, not the ecosystem. Any
+"phantom is rising" reading must net out registry-ingestion. (Sharpens §11c:
+"aggregate trends are SSP-side maintenance velocity, not publisher cleanup.")
+
+**3. Registry aliasing inflates the SSP/registry count.** Grouping
+`sellers_registry` by identical seller-id set: **104 groups (233 SSP domains)
+are byte-identical registries** published under multiple names — Jaccard 1.000
+on adcolony=digitalturbine=fyber (5,327 ids), liftoff=vungle (2,361),
+apacdex=interdogmedia=pubpower=quantumdex=valueimpression (a 5-brand single
+backend), plus magnite=spotx, casalemedia=indexww, adthrive=raptive,
+equativ=smartadserver. The "1,548 SSP registries" headline overcounts distinct
+backends by ~129, and SSP-count / supply-path-"diversity" metrics overcount
+what are really one-counterparty relationships.
+
+**4. Phantom is corporate-owner-concentrated — the "contagion" is consolidation.**
+The Gray TV apex case (§11b) generalizes. Of 1,032,214 phantom DIRECT claims
+under 24,018 OWNERDOMAIN-declaring publishers, the **top 97 corporate owners
+hold 41%** and multi-property owners hold 61.5%; gray.tv alone = 65,225 phantom
+across 142 stations. Corporate clusters carry one near-identical phantom payload
+(single ad-ops template push, not per-publisher decay): Gray 144 domains median
+Jaccard 0.95 / 490-pair Taboola-dominant block; Gannett 159 domains / 43-pair;
+VerticalScope 347 domains median Jaccard 1.00 / 79-pair. The "scale-free
+contagion / power-law super-spreader" topology is substantially a
+media-consolidation artifact: **the correct unit for phantom analysis is the
+corporate owner, not the publisher domain** (a domain-keyed metric is mis-scaled
+~100× — gray.tv's one decision IS 142 of the "infected" sites).
+
+**5. Two industry priors the corpus inverts (recorded, not headlined).**
+(a) "Fewer SSPs = cleaner supply chain" (the SPO consolidation playbook) is
+non-monotonic: DIRECT phantom rate by distinct-SSP-count is 33.0% (1–2), 46.5%
+(3–5, dirtiest), 14.1% (21–40, cleanest), 34.0% (161+). A "valley of competence"
+at 21–40 SSPs, not a line. (b) "DIRECT is safer than RESELLER" is mildly
+inverted: DIRECT phantom 30.51% vs RESELLER 28.14% — the DIRECT label carries
+little reliability information; the SSP identity carries it.
+
+**Refuted, kept out of the published claims (honesty):** a candidate
+"SmartAdServer 4012 fabrication is actively *spreading* over time, exceeding
+net-new publisher supply" reading does NOT survive. No per-seller-id history
+table exists; the cited "5,920→16,699" conflates the DIRECT count (6,324) with
+the RESELLER count (16,699) of the *same* snapshot; and SSP-aggregate phantom is
+flat-to-falling (46,150→35,689). The block is real and high-reach (4012/4071/
+4073/4074 absent from sellers.json while neighbors 4011/4013 are registered =
+templated gaps) but it is *pasted*, not *growing* — consistent with point 4, not
+with active temporal spread.
+
+**Net:** every refinement points one way — phantom/misattribution is a
+scale × decay × consolidation artifact whose time-series is dominated by the
+measurement instrument. The contradicted rate (the hard, unambiguous finding)
+is untouched; the phantom rate is even less a "fraud" signal than the prior
+errata already established.
