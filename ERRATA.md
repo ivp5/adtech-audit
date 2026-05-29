@@ -3624,18 +3624,33 @@ equativ=smartadserver. The "1,548 SSP registries" headline overcounts distinct
 backends by ~129, and SSP-count / supply-path-"diversity" metrics overcount
 what are really one-counterparty relationships.
 
-**4. Phantom is corporate-owner-concentrated — the "contagion" is consolidation.**
+**4. Phantom is corporate-owner-concentrated — the "contagion" is PARTLY consolidation (~11% of volume), mostly cross-owner propagation.**
 The Gray TV apex case (§11b) generalizes. Of 1,032,214 phantom DIRECT claims
 under 24,018 OWNERDOMAIN-declaring publishers, the **top 97 corporate owners
 hold 41%** and multi-property owners hold 61.5%; gray.tv alone = 65,225 phantom
 across 142 stations. Corporate clusters carry one near-identical phantom payload
 (single ad-ops template push, not per-publisher decay): Gray 144 domains median
 Jaccard 0.95 / 490-pair Taboola-dominant block; Gannett 159 domains / 43-pair;
-VerticalScope 347 domains median Jaccard 1.00 / 79-pair. The "scale-free
-contagion / power-law super-spreader" topology is substantially a
-media-consolidation artifact: **the correct unit for phantom analysis is the
-corporate owner, not the publisher domain** (a domain-keyed metric is mis-scaled
-~100× — gray.tv's one decision IS 142 of the "infected" sites).
+VerticalScope 347 domains median Jaccard 1.00 / 79-pair.
+
+**[Amended 2026-05-29 — the owner-level re-aggregation was subsequently built; the
+"substantially a media-consolidation artifact" claim below was an overstatement and
+is corrected here.]** Re-keying all 86,357 publishers by cleaned OWNERDOMAIN
+(→ 76,576 corporate owners) and collapsing the 104 identical-registry alias groups
+(1,548 → 1,419 distinct backends) BOUNDS the effect: genuine **intra-owner**
+template-distribution (one owner pasting one payload across its own N properties) is
+only **~10.7% of phantom claim volume** (260 named media roll-ups — gray.tv 28×,
+Learfield 69×, Carpenter Media 102×, Scripps 19×, Townsquare, MediaNewsGroup, CNHI,
+Postmedia, VerticalScope, Gannett, Nexstar). Corpus-wide template-inflation is
+modest: property-level 1.10×, claim-level 1.20×. The **bulk** of the power-law
+super-spreader topology is NOT intra-owner consolidation but **cross-owner
+propagation** — one seller-id pasted across thousands of *unrelated* publishers (the
+SmartAdServer-4012 mechanism in the Refuted note below), which owner-keying does NOT
+collapse — plus long-tail singleton decay. So **"the correct unit for phantom
+analysis is the corporate owner, not the publisher domain"** holds for the ~11%
+consolidation slice (gray.tv's one decision IS 142 of its "infected" sites, a
+30–100× collapse) **but not for the cross-owner bulk.** The earlier "substantially a
+media-consolidation artifact" conflated the two mechanisms and is withdrawn.
 
 **5. Two industry priors the corpus inverts (recorded, not headlined).**
 (a) "Fewer SSPs = cleaner supply chain" (the SPO consolidation playbook) is
