@@ -3675,3 +3675,67 @@ scale × decay × consolidation artifact whose time-series is dominated by the
 measurement instrument. The contradicted rate (the hard, unambiguous finding)
 is untouched; the phantom rate is even less a "fraud" signal than the prior
 errata already established.
+
+### E-2026-05-29-g: the discrimination control applied to our own "structural-impossibility" signals — every registry-mismatch metric is confounded by managed-service; the irreducible residual is under 1% of DIRECT
+
+A post-PASS-2 refinement built a high-resolution substrate (the full 33.4M-triple
+corpus int-encoded with corporate-owner and per-seller-id identity; vectorized
+aggregation ~700× faster than SQLite, indexed drill-down ~13,000,000× faster — fast
+enough to make the discrimination control itself interactive) and turned it on the
+project's OWN candidate fabrication signals. The discipline is the one that has
+repeatedly corrected our framing: **any metric proposed as a fabrication discriminator
+must also be run on KNOWN-VALID claims; if it fires there at a comparable rate it is a
+FILTER (an artifact of ecosystem structure), not a LENS (a fabrication signal).**
+Applied to four candidate "structural-impossibility" signals, it refuted all four as
+primary signals:
+
+| candidate signal | headline | benign mechanism (fires on valid too) | residual after strip |
+|---|--:|---|--:|
+| seller-id absent + multi-owner spread ("impossible-AdSense") | 137,628 | **MCM / networks** — valid Google pub-ids reach ≥3 owners at **10.2%** vs phantom **9.5%** | non-diagnostic |
+| owner carries N distinct phantom pub-ids | — | **size** — valid **8.14** ≈ phantom **8.05** per owner once size-conditioned | non-diagnostic |
+| seller-id reaches more owners than the SSP has registered accounts | 346,374 | **owners-vs-accounts unit mismatch** — one SSP account is referenced by thousands of owners; valid fires **0.50%** vs phantom **0.75%** | ≤ 24,485 (169 sids, >20× tail) |
+| claiming owner ≠ registry's listed domain ("impersonation") | 99,433 | **MCM / managed-service** — managed publisher lists the MANAGER's account DIRECT | ≤ 13,919 (4,750 pub-ids) |
+| phantom numeric id between registered neighbors ("templated gap") | — | **registration density** — a dense id-space makes any phantom trivially "sandwiched" | ~7,496 (10 SSPs) |
+
+**The meta-finding.** ads.txt and sellers.json **structurally cannot separate fraud
+from managed-service at the publisher-claim level**, because both emit the identical
+pattern: a publisher listing a Google account it does not own. "DIRECT" is semantically
+overloaded — under Google's Multi-Customer Management (MCM) and managed-service
+arrangements, a managed publisher lists its MANAGER's Google account as DIRECT, which is
+how the system is *designed* to work and is byte-identical to impersonation. Every
+registry-mismatch metric is therefore confounded by the legitimate managed version of the
+same mismatch. We confirmed this concretely: of the **99,433** Google DIRECT claims where
+the claiming corporate owner ≠ the registry's listed domain, **86% are managed-service** —
+79% (78,641) point to an ad-tech vendor's account (xapads, krushmedia, playstream,
+hcodemedia, showheroes …) deployed across the publishers that vendor manages, and 7%
+(6,873) are claims where the publisher *explicitly declared that exact MANAGERDOMAIN* in
+its own ads.txt.
+
+**The irreducible residual (the signal that survives every benign explanation) is under
+1% of DIRECT — and even that is an upper bound.** After stripping MCM/managed-service,
+decay, size, registry-coverage gaps, and registration density, what remains is small and
+caveated: (a) an AdSense **impersonation residual ≤ 13,919 claims / 4,750 pub-ids** —
+reg_domain is a non-vendor *publisher*, claimed by unrelated owners, with no declared
+manager (e.g. a site listing Sanoma's or Paramount's Google account; the reach-1 subset,
+one site claiming exactly one other's account, is the hard core that cannot be wide
+management); (b) a generalized **high-purity core ≤ 24,485 claims / 169 seller-ids**
+(reaching >20× the SSP's registered-account count — publiffy-class near-empty registries,
+i.e. "registry-coverage failure *or* fabrication"); and (c) **~7,496 templated
+numeric-gap claims across 10 SSPs** (phantom ids wedged between registered numeric
+neighbors at ≥3× the exact by-chance baseline — the only subset where aging provably
+cannot produce the pattern). These three largely-disjoint SSP populations sum to **~0.7%**
+of the 6.43M DIRECT claims, and each retains a benign caveat (undeclared management,
+registry coverage, density-null approximation), so the floor of "unexplainable by any
+benign mechanism" is smaller still.
+
+**What this changes.** It EXTENDS the corrected framing (phantom = scale × decay, not
+fraud) to the registry-*mismatch* signals: even impersonation — which sounds
+unambiguously like fraud — is 86% managed-service. A candidate "impossible-AdSense"
+signal (the 137,628 figure above), briefly considered internally as an apex fabrication
+finding, does **not** survive the control and was never published as a claim; the
+cross-owner spread it rests on is MCM/network topology present equally in legitimate
+claims. The CONTRADICTED rate (registry says INTERMEDIARY — the project's hard, separate
+finding) is untouched. The fix this points to is not enforcement against publishers but a
+**manager-disclosure mechanism** the ecosystem does not currently maintain — without it,
+publisher-side fraud and legitimate management are indistinguishable from the registry
+data alone.
