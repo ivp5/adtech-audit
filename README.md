@@ -1,12 +1,12 @@
 # ads.txt Framework Integrity Audit
 
-**33.83% of DIRECT ads.txt claims don't reconcile against the named SSP's sellers.json.**
-**Of that phantom volume, 97.5% is structural framework brittleness; ~2.5% has the shape of potential publisher misconduct.**
-**Independently, 4.18% of observed Prebid bidder calls reach SSPs not declared in ads.txt (IAB-spec strict; Pearson r = 0.15 between declarative and observed rates).**
+**30.51% of DIRECT ads.txt claims don't reconcile against the named SSP's sellers.json.**
+**That phantom volume is dominantly registry DECAY, not fabrication: a coefficient-of-variation test on per-publisher phantom across 9 snapshots finds ~97% fluctuates with registry churn (decay) and ~3% is temporally pinned (fabrication) — independently reproducing the cycle-468 mechanism decomposition (97.5% structural / 2.5% misconduct) by an unrelated method.**
+**Independently, ~4% of observed Prebid bidder calls reach SSPs not declared in ads.txt (IAB-spec strict; Pearson r = 0.15 between declarative and observed rates).**
 
-Corpus: 74,460 publishers · 28.77M ads.txt triples · 6.56M DIRECT claims · 1,672 SSP registries (~1.89M sellers). Snapshot dated **May 22, 2026**. Cycles 458-468 of structural decomposition.
+Corpus: 86,357 publishers · 33.39M ads.txt triples · 6.43M DIRECT claims · 1,548 SSP registries (~3.52M sellers). Crawler-harvest-expanded + dedup-corrected snapshot, **May 29, 2026** (was 74,460 pubs / 28.77M triples / 1,672 SSPs at the May 22 cycle-468 snapshot; the harvest grew publishers ~16% while a registry refresh consolidated to fewer-but-fuller registries — these move independently, see ERRATA E-2026-05-29-a..e).
 
-> **Framing revision (2026-05-22).** The March 2026 headline ("57% false") was numerically defensible but the implied story (publisher fraud / industry cartel) does not survive structural decomposition. Cycle 468 decomposed the phantom volume by attributable mechanism: 35.2% live-SSP seller_id staleness, 23.5% live-SSP template-driven (mainstream operators), 17.1% live-SSP orphan registries, 10.2% dead-SSP geological decay (cycle 467), 8.1% Google confidentiality flag, 3.5% Criteo schema migration, **only 2.5% has the "accidental misclaim" shape consistent with willful publisher misconduct**. The framework needs a deprecation mechanism, not a fraud investigation. `FTC_COMPLAINT.md` and `DOJ_ANGLE.md` remain as historical artifacts but are superseded. See `ERRATA.md` entries E-2026-05-22-a through E-2026-05-22-m for the full corrective chain.
+> **Framing (2026-05-22, sharpened 2026-05-29).** The March 2026 headline ("57% false") was numerically defensible but the implied story (publisher fraud / industry cartel) does not survive structural decomposition. Cycle 468 decomposed phantom volume by mechanism-of-origin (35.2% live-SSP staleness, 23.5% template-driven, 17.1% orphan registries, 10.2% dead-SSP decay, 8.1% Google confidentiality flag, 3.5% Criteo schema migration; **only 2.5% willful-misconduct shape**). PASS-2 (2026-05-29) added the orthogonal temporal-fate axis: phantom RISES on publishers whose ads.txt is UNCHANGED across snapshots (registries prune sellers beneath them; 69% rise vs 13% fall on stable files, 18.9:1 accumulation ratchet) — i.e. the phantom rate is a registry-DECAY-equilibrium metric, and "fabrication" is a small temporally-PINNED minority (Taboola-class, CV<0.02) concentrated at named operators. Both decompositions agree at ~97/3 structural/misconduct. The framework needs a deprecation mechanism, not a fraud investigation. `FTC_COMPLAINT.md` and `DOJ_ANGLE.md` are superseded historical artifacts. Full corrective chain: `ERRATA.md` E-2026-05-22-a..m and E-2026-05-29-a..e.
 
 ## Quick Start
 
@@ -36,7 +36,7 @@ curl "http://localhost:8890/api/summary"
 
 The earlier four-finding cartel/fraud framing is superseded. The current structural decomposition:
 
-1. **The 33.83% phantom rate is dominantly framework brittleness, not publisher fraud.** Decomposed by mechanism (cycle 468): 35.2% live-SSP staleness, 23.5% template-driven (Taboola 62%, IndexExchange 52%, Yahoo 71%, Outbrain 69%, MGID 70%), 17.1% live-SSP orphan registries (adtech.com, ampliffy, blis, ligadx, exponential, tribalfusion all at 100%), 10.2% dead-SSP decay, 8.1% Google confidentiality flag (IAB-spec-legal), 3.5% Criteo schema migration. The residual 2.5% — isolated low-rate claims in otherwise-clean publishers — is the only bucket compatible with publisher misconduct.
+1. **The 30.51% phantom rate is dominantly framework brittleness, not publisher fraud.** Decomposed by mechanism-of-origin (cycle 468): 35.2% live-SSP staleness, 23.5% template-driven (Taboola 62%, IndexExchange 52%, Yahoo 71%, Outbrain 69%, MGID 70%), 17.1% live-SSP orphan registries (adtech.com, ampliffy, blis, ligadx, exponential, tribalfusion all at 100%), 10.2% dead-SSP decay, 8.1% Google confidentiality flag (IAB-spec-legal), 3.5% Criteo schema migration. The residual 2.5% — isolated low-rate claims in otherwise-clean publishers — is the only bucket compatible with publisher misconduct. PASS-2 (2026-05-29) confirms this by an orthogonal temporal-fate axis: ~97% of phantom fluctuates as registries prune sellers under unchanged ads.txt files (decay), ~3% is temporally pinned (fabrication, e.g. Taboola at coefficient-of-variation 0.0003) — same ~97/3 split, different method. (Was "33.83%" at the May-22 cycle-468 snapshot; 30.51% post-harvest-expansion + dedup.)
 
 2. **The IAB framework has no SSP-death propagation channel (cycle 467).** 287,249 DIRECT claims to known-dead SSPs persist across 25,239 publishers (33.7% of corpus). RhythmOne (Tremor-acquired 2019, 7 years dead) still in 14,973 publishers (20.18%). Advertising.com (Yahoo legacy, 9 years dead) in 12.65%. When SSPs consolidate, no notification reaches publishers, networks, wrapper vendors, or IAB Tech Lab itself. Entries persist for years.
 
@@ -46,7 +46,7 @@ The earlier four-finding cartel/fraud framing is superseded. The current structu
 
 5. **Identity proliferation and consent absence findings remain.** The cycle 458-468 decomposition focused on the authorization-side measurement; the privacy/identity findings from the original four-finding brief (0.012% valid TCF consent on first visit; average 5.1 identity-sharing companies per ad-tech-enabled site; 24% of observed companies operating outside any authorization framework) are unaffected by this revision.
 
-**Net policy framing**: the IAB ads.txt framework defines registration (2017) but not deregistration. Nine years of SSP industry consolidation accumulated as ghost entries the framework was never designed to shed. Remediation scales by O(1,102 cluster managers) + IAB-spec extension, not O(74,000 publishers).
+**Net policy framing**: the IAB ads.txt framework defines registration (2017) but not deregistration. Nine years of SSP industry consolidation accumulated as ghost entries the framework was never designed to shed. Remediation scales by O(1,102 cluster managers) + IAB-spec extension, not O(86,000 publishers).
 
 ## Files
 
